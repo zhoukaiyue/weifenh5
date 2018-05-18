@@ -15,30 +15,25 @@
         </div>
         <div class="login—prompt">成功入驻店加圈，即可开启线上引客之路</div>
         <group>
-<!--             <x-input placeholder="请输入商家用户名"  
-                     type="tel"
-                     v-model="username"
-                     is-type="username">
-            </x-input> -->
-            <x-input placeholder="请输入您的手机号"
-                     :max="11"
-                     type="tel"
-                     v-model="phoneNumber"
-                     is-type="china-mobile">
-            </x-input>
-            <x-input type="text"
-                     placeholder="请输入验证码"
-                     v-model="verifyCode"
-                   >
+        <x-input placeholder="请输入您的手机号"
+                 :max="11"
+                 type="tel"
+                 v-model="phoneNumber"
+                 is-type="china-mobile">
+        </x-input>
+        <x-input type="text"
+                 placeholder="请输入验证码"
+                 v-model="verifyCode"
+               >
 
-                      <x-button slot="right"
-                          type="primary"
-                          mini
-                          :text="btnText"
-                          :disabled="disabled"
-                          @click.native="sendCode" class="verification">
-                     </x-button>
-            </x-input>
+                  <x-button slot="right"
+                      type="primary"
+                      mini
+                      :text="btnText"
+                      :disabled="disabled"
+                      @click.native="sendCode" class="verification">
+                 </x-button>
+        </x-input>
         </group>
         <div style="padding:15px;margin-top:30px;">
             <div v-on:click="login"><x-button  type="primary" class="x-button"> 登录 </x-button></div>
@@ -101,7 +96,7 @@ export default {
              // 获取验证
                 const url ='http://public.weifenvip.com/index/Sendcodes/sms';
               var params = new URLSearchParams();
-              params.append('mobile',this.phoneNumber); 
+              params.append('mobile',this.phoneNumber);
               params.append('token',localStorage.currentUser_token);
               params.append('type','1');
               if(!localStorage.sessionid){
@@ -143,7 +138,7 @@ export default {
         login(){
             const url ='http://public.weifenvip.com/index/Shop/login';
               var params = new URLSearchParams();
-              params.append('mobile',this.phoneNumber); 
+              params.append('mobile',this.phoneNumber);
               params.append('token',localStorage.currentUser_token);
               params.append('code',this.verifyCode);
               if(localStorage.sessionid){
@@ -151,11 +146,30 @@ export default {
              }else{
              }
               axios.post(url,params).then(response => {
-                console.log(response) 
+                console.log(response)
                 const status = response.data.status
                 console.log(status)
                 if (status == "200") {
-                    this.$router.push({ path: 'page/shopCenter'})
+                    //登陆成功存储登录状态
+                    localStorage.setItem('login_static','true');
+                   // localStorage.token = base64.encode(res.data.data.token)
+                   //  localStorage.userInfo = JSON.stringify(
+                   //      res.data.data.userInfo
+                   //  )
+                   //  this.UPDATE_USERINFO({
+                   //      userInfo: res.data.data.userInfo
+                   //  })
+
+                    // 重定向到首页或者登录前的页面
+                    let redirect = decodeURIComponent(
+                        this.$route.query.redirect || '/'
+                    )
+                    setTimeout(() => {
+                        this.$router.push({
+                            path: redirect
+                        })
+                    }, 2000)
+                    // this.$router.push({ path: 'page/shopCenter'})
                 }else{
                     this.$vux.alert.show({
                         title: '操作失败',
@@ -163,13 +177,13 @@ export default {
                     })
                     setTimeout(() => {
                         this.$vux.alert.hide()
+                        location.reload()
                     }, 3000)
                 }
               }).catch((err) => {
                 console.log(err)
               })
           },
-        // 
         settlein(){
             this.$router.push({ path: '/settlein'})
         }
