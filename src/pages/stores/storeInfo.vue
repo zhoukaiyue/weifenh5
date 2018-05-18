@@ -11,35 +11,35 @@
           </div> -->
         </div>
     </div>
-    <p class="store_name"></p>
-    <ul class="store-list" v-for="(item,index) in datas">
+    <p class="store_name">{{datas.name}}</p>
+    <ul class="store-list">
       <li class="clearfix">
-        <span class="fl">店铺名称</span><span class="fr"><b>{{item.name}}</b>&emsp;<img src="~@/assets/icon/goods-left.png"></span>
+        <span class="fl">店铺名称</span><span class="fr"><b>{{datas.name}}</b>&emsp;<img src="~@/assets/icon/goods-left.png"></span>
       </li>
       <li class="clearfix" v-on:click="logo">
-        <span class="fl">品牌名称</span><span class="fr"><b>{{item.brand_name}}</b>&emsp;<img src="~@/assets/icon/goods-left.png"></span>
+        <span class="fl">品牌名称</span><span class="fr"><b>{{datas.brand_name}}</b>&emsp;<img src="~@/assets/icon/goods-left.png"></span>
       </li>
       <li class="clearfix" v-on:click="shop">
-        <span class="fl">公司模式</span><span class="fr"><b>{{item.company_model}}</b>&emsp;<img src="~@/assets/icon/goods-left.png"></span>
+        <span class="fl">公司模式</span><span class="fr"><b>{{datas.company_model}}</b>&emsp;<img src="~@/assets/icon/goods-left.png"></span>
       </li>
       <li class="clearfix">
-        <span class="fl">店铺地址</span><span class="fr"><b>{{item.address}}</b>&emsp;<img src="~@/assets/icon/goods-left.png"></span>
+        <span class="fl">店铺地址</span><span class="fr"><b>{{datas.address}}</b>&emsp;<img src="~@/assets/icon/goods-left.png"></span>
       </li>
       <li class="clearfix" v-on:click="people">
-        <span class="fl">负责人</span><span class="fr"><b>{{item.contact}}</b>&emsp;<img src="~@/assets/icon/goods-left.png"></span>
+        <span class="fl">负责人</span><span class="fr"><b>{{datas.contact}}</b>&emsp;<img src="~@/assets/icon/goods-left.png"></span>
       </li>
       <li class="clearfix phone" v-on:click="changephone">
         <span class="fl">修改手机号</span><span class="fr"><input type="text" class="mobile"  v-model="type2"/>&emsp;<img src="~@/assets/icon/goods-left.png"></span>
       </li>
       <li class="clearfix" v-on:click="shopinfo">
-        <span class="fl">店铺介绍</span><span class="fr"><b>{{item.description}}</b>&emsp;<img src="~@/assets/icon/goods-left.png"></span>
+        <span class="fl">店铺介绍</span><span class="fr"><b>{{datas.description}}</b>&emsp;<img src="~@/assets/icon/goods-left.png"></span>
       </li>
       <!-- 营业执照 -->
       <li class="zz_box clearfix">
         <span class="zz_text">营业执照</span>
         <div class='finish_zhizhao'>
                <div  class='zhizhao_img'>
-                  <img :src="item.img_src">
+                  <img :src="datas.img_src">
                </div>
            </div>
       </li>
@@ -130,9 +130,8 @@ import ossFile from '../../components/oss_file'
             const str=data.mobile;
             const str2 = str.substr(0,3)+"****"+str.substr(7);
             console.log(str2)
-            this.type2=str2
-            this.datas.push(data)
-            $('.store_name').text(data.name)
+            _this.type2=str2
+            _this.datas=data
             console.log(data)
           }).catch((err) => {
             console.log(err)
@@ -163,7 +162,7 @@ import ossFile from '../../components/oss_file'
         value1: '西贝筱面古北店',
         imgs:'https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=3410181771,3257903943&fm=58&w=121&h=140&img.PNG',
         img_zhi:'https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=3410181771,3257903943&fm=58&w=121&h=140&img.PNG',
-        datas:[],
+        datas:{},
         type2:''
       }
     },
