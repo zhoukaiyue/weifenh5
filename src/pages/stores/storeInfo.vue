@@ -29,7 +29,7 @@
         <span class="fl">负责人</span><span class="fr"><b>{{item.contact}}</b>&emsp;<img src="~@/assets/icon/goods-left.png"></span>
       </li>
       <li class="clearfix phone" v-on:click="changephone">
-        <span class="fl">修改手机号</span><span class="fr"><b class="mobile">{{item.mobile}}</b>&emsp;<img src="~@/assets/icon/goods-left.png"></span>
+        <span class="fl">修改手机号</span><span class="fr"><input type="text" class="mobile"  v-model="type2"/>&emsp;<img src="~@/assets/icon/goods-left.png"></span>
       </li>
       <li class="clearfix" v-on:click="shopinfo">
         <span class="fl">店铺介绍</span><span class="fr"><b>{{item.description}}</b>&emsp;<img src="~@/assets/icon/goods-left.png"></span>
@@ -91,7 +91,7 @@ import ossFile from '../../components/oss_file'
       ossFile
     },
      created() {
-      this.shuju()
+      this.binfo_data()
      },
     methods:{
         logo() {
@@ -119,16 +119,18 @@ import ossFile from '../../components/oss_file'
             $(".bg").hide()
         },
         // 商铺数据接口
-        shuju(){
+        binfo_data(){
+          const _this= this;
           const url ='http://public.weifenvip.com/index/Shop/shopInfo';
-          var params = new URLSearchParams();
+          const params = new URLSearchParams();
           params.append('token',localStorage.currentUser_token);
           params.append('open_id','oo1Fj0rhEG6wJ7UvjJUpR_97g3v0');
           axios.post(url,params).then(response => {
             const data = response.data.data
-            var str=data.mobile;
-            var str2 = str.substr(0,3)+"****"+str.substr(7);
-            $('.mobile').text(str2)
+            const str=data.mobile;
+            const str2 = str.substr(0,3)+"****"+str.substr(7);
+            console.log(str2)
+            this.type2=str2
             this.datas.push(data)
             $('.store_name').text(data.name)
             console.log(data)
@@ -141,7 +143,7 @@ import ossFile from '../../components/oss_file'
           const url ='http://public.weifenvip.com/index/Shop/editInfo';
           const company_model = $(".select").find("option:selected").text();
           console.log(company_model)
-          var params = new URLSearchParams();
+          const params = new URLSearchParams();
           params.append('token',localStorage.currentUser_token);
           params.append('open_id','oo1Fj0rhEG6wJ7UvjJUpR_97g3v0');
           params.append('company_model',company_model);
@@ -154,7 +156,6 @@ import ossFile from '../../components/oss_file'
         },
         // 处理手机号
         phone(){
-            
         }
     },
     data () {
@@ -163,6 +164,7 @@ import ossFile from '../../components/oss_file'
         imgs:'https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=3410181771,3257903943&fm=58&w=121&h=140&img.PNG',
         img_zhi:'https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=3410181771,3257903943&fm=58&w=121&h=140&img.PNG',
         datas:[],
+        type2:''
       }
     },
     //页面加载后执行
