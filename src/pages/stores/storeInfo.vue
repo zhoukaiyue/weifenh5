@@ -11,35 +11,35 @@
           </div> -->
         </div>
     </div>
-    <p class="store_name">{{value1}}</p>
-    <ul class="store-list">
+    <p class="store_name"></p>
+    <ul class="store-list" v-for="(item,index) in datas">
       <li class="clearfix">
-        <span class="fl">店铺名称</span><span class="fr">西贝筱面古北店&emsp;<img src="~@/assets/icon/goods-left.png"></span>
+        <span class="fl">店铺名称</span><span class="fr"><b>{{item.name}}</b>&emsp;<img src="~@/assets/icon/goods-left.png"></span>
       </li>
       <li class="clearfix" v-on:click="logo">
-        <span class="fl">品牌名称</span><span class="fr">西贝&emsp;<img src="~@/assets/icon/goods-left.png"></span>
+        <span class="fl">品牌名称</span><span class="fr"><b>{{item.brand_name}}</b>&emsp;<img src="~@/assets/icon/goods-left.png"></span>
       </li>
       <li class="clearfix" v-on:click="shop">
-        <span class="fl">公司模式</span><span class="fr">直营分店&emsp;<img src="~@/assets/icon/goods-left.png"></span>
+        <span class="fl">公司模式</span><span class="fr"><b>{{item.company_model}}</b>&emsp;<img src="~@/assets/icon/goods-left.png"></span>
       </li>
       <li class="clearfix">
-        <span class="fl">店铺地址</span><span class="fr">上海市闵行区闵行区古北路1699写字楼15楼&emsp;<img src="~@/assets/icon/goods-left.png"></span>
+        <span class="fl">店铺地址</span><span class="fr"><b>{{item.address}}</b>&emsp;<img src="~@/assets/icon/goods-left.png"></span>
       </li>
       <li class="clearfix" v-on:click="people">
-        <span class="fl">负责人</span><span class="fr">王富贵&emsp;<img src="~@/assets/icon/goods-left.png"></span>
+        <span class="fl">负责人</span><span class="fr"><b>{{item.contact}}</b>&emsp;<img src="~@/assets/icon/goods-left.png"></span>
       </li>
-      <li class="clearfix" v-on:click="changephone">
-        <span class="fl">修改手机号</span><span class="fr">152****8765&emsp;<img src="~@/assets/icon/goods-left.png"></span>
+      <li class="clearfix phone" v-on:click="changephone">
+        <span class="fl">修改手机号</span><span class="fr"><b class="mobile">{{item.mobile}}</b>&emsp;<img src="~@/assets/icon/goods-left.png"></span>
       </li>
       <li class="clearfix" v-on:click="shopinfo">
-        <span class="fl">店铺介绍</span><span class="fr">西贝莜面村是西贝餐饮集团旗下的主品牌，主营中式休闲正餐，西北菜的杰出代表&emsp;<img src="~@/assets/icon/goods-left.png"></span>
+        <span class="fl">店铺介绍</span><span class="fr"><b>{{item.description}}</b>&emsp;<img src="~@/assets/icon/goods-left.png"></span>
       </li>
       <!-- 营业执照 -->
       <li class="zz_box clearfix">
         <span class="zz_text">营业执照</span>
         <div class='finish_zhizhao'>
                <div  class='zhizhao_img'>
-                  <img :src="img_zhi">
+                  <img :src="item.img_src">
                </div>
            </div>
       </li>
@@ -58,16 +58,6 @@
         <span v-on:click="gb" class="fl">取消</span><span v-on:click="company_model" class="fr">确认</span>
       </div>
     </div>
-    <!-- <group label-width="4.5em" label-margin-right="2em" label-align="right" id="form_box">
-      <x-input title="店铺名称" :value="value1" disabled ></x-input>
-      <x-input title="所属品牌" :value="value2" disabled v-on:click="linktoDetail"></x-input>
-      <x-input title="公司模式" :value="value3" disabled></x-input>
-      <x-textarea title="店铺地址" :show-counter="false" :rows="3" :value="value4" disabled></x-textarea>
-      <x-input title="负责人" :value="value5" disabled></x-input>
-      <x-input title="联系电话" type="number" :value="value6" disabled></x-input>
-      <x-textarea title="店铺介绍" :value="value7" :show-counter="false" :rows="3" disabled></x-textarea>
-    </group> -->
-
     <div class="bg"></div>
   </div>
 </template>
@@ -133,9 +123,15 @@ import ossFile from '../../components/oss_file'
           const url ='http://public.weifenvip.com/index/Shop/shopInfo';
           var params = new URLSearchParams();
           params.append('token',localStorage.currentUser_token);
+          params.append('open_id','oo1Fj0rhEG6wJ7UvjJUpR_97g3v0');
           axios.post(url,params).then(response => {
-            // const currentUser_token = response.data.data //获取token
-            console.log(response)
+            const data = response.data.data
+            var str=data.mobile;
+            var str2 = str.substr(0,3)+"****"+str.substr(7);
+            $('.mobile').text(str2)
+            this.datas.push(data)
+            $('.store_name').text(data.name)
+            console.log(data)
           }).catch((err) => {
             console.log(err)
           })
@@ -147,34 +143,31 @@ import ossFile from '../../components/oss_file'
           console.log(company_model)
           var params = new URLSearchParams();
           params.append('token',localStorage.currentUser_token);
+          params.append('open_id','oo1Fj0rhEG6wJ7UvjJUpR_97g3v0');
           params.append('company_model',company_model);
           axios.post(url,params).then(response => {
             // const currentUser_token = response.data.data //获取token
-            console.log(response)
+            console.log(response.data)
           }).catch((err) => {
             console.log(err)
           })
+        },
+        // 处理手机号
+        phone(){
+            
         }
     },
     data () {
       return {
         value1: '西贝筱面古北店',
-        value2: '西贝',
-        value3: '直营分店',
-        value4: '上海市闵行区闵行区古北路1699写字楼15楼',
-        value5: '富贵',
-        value6: '13712345678',
-        value7: '西贝莜面村是西贝餐饮集团旗下的主品牌，主营中式休闲正餐，西北菜的杰出代表',
-        value8: '',
-        time1: '2017-06-01',
-        numberValue: 0,
-        type: '1',
         imgs:'https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=3410181771,3257903943&fm=58&w=121&h=140&img.PNG',
-        img_zhi:'https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=3410181771,3257903943&fm=58&w=121&h=140&img.PNG'
+        img_zhi:'https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=3410181771,3257903943&fm=58&w=121&h=140&img.PNG',
+        datas:[],
       }
     },
     //页面加载后执行
     mounted(){
+      // this.phone()
     }
   }
 </script>
@@ -226,7 +219,7 @@ import ossFile from '../../components/oss_file'
 .tr{text-align: right;}
 .store-list{
   padding: 0;margin-top: 1rem;
-  li{list-style: none;padding: 10px 15px;border-bottom: 1px solid #dddddd;img{position: relative;top: 0.2rem;}.fr{color: #999999;width: 60%;text-align: right}}
+  li{list-style: none;padding:0.5rem;border-bottom: 1px solid #dddddd;font-size:0.9rem;.fr{color: #999999;width: 70%;text-align: right;line-height: 1.2rem;font-size: 0.8rem;position:relative;img{position: absolute;width: 0.6rem;top: 0.2rem;}b{font-weight: normal;display: inline-block;width: 80%;}}}
 }
 /*公司模式*/
 .shop{
@@ -402,7 +395,7 @@ import ossFile from '../../components/oss_file'
   left:1%;
 }
 .finish_zhizhao>.zhizhao_img>img {
-  width:99%;
+  width:99%!important;
   height:89px;
 }
 .zhizhao_add_btn {
