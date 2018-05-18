@@ -10,27 +10,22 @@
         </div>
         <div class="middle">
           <table>
-            <tbody>
-              <tr>
-                <th class="first"></th>
-                <th>店员姓名</th>
-                <th>手机号码</th>
-                <th>添加时间</th>
-              </tr>
-              <tr v-for="(item,index) in datalist">
-                <td><input class="checkbox" type="checkbox"></td>
-                <td class="head"><img src="~@/assets/icon/circle@noselected.png"><span>{{item.name}}</span></td>
-                <td>{{item.mobel}}</td>
-                <td>{{item.time}}</td>
-              </tr>
-              <!-- <tr>
-                <td @click="sort"><img v-show="show" src="~@/assets/icon/circle@noselected.png"><img v-show="!show" src="~@/assets/icon/circle@selected.png"></td>
-                <td class="head"><img src="~@/assets/icon/circle@noselected.png"><span>王美玲</span></td>
-                <td>152 2169 4978</td>
-                <td>2018.06.02</td>
-              </tr> -->
-            </tbody>
-          </table>
+            <tr v-for="(item,$index) in lists">
+                <td><input type="checkbox" :value="item.id" v-model="checked" @click="currClick(item,$index)" :id='item.id'>  <label :for="item.id" class="cb-label"></label></td>
+                <td>{{item.productName}}</td>
+                <td>{{item.price}}</td>
+                <td>{{item.count}}</td>
+            </tr>
+          <tr>
+                <td><input type="checkbox" v-model="checkAll" id="quan"><label for="quan" class="cb-label"></label>全选</td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                总价：{{totalMoney}}
+            </tr>
+        </table>
         </div>
   </div>
 </template>
@@ -43,34 +38,99 @@ export default {
     data(){
 　　　　　　return {
             show:true,
-            datalist:[{imgurl:'~@/assets/icon/circle@noselected.png',selectedurl:'~@/assets/icon/circle@selected.png',name:'王美玲',mobel:'152 2169 4978',time:'2018.03.02'},{imgurl:'~@/assets/icon/circle@noselected.png',selectedurl:'~@/assets/icon/circle@selected.png',name:'王美玲',mobel:'152 2169 4978',time:'2018.03.02'}],
-            list:[]
+              checked:[],
+                totalPrice:[],
+                lists : [
+                    {
+                        productName:'产品1',
+                        price:'24',
+                        count:'3',
+                        id:1
+                    },
+                    {
+                        productName:'产品2',
+                        price:'25',
+                        count:'6',
+                        id:2
+                    },
+                    {
+                        productName:'产品3',
+                        price:'54',
+                        count:'7',
+                        id:3
+                    }
+                ]
 　　　　　　}
 　　　　},
     computed: {
-        menuBanner() {
-            return this.menu[this.currentIndex].img.url
-        },
-        categoryTitle() {
-            return this.menu[this.currentIndex].name
-        }
+          totalMoney:function(item,index){
+                  let sum = 0;
+                  for(let i=0;i<this.totalPrice.length;i++){
+                      sum += this.totalPrice[i];
+                  };
+                  return sum;
+              },
+              checkAll: {
+                  get: function() {
+                      return this.checkedCount == this.lists.length;
+                  },
+                  set: function(value){
+                      var _this = this;
+                      if (value) {
+                          this.totalPrice = [];
+                          this.checked = this.lists.map(function(item) {
+                              item.checked = true;
+                              let total = item.price*item.count;
+                              _this.totalPrice.push(total);
+                              return item.id
+                          })
+                      }else{
+                          this.checked = [];
+                          this.totalPrice=[];
+                          this.lists.forEach(function(item,index){
+                              item.checked = false;
+                          });
+                      }
+                  }
+              },
+              checkedCount: {
+                  get: function() {
+                      return this.checked.length;
+                  }
+              }
     },
     methods: {
-        switchCategory(index, id) {
-            this.currentIndex = index
-            this.getProduct(id)
-        },
         linktoDetail() {
             this.$router.push({ path: '/page/changestore'})
         },
-        sort() {
-          const list = this.datalist
-          for (var i = 0; i < list.length; i++) {
-            var img=$(".img").eq(i).attr("src")
-          }
-          console.log(img)
-          // this.show = !this.show
-      },
+        currClick:function(item,index){
+                var _this = this;
+                if(typeof item.checked == 'undefined'){
+                    this.$set(item,'checked',true);
+                        let total = item.price*item.count;
+                        this.totalPrice.push(total);
+                        console.log(this.totalPrice);
+                }else{
+                    item.checked = !item.checked;
+                    if(item.checked){
+                        this.totalPrice = [];
+                        this.lists.forEach(function(item,index){
+                            if(item.checked){
+                                let total = item.price*item.count;
+                                _this.totalPrice.push(total);
+                            }
+                        });
+                    }else{
+                        this.totalPrice = [];
+                        this.lists.forEach(function(item,index){
+                            if(item.checked){
+                                let total = item.price*item.count;
+                                _this.totalPrice.push(total);
+                            }
+                        });
+                    }
+                }
+            }
   }
 }
 </script>
@@ -104,28 +164,129 @@ export default {
       p{font-size: 0.8rem;color: #999999;}}
   }
   .middle {
-    padding: 1rem;
-    margin-top: 1rem;
-    background: #ffffff;
-    table{
-      width: 100%;
-      padding: 0;
-      tr{
-        line-height: 2rem;
-        text-align: center;
-        th{width: 32%;border-bottom: 1px solid #dddddd!important;}
-        .first{width: 8%;}
-        td{
-            color: #999999;
-            font-size:0.7rem;
-            img{width: 1.2rem;position: relative;top: 0.3rem}
-          }
-          .head{
-              img{width: 2rem}
-              span{vertical-align: top;position: relative;top: 0.3rem;left: 0.1rem;color: #333;}
-            }
-      }
+      tr td{
+        width:200px;
+        background: #eee;
+        padding:10px 0;
     }
   }
+}
+
+
+
+
+
+
+
+
+input[type="checkbox"]{
+  display:none;
+}
+
+.cb-label{
+  height: 100px;
+  width: 100px;
+  background:#fc5738;
+  border: 100px * .1 solid #fc5738;
+  border-radius: 50%;
+  position: relative;
+  display: inline-block;
+  box-sizing: border-box;
+  transition: border-color ease .4s/2;
+  -moz-transition: border-color ease .4s/2;
+  -o-transition: border-color ease .4s/2;
+  -webkit-transition: border-color ease .4s/2;
+  cursor: pointer;
+  &::before,&::after{
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    position: absolute;
+    height: 0;
+    width: 100px * 0.2;
+    background: #fff;
+    display: inline-block;
+    -moz-transform-origin: left top;
+    -ms-transform-origin: left top;
+    -o-transform-origin: left top;
+    -webkit-transform-origin: left top;
+    transform-origin: left top;
+    content: '';
+    -webkit-transition: opacity ease 0.5s;
+    -moz-transition: opacity ease 0.5s;
+    transition: opacity ease 0.5s;
+  }
+  &::before{
+    top:100px * 0.76;
+    left: 100px * 0.31;
+    -moz-transform: rotate(-135deg);
+    -ms-transform: rotate(-135deg);
+    -o-transform: rotate(-135deg);
+    -webkit-transform: rotate(-135deg);
+    transform: rotate(-135deg);
+  }
+  &::after {
+    top: 100px * .45;
+    left: 100px * 0;
+    -moz-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+  }
+}
+input[type=checkbox]:checked + .cb-label,
+.cb-label.checked{
+
+  background: rgb(101,141,181)g;
+  border-color:rgb(101,141,181)g;
+  &::after{
+    border-color:#fff;
+    height: 100px * .35;
+    -moz-animation: dothabottomcheck .4s/2 ease 0s forwards;
+    -o-animation: dothabottomcheck .4s/2 ease 0s forwards;
+    -webkit-animation: dothabottomcheck .4s/2 ease 0s forwards;
+    animation: dothabottomcheck .4s/2 ease 0s forwards;
+  }
+
+  &::before{
+    border-color:#fff;
+    height: 100px * 1;
+    -moz-animation: dothatopcheck .4s ease 0s forwards;
+    -o-animation: dothatopcheck .4s ease 0s forwards;
+    -webkit-animation: dothatopcheck .4s ease 0s forwards;
+    animation: dothatopcheck .4s ease 0s forwards;
+  }
+
+}
+@-moz-keyframes dothabottomcheck{
+  0% { height: 0; }
+  100% { height: 100px *0.35; }
+}
+
+@-webkit-keyframes dothabottomcheck{
+  0% { height: 0; }
+  100% { height: 100px *0.35; }
+}
+
+@keyframes dothabottomcheck{
+  0% { height: 0; }
+  100% { height: 100px *0.35;  }
+}
+
+@keyframes dothatopcheck{
+  0% { height: 0; }
+  50% { height: 0; }
+  100% { height: 100px * 0.7; }
+}
+@-webkit-keyframes dothatopcheck{
+  0% { height: 0; }
+  50% { height: 0; }
+  100% { height: 100px * 0.7; }
+}
+@-moz-keyframes dothatopcheck{
+  0% { height: 0; }
+  50% { height: 0; }
+  100% { height: 100px * 0.7; }
 }
 </style>

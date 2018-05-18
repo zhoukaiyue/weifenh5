@@ -12,9 +12,9 @@
         <!-- <x-address title="地址选择" v-model="addressValue" raw-value :list="addressData" value-text-align="left"></x-address>
         <x-textarea title="详细信息" placeholder="请填写详细信息" :show-counter="false" :rows="3"></x-textarea> -->
       </group>
+      <!--  营业执照 -->
          <div class="wrapper license">
-           <span style="display:block;width: 4.5em; ">营业执照</span><Ossfile @change="setImg($event)"></Ossfile><!-- <form >
-            </form> --><!-- <div id="img-wrapper" @click="deleteImg($event)"></div> -->
+           <span style="width: 4.5em; ">营业执照</span><ossFile :imgs='license'></ossFile>
         </div>
      <box gap="10px 10px">
         <div v-on:click="submit"><x-button class="apply_btn">立即申请</x-button></div>
@@ -28,7 +28,8 @@
 <script>
 import $ from 'jquery'
 import { GroupTitle, Group, Cell, XInput, Selector, PopupPicker, Datetime, XNumber, ChinaAddressData, XAddress, XTextarea, XSwitch,Panel, Radio,XButton,Box} from 'vux'
-import Ossfile from '../../components/oss_file'
+//引入上传图片组键
+import ossFile from '../../components/oss_file'
   /**
 * 从 file 域获取 本地图片 url
 */
@@ -55,7 +56,7 @@ function getFileUrl(obj) {
       Radio,
       XButton,
       Box,
-      Ossfile
+     ossFile
     },
     methods: {
         onImgError (item, $event) {
@@ -119,7 +120,6 @@ function getFileUrl(obj) {
                 )
                 .then(res => {
                     console.log(res)
-  
                 })
         }
     },
@@ -140,6 +140,7 @@ function getFileUrl(obj) {
           title: '商家申请入驻',
           desc: '成功入驻店家圈，即可开启线上引客之路。',
         },
+        license:'https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1526556689&di=f790387d8684799e63556e887b7adfd3&src=http://docs.ebdoor.com/Image/CompanyCertificate/22/229544.JPG'
       }
     },
     //页面加载后执行
@@ -166,6 +167,30 @@ function getFileUrl(obj) {
   .vux-x-input label{font-size: 0.9rem;color: #333;text-align: left!important;}
   .vux-x-input input{font-size: 0.9rem;color: #ccc;}
   .weui-cells:after{background: #D9D9D9}
+
+.container{
+    width:12rem!important;
+    height:10rem!important;
+    position:relative;
+    float:right;
+    border:1px solid #e7e7e7;
+}
+#selectfiles{
+    width:12rem!important;
+    height:10rem!important;
+    opacity:0;
+    position:absolute;
+    top:0;
+    left:0;
+    border:1px solid #e7e7e7;
+}
+#imgId{
+    width:12rem!important;
+    height:10rem!important;
+    position:absolute;
+    top:0;
+    left:0;
+}
 </style>
 <style scoped lang="less">
 @import '~vux/src/styles/center.less';
@@ -213,7 +238,7 @@ function getFileUrl(obj) {
   border:0!important;
 }
 }.license {
-  border-bottom:1px solid #D9D9D9;
+  /*border-bottom:1px solid #D9D9D9;*/
   padding:23px 0px 30px 0px;
   min-height:150px;
   position:relative;
@@ -228,7 +253,6 @@ function getFileUrl(obj) {
   top:1.5rem;
   z-index:100;
   opacity:0;
-  
 }
 #img-wrapper {
   border:1px solid #e7e7e7;

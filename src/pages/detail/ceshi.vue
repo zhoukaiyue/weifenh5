@@ -1,109 +1,126 @@
 <template>
-    <div id="container" class="container">
-      <button id="selectfiles">选择</button>
-      <button @click="selectFile">开始上传</button>
-      <ul>
-        <li v-for="file in files">{{file}}</li>
-      </ul>
+    <div>
+        <table>
+            <tr>
+                <td><input type="checkbox" v-model="checkAll">全选({{checkedCount}})</td>
+                <td>产品名称</td>
+                <td>价格</td>
+                <td>数量</td>
+            </tr>
+            <tr v-for="(item,$index) in lists">
+                <td><span v-show="checkedCount===lists.length || item.checked===true">我被选中</span><input type="checkbox" :value="item.id" v-model="checked" @click="currClick(item,$index)"></td>
+                <td>{{item.productName}}</td>
+                <td>{{item.price}}</td>
+                <td>{{item.count}}</td>
+            </tr>
+            <tr>
+                总价：{{totalMoney}}
+            </tr>
+        </table>
     </div>
 </template>
 <script>
-    import axios from 'axios'
-    export default {
-      name: 'container',
-       data() {
-                return {
-                    accessid: 'LTAIcTf7VMuMkUsa', //改成你自己的accessid
-                    accesskey: 'PMl8IRafp7jH4I3NGjMFmsvbylFVUj', //改成你自己的accesskey
-                    host: 'https://weifenshops.oss-cn-shanghai.aliyuncs.com', //改成你自己的host
-                    policyText: {
-                        "expiration": "2020-01-01T12:00:00.000Z", //设置该Policy的失效时间，超过这个失效时间之后，就没有办法通过这个policy上传文件了
-                        "conditions": [
-                            ["content-length-range", 0, 1048576000] // 设置上传文件的大小限制
-                        ]
+    export default{
+        data() {
+            return {
+                checked:[],
+                totalPrice:[],
+                checkAll:'',
+                lists : [
+                    {
+                        productName:'产品1',
+                        price:'24',
+                        count:'3',
+                        id:1
                     },
-                    signature: '',
-                    files: [],
-                    uploader: {}
+                    {
+                        productName:'产品2',
+                        price:'25',
+                        count:'6',
+                        id:2
+                    },
+                    {
+                        productName:'产品3',
+                        price:'54',
+                        count:'7',
+                        id:3
+                    }
+                ]
+            }
+        },
+        computed:{
+            totalMoney:function(item,index){
+                let sum = 0;
+                for(let i=0;i<this.totalPrice.length;i++){
+                    sum += this.totalPrice[i];
+                };
+                return sum;
+            },
+            checkAll: {
+                get: function() {
+                    return this.checkedCount == this.lists.length;
+                },
+                set: function(value){
+                    var _this = this;
+                    if (value) {
+                        this.totalPrice = [];
+                        this.checked = this.lists.map(function(item) {
+                            item.checked = true;
+                            let total = item.price*item.count;
+                            _this.totalPrice.push(total);
+                            return item.id
+                        })
+                    }else{
+                        this.checked = [];
+                        this.totalPrice=[];
+                        this.lists.forEach(function(item,index){
+                            item.checked = false;
+                        });
+                    }
                 }
             },
-            mounted() {
-                const self = this;
-                var uploader = new plupload.Uploader({
-                    runtimes: 'html5,flash,silverlight,html4',
-                    browse_button: 'selectfiles',
-                    //multi_selection: false,
-                    container: document.getElementById('container'),
-                    flash_swf_url: 'lib/plupload-2.1.2/js/Moxie.swf',
-                    silverlight_xap_url: 'lib/plupload-2.1.2/js/Moxie.xap',
-                    url: 'http://oss.aliyuncs.com',
-
-                    init: {
-                        PostInit: function() {},
-
-                        FilesAdded: function(up, files) {
-                            console.log(files)
-                            self.files = files;
-                        },
-
-                        BeforeUpload: function(up, file) {
-                            console.log('上传前'+file)
-
-                            self.set_upload_param(up, '此处定义文件名称/'+file.name, true);
-                            // 上传前
-                        },
-
-                        UploadProgress: function(up, file) {
-
-                            // 可以在此设置上传进度
-                        },
-
-                        FileUploaded: function(up, file, info) {
-                         console.log(up, file, info)
-                            // 上传成功之后，文件的url为: host + file.name
-                            if (info.status == 200) {
-                                alert('上传成功了')
-                            }
-                        },
-
-                        Error: function(up, err) {
-                            // 上传错误
-                        }
-                    }
-                });
-                self.uploader = uploader;
-                self.uploader.init();
-            },
-            methods: {
-                selectFile() {
-                    console.log(this.uploader)
-                    this.set_upload_param(this.uploader, '', false);
-                },
-                set_upload_param(up, filename, ret) {
-                    var policyBase64 = Base64.encode(JSON.stringify(this.policyText));
-                    var message = policyBase64;
-                    var bytes = Crypto.HMAC(Crypto.SHA1, message, this.accesskey, {
-                        asBytes: true
-                    });
-                    var signature = Crypto.util.bytesToBase64(bytes);
-
-                    var new_multipart_params = {
-                        'Filename': 'abc/' + filename,
-                        'key': filename,
-                        'policy': policyBase64,
-                        'OSSAccessKeyId': this.accessid,
-                        'success_action_status': '200', //让服务端返回200,不然，默认会返回204
-                        'signature': signature,
-                    };
-                    console.log(new_multipart_params)
-                    up.setOption({
-                        'url': this.host,
-                        'multipart_params': new_multipart_params
-                    });
-
-                    up.start();
+            checkedCount: {
+                get: function() {
+                    return this.checked.length;
                 }
             }
+        },
+        methods:{
+            currClick:function(item,index){
+                var _this = this;
+                if(typeof item.checked == 'undefined'){
+                    this.$set(item,'checked',true);
+                        let total = item.price*item.count;
+                        this.totalPrice.push(total);
+                        console.log(this.totalPrice);
+                }else{
+                    item.checked = !item.checked;
+                    if(item.checked){
+                        this.totalPrice = [];
+                        this.lists.forEach(function(item,index){
+                            if(item.checked){
+                                let total = item.price*item.count;
+                                _this.totalPrice.push(total);
+                            }
+                        });
+                    }else{
+                        this.totalPrice = [];
+                        this.lists.forEach(function(item,index){
+                            if(item.checked){
+                                let total = item.price*item.count;
+                                _this.totalPrice.push(total);
+                            }
+                        });
+                    }
+                }
+            }
+        }
     }
 </script>
-<style lang="less"></style>
+<style>
+    tr td{
+        width:200px;
+        background: #eee;
+        padding:10px 0;
+    }
+</style>

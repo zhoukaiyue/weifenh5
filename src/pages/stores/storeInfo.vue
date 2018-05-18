@@ -1,20 +1,17 @@
 <template>
   <div id='storeInfo'>
     <!--  店铺logo -->
-       <div class='finish_room2'>
-         <div  class='room_img'>
-            <img :src="imgs">
-         </div>
-         <div class='room_add_btn'>
-              <input @change='add_img'  type="file">
-              <div class="room_opacity"></div>
-              <div id="img-change2">
-                <div class="img-changeImg"></div>
-                <p class="img-changeText">更换店铺图像</p>
-              </div>
-         </div>
-     </div>
-     <p class="store_name">{{value1}}</p>
+    <div class='finish_room2'>
+       <div class='room_add_btn'>
+           <ossFile :imgs='imgs'></ossFile>
+         <!--  <div class="room_opacity"></div>
+          <div id="img-change2">
+            <div class="img-changeImg"></div>
+            <p class="img-changeText">更换店铺图像</p>
+          </div> -->
+        </div>
+    </div>
+    <p class="store_name">{{value1}}</p>
     <ul class="store-list">
       <li class="clearfix">
         <span class="fl">店铺名称</span><span class="fr">西贝筱面古北店&emsp;<img src="~@/assets/icon/goods-left.png"></span>
@@ -44,17 +41,9 @@
                <div  class='zhizhao_img'>
                   <img :src="img_zhi">
                </div>
-               <div class='zhizhao_add_btn'>
-                    <input @change='add_zzimg'  type="file">
-                    <div class="zhizhao_opacity"></div>
-                    <div id="img-changeZZ">
-                      <div class="img-changeImgZZ"></div>
-                      <p class="img-changeTextZZ">更换营业执照</p>
-                    </div>
-               </div>
            </div>
       </li>
-    </ul> 
+    </ul>
     <!-- 公司模式 -->
     <div class="shop">
       <h5>公司模式</h5>
@@ -68,7 +57,6 @@
       <div class="clearfix btn">
         <span v-on:click="gb" class="fl">取消</span><span v-on:click="company_model" class="fr">确认</span>
       </div>
-      
     </div>
     <!-- <group label-width="4.5em" label-margin-right="2em" label-align="right" id="form_box">
       <x-input title="店铺名称" :value="value1" disabled ></x-input>
@@ -88,14 +76,10 @@
 import $ from 'jquery'
 import { GroupTitle, Group, Cell, XInput, Selector, PopupPicker, Datetime, XNumber, ChinaAddressData, XAddress, XTextarea, XSwitch,Panel, Radio,XButton,Box} from 'vux'
 import axios from 'axios'
-  /**
-* 从 file 域获取 本地图片 url
-*/
-function getFileUrl(obj) {
-  let url;
-  url = window.URL.createObjectURL(obj.files.item(0));
-  return url;
-}
+
+//引入上传图片组键
+import ossFile from '../../components/oss_file'
+
   export default {
     name: 'storeInfo',
     components: {
@@ -113,30 +97,13 @@ function getFileUrl(obj) {
       Panel,
       Radio,
       XButton,
-      Box
+      Box,
+      ossFile
     },
      created() {
       this.shuju()
      },
     methods:{
-        add_img(event){
-          var reader =new FileReader();
-          var img1=event.target.files[0];
-          reader.readAsDataURL(img1);
-          var that=this;
-          reader.onloadend=function(){
-              that.imgs=reader.result
-          }
-        },
-        add_zzimg(event){
-          var reader =new FileReader();
-          var img1=event.target.files[0];
-          reader.readAsDataURL(img1);
-          var that=this;
-          reader.onloadend=function(){
-              that.img_zhi=reader.result
-          }
-        },
         logo() {
             this.$router.push({ path: '/page/logo'})
         },
@@ -211,6 +178,31 @@ function getFileUrl(obj) {
     }
   }
 </script>
+<style type="text/css">
+.container{
+    width:150px!important;
+    height:150px!important;
+    position:relative;
+        border-radius: 50%;
+}
+#selectfiles{
+    width:150px!important;
+    height:150px!important;
+    opacity:0;
+    position:absolute;
+    top:0;
+    left:0;
+        border-radius: 50%;
+}
+#imgId{
+    width:150px!important;
+    height:150px!important;
+    position:absolute;
+    top:0;
+    left:0;
+        border-radius: 50%;
+}
+</style>
 <style scoped lang="less">
 @import '~vux/src/styles/center.less';
   #storeInfo {
@@ -285,6 +277,7 @@ function getFileUrl(obj) {
 }}.store_name {
   font-family:PingFangSC-Regular;
   font-size:1rem;
+  line-height:3rem;
   color:#333333;
   letter-spacing:0;
   text-align:center;
