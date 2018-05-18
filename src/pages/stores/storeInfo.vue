@@ -221,7 +221,12 @@ import ossFile from '../../components/oss_file'
 .tr{text-align: right;}
 .store-list{
   padding: 0;margin-top: 1rem;
-  li{list-style: none;padding:0.5rem;border-bottom: 1px solid #dddddd;font-size:0.9rem;.fr{color: #999999;width: 70%;text-align: right;line-height: 1.2rem;font-size: 0.8rem;position:relative;img{position: absolute;width: 0.6rem;top: 0.2rem;}b{font-weight: normal;display: inline-block;width: 80%;}}}
+  li{list-style: none;padding:0.5rem;border-bottom: 1px solid #dddddd;font-size:0.9rem;.fr{color: #999999;width: 70%;text-align: right;line-height: 1.2rem;font-size: 0.8rem;position:relative;
+    img{position: absolute;width: 0.6rem;top: 0.2rem;}
+    b{font-weight: normal;display: inline-block;width: 80%;}
+    .mobile{border: 0;text-align: right;color: #999999}
+    }
+  }
 }
 /*公司模式*/
 .shop{

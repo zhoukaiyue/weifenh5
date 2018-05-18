@@ -161,6 +161,7 @@ export default {
           params.append('token',localStorage.currentUser_token);
           params.append('open_id','oo1Fj0rhEG6wJ7UvjJUpR_97g3v0');
           axios.post(url,params).then(response => {
+            const data = response.data.data
             console.log(response)
           }).catch((err) => {
             console.log(err)
