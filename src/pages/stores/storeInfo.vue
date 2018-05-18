@@ -20,7 +20,7 @@
         <span class="fl">品牌名称</span><span class="fr"><b>{{datas.brand_name}}</b>&emsp;<img src="~@/assets/icon/goods-left.png"></span>
       </li>
       <li class="clearfix" v-on:click="shop">
-        <span class="fl">公司模式</span><span class="fr"><b>{{datas.company_model}}</b>&emsp;<img src="~@/assets/icon/goods-left.png"></span>
+        <span class="fl">公司模式</span><span class="fr"><input type="text" class="mobile"  v-model="type"/>&emsp;<img src="~@/assets/icon/goods-left.png"></span>
       </li>
       <li class="clearfix">
         <span class="fl">店铺地址</span><span class="fr"><b>{{datas.address}}</b>&emsp;<img src="~@/assets/icon/goods-left.png"></span>
@@ -28,7 +28,7 @@
       <li class="clearfix" v-on:click="people">
         <span class="fl">负责人</span><span class="fr"><b>{{datas.contact}}</b>&emsp;<img src="~@/assets/icon/goods-left.png"></span>
       </li>
-      <li class="clearfix phone" v-on:click="changephone">
+      <li class="clearfix" :data1='datas.mobile'  @click='changephone(datas.mobile)'>
         <span class="fl">修改手机号</span><span class="fr"><input type="text" class="mobile"  v-model="type2"/>&emsp;<img src="~@/assets/icon/goods-left.png"></span>
       </li>
       <li class="clearfix" v-on:click="shopinfo">
@@ -49,13 +49,13 @@
       <h5>公司模式</h5>
       <div class="select">
         <select>
-          <option>直营分店</option>
-          <option>加盟</option>
+          <option value="1">直营分店</option>
+          <option value="2">加盟</option>
         </select>
         <img src="~@/assets/icon/arrow@right.png">
       </div>
       <div class="clearfix btn">
-        <span v-on:click="gb" class="fl">取消</span><span v-on:click="company_model" class="fr">确认</span>
+        <span v-on:click="cancel" class="fl">取消</span><span v-on:click="company_model" class="fr">确认</span>
       </div>
     </div>
     <div class="bg"></div>
@@ -66,7 +66,6 @@
 import $ from 'jquery'
 import { GroupTitle, Group, Cell, XInput, Selector, PopupPicker, Datetime, XNumber, ChinaAddressData, XAddress, XTextarea, XSwitch,Panel, Radio,XButton,Box} from 'vux'
 import axios from 'axios'
-
 //引入上传图片组键
 import ossFile from '../../components/oss_file'
 
@@ -100,8 +99,9 @@ import ossFile from '../../components/oss_file'
         shopinfo() {
             this.$router.push({ path: '/page/shopinfo'})
         },
-        changephone() {
-            this.$router.push({ path: '/page/changephone'})
+        changephone(a) {
+          console.log(a)
+           this.$router.push({ path: '/page/changephone',query: { mobile: a }})
         },
         people() {
             this.$router.push({ path: '/page/people'})
@@ -110,14 +110,10 @@ import ossFile from '../../components/oss_file'
             $(".shop").show()
             $(".bg").show(  )
         },
-        gb() {
+        cancel() {
             $('.shop').hide()
             $(".bg").hide()
         } ,
-        tj() {
-            $('.shop').hide()
-            $(".bg").hide()
-        },
         // 商铺数据接口
         binfo_data(){
           const _this= this;
@@ -132,7 +128,14 @@ import ossFile from '../../components/oss_file'
             console.log(str2)
             _this.type2=str2
             _this.datas=data
+            _this.mobile = data.mobile;
             console.log(data)
+            if (data.company_model == '1') {
+              _this.type = '直营分店'
+            }
+            if (data.company_model == '2') {
+              _this.type = '加盟'
+            }
           }).catch((err) => {
             console.log(err)
           })
@@ -140,15 +143,23 @@ import ossFile from '../../components/oss_file'
         // 更改公司模式
         company_model(){
           const url ='http://public.weifenvip.com/index/Shop/editInfo';
-          const company_model = $(".select").find("option:selected").text();
+          const company_model = $(".select").find("option:selected").val();
           console.log(company_model)
           const params = new URLSearchParams();
           params.append('token',localStorage.currentUser_token);
           params.append('open_id','oo1Fj0rhEG6wJ7UvjJUpR_97g3v0');
           params.append('company_model',company_model);
           axios.post(url,params).then(response => {
-            // const currentUser_token = response.data.data //获取token
             console.log(response.data)
+            $('.shop').hide()
+            $(".bg").hide()
+            const _this = this
+            _this.$loading.show();//显示
+            setTimeout(function(){  //模拟请求
+                  _this.$loading.hide(); //隐藏
+
+            },2000)
+            location.reload()
           }).catch((err) => {
             console.log(err)
           })
@@ -163,7 +174,9 @@ import ossFile from '../../components/oss_file'
         imgs:'https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=3410181771,3257903943&fm=58&w=121&h=140&img.PNG',
         img_zhi:'https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=3410181771,3257903943&fm=58&w=121&h=140&img.PNG',
         datas:{},
-        type2:''
+        type2:'',
+        type:'',
+        mobile:''
       }
     },
     //页面加载后执行

@@ -5,11 +5,11 @@
             auto
             dots-position="center"
             :duration="800">
+            <!-- v-for="(item, index) in imgList"
+                :key="index" -->
             <swiper-item class="swiper-item"
-                v-for="(item, index) in imgList"
-                :key="index"
                 @click.native="linkToDetail(item.key_word)">
-                <img :src="item.img.url"
+                <img src="~@/assets/img/banner.png"
                     alt="image">
             </swiper-item>
         </swiper>
@@ -31,48 +31,62 @@
         <!-- 当前累计客户量 -->
         <div class="customer_quantity">
         <p class="customer_quantity_title">当前累计客户量</p>
-        <div class="customer_quantity_cont"><span class="customer_quantity_num">12345&nbsp;<b style="font-size:0.9rem;">人</b></span><label class="customer_quantity_qs" v-on:click="dyinvite"><i class="customer_quantity_qsimg"></i>&nbsp;看员工引客趋势图</label>
+        <div class="customer_quantity_cont"><span class="customer_quantity_num">{{num.member_count}}&nbsp;<b style="font-size:0.9rem;">人</b></span><label class="customer_quantity_qs" v-on:click="dyinvite"><i class="customer_quantity_qsimg"></i>&nbsp;查看员工引客趋势图</label>
         </div>
         <div class="customer_quantity_box">
             <div class="customer_quantity_m">
                 <p>本月新增客户(人)</p>
-                <p class="customer_quantity_mnum">1233</p>
+                <p class="customer_quantity_mnum">{{num.member_mouth_count}}</p>
             </div>
             <div  class="customer_quantity_d">
                 <p>今日新增客户(人)</p>
-                <p class="customer_quantity_dnum">1233</p>
+                <p class="customer_quantity_dnum">{{num.member_now_count}}</p>
             </div>
         </div>
         </div>
         <div class="selected-themes">
-            <div class="title">
-                <h5>精选主题</h5>
-            </div>
-            <div class="selectd-box">
-                <div class="selectd-item big"
-                    v-if="index===2"
-                    v-for="(item,index) in themeList"
-                    :key="index"
-                    @click="linkToTheme(item.id)"
-                    :data-name="item.name">
-                    <img :src="item.topic_img.url"
-                        alt="">
-                </div>
-                <div class="selectd-item"
-                    :data-id="item.id"
-                    :data-name="item.name"
-                    @click="linkToTheme(item.id)"
-                    v-else>
-                    <img :src="item.topic_img.url"
-                        alt="">
-                </div>
-            </div>
+            <h5 class="title">营销商品 <span class="Notes">实惠佳品 营销利器</span> <span class="see" v-on:click="category">查看全部&emsp;<img src="~@/assets/icon/goods-left.png"></span></h5>
+            <ul  >
+                <li v-for="(item,index) in datalist">
+                    <h5>{{item.cate_name}}</h5>
+                    <p>{{item.description}}</p>
+                    <p class="hide">{{item.id}}</p>
+                    <img :src="item.cate_img">
+                </li>
+            <!--     <li>
+                    <h5>美妆护肤</h5>
+                    <p>适用20-35客户</p>
+                    <img src="~@/assets/img/goods.png">
+                </li>
+                <li>
+                    <h5>美妆护肤</h5>
+                    <p>适用20-35客户</p>
+                    <img src="~@/assets/img/goods.png">
+                </li> -->
+            </ul>
         </div>
         <div class="recent-products">
-            <div class="title">
-                <h5>最近新品</h5>
-            </div>
-            <products :products="recentList"></products>
+            <h5 class="title">店铺排行 <span>附近店家人气排行</span> <span class="see">查看全部&emsp;<img src="~@/assets/icon/goods-left.png"></span></h5>
+            <ul  >
+                <li>
+                    <img src="~@/assets/img/goods.png">
+                    <img class="icon" src="~@/assets/icon/one.png">
+                    <h5>美妆护肤</h5>
+                    <p>月引客1538<img src="~@/assets/icon/hot.png"><img src="~@/assets/icon/hot.png"></p>
+                </li>
+                 <li>
+                    <img src="~@/assets/img/goods.png">
+                    <img class="icon" src="~@/assets/icon/two.png">
+                    <h5>美妆护肤</h5>
+                    <p>月引客158<img src="~@/assets/icon/hot.png"></p>
+                </li>
+                <li>
+                    <img src="~@/assets/img/goods.png">
+                    <img class="icon" src="~@/assets/icon/three.png">
+                    <h5>美妆护肤</h5>
+                    <p>月引客158<img src="~@/assets/icon/hot.png"></p>
+                </li>
+            </ul>
         </div>
     </div>
 </template>
@@ -90,14 +104,16 @@ export default {
         return {
             imgList: [],
             themeList: [],
-            recentList: []
+            recentList: [],
+            datalist:[],
+            num:''
         }
     },
     created() {
-        this.getBanner()
-        this.getTheme()
-        this.getRecent()
-        this.shuju()
+        // this.getBanner()
+        // this.getTheme()
+        // this.getRecent()
+        this.indeData()
     },
     methods: {
         linkToDetail(id) {
@@ -124,45 +140,48 @@ export default {
         commodityData(){
             this.$router.push({ path: '/page/commodityData' })
         },
-        getBanner() {
-            this.$http
-                .get(
-                    `${myPub.URL}/mock/5a4896ba62de717d44f2406e/api/v1/banner/${bannerId}`
-                )
-                .then(res => {
-                    this.imgList = res.data.data.items
-                    console.log(this.imgList)
-                })
-        },
-        getTheme() {
-            this.$http
-                .get(
-                    `${myPub.URL}/mock/5a4896ba62de717d44f2406e/api/v1/theme?ids=${themeIds}`
-                )
-                .then(res => {
-                    this.themeList = res.data.data
-                })
-        },
-        getRecent() {
-            console.log(`${myPub.URL}`)
-            this.$http
-                .get(
-                // https://www.easy-mock.com
-                    `${myPub.URL}/mock/5a4896ba62de717d44f2406e/api/v1/product/recent`
-                )
-                .then(res => {
-                    this.recentList = res.data.data
-                })
-        },
+        // getBanner() {
+        //     this.$http
+        //         .get(
+        //             `${myPub.URL}/mock/5a4896ba62de717d44f2406e/api/v1/banner/${bannerId}`
+        //         )
+        //         .then(res => {
+        //             this.imgList = res.data.data.items
+        //             console.log(this.imgList)
+        //         })
+        // },
+        // getTheme() {
+        //     this.$http
+        //         .get(
+        //             `${myPub.URL}/mock/5a4896ba62de717d44f2406e/api/v1/theme?ids=${themeIds}`
+        //         )
+        //         .then(res => {
+        //             this.themeList = res.data.data
+        //         })
+        // },
+        // getRecent() {
+        //     console.log(`${myPub.URL}`)
+        //     this.$http
+        //         .get(
+        //         // https://www.easy-mock.com
+        //             `${myPub.URL}/mock/5a4896ba62de717d44f2406e/api/v1/product/recent`
+        //         )
+        //         .then(res => {
+        //             this.recentList = res.data.data
+        //         })
+        // },
         // 首页数据接口
-        shuju(){
+        indeData(){
+          const _this = this
           const url ='http://public.weifenvip.com/index/Shop/index';
-          var params = new URLSearchParams();
+          const params = new URLSearchParams();
           params.append('token',localStorage.currentUser_token);
           params.append('open_id','oo1Fj0rhEG6wJ7UvjJUpR_97g3v0');
           axios.post(url,params).then(response => {
             const data = response.data.data
-            console.log(response)
+            this.num = data
+            this.datalist = data.category_list
+            console.log(data.category_list)
           }).catch((err) => {
             console.log(err)
           })
@@ -176,7 +195,11 @@ export default {
         ButtonTab,
         ButtonTabItem,
         Divider
-    }
+    },
+    //页面加载后执行
+    // mounted(){
+    //   console.log(num.)
+    // }
 }
 </script>
 
@@ -188,48 +211,43 @@ export default {
     }
     .selected-themes {
         overflow: hidden;
-        .title {
-            padding: 10px 0;
-            font-size: 18px;
-            color: #ab956d;
-            text-align: center;
-            h5 {
-                font-weight: normal;
-            }
+        padding: 17px 15px 25px 15px;
+        margin-top: 10px;
+        background: #fff;
+        height: 12rem;
+        .title{
+            font-size: 1rem;
+            .Notes{padding: 0.2rem 0.6rem;background: #f54321;color: #fff;line-height: 1.5rem;text-align: center;border-radius: 66px;font-size: 0.5rem;font-weight: normal;margin-left: 0.5rem;}
+            .see{font-size:0.8rem;float:right;font-weight:normal;color:#999999;img{width: 0.6rem;position: relative;top: 0.3rem;}}
         }
-        .selectd-box {
-            font-size: 0;
-            overflow: hidden;
-            .selectd-item {
-                display: inline-block;
-                width: 50%;
-                border-bottom: 2px solid #ffffff;
-                box-sizing: border-box;
-                img {
-                    width: 100%;
-                }
-                &:nth-child(1){
-                    border-right:1px solid #ffffff;
-                }
-                &:nth-child(2) {
-                    border-left:1px solid #ffffff;
-                }
-                &.big {
-                    width: 100%;
-                }
-            }
+        ul{width:1000px;}
+        li{list-style: none;border: 1px solid #eeeeee;width: 6rem;float: left;margin-top: 1rem;padding: 0.5rem;margin-left: 1rem;
+            h5{text-align: center;color: #333333}
+            p{font-size: 0.8rem;color: #999999;text-align: center;}
+            img{display: block;width: 90%;margin-left: 5%;}
+            .hide{display: none;}
         }
+        li:first-child{margin-left: 0;}
     }
-    .recent-products {
-        .title {
-            padding: 10px 0;
-            font-size: 18px;
-            color: #ab956d;
-            text-align: center;
-            h5 {
-                font-weight: normal;
-            }
+    .recent-products {overflow: hidden;
+        padding: 17px 15px 25px 15px;
+        margin-top: 10px;
+        background: #fff;
+        height: 12rem;
+        .title{
+            font-size: 1rem;
+            span{font-size: 0.8rem;color: #999999;font-weight: normal;}
+            .see{font-size:0.8rem;float:right;font-weight:normal;color:#999999;img{width: 0.6rem;position: relative;top: 0.3rem;}}
         }
+        ul{width:1000px;}
+        li{list-style: none;border: 1px solid #eeeeee;width: 6rem;float: left;margin-top: 1rem;padding: 0.5rem;margin-left: 1rem;position: relative;
+            h5{text-align: center;color: #333333}
+            p{font-size: 0.7rem;color: #f54321;text-align: center;img{width: 0.8rem;display: inline-block;}}
+            img{display: block;width: 90%;margin-left: 5%;}
+            .hide{display: none;}
+            .icon{position: absolute;width: 1rem;top: 0.3rem;left: 0;}
+        }
+        li:first-child{margin-left: 0;}
     }
 
     .mid_tab{
@@ -291,7 +309,7 @@ export default {
             .customer_quantity_qs{
                 float:right;
                 font-family:PingFangSC-Regular;
-                font-size:0.9rem;
+                font-size:0.8rem;
                 color:#999999;
                 letter-spacing:0;
                 .customer_quantity_qsimg{
@@ -311,7 +329,7 @@ export default {
             .customer_quantity_m{
                 float:left;
                 background:#ff8b45;
-                width:45%;
+                width:48%;
                 height:80px;
                 font-family:PingFangSC-Regular;
                 font-size:0.8rem;
@@ -319,12 +337,12 @@ export default {
                 letter-spacing:0;
                 text-align:left;
                 box-sizing:border-box;
-                padding:10px 0 10px 3px;
+                padding:1rem;
             }
             .customer_quantity_d{
                 float:right;
                 background:#ed765b;
-                width:45%;
+                width:48%;
                 height:80px;
                 font-family:PingFangSC-Regular;
                 font-size:0.8rem;
@@ -332,7 +350,7 @@ export default {
                 letter-spacing:0;
                 text-align:left;
                 box-sizing:border-box;
-                padding:10px 0 10px 3px;
+                padding:1rem;
             }
             .customer_quantity_mnum,.customer_quantity_dnum{
                 font-weight:600;

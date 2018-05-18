@@ -88,6 +88,9 @@ export default {
               params.append('mobile',this.phoneNumber); 
               params.append('token',localStorage.currentUser_token);
               params.append('type','111');
+              if (localStorage.sessionid) {
+                params.append('session_id',localStorage.sessionid);
+              }else{}
               axios.post(url,params).then(response => {
                 // const currentUser_token = response.data.data //获取token
                 console.log(response)
@@ -117,7 +120,7 @@ export default {
             }
         },
         phone(){
-            const url ='http://public.weifenvip.com/index/Shop/editInfo';
+            const url ='http://public.weifenvip.com/index/Shop/editShopKeeper';
               var params = new URLSearchParams();
               params.append('mobile',this.phoneNumber); 
               params.append('token',localStorage.currentUser_token);

@@ -35,32 +35,19 @@ export default {
         },
         linktoDetail(id) {
             this.$router.push({ path: '/page/addgoods'})
-        },// 更改品牌名称
-        description(){
-          const url ='http://public.weifenvip.com/api/v1/shop/editinfo';
-          const description = $(".input").val();
-          console.log(description)
-          var params = new URLSearchParams();
-          params.append('token',localStorage.currentUser_token);
-          params.append('description',description);
-          axios.post(url,params).then(response => {
-            // const currentUser_token = response.data.data //获取token
-            console.log(response)
-          }).catch((err) => {
-            console.log(err)
-          })
         },
-        // 更改店铺介绍
+        // 更改品牌名称
         brand_name(){
-          const url ='http://public.weifenvip.com/api/v1/shop/editinfo';
+          const url ='http://public.weifenvip.com/index/Shop/editInfo';
           const brand_name = $(".input").val();
           console.log(brand_name)
           var params = new URLSearchParams();
           params.append('token',localStorage.currentUser_token);
-          params.append('description',brand_name);
+          params.append('open_id','oo1Fj0rhEG6wJ7UvjJUpR_97g3v0');
+          params.append('brand_name',brand_name);
           axios.post(url,params).then(response => {
-            // const currentUser_token = response.data.data //获取token
             console.log(response)
+            this.$router.push({ path: '/page/storeInfo'})
           }).catch((err) => {
             console.log(err)
           })
