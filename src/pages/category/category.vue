@@ -37,9 +37,9 @@
             <ul>
                 <!-- <li v-for="(item,$index) in items" @click="selectStyle (item, $index) " :class="{'select':item.select,'unselect':!item.select}">{{item.select}}
     　　　　　　</li> -->
-                <li v-on:click="selectStyle1" class="click1 select"><span>营销中（29）</span>
+                <li v-on:click="selectStyle1" class="click1 select"><span>营销中（{{datalist.now_counr}}）</span>
                 </li>
-                <li v-on:click="selectStyle" class="click2"><span>已下架（39）</span>
+                <li v-on:click="selectStyle" class="click2"><span>已下架（{{datalist.other_count}}）</span>
                 </li>
             </ul>
         </div>
@@ -64,29 +64,29 @@
         <!-- 商品列表 -->
         <div class="goods-list">
             <ul>
-                <li v-for="(item,index) in datalist">
+                <li v-for="(item,index) in goodlist">
                     <div class="bb t">
-                        <div class="goods-img">
+                        <div class="goods-img" @click='ToDetail(item.goods_id)'>
                             <img src="~@/assets/img/category-goods.png">
-                            <p>{{item.shihe}}</p>
+                            <p>{{item.recpos_name}}</p>
                         </div>
                         <div class="goods clerfix">
-                             <h5>{{item.title}}</h5>
-                            <p><span class="price">{{item.price}}</span> <span class="y-charge">引客价</span> <span class="charge">{{item.trueprice}}</span>
+                             <h5>{{item.goods_name}}<span class="goodsId">{{item.goods_id}}</span></h5>
+                            <p><span class="price">{{item.market_price}}</span> <span class="y-charge">引客价</span> <span class="charge">{{item.shop_price}}</span>
                                 <a href="javascript:">
                                     <img src="~@/assets/icon/goods-left.png">
                                 </a>
                             </p>
                             <ul class="list fl">
-                                <li>销量 <span>{{item.xiaoliang}}</span>
+                                <li>销量 <span>{{index}}</span>
                                 </li>
-                                <li>库存 <span>{{item.kucun}}</span>
+                                <li>库存 <span>{{item.goods_stock}}</span>
                                 </li>
                             </ul>
                             <ul class="list fr">
                                 <li>成交订单 <span>{{item.suc}}</span>
                                 </li>
-                                <li>添加时间 <span>{{item.ordertime}}</span>
+                                <li>添加时间 <span><!-- <input class="time" /> -->{{item.create_time.split(" ")[0]}}</span>
                                 </li>
                             </ul>
                         </div>
@@ -111,7 +111,7 @@
                                 </p>
                                 <p>加入营销</p>
                             </li>
-                            <li v-if="choosed1">
+                            <li v-if="choosed1" v-on:click="Commodityframe">
                                 <p>
                                     <img src="~@/assets/icon/categroy-xj.png">
                                 </p>
@@ -138,27 +138,30 @@
 
 <script>
 import Vue from 'vue'
+import axios from 'axios'
 import $ from 'jquery'
 export default {
     name: 'category',
     data(){
-　　　　　　return {
-　　　　　　　　active: false,
-　　　　　　　　items: [
-　　　　　　　　　　{select:'营销中（29)'},
-　　　　　　　　　　{select:'已下架（39)'},
-　　　　　　　　],
+　　　　return {
+    　　　　　active: false,
+    　　　　　items: [
+    　　　　　　　{select:'营销中（29)'},
+    　　　　　　　{select:'已下架（39)'},
+    　　　　　],
             is_show1: true,
             is_show2: false,
             is_show3: false,
             is_show4: false,
-            datalist:[{shihe:'适合20-30岁女性',img:'~@/assets/img/category-goods.png',ordertime:'2018/04/2',price:'￥199',trueprice:'￥268',xiaoliang:'1980',kucun:'880',title:"mac/麦可子弹头经典唇膏麦可子弹头经典唇膏",suc:'158'},{shihe:'适合20-30岁女性',img:'~@/assets/img/category-goods.png',ordertime:'2018/04/2',price:'￥199',trueprice:'￥268',xiaoliang:'1980',kucun:'880',title:"mac/麦可子弹头经典唇膏麦可子弹头经典唇膏",suc:'158'}],
+            datalist:'',
             choosed1:true,
-			choosed2:false
-　　　　　　}
-　　　　},
+        	choosed2:false,
+            goodlist:'',
+            time:''
+　　　　 }
+　　},
     created() {
-        this.getCategory()
+        this.storemaketing()
     },
     computed: {
         menuBanner() {
@@ -173,33 +176,13 @@ export default {
             this.currentIndex = index
             this.getProduct(id)
         },
+        ToDetail(id) {
+            this.$router.push({ path: '/page/detail', query: { id: id } })
+        },
         linktoDetail() {
             this.$router.push({ path: '/page/addgoods'})
         },
-        getCategory() {
-            this.$http
-                .get(
-                    'https://www.easy-mock.com/mock/5a4896ba62de717d44f2406e/api/v1/category/all'
-                )
-                .then(res => {
-                    this.menu = res.data.data.category
-                    this.getProduct(this.menu[0].id)
-                })
-        },
-        getProduct(id) {
-            this.$http
-                .get(
-                    'https://www.easy-mock.com/mock/5a4896ba62de717d44f2406e/api/v1/product/by_category',
-                {
-                    params: {
-                        id: id
-                    }
-                }
-                )
-                .then(res => {
-                    this.list = res.data.data.list
-                })
-        },
+        // 订单量
         salesVolume2:function(){
             const _this = this;
             this.is_show2=true
@@ -211,6 +194,7 @@ export default {
                   _this.$loading.hide(); //隐藏
             },2000);
         },
+        //库存
         salesVolume3:function(){
             const _this = this;
             this.is_show2=false
@@ -222,6 +206,7 @@ export default {
                   _this.$loading.hide(); //隐藏
             },2000);
         },
+        // 添加时间
         salesVolume4:function(){
             const _this = this;
             this.is_show2=false
@@ -233,6 +218,7 @@ export default {
                   _this.$loading.hide(); //隐藏
             },2000);
         },
+        //销量
         salesVolume1:function(){
             const _this = this;
             this.is_show2=false
@@ -244,6 +230,7 @@ export default {
                   _this.$loading.hide(); //隐藏
             },2000);
         },
+        // 下架商品
         selectStyle () {
             const _this = this;
             $(".click1").removeClass('select');
@@ -253,8 +240,22 @@ export default {
                   _this.$loading.hide(); //隐藏
                   _this.choosed1=false;
             	  _this.choosed2=true;
+                  const url ='http://public.weifenvip.com/merchant/Shop/shopMarketing';
+                var params = new URLSearchParams();
+                params.append('token',localStorage.currentUser_token);
+                params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
+                params.append('type','2');
+                axios.post(url,params).then(response => {
+                    const data =response.data.data
+                    _this.datalist = data
+                    _this.goodlist.push(data.list)
+                    console.log(data)
+                }).catch((err) => {
+                    console.log(err)
+                })
             },2000);
-　　　　},
+    　　　　},
+        // 营销商品
         selectStyle1 () {
             const _this = this;
             $(".click2").removeClass('select');
@@ -264,9 +265,76 @@ export default {
                   _this.$loading.hide(); //隐藏
                   _this.choosed1=true;
             	  _this.choosed2=false;
+                  const url ='http://public.weifenvip.com/merchant/Shop/shopMarketing';
+                var params = new URLSearchParams();
+                params.append('token',localStorage.currentUser_token);
+                params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
+                params.append('type','1');
+                axios.post(url,params).then(response => {
+                    const data =response.data
+                    _this.datalist = data
+                    _this.goodlist.push(data.list)
+                    console.log(data)
+                }).catch((err) => {
+                    console.log(err)
+                })
             },2000);
-
-　　　　}
+    　　　　},
+        //店铺营销数据
+        storemaketing(){
+            const url ='http://public.weifenvip.com/merchant/Shop/shopMarketing';
+            const _this =this
+            var params = new URLSearchParams();
+            params.append('token',localStorage.currentUser_token);
+            params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
+            params.append('type','1');
+            axios.post(url,params).then(response => {
+                const data =response.data.data
+                _this.datalist = data
+                _this.goodlist=data.list
+                console.log(_this.goodlist)
+            }).catch((err) => {
+                console.log(err)
+            })
+        },
+        // 商品下架
+        Commodityframe(){
+            const url ='http://public.weifenvip.com/merchant/Shop/goodsUpDown';
+            const _this =this
+            const id = $('.goods .goodsId').text()
+            var params = new URLSearchParams();
+            params.append('token',localStorage.currentUser_token);
+            params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
+            params.append('type','2');
+            params.append('id',id);
+            axios.post(url,params).then(response => {
+                const data =response.data.data
+                _this.datalist = data
+                _this.goodlist.push(data.list)
+                console.log(data.list)
+            }).catch((err) => {
+                console.log(err)
+            })
+        },
+        // 加入营销
+        Joinmarketing(){
+            const url ='http://public.weifenvip.com/merchant/Shop/goodsUpDown';
+            const _this =this
+            const id = $('.goods .goodsId').text()
+            var params = new URLSearchParams();
+            params.append('token',localStorage.currentUser_token);
+            params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
+            params.append('type','1');
+            params.append('id',id);
+            axios.post(url,params).then(response => {
+                const data =response.data.data
+                _this.datalist = data
+                _this.goodlist.push(data.list)
+                console.log(data.list)
+            }).catch((err) => {
+                console.log(err)
+            })
+        }
     }
 }
 </script>
@@ -572,6 +640,8 @@ export default {
                     text-overflow: ellipsis;
                     font-weight: normal;
                     color: #333;
+                    position: relative;
+                    .goodsId{position: absolute;opacity: 0;top: 0;right: 0;}
                 }
                 p {
                     margin-top: 10px;

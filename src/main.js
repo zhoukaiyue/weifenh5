@@ -45,7 +45,7 @@ Vue.use(WechatAuth , {
     // next说明：next方法接收两个参数
     // 参数1为通过code值请求后端获取到的access_token值，如果获取失败请填入空字符串''
     // 参数2(非必填，默认获取access_token切换到当前路由对象)，指定切换对象 next('/') 或者 next({ path: '/' })
-    const url = 'http://public.weifenvip.com/index/Token/getToken'
+    const url = 'http://public.weifenvip.com/merchant/Baseapi/getToken'
     const params = new URLSearchParams();
     params.append('code',code);
     axios.post(url,params).then(response => {
@@ -82,7 +82,7 @@ router.beforeEach((to, from, next) => {
     }
 
     if (localStorage.currentUser_token == null || localStorage.currentUser_token == undefined) {
-      const url ='http://public.weifenvip.com/index/Baseapi/getToken'; //获取token接口地址
+      const url ='http://public.weifenvip.com/merchant/Baseapi/getToken'; //获取token接口地址
       const params = new URLSearchParams();
       params.append('appid','wxedd78c056ac05c2b66dc6h84cb0285'); //接口传参
       axios.post(url,params).then(response => {
@@ -90,7 +90,7 @@ router.beforeEach((to, from, next) => {
         console.log(currentUser_token)
         localStorage.setItem('currentUser_token',currentUser_token);//本地存储token
         if (!currentUser_token) {
-          const url ='http://public.weifenvip.com/index/Baseapi/auth';
+          const url ='http://public.weifenvip.com/merchant/Baseapi/auth';
           const date = new Date();
           const time1 = date.getTime();
           const sh = "wxedd78c056ac05c2b66dc6h84cb028560"+time1

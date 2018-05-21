@@ -9,7 +9,7 @@
         <!-- 引入组建 -->
         <datepicker v-if="isshow"></datepicker>
         <p class="store_users_date">数据统计日期 2018/09/08-2019/09-08</p>
-        <div class="shuju">
+        <div class="data">
             <div v-for="(item,index) in datalist" class="clearfix map">
                 <div class="after">
                     <span class="date">{{item.date}}</span>
@@ -23,6 +23,8 @@
 <script>
 import $ from 'jquery'
 import datepicker from '../../components/datepicker'
+import axios from 'axios'
+
 export default {
     name: 'store_users',
     data() {
@@ -43,70 +45,84 @@ export default {
             console.log(this.nums.push(lists[i].num))
         }
         console.log(this.nums)
+        this.Invitenew()
     },
     computed: {
     },
     methods: {
          abc1show:function(){
             const _this = this;
-                this.isshow=false
-               this.isActive1=true
-               this.isActive2=false
-               this.isActive3=false
-               this.isActive4=false
-               $('.store_users_date').show()
-                _this.$loading.show();//显示
-                setTimeout(function(){  //模拟请求
-                      _this.$loading.hide(); //隐藏
-                },2000);
-            },
-            abc2show:function(){
-                const _this = this;
-                this.isshow=false
-                this.isActive2=true
-               this.isActive1=false
-               this.isActive3=false
-               this.isActive4=false
-               $('.store_users_date').show()   
-               _this.$loading.show();//显示   
-                setTimeout(function(){  //模拟请求
-                      _this.$loading.hide(); //隐藏
-                },2000);
-            },
-            abc3show:function(){
-                const _this = this;
-                this.isshow=false
-               this.isActive3=true
-               this.isActive2=false
-               this.isActive1=false
-               this.isActive4=false
-               $('.store_users_date').show()
-               _this.$loading.show();//显示
-                setTimeout(function(){  //模拟请求
-                      _this.$loading.hide(); //隐藏
-                },2000);
-            },
-            abc4show:function(){
-                const _this = this;
-                this.isshow=true
-               this.isActive4=true
-               this.isActive2=false
-               this.isActive3=false
-               this.isActive1=false
-               $('.store_users_date').hide()
-               _this.$loading.show();//显示
-                setTimeout(function(){  //模拟请求
-                      _this.$loading.hide(); //隐藏
-                },2000);
-            },
-            after(){
-                const max = Math.max.apply(null, this.nums)
-                console.log(max)
-                for(var i =0;i<this.nums.length;i++){
-                    $(".after").eq(i).css('width',(this.nums[i]/max)*100+'%')
-                    console.log((this.nums[i]/max)*100+'%')
-                }
-            },
+            this.isshow=false
+           this.isActive1=true
+           this.isActive2=false
+           this.isActive3=false
+           this.isActive4=false
+           $('.store_users_date').show()
+            _this.$loading.show();//显示
+            setTimeout(function(){  //模拟请求
+                  _this.$loading.hide(); //隐藏
+            },2000);
+        },
+        abc2show:function(){
+            const _this = this;
+            this.isshow=false
+            this.isActive2=true
+           this.isActive1=false
+           this.isActive3=false
+           this.isActive4=false
+           $('.store_users_date').show()   
+           _this.$loading.show();//显示   
+            setTimeout(function(){  //模拟请求
+                  _this.$loading.hide(); //隐藏
+            },2000);
+        },
+        abc3show:function(){
+            const _this = this;
+            this.isshow=false
+           this.isActive3=true
+           this.isActive2=false
+           this.isActive1=false
+           this.isActive4=false
+           $('.store_users_date').show()
+           _this.$loading.show();//显示
+            setTimeout(function(){  //模拟请求
+                  _this.$loading.hide(); //隐藏
+            },2000);
+        },
+        abc4show:function(){
+            const _this = this;
+            this.isshow=true
+           this.isActive4=true
+           this.isActive2=false
+           this.isActive3=false
+           this.isActive1=false
+           $('.store_users_date').hide()
+           _this.$loading.show();//显示
+            setTimeout(function(){  //模拟请求
+                  _this.$loading.hide(); //隐藏
+            },2000);
+        },
+        after(){
+            const max = Math.max.apply(null, this.nums)
+            console.log(max)
+            for(var i =0;i<this.nums.length;i++){
+                $(".after").eq(i).css('width',(this.nums[i]/max)*100+'%')
+                console.log((this.nums[i]/max)*100+'%')
+            }
+        },
+        // 店铺邀新数据
+        Invitenew(){
+            const url ='http://public.weifenvip.com/merchant/Shop/inviteRanking';
+            var params = new URLSearchParams();
+            params.append('token',localStorage.currentUser_token);;
+            params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
+            axios.post(url,params).then(response => {
+                const status = response.data.status
+                console.log(response)
+            }).catch((err) => {
+                console.log(err)
+            })
+        }
     },
     components: {
         datepicker
@@ -161,7 +177,7 @@ export default {
         padding:0px 5%;
         box-sizing:border-box;
     }
-    .shuju{
+    .data{
         border-top: 1px solid #dddddd; 
         padding:  1rem 1.5rem;
         background: #ffffff;

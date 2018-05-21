@@ -172,7 +172,7 @@ export default {
         // 首页数据接口
         indeData(){
           const _this = this
-          const url ='http://public.weifenvip.com/index/Shop/index';
+          const url ='http://public.weifenvip.com/merchant/Shop/index';
           const params = new URLSearchParams();
           params.append('token',localStorage.currentUser_token);
           params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');

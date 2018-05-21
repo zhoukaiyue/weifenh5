@@ -89,7 +89,7 @@ export default {
         },
         // 修改手机号
         changephone(){
-            const url ='http://public.weifenvip.com/merchant/Shop/checkShopKeeper';
+            const url ='http://public.weifenvip.com/merchant/Shop/editShopKeeper';
               const mobile =this.$route.query.mobile
               const params = new URLSearchParams();
               params.append('mobile',mobile); 

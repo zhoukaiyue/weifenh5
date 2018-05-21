@@ -90,8 +90,12 @@ import ossFile from '../../components/oss_file'
       ossFile
     },
      created() {
+      console.log('created')
       this.binfo_data()
      },
+    computed:{
+          // console.log('computed')
+    },
     methods:{
         logo() {
             this.$router.push({ path: '/page/logo'})

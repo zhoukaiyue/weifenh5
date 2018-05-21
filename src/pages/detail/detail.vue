@@ -132,6 +132,7 @@
 <script>
 import { PopupPicker, Tab, TabItem, Swiper, SwiperItem,Qrcode, Divider,XDialog, Popup, Group, Cell, XButton, XSwitch, Toast, XAddress, ChinaAddressData,TransferDomDirective as TransferDom } from 'vux'
 import { mapState, mapMutations, mapGetters } from 'vuex'
+import axios from 'axios'
 import * as myPub from '@/assets/js/public.js'
 const tabList = () => ['图文详情', '商品解答']
 export default {
@@ -175,7 +176,9 @@ export default {
           console.log(this.value)
         }, 1000)
     },
-    created() {},
+    created() {
+        this.goods()
+    },
     activated() {
         this.getALLProducts()
     },
@@ -234,6 +237,23 @@ export default {
                     this.isShake = false
                 }, 200)
             }, 1000)
+        },
+        // 商品数据
+        goods(){
+            const _this = this;
+            const url ='http://public.weifenvip.com/merchant/Shop/goodsInfo';
+            const id = this.$route.query.id
+            const params = new URLSearchParams();
+            params.append('token',localStorage.currentUser_token);
+            params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
+            params.append('id',id);
+            axios.post(url,params).then(response => {
+                // const currentUser_token = response.data.data //获取token
+                console.log(response.data.data)
+                _this.scdata = response.data.data;
+            }).catch((err) => {
+                console.log(err)
+            })
         }
     },
     components: {

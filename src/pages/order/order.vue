@@ -20,20 +20,20 @@
         <div class="goods-list">
             <ul>
                 <li v-for="(item,index) in datalist">
-                    <h5 class="clearfix"><span>订单编号:{{item.bianhao}}</span><span class="fr">{{item.zhuangai}}</span></h5>
+                    <h5 class="clearfix"><span>订单编号:{{item.sn}}</span><span class="fr">{{item.status_name}}</span></h5>
                     <div class="bb t">
                         <div class="goods-img">
-                            <img :src="item.img">
+                            <img :src="item.img_src">
                         </div>
                         <div class="goods" v-on:click="linkToDetail(11)">
-                            <h5>{{item.title}}</h5>
-                            <p>下单时间：{{item.ordertime}}</p>
-                            <P><span>{{item.price}}</span><span class="ml">数量:{{item.shu}}</span></P>
+                            <h5>{{item.goods_name}}</h5>
+                            <p>下单时间：{{item.add_time}}</p>
+                            <P><span>{{item.order_amount}}</span><span class="ml">数量:{{item.total_count}}</span></P>
                         </div>
                     </div>
                     <ul class="list">
-                        <li class="clearfix"><span class="fl">买家:{{item.username}}</span> <span class="fr">实付:<b>{{item.trueprice}}</b></span></li>
-                        <li class="clearfix"><span class="fl">推广店长:{{item.shop}}</span> <span class="fr">推广店员:{{item.store}}</span></li>
+                        <li class="clearfix"><span class="fl">买家:{{item.sername}}</span> <span class="fr">实付:<b>{{item.order_amount}}</b></span></li>
+                        <li class="clearfix"><span class="fl">推广店长:{{item.first_leader_name}}</span> <span class="fr">推广店员:{{item.second_leader_name}}</span></li>
                     </ul>
                 </li>
             </ul>
@@ -43,6 +43,7 @@
 </template>
 <script>
 import $ from 'jquery'
+import axios from 'axios'
 import { Radio, Group } from 'vux'
 
 
@@ -60,9 +61,17 @@ export default {
         is_show2: false,
         is_show3: false,
         is_show4: false,
-        datalist:[{bianhao:'201804241267899',zhuangai:'待支付',img:'~@/assets/img/category-goods.png',ordertime:'2018-01-10 11：10',price:'￥199',shu:'2',username:'用户昵称',trueprice:'￥268',shop:'用户昵称',store:'王富贵',title:"mac/麦可子弹头经典唇膏麦可子弹头经典唇膏"},{bianhao:'201804241267899',zhuangai:'待支付',img:'~@/assets/img/category-goods.png',ordertime:'2018-01-10 11：10',price:'￥199',shu:'2',username:'用户昵称',trueprice:'￥268',shop:'用户昵称',store:'王富贵',title:"mac/麦可子弹头经典唇膏麦可子弹头经典唇膏"}]
+        datalist:'',
+        state:'',
+        //全部
+        //进行中
+        //已取消
+        //已完成
     }
   },
+  created() {
+    this.orderdata()
+ },
   methods: {
     change (value, label) {
         const _this = this;
@@ -78,7 +87,6 @@ export default {
         $(".nav-list .list").show()
         $(".bg").show ()
         $(".nav-list").css("z-index",100);
-
     },
     linkToDetail(id) {
         this.$router.push({ path: '/page/detail', query: { id: id } })
@@ -91,51 +99,118 @@ export default {
         $(".bg").hide()
         this.show = false;
     },
-    //销量接口请求
+    //进行中
     salesVolume2:function(){
-            const _this = this;
-            this.is_show2=true
-            this.is_show1=false
-            this.is_show3=false
-            this.is_show4=false
-            _this.$loading.show();//显示
-            setTimeout(function(){  //模拟请求
-                  _this.$loading.hide(); //隐藏
-            },2000);
-        },
-        salesVolume3:function(){
-            const _this = this;
-            this.is_show2=false
-            this.is_show1=false
-            this.is_show3=true
-            this.is_show4=false
-            _this.$loading.show();//显示
-            setTimeout(function(){  //模拟请求
-                  _this.$loading.hide(); //隐藏
-            },2000);
-        },
-        salesVolume4:function(){
-            const _this = this;
-            this.is_show2=false
-            this.is_show1=false
-            this.is_show3=false
-            this.is_show4=true
-            _this.$loading.show();//显示
-            setTimeout(function(){  //模拟请求
-                  _this.$loading.hide(); //隐藏
-            },2000);
-        },
-        salesVolume1:function(){
-            const _this = this;
-            this.is_show2=false
-            this.is_show1=true
-            this.is_show3=false
-            this.is_show4=false
-            _this.$loading.show();//显示
-            setTimeout(function(){  //模拟请求
-                  _this.$loading.hide(); //隐藏
-            },2000);
-        },
+        const _this = this;
+        this.is_show2=true
+        this.is_show1=false
+        this.is_show3=false
+        this.is_show4=false
+        _this.$loading.show();//显示
+        setTimeout(function(){  //模拟请求
+              _this.$loading.hide(); //隐藏
+              const url ='http://public.weifenvip.com/merchant/Shop/order';
+              var params = new URLSearchParams();
+              params.append('type','1'); 
+              params.append('token',localStorage.currentUser_token);;
+              params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
+              axios.post(url,params).then(response => {
+                const status = response.data.status
+                console.log(response)
+              }).catch((err) => {
+                console.log(err)
+              })
+        },2000);
+    },
+    // 已完成
+    salesVolume3:function(){
+        const _this = this;
+        this.is_show2=false
+        this.is_show1=false
+        this.is_show3=true
+        this.is_show4=false
+        _this.$loading.show();//显示
+        setTimeout(function(){  //模拟请求
+              _this.$loading.hide(); //隐藏
+               _this.$loading.hide(); //隐藏
+              const url ='http://public.weifenvip.com/merchant/Shop/order';
+              var params = new URLSearchParams();
+              params.append('type','2'); 
+              params.append('token',localStorage.currentUser_token);;
+              params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
+              axios.post(url,params).then(response => {
+                const status = response.data.status
+                console.log(response)
+              }).catch((err) => {
+                console.log(err)
+              })
+        },2000);
+    },
+    //已取消
+    salesVolume4:function(){
+        const _this = this;
+        this.is_show2=false
+        this.is_show1=false
+        this.is_show3=false
+        this.is_show4=true
+        _this.$loading.show();//显示
+        setTimeout(function(){  //模拟请求
+              _this.$loading.hide(); //隐藏
+               _this.$loading.hide(); //隐藏
+              const url ='http://public.weifenvip.com/merchant/Shop/order';
+              var params = new URLSearchParams();
+              params.append('type','3'); 
+              params.append('token',localStorage.currentUser_token);;
+              params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
+              axios.post(url,params).then(response => {
+                const status = response.data.status
+                console.log(response)
+              }).catch((err) => {
+                console.log(err)
+              })
+        },2000);
+    },
+    // 全部
+    salesVolume1:function(){
+        const _this = this;
+        this.is_show2=false
+        this.is_show1=true
+        this.is_show3=false
+        this.is_show4=false
+        _this.$loading.show();//显示
+        setTimeout(function(){  //模拟请求
+              _this.$loading.hide(); //隐藏
+               _this.$loading.hide(); //隐藏
+              const url ='http://public.weifenvip.com/merchant/Shop/order';
+              var params = new URLSearchParams();
+              params.append('type','0'); 
+              params.append('token',localStorage.currentUser_token);;
+              params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
+              axios.post(url,params).then(response => {
+                const status = response.data.status
+                console.log(response)
+              }).catch((err) => {
+                console.log(err)
+              })
+        },2000);
+    },
+    //店铺订单全部数据
+    orderdata(){
+        const url ='http://public.weifenvip.com/merchant/Shop/order';
+        const _this = this
+        var params = new URLSearchParams();
+        params.append('type','0'); 
+        params.append('token',localStorage.currentUser_token);;
+        params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
+        axios.post(url,params).then(response => {
+            const data = response.data
+            _this.datalist = data
+            console.log(data)
+            console.log(_this.datalist.sn)
+        }).catch((err) => {
+            console.log(err)
+        })
+    }
   }
 }
 

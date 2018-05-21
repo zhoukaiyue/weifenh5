@@ -94,7 +94,7 @@ export default {
             this.disabled = true
             this.timer()
              // 获取验证
-                const url ='http://public.weifenvip.com/index/Sendcodes/sms';
+                const url ='http://public.weifenvip.com/merchant/Sendcodes/sms';
               var params = new URLSearchParams();
               params.append('mobile',this.phoneNumber);
               params.append('token',localStorage.currentUser_token);
@@ -138,10 +138,11 @@ export default {
         login(){
             const _this=this;
              _this.$loading.show();//显示
-            const url ='http://public.weifenvip.com/index/Shop/login';
+            const url ='http://public.weifenvip.com/merchant/Shop/login';
               var params = new URLSearchParams();
               params.append('mobile',this.phoneNumber);
               params.append('token',localStorage.currentUser_token);
+              params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
               params.append('code',this.verifyCode);
               if(localStorage.sessionid){
                  params.append('session_id',localStorage.sessionid);
@@ -154,14 +155,6 @@ export default {
                 if (status == "200") {
                     //登陆成功存储登录状态
                     localStorage.setItem('login_static','true');
-                   // localStorage.token = base64.encode(res.data.data.token)
-                   //  localStorage.userInfo = JSON.stringify(
-                   //      res.data.data.userInfo
-                   //  )
-                   //  this.UPDATE_USERINFO({
-                   //      userInfo: res.data.data.userInfo
-                   //  })
-
                     // 重定向到首页或者登录前的页面
                     let redirect = decodeURIComponent(
                         this.$route.query.redirect || '/'
@@ -181,7 +174,7 @@ export default {
                     })
                     setTimeout(() => {
                         this.$vux.alert.hide()
-                        location.reload()
+                        // location.reload()
                     }, 3000)
                 }
               }).catch((err) => {

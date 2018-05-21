@@ -241,7 +241,7 @@ export default {
         height:2.6rem;;
         line-height:2.6rem;
         position: absolute;
-        left: 110%;
+        margin-left: 1.6rem;
         bottom: 0.1rem;
         color: #f54321;
         border: 1px solid #f54321

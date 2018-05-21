@@ -31,7 +31,7 @@
     <div class="store_management">
       <p class="store_managementtext">店铺管理</p>
       <ul class="store_managementul">
-        <li v-on:click="storeer"><img src="~@/assets/icon/xinxi.png"><span class="store_managementli_span">店长信息管理</span><label  class="store_managementli_label">王富贵&nbsp;<span class="jiantou"></span></label></li>
+        <li><img src="~@/assets/icon/xinxi.png"><span class="store_managementli_span">店长信息管理</span><label  class="store_managementli_label">王富贵&nbsp;<span class="jiantou"></span></label></li>
         <li v-on:click="shop"><img src="~@/assets/icon/xixi.png"><span class="store_managementli_span">店员管理</span><label  class="store_managementli_label">9人&nbsp;<span class="jiantou"></span></label></li>
       </ul>
     </div>
@@ -72,9 +72,9 @@ export default {
             this.currentIndex = index
             this.getProduct(id)
         },
-        storeer() {
-            this.$router.push({ path: '/page/storeer'})
-        },
+        // storeer() {
+        //     this.$router.push({ path: '/page/storeer'})
+        // },
         shop() {
             this.$router.push({ path: '/page/shop'})
         },
