@@ -249,7 +249,7 @@ const routes = [
                 path: 'newphone',
                 name: 'newphone',
                 meta: {
-                    title: '修改手机号'
+                    title: 'ceshi'
                 },
                 component: newphone
             }

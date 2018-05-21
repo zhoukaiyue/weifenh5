@@ -99,10 +99,10 @@ export default {
         // 请求数据接口
         getData_shopassistant(){
           const _this = this;
-          const url ='http://public.weifenvip.com/index/Shop/clerkManage';
+          const url ='http://public.weifenvip.com/merchant/Shop/clerkManage';
           const params = new URLSearchParams();
           params.append('token',localStorage.currentUser_token);
-          params.append('open_id','oo1Fj0rhEG6wJ7UvjJUpR_97g3v0');
+          params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
           axios.post(url,params).then(response => {
             // const currentUser_token = response.data.data //获取token
             console.log(response.data.data)

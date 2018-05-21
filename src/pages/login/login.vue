@@ -1,4 +1,4 @@
-<template>
+   <template>
     <div class="login"
         >
         <div class="logo-wrap">

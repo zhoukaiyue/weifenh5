@@ -20,7 +20,7 @@
         <span class="fl">品牌名称</span><span class="fr"><b>{{datas.brand_name}}</b>&emsp;<img src="~@/assets/icon/goods-left.png"></span>
       </li>
       <li class="clearfix" v-on:click="shop">
-        <span class="fl">公司模式</span><span class="fr"><input type="text" class="mobile"  v-model="type"/>&emsp;<img src="~@/assets/icon/goods-left.png"></span>
+        <span class="fl">公司模式</span><span class="fr"><input type="text" class="mobile" v-model="type"/>&emsp;<img src="~@/assets/icon/goods-left.png"></span>
       </li>
       <li class="clearfix">
         <span class="fl">店铺地址</span><span class="fr"><b>{{datas.address}}</b>&emsp;<img src="~@/assets/icon/goods-left.png"></span>
@@ -117,10 +117,10 @@ import ossFile from '../../components/oss_file'
         // 商铺数据接口
         binfo_data(){
           const _this= this;
-          const url ='http://public.weifenvip.com/index/Shop/shopInfo';
+          const url ='http://public.weifenvip.com/merchant/Shop/shopInfo';
           const params = new URLSearchParams();
           params.append('token',localStorage.currentUser_token);
-          params.append('open_id','oo1Fj0rhEG6wJ7UvjJUpR_97g3v0');
+          params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
           axios.post(url,params).then(response => {
             const data = response.data.data
             const str=data.mobile;
@@ -142,12 +142,12 @@ import ossFile from '../../components/oss_file'
         },
         // 更改公司模式
         company_model(){
-          const url ='http://public.weifenvip.com/index/Shop/editInfo';
+          const url ='http://public.weifenvip.com/merchant/Shop/editInfo';
           const company_model = $(".select").find("option:selected").val();
           console.log(company_model)
           const params = new URLSearchParams();
           params.append('token',localStorage.currentUser_token);
-          params.append('open_id','oo1Fj0rhEG6wJ7UvjJUpR_97g3v0');
+          params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
           params.append('company_model',company_model);
           axios.post(url,params).then(response => {
             console.log(response.data)
@@ -181,7 +181,7 @@ import ossFile from '../../components/oss_file'
     },
     //页面加载后执行
     mounted(){
-      // this.phone()
+     console.log(localStorage.login_static)
     }
   }
 </script>

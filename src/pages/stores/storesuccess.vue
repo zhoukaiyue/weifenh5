@@ -1,4 +1,4 @@
-<template>
+  <template>
     <div class="logo">
     <!-- 顶部数据 -->
           <div class="ts">

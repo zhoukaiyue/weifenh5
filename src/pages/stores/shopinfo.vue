@@ -38,12 +38,12 @@ export default {
         },
         // 更改店铺介绍
         description(){
-          const url ='http://public.weifenvip.com/index/Shop/editInfo';
+          const url ='http://public.weifenvip.com/merchant/Shop/editInfo';
           const description = $(".input").val();
           console.log(description)
           var params = new URLSearchParams();
           params.append('token',localStorage.currentUser_token);
-          params.append('open_id','oo1Fj0rhEG6wJ7UvjJUpR_97g3v0');
+          params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
           params.append('description',description);
           axios.post(url,params).then(response => {
             // const currentUser_token = response.data.data //获取token

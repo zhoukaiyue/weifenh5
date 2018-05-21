@@ -83,7 +83,7 @@ export default {
             this.disabled = true
             this.timer()
              // 获取验证
-                const url ='http://public.weifenvip.com/index/Sendcodes/sms';
+                const url ='http://public.weifenvip.com/merchant/Sendcodes/sms';
               var params = new URLSearchParams();
               params.append('mobile',this.phoneNumber); 
               params.append('token',localStorage.currentUser_token);
@@ -120,16 +120,20 @@ export default {
             }
         },
         phone(){
-            const url ='http://public.weifenvip.com/index/Shop/editShopKeeper';
+            const url ='http://public.weifenvip.com/merchant/Shop/editShopKeeper';
+            const check_shop = this.$route.query.check_shop
               var params = new URLSearchParams();
               params.append('mobile',this.phoneNumber); 
               params.append('token',localStorage.currentUser_token);
               params.append('code',this.verifyCode);
+              params.append('check_shop',check_shop);
+              params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
+              params.append('session_id',localStorage.sessionid);
               axios.post(url,params).then(response => {
                 const status = response.data.status
                 console.log(status)
                 if (status == "200") {
-                    this.$router.push({ path: 'page/phonesuccess'})
+                    this.$router.push({ path: 'phonesuccess'})
                 }else{
                     this.$vux.alert.show({
                         title: '操作失败',

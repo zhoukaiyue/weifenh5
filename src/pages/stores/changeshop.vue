@@ -4,7 +4,7 @@
           <h5>添加新店长</h5>
           <input class="input" placeholder="请输入店长姓名" v-model="name"/>
           <input class="input" placeholder="请输入店长手机号"v-model="mobile">
-          <span v-on:click="shuju" class="button">保存</span>
+          <span v-on:click="store" class="button">保存</span>
     </div>
 </template>
 
@@ -33,12 +33,13 @@ export default {
             this.$router.push({ path: '/page/shopsuccess'})
         },
         //更改店长信息
-        shuju(){
-          const url ='http://public.weifenvip.com/api/v1/shop/editshopkeeper';
+        store(){
+          const url ='http://public.weifenvip.com/merchant/Shop/editInfo';
           var params = new URLSearchParams();
           params.append('token',localStorage.currentUser_token);
           params.append('name',this.name);
           params.append('mobile',this.mobile);
+          params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
           axios.post(url,params).then(response => {
             // const currentUser_token = response.data.data //获取token
             console.log(response)

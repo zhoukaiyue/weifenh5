@@ -57,6 +57,7 @@ Vue.use(WechatAuth , {
           console.log('第二次向后台传输code')
           const openid = response.data.openid
           localStorage.setItem('openid',openid);
+          console.log(localStorage.openid)
           next('/page/home')
 
         })

@@ -27,8 +27,8 @@
                           slot="icon"></span>
                     <span slot="label">数据统计</span>
                 </tabbar-item>
-                <tabbar-item link="/page/about"
-                             :selected="$route.path === '/page/about'">
+                <tabbar-item link="/page/shopCenter"
+                             :selected="$route.path === '/page/shopCenter'">
                     <span class="icon icon-user"
                           slot="icon"></span>
                     <span slot="label">商家中心</span>

@@ -68,7 +68,7 @@ export default {
             this.disabled = true
             this.timer()
              // 获取验证
-                const url ='http://public.weifenvip.com/index/Sendcodes/sms';
+                const url ='http://public.weifenvip.com/merchant/Sendcodes/sms';
               const params = new URLSearchParams();
               const mobile =this.$route.query.mobile
               params.append('mobile',mobile); 
@@ -89,19 +89,21 @@ export default {
         },
         // 修改手机号
         changephone(){
-            const url ='http://public.weifenvip.com/index/Shop/checkShopKeeper';
+            const url ='http://public.weifenvip.com/merchant/Shop/checkShopKeeper';
+              const mobile =this.$route.query.mobile
               const params = new URLSearchParams();
-              params.append('mobile',localStorage.str); 
+              params.append('mobile',mobile); 
               params.append('token',localStorage.currentUser_token);
               params.append('code',this.verifyCode);
-              params.append('open_id','oo1Fj0rhEG6wJ7UvjJUpR_97g3v0');
+              params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
               params.append('session_id',localStorage.sessionid);
               axios.post(url,params).then(response => {
                 const status = response.data.status
                 console.log(status)
                 if (status == "200") {
-                    const check_shop = response.data.check_shop
-                    this.$router.push({ path: 'page/phonesuccess',query: { check_shop: check_shop }})
+                    const check_shop = response.data.data
+                    console.log(response)
+                    this.$router.push({ path: 'phone',query: { check_shop: check_shop }})
                 }else{
                     this.$vux.alert.show({
                         title: '操作失败',
