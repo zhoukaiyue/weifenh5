@@ -136,6 +136,8 @@ export default {
             }
         },
         login(){
+            const _this=this;
+             _this.$loading.show();//显示
             const url ='http://public.weifenvip.com/index/Shop/login';
               var params = new URLSearchParams();
               params.append('mobile',this.phoneNumber);
@@ -165,12 +167,14 @@ export default {
                         this.$route.query.redirect || '/'
                     )
                     setTimeout(() => {
+                        _this.$loading.hide();//隐藏
                         this.$router.push({
                             path: redirect
                         })
                     }, 2000)
                     // this.$router.push({ path: 'page/shopCenter'})
                 }else{
+                     _this.$loading.hide();//隐藏
                     this.$vux.alert.show({
                         title: '操作失败',
                         content: response.data.msg
@@ -205,6 +209,12 @@ export default {
     .weui-cells input{font-size: 0.9rem;}
     .weui-cells:before{border-top: 0!important;}
     .weui-cells:after{width: 92%;left: 1.5rem!important;}
+    .weui-btn_mini {
+    display: inline-block;
+     padding: 0 0.5rem!important;;
+    line-height: 2.3;
+    font-size: 13px;
+    }
 </style>
 <style scoped lang="less">
 .login {
@@ -218,10 +228,10 @@ export default {
             margin:0 auto;
             width:80%;
             height:100%;
-              display:flex;
-        flex-direction: row;
-        flex-wrap: nowrap;
-        justify-content:space-between;
+            display:flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            justify-content:space-between;
             .logo_imgbox{
                 width:45%;
                 height:100%;

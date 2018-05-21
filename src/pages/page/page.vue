@@ -27,8 +27,8 @@
                           slot="icon"></span>
                     <span slot="label">数据统计</span>
                 </tabbar-item>
-                <tabbar-item link="/login"
-                             :selected="$route.path === '/login'">
+                <tabbar-item link="/page/about"
+                             :selected="$route.path === '/page/about'">
                     <span class="icon icon-user"
                           slot="icon"></span>
                     <span slot="label">商家中心</span>
@@ -71,10 +71,10 @@ export default {
             }
         },
         isShowTabbar() {
-            // if (/detail|ceshi|storeer|store_users|addgoods|storeInfo|shop/.test(this.$route.path)) {
-            //     return true
-            // }
-            // return false
+            if (/detail|ceshi|storeer|store_users|addgoods|storeInfo|shop|order|commodityData/.test(this.$route.path)) {
+                return true
+            }
+            return false
         },
         isPaddingBottom() {
             // if (/detail|theme|order|address|about/.test(this.$route.path)) {

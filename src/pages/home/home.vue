@@ -1,18 +1,9 @@
 <template>
     <div class="home">
-        <swiper :aspect-ratio="400/750"
-            loop
-            auto
-            dots-position="center"
-            :duration="800">
-            <!-- v-for="(item, index) in imgList"
-                :key="index" -->
-            <swiper-item class="swiper-item"
-                @click.native="linkToDetail(item.key_word)">
-                <img src="~@/assets/img/banner.png"
-                    alt="image">
-            </swiper-item>
-        </swiper>
+        <!-- 临时新建进入商品详情的入口-->
+        <div class="index_banner"  @click="linkToDetail('11')">
+            <img src="~@/assets/img/banner.png" alt="image">
+        </div>
        <!-- tab菜单切换 -->
        <div class="mid_tab">
             <div class="mid_tab_item" v-on:click="shop">
@@ -46,28 +37,30 @@
         </div>
         <div class="selected-themes">
             <h5 class="title">营销商品 <span class="Notes">实惠佳品 营销利器</span> <span class="see" v-on:click="category">查看全部&emsp;<img src="~@/assets/icon/goods-left.png"></span></h5>
-            <ul  >
-                <li v-for="(item,index) in datalist">
-                    <h5>{{item.cate_name}}</h5>
-                    <p>{{item.description}}</p>
-                    <p class="hide">{{item.id}}</p>
-                    <img :src="item.cate_img">
-                </li>
-            <!--     <li>
-                    <h5>美妆护肤</h5>
-                    <p>适用20-35客户</p>
-                    <img src="~@/assets/img/goods.png">
-                </li>
-                <li>
-                    <h5>美妆护肤</h5>
-                    <p>适用20-35客户</p>
-                    <img src="~@/assets/img/goods.png">
-                </li> -->
-            </ul>
+            <div class="selected-box">
+                <ul>
+                    <li v-for="(item,index) in datalist">
+                        <h5>{{item.cate_name}}</h5>
+                        <p>{{item.description}}</p>
+                        <p class="hide">{{item.id}}</p>
+                        <img src="~@/assets/img/goods.png">
+                    </li>
+                    <li>
+                        <h5>美妆护肤</h5>
+                        <p>适用20-35客户</p>
+                        <img src="~@/assets/img/goods.png">
+                    </li>
+                    <li>
+                        <h5>美妆护肤</h5>
+                        <p>适用20-35客户</p>
+                        <img src="~@/assets/img/goods.png">
+                    </li>
+                </ul>
+            </div>
         </div>
         <div class="recent-products">
             <h5 class="title">店铺排行 <span>附近店家人气排行</span> <span class="see">查看全部&emsp;<img src="~@/assets/icon/goods-left.png"></span></h5>
-            <ul  >
+            <ul>
                 <li>
                     <img src="~@/assets/img/goods.png">
                     <img class="icon" src="~@/assets/icon/one.png">
@@ -77,6 +70,12 @@
                  <li>
                     <img src="~@/assets/img/goods.png">
                     <img class="icon" src="~@/assets/icon/two.png">
+                    <h5>美妆护肤</h5>
+                    <p>月引客158<img src="~@/assets/icon/hot.png"></p>
+                </li>
+                <li>
+                    <img src="~@/assets/img/goods.png">
+                    <img class="icon" src="~@/assets/icon/three.png">
                     <h5>美妆护肤</h5>
                     <p>月引客158<img src="~@/assets/icon/hot.png"></p>
                 </li>
@@ -206,8 +205,15 @@ export default {
 <style scoped lang="less">
 .home {
     background: #f8f7f7;
-    .swiper-item img {
-        width: 100%;
+    padding-bottom:10px;
+    .index_banner{
+        width:100%;
+        height:140px;
+        img{
+            display:block;
+            width:100%;
+            height:140px;
+        }
     }
     .selected-themes {
         overflow: hidden;
@@ -215,13 +221,25 @@ export default {
         margin-top: 10px;
         background: #fff;
         height: 12rem;
+        .selected-box{
+            width:100%;
+        }
         .title{
             font-size: 1rem;
             .Notes{padding: 0.2rem 0.6rem;background: #f54321;color: #fff;line-height: 1.5rem;text-align: center;border-radius: 66px;font-size: 0.5rem;font-weight: normal;margin-left: 0.5rem;}
             .see{font-size:0.8rem;float:right;font-weight:normal;color:#999999;img{width: 0.6rem;position: relative;top: 0.3rem;}}
         }
-        ul{width:1000px;}
-        li{list-style: none;border: 1px solid #eeeeee;width: 6rem;float: left;margin-top: 1rem;padding: 0.5rem;margin-left: 1rem;
+        ul{
+            display:flex;
+            overflow-x: auto;
+            overflow-y: hidden;
+            padding-bottom: 10px;
+            white-space: nowrap;
+        }
+        ul::-webkit-scrollbar {
+            display: none;
+        }
+        li{min-width:100px;list-style: none;border: 1px solid #eeeeee;width: 6rem;float: left;margin-top: 1rem;padding: 0.5rem;margin-left: 1rem;
             h5{text-align: center;color: #333333}
             p{font-size: 0.8rem;color: #999999;text-align: center;}
             img{display: block;width: 90%;margin-left: 5%;}
@@ -231,7 +249,7 @@ export default {
     }
     .recent-products {overflow: hidden;
         padding: 17px 15px 25px 15px;
-        margin-top: 10px;
+        margin: 10px 0px;
         background: #fff;
         height: 12rem;
         .title{
@@ -239,8 +257,17 @@ export default {
             span{font-size: 0.8rem;color: #999999;font-weight: normal;}
             .see{font-size:0.8rem;float:right;font-weight:normal;color:#999999;img{width: 0.6rem;position: relative;top: 0.3rem;}}
         }
-        ul{width:1000px;}
-        li{list-style: none;border: 1px solid #eeeeee;width: 6rem;float: left;margin-top: 1rem;padding: 0.5rem;margin-left: 1rem;position: relative;
+        ul{
+            display:flex;
+            overflow-x: auto;
+            overflow-y: hidden;
+            padding-bottom: 10px;
+            white-space: nowrap;
+        }
+        ul::-webkit-scrollbar {
+            display: none;
+        }
+        li{min-width:100px;list-style: none;border: 1px solid #eeeeee;width: 6rem;float: left;margin-top: 1rem;padding: 0.5rem;margin-left: 1rem;position: relative;
             h5{text-align: center;color: #333333}
             p{font-size: 0.7rem;color: #f54321;text-align: center;img{width: 0.8rem;display: inline-block;}}
             img{display: block;width: 90%;margin-left: 5%;}

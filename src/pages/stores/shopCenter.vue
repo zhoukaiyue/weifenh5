@@ -2,9 +2,9 @@
   <div class="shop_center">
     <div class="mainInfo">
         <ul class="shop_info_left">
-          <li class="shop_name">西贝筱面店铺中心</li>
-          <li class="storeManager">六耳猕猴&nbsp;&nbsp;<span class="storesanager_right">店长，欢迎您</span></li>
-          <li class="join_time">2018/04/28&nbsp;加入</li>
+          <li class="shop_name">{{scdata.shop_info.name}}</li>
+          <li class="storeManager">{{scdata.shop_info.name}}&nbsp;&nbsp;<span class="storesanager_right">店长，欢迎您!</span></li>
+          <li class="join_time">{{scdata.shop_info.create_time}}&nbsp;加入</li>
           <li class="passenger_traffic">
             <div  class="passenger_traffic_box" style="border:0;"><span>4218</span><label>总引客量</label></div>
             <div  class="passenger_traffic_box"><span>471</span><label>今日订单</label></div>
@@ -43,18 +43,18 @@
 <script>
 import axios from 'axios'
 export default {
-    name: 'category',
+    name: 'shop_center',
     data(){
 　　　　　　return {
 　　　　　　　　active: false,
 　　　　　　　　items: [
 　　　　　　　　　　{select:'营销中（29)'},
 　　　　　　　　　　{select:'已下架（39)'},
-　　　　　　　　]
+　　　　　　　　],
+                scdata:{}
 　　　　　　}
 　　　　},
     created() {
-      
     },
     computed: {
         menuBanner() {
@@ -64,7 +64,9 @@ export default {
             return this.menu[this.currentIndex].name
         }
     },
-     mounted(){this.shuju()},
+    mounted(){
+            this.mcenterdata()
+    },
     methods: {
         switchCategory(index, id) {
             this.currentIndex = index
@@ -83,14 +85,16 @@ export default {
           this.$router.push({ path: '/page/order'})
         },
         // 请求数据接口
-        shuju(){
+        mcenterdata(){
+          const _this = this;
           const url ='http://public.weifenvip.com/index/Shop/shopCore';
-          var params = new URLSearchParams();
-           params.append('token',localStorage.currentUser_token);
+          const params = new URLSearchParams();
+          params.append('token',localStorage.currentUser_token);
           params.append('open_id','oo1Fj0rhEG6wJ7UvjJUpR_97g3v0');
           axios.post(url,params).then(response => {
             // const currentUser_token = response.data.data //获取token
-            console.log(response)
+            console.log(response.data.data)
+            _this.scdata = response.data.data;
           }).catch((err) => {
             console.log(err)
           })
@@ -122,13 +126,25 @@ export default {
           }
           .storeManager{
             font-family:PingFangSC-Semibold;
+            margin-top:8px;
             font-size:1rem;
             color:#f54321;
             letter-spacing:0;
             text-align:left;
+            height:25px;
+            line-height:25px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            /*设置背景图*/
+            background:url(~@/assets/icon/storeManager.png) no-repeat
+                        left center;
+            background-size:25px 100%;
+            padding-left:27px;
+            box-sizing:border-box;
             .storesanager_right{
-              font-size:0.8rem;
-              color:#999999;
+              font-size:0.7rem;
+              color:#333333;
             }
           }
           .join_time{
@@ -187,7 +203,7 @@ export default {
           .info_modification{
             display: block;
             font-family:PingFangSC-Regular;
-            font-size:0.8rem;
+            font-size:0.9rem;
             color:#f54321;
             letter-spacing:0;
             text-align:center;
@@ -212,7 +228,7 @@ export default {
         color:#333333;
         letter-spacing:0;
         text-align:left;
-        font-weight:600;
+        font-weight:500;
         border-bottom:1px solid #f9f8f8;
         line-height:50px;
       }
@@ -224,7 +240,7 @@ export default {
           box-sizing:border-box;
           border-bottom:1px solid #f9f8f8;
           line-height:50px;
-          img{width: 1.2rem;position: relative;top: 0.2rem;}
+          img{width: 1.3rem;height:1.3rem;vertical-align: middle;margin-right:5px;}
           /*.store_dianzhang{
               background:url(~@/assets/icon/xinxi.png) no-repeat
                         right center;
@@ -264,7 +280,7 @@ export default {
         color:#333333;
         letter-spacing:0;
         text-align:left;
-        font-weight:600;
+        font-weight:500;
         border-bottom:1px solid #f9f8f8;
         line-height:45px;
         label{
@@ -336,7 +352,7 @@ export default {
        margin-top:10px;
        padding:0px 20px;
        box-sizing:border-box;
-       font-weight:600;
+       font-weight:500;
     }
     .jiantou{
       display:inline-block;

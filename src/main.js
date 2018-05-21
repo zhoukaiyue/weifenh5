@@ -66,11 +66,9 @@ Vue.use(WechatAuth , {
 router.beforeEach((to, from, next) => {
     // 设置标题
     document.title = to.meta.title
-    store.commit('UPDATE_TITLE', to.meta.title)
-    // loading加载动画
-    // store.commit('UPDATE_LOADING', true)
+    //判断登录跳转
     if (to.matched.some(r => r.meta.requireAuth)) {
-        if (localStorage.token) {
+        if (localStorage.login_static=='true') {
             next()
         } else {
             next({
@@ -81,6 +79,7 @@ router.beforeEach((to, from, next) => {
     } else {
         next()
     }
+
     if (localStorage.currentUser_token == null || localStorage.currentUser_token == undefined) {
       const url ='http://public.weifenvip.com/index/Baseapi/getToken'; //获取token接口地址
       const params = new URLSearchParams();
@@ -111,20 +110,6 @@ router.beforeEach((to, from, next) => {
          console.log(err)
       })
     }
-    // if (localStorage.currentUser_token) {
-    //   const url ='http://public.weifenvip.com/api/v1/shop/login';
-    //   var params = new URLSearchParams();
-    //   params.append('mobile','15146105546'); 
-    //   params.append('token',localStorage.currentUser_token);
-    //   params.append('code','111');
-    //   axios.post(url,params).then(response => {
-    //     // const currentUser_token = response.data.data //获取token
-    //     console.log(response)
-    //     localStorage.setItem('currentUser_token',currentUser_token);//本地存储token
-    //   }).catch((err) => {
-    //     console.log(err)
-    //   })
-    // }
 })
 
 

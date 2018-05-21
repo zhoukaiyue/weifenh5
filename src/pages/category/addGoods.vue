@@ -194,7 +194,7 @@ export default {
     }
     .addgood{font-size:0.8rem;float:right;width: 6rem;height: 1.7rem;background: #f54321;color:#ffffff;line-height:1.7rem;position: absolute;right:2rem;bottom:1rem;
         img{position: relative;top: 0.2rem;left: 0.8rem;width: 0.8rem;};
-        .suc{position: absolute;right: 4rem;bottom: 1rem;padding: 1rem;border: 1px solid #999999;background: #ffffff;z-index: 111;color: #999999;width: 9rem;text-align: center;height: 1rem;line-height: 1rem;
+        .suc{position: absolute;right: 4rem;padding: 1rem;border: 1px solid #999999;background: #ffffff;z-index: 111;color: #999999;width: 9rem;text-align: center;height: 1rem;line-height: 1rem;
             span{position: absolute;top: 0.5rem;right: 0.5rem;width: 0.8rem;img{width: 100%;left: 0;}}
         }
     }

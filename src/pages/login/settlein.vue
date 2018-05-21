@@ -14,6 +14,7 @@
       </group>
       <!--  营业执照 -->
          <div class="wrapper license">
+            <p class="license-border"></p>
            <span style="width: 4.5em; ">营业执照</span><ossFile :imgs='license'></ossFile>
         </div>
      <box gap="10px 10px">
@@ -166,7 +167,8 @@ function getFileUrl(obj) {
   .weui-cells:before{border-top: 0!important;}
   .vux-x-input label{font-size: 0.9rem;color: #333;text-align: left!important;}
   .vux-x-input input{font-size: 0.9rem;color: #ccc;}
-  .weui-cells:after{background: #D9D9D9}
+  .weui-cells:after{border:0 !important;}
+  .weui-cells:after{background: #FFFFFF;}
 
 .container{
     width:12rem!important;
@@ -230,7 +232,7 @@ function getFileUrl(obj) {
   width:40%;
   float:right;
   font-family:PingFangSC-Regular;
-  font-size:0.8rem;
+  font-size:1rem;
   color:#ff8134;
   letter-spacing:0;
   background:#ffffff;
@@ -238,8 +240,8 @@ function getFileUrl(obj) {
   border:0!important;
 }
 }.license {
-  /*border-bottom:1px solid #D9D9D9;*/
-  padding:23px 0px 30px 0px;
+  /*border-top:1px solid #D9D9D9;*/
+  padding:0px 10px 30px 10px;
   min-height:150px;
   position:relative;
   color: #333;
@@ -254,6 +256,12 @@ function getFileUrl(obj) {
   z-index:100;
   opacity:0;
 }
+.license-border{
+    width:100%;
+    height:1px;
+    background-color:#D9D9D9;
+    margin-bottom:13px;
+  }
 #img-wrapper {
   border:1px solid #e7e7e7;
   width:60%;

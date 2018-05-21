@@ -22,13 +22,8 @@ export default {
 　　　　　　}
 　　　　},
     computed: {
-        menuBanner() {
-            return this.menu[this.currentIndex].img.url
-        },
-        categoryTitle() {
-            return this.menu[this.currentIndex].name
-        }
     },
+    created(){console.log('又来了')},
     methods: {
         switchCategory(index, id) {
             this.currentIndex = index

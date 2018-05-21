@@ -16,7 +16,7 @@ const Order = r => require.ensure([], () => r(require('@/pages/order/order')), '
 const OrderData = r => require.ensure([], () => r(require('@/pages/order/orderData')), 'orderData')
 const Address = r => require.ensure([], () => r(require('@/pages/address/address')), 'address')
 // const User = r => require.ensure([], () => r(require('@/pages/user/user')), 'user')
-// const About = r => require.ensure([], () => r(require('@/pages/about/about')), 'about')
+const About = r => require.ensure([], () => r(require('@/pages/about/about')), 'about')
 const StoreInfo = r => require.ensure([], () => r(require('@/pages/stores/storeInfo')), 'storeInfo')
 const ShopCenter = r => require.ensure([], () => r(require('@/pages/stores/shopCenter')), 'shopCenter')
 const logo = r => require.ensure([], () => r(require('@/pages/stores/logo')), 'logo')
@@ -75,7 +75,8 @@ const routes = [
                 path: 'category',
                 name: 'category',
                 meta: {
-                    title: '店铺营销'
+                    title: '店铺营销',
+                    requireAuth: true
                 },
                 component: Category
             },
@@ -83,7 +84,8 @@ const routes = [
                 path: 'addGoods',
                 name: 'addGoods',
                 meta: {
-                    title: '添加商品'
+                    title: '添加商品',
+                    requireAuth: true
                 },
                 component: addGoods
             },
@@ -91,7 +93,8 @@ const routes = [
                 path: 'detail',
                 name: 'detail',
                 meta: {
-                    title: '商品详情'
+                    title: '商品详情',
+                    requireAuth: true
                 },
                 component: Detail
             },
@@ -107,7 +110,8 @@ const routes = [
                 path: 'dyinvite',
                 name: 'dyinvite',
                 meta: {
-                    title: '店员邀新排行榜'
+                    title: '店员邀新排行榜',
+                    requireAuth: true
                 },
                 component: Dyinvite
             },
@@ -125,7 +129,7 @@ const routes = [
                 name: 'order',
                 meta: {
                     title: '订单',
-                    // requireAuth: true // 添加该字段，表示进入这个路由是需要登录的
+                    requireAuth: true // 添加该字段，表示进入这个路由是需要登录的
                 },
                 component: Order
             },
@@ -134,7 +138,7 @@ const routes = [
                 name: 'orderData',
                 meta: {
                     title: '店铺订单数据',
-                    // requireAuth: true // 添加该字段，表示进入这个路由是需要登录的
+                    requireAuth: true // 添加该字段，表示进入这个路由是需要登录的
                 },
                 component: OrderData
             },
@@ -143,7 +147,7 @@ const routes = [
                 name: 'commodityData',
                 meta: {
                     title: '营销商品数据',
-                    // requireAuth: true // 添加该字段，表示进入这个路由是需要登录的
+                    requireAuth: true // 添加该字段，表示进入这个路由是需要登录的
                 },
                 component: CommodityData
             },
@@ -152,7 +156,7 @@ const routes = [
                 name: 'address',
                 meta: {
                     title: '地址',
-                    // requireAuth: true // 添加该字段，表示进入这个路由是需要登录的
+                    requireAuth: true // 添加该字段，表示进入这个路由是需要登录的
                 },
                 component: Address
             },
@@ -165,19 +169,21 @@ const routes = [
             //     },
             //     component: User
             // },
-            // {
-            //     path: 'about',
-            //     name: 'about',
-            //     meta: {
-            //         title: '关于'
-            //     },
-            //     component: About
-            // },
+            {
+                path: 'about',
+                name: 'about',
+                meta: {
+                    title: '店铺中心'
+                },
+                component: About,
+                requireAuth: true
+            },
             {
                 path: 'storeInfo',
                 name: 'storeInfo',
                 meta: {
-                    title: '店铺信息'
+                    title: '店铺信息',
+                    requireAuth: true
                 },
                 component: StoreInfo
             },
@@ -193,7 +199,8 @@ const routes = [
                 path: 'shopCenter',
                 name: 'shopCenter',
                 meta: {
-                    title: '店铺中心'
+                    title: '店铺中心',
+                    // requireAuth: true
                 },
                 component: ShopCenter
             },

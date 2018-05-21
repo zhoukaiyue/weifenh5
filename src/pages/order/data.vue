@@ -12,27 +12,27 @@
 			<div class="yx_display">
 		    	<p class="yx_display_title">店铺用户数据<span v-on:click="store_users" >查看更多&ensp;<img src="~@/assets/icon/goods-left.png"></span></p>
 		    	<ul class="yx_display_tab">
-			    	<li class="oli frist" v-bind:class='{ li_select: is_show1}' v-on:click="salesVolume1()">店铺新增用户数据</li>
-			    	<li class="oli last" v-bind:class='{ li_select: is_show2}' v-on:click="salesVolume2()">员工邀新业绩排行</li>
+			    	<li class="oli frist" v-bind:class='{ li_select: is_show1}' v-on:click="salesVolume1">店铺新增用户数据</li>
+			    	<li class="oli last" v-bind:class='{ li_select: is_show2}' v-on:click="salesVolume2">员工邀新业绩排行</li>
 		    	</ul>
 		      <p class="yx_display_ftitle">新增用户( 单位：人 )</p>
-	          <div class="charts" >
-		     	<div id="Chart" style="width:100%;height:100%;"></div>
-			  </div>
+				<!-- 店铺新增用户数据 -->
+              <storeNewdata v-if="!isshow"></storeNewdata>
+              <!-- 员工邀新数据 -->
+              <staffNewdtata v-if="isshow"></staffNewdtata>
 		    </div>
 
 		    <div class="yx_display">
 		    	<p class="yx_display_title">营销商品数据<span v-on:click="commodityData">查看更多&ensp;<img src="~@/assets/icon/goods-left.png"></span></p>
 		    	<ul class="yx_display_tab">
-			    	<li class="oli frist" v-bind:class='{ li_select: is_show3}' v-on:click="salesVolume3()">本周访问量/销售量</li>
-			    	<li class="oli last" v-bind:class='{ li_select: is_show4}' v-on:click="salesVolume4()">本周商品销量对比图</li>
+			    	<li class="oli frist" v-bind:class='{ li_select: is_show3}' v-on:click="salesVolume3">本周访问量/销售量</li>
+			    	<li class="oli last" v-bind:class='{ li_select: is_show4}' v-on:click="salesVolume4">本周商品销量对比图</li>
 		    	</ul>
 		      <p class="yx_display_ftitle">访问量( 单位：元 )/销售量( 单位：件 )</p>
-	          <div class="charts" >
-		     	<div id="myChart" style="width:100%;height:100%;"></div>
-			  </div>
+		      <!-- 本周访问量/销售量数据-->
+		      <visitsalesNewdata  v-if="!isshow7"></visitsalesNewdata>
+		      <weeksalescomparisonNewdata  v-if="isshow7"></weeksalescomparisonNewdata>
 		    </div>
-
 		     <div class="yh_display">
 		    	<p class="yh_display_title">订单数据<span v-on:click="orderData">查看更多&ensp;<img src="~@/assets/icon/goods-left.png"></span></p>
 		    	<ul class="yh_display_tab">
@@ -40,20 +40,37 @@
 			    	<li class="oli last" v-bind:class='{ li_select: is_show6}' v-on:click="salesVolume6()">7日交易额</li>
 		    	</ul>
 		      <p class="yh_display_ftitle">销售金额( 单位：元 )</p>
-	          <div class="yhcharts" >
-		     	 <div id="yhChart" style="width:100%;height:215px;"></div>
-			  </div>
+		      <!-- 7日订单量 -->
+		      <sdayordersdata v-if="!isshow8"></sdayordersdata>
+		      <sdaystradingdata v-if="isshow8"></sdaystradingdata>
 		    </div>
 
 		 </div>
 	</div>
 </template>
 <script>
-
+import storeNewdata from '../../components/store-new-user-data'
+import staffNewdtata from '../../components/staff-invite-new-data'
+import visitsalesNewdata from '../../components/visit-sales-this-week'
+import weeksalescomparisonNewdata from '../../components/this-week-sales-comparison'
+import sdayordersdata from '../../components/sdayorders'
+import sdaystradingdata from '../../components/sdaystrading'
 import { Swiper, SwiperItem,ButtonTab, ButtonTabItem, Divider } from 'vux'
 export default {
   name:'commodityData',
   components: {
+  	//店铺新增用户数据
+  	storeNewdata,
+  	// 员工邀新业绩排行
+  	staffNewdtata,
+  	//本周访问量销售量
+  	visitsalesNewdata,
+  	// 本周销量对比图
+  	weeksalescomparisonNewdata,
+  	//7日订单量
+  	sdayordersdata,
+  	// 7日交易量
+  	sdaystradingdata
   },
   data() {
     return {
@@ -62,227 +79,16 @@ export default {
         is_show3: true,
         is_show4: false,
         is_show5: true,
-        is_show6: false
+        is_show6: false,
+        //店铺新增用户数据 和 员工邀新数据 组件切换条件
+        isshow: false,
+        // 本周访问量销售量 和 本周销量对比图 组件切换条件
+        isshow7: false,
+        // 7日订单量 和 7日交易额 组件切换条件
+        isshow8: false
     };
   },
   methods:{
-  	// 营销商品数据
-  	order_display(){
-		   var chart = document.getElementById("Chart");
-               let echarts = require('echarts/lib/echarts');
-               let mainChart = echarts.init(Chart);
-                var option = {
-                    title: {
-                        text: ''
-                    },
-                    tooltip : {
-                       // trigger: 'item'
-                    },
-                    grid: {
-                        left: '-8%',
-                        right: '10%',
-                        bottom: '10%',
-                        containLabel: true
-                    },
-                    xAxis : [
-                        {
-                            type : 'category',
-                            boundaryGap : false,
-                            data : ['1日', '2日', '3日', '4日', '5日', '6日', '7日'],
-                             axisLine: {
-			                    lineStyle: {
-			                        type: 'solid',
-			                        color: '#ffffff',//左边线的颜色
-			                        width:'2'//坐标线的宽度
-				                    }
-				                },
-				                axisLabel: {
-				                    textStyle: {
-				                        color: '#ffffff',//坐标值得具体的颜色
-				                    }
-				                },
-				                axisTick:{
-							        show:false/*隐藏刻度*/
-							    }
-			                }
-                    ],
-                    yAxis : [
-                        {
-		                   type: 'value',
-					        axisLine: {
-		                    lineStyle: {
-			                        type: 'solid',
-			                        color: 'transparent',//左边线的颜色
-			                        width:'2'//坐标线的宽度
-			                    }
-			                },
-                        }
-                    ],
-                    series : [
-                        {
-                            name:'访问量',
-                            type:'line',
-                            stack: '销量',
-                            itemStyle : { normal: {label : {show: true,color:'#ffffff'}}},
-                            data:[1270, 6382, 2091, 1034, 6382, 2091, 1034],
-                            color:"#ffffff"
-                        }
-                    ]
-                };
-                mainChart.setOption(option);
-  	},
-  	//这是营销商品访问量/销售量趋势图
-	yx_display(){
-		   var chart = document.getElementById("myChart");
-               let echarts = require('echarts/lib/echarts');
-               let mainChart = echarts.init(myChart);
-                var option = {
-                    title: {
-                        text: ''
-                    },
-                    tooltip : {
-                       // trigger: 'item'
-                    },
-                    grid: {
-                        left: '-8%',
-                        right: '10%',
-                        bottom: '10%',
-                        containLabel: true
-                    },
-                    xAxis : [
-                        {
-                            type : 'category',
-                            boundaryGap : false,
-                            data : ['1日', '2日', '3日', '4日', '5日', '6日', '7日'],
-                             axisLine: {
-			                    lineStyle: {
-			                        type: 'solid',
-			                        color: '#ffffff',//左边线的颜色
-			                        width:'2'//坐标线的宽度
-				                    }
-				                },
-				                axisLabel: {
-				                    textStyle: {
-				                        color: '#ffffff',//坐标值得具体的颜色
-				                    }
-				                },
-				                axisTick:{
-							        show:false/*隐藏刻度*/
-							    }
-			                }
-                    ],
-                    yAxis : [
-                        {
-		                   type: 'value',
-					        axisLine: {
-		                    lineStyle: {
-			                        type: 'solid',
-			                        color: 'transparent',//左边线的颜色
-			                        width:'2'//坐标线的宽度
-			                    }
-			                },
-                        }
-                    ],
-                    series : [
-                        {
-                            name:'访问量',
-                            type:'line',
-                            stack: '销量',
-                            itemStyle : { normal: {label : {show: true,color:'#ffffff'}}},
-                            data:[1270, 6382, 2091, 1034, 6382, 2091, 1034],
-                            color:"#ffffff"
-                        },
-                        {
-                            name:'销售量',
-                            type:'line',
-                            stack: '销量',
-                            itemStyle : { normal: {label : {show: true,color:'#f7ff50'}}},
-                            data:[2270, 3456, 5432, 3423, 12, 291, 134],
-                            color:"#f7ff50"
-                        }
-                    ]
-                };
-                mainChart.setOption(option);
-  	},
-  	  	//这是营销订单趋势图
-	yh_display(){
-		    let echarts = require('echarts/lib/echarts')
-		    let chartBox=document.getElementsByClassName('yhcharts')[0]
-		    let myChart=document.getElementById('yhChart')
-		    function resizeCharts() {//为调整图标尺寸的方法
-		        myChart.style.width=chartBox.style.width+'px'
-		        myChart.style.height=chartBox.style.height+'px'
-		    }
-		     let mainChart = echarts.init(myChart)// 基于准备好的dom，初始化echarts实例
-		     var option = null;
-		     var option = {
-                    title: {
-                        text: ''
-                    },
-                    tooltip : {
-                       // trigger: 'item'
-                    },
-                    grid: {
-                        left: '-8%',
-                        right: '10%',
-                        bottom: '10%',
-                        containLabel: true
-                    },
-                    xAxis : [
-                        {
-                            type : 'category',
-                            boundaryGap : false,
-                            data : ['1日', '2日', '3日', '4日', '5日', '6日', '7日'],
-                             axisLine: {
-			                    lineStyle: {
-			                        type: 'solid',
-			                        color: '#ffffff',//左边线的颜色
-			                        width:'2'//坐标线的宽度
-				                    }
-				                },
-				                axisLabel: {
-				                    textStyle: {
-				                        color: '#ffffff',//坐标值得具体的颜色
-				                    }
-				                },
-				                axisTick:{
-							        show:false/*隐藏刻度*/
-							    }
-			                }
-                    ],
-                    yAxis : [
-                        {
-		                   type: 'value',
-					        axisLine: {
-		                    lineStyle: {
-			                        type: 'solid',
-			                        color: 'transparent',//左边线的颜色
-			                        width:'2'//坐标线的宽度
-			                    }
-			                },
-                        }
-                    ],
-                    series : [
-                        {
-                            name:'访问量',
-                            type:'line',
-                            stack: '销量',
-                            itemStyle : { normal: {label : {show: true,color:'#ffffff'}}},
-                            data:[1270, 6382, 2091, 1034, 6382, 2091, 1034],
-                            color:"#ffffff"
-                        },
-                        {
-                            name:'销售量',
-                            type:'line',
-                            stack: '销量',
-                            itemStyle : { normal: {label : {show: true,color:'#f7ff50'}}},
-                            data:[2270, 3456, 5432, 3423, 12, 291, 134],
-                            color:"#f7ff50"
-                        }
-                    ]
-                };
-		    mainChart.setOption(option);
-  	},
   	// 营销商品数据
   	commodityData(){
         this.$router.push({ path: '/page/commodityData' })
@@ -302,6 +108,7 @@ export default {
         _this.$loading.show();//显示
 	    setTimeout(function(){  //模拟请求
 	          _this.$loading.hide(); //隐藏
+	           _this.isshow=false
 	    },2000);
 	},
     salesVolume2:function(){
@@ -311,6 +118,7 @@ export default {
         _this.$loading.show();//显示
 	    setTimeout(function(){  //模拟请求
 	          _this.$loading.hide(); //隐藏
+	          _this.isshow=true
 	    },2000);
 	},
 	salesVolume3:function(){
@@ -320,6 +128,7 @@ export default {
         _this.$loading.show();//显示
 	    setTimeout(function(){  //模拟请求
 	          _this.$loading.hide(); //隐藏
+	          _this.isshow7=false
 	    },2000);
 	},salesVolume4:function(){
         const _this = this;
@@ -328,6 +137,7 @@ export default {
         _this.$loading.show();//显示
 	    setTimeout(function(){  //模拟请求
 	          _this.$loading.hide(); //隐藏
+	         _this.isshow7=true
 	    },2000);
 	},
 	salesVolume5:function(){
@@ -337,6 +147,7 @@ export default {
         _this.$loading.show();//显示
 	    setTimeout(function(){  //模拟请求
 	          _this.$loading.hide(); //隐藏
+	          _this.isshow8=false
 	    },2000);
 	},
 	salesVolume6:function(){
@@ -346,14 +157,12 @@ export default {
         _this.$loading.show();//显示
 	    setTimeout(function(){  //模拟请求
 	          _this.$loading.hide(); //隐藏
+	         _this.isshow8=true
 	    },2000);
 	}
   },
 
   mounted(){
-	  	this.yx_display()
-	  	this.yh_display()
-	  	this.order_display()
   }
 }
 </script>

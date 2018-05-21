@@ -118,8 +118,8 @@
                     <div class="img-box">
                       <img src="https://ws1.sinaimg.cn/large/663d3650gy1fq6824ur1dj20ia0pydlm.jpg" style="max-width:100%">
                     </div>
-                    <div @click="showHideOnBlur=false">
-                      <qrcode :value="value" :fg-color="fgColor" id="fx-qcode"></qrcode>长按识别二维码
+                    <div @click="showHideOnBlur=false" class="qrcode_box">
+                       <qrcode value="http://weixin.qq.com/q/02k5PNp0zhdzi10000g07J"  id="fx-qcode" type="img"></qrcode>长按识别二维码
                     </div>
                   </x-dialog>
                 </div>
@@ -314,7 +314,7 @@ export default {
 }.cart-box {
     height:3.5rem;
     width:100%;
-    border-top:1px solid #ddddddddd;
+    border-top:1px solid #dddddd;
     background-color:#ffffff;
     color:#ffffff;
     position:fixed;
@@ -335,21 +335,20 @@ export default {
     box-sizing:border-box;
     .picker {
     width:35%;
-    height:60%;
+    height:40%;
     background:url(~@/assets/icon/kefu.png) no-repeat
                         right center;
     background-size:100% 100%;
-    margin:3px auto 2px auto;
+    margin:5px auto 2px auto;
     /*border:1px solid red;
     */
-   
 }
 .counts-tips {
     display:block;
     height:40%;
     /*border:1px solid red;
     */
-                    font-size:0.6rem;
+    font-size:1rem;
 }
 }.add-cart-btn {
     height:100%;
@@ -774,5 +773,14 @@ s {
 /*针对iPhone X底部footer做适配*/
 @media only screen and (device-width: 375px) and (device-height:812px) and (-webkit-device-pixel-ratio:3) {
     .detail .detail-main .cart-box{padding-bottom: 32px;}
+}
+
+.qrcode_box{
+    font-family:PingFangSC-Regular;
+    font-size:1.2rem;
+    color:#ffffff;
+    letter-spacing:0;
+    text-align:center;
+    color:#333333;
 }
 </style>
