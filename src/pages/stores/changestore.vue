@@ -12,6 +12,9 @@
 import Vue from 'vue'
 import $ from 'jquery'
 import axios from 'axios'
+
+import * as myPub from '@/assets/js/public.js'
+import * as openId from '@/assets/js/opid_public.js'
 export default {
     name: 'category',
     data(){
@@ -43,12 +46,12 @@ export default {
         },
         //添加店员信息
         storeer(){
-          const url ='http://public.weifenvip.com/merchant/Shop/editInfo';
+          const url =`${myPub.URL}/merchant/Shop/editInfo`;
           var params = new URLSearchParams();
           params.append('token',localStorage.currentUser_token);
           params.append('name',this.name);
           params.append('mobile',this.mobile);
-          params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
+          params.append('open_id',`${openId.open_id}`);
           axios.post(url,params).then(response => {
             // const currentUser_token = response.data.data //获取token
             console.log(response)

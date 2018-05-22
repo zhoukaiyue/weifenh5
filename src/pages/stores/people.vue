@@ -10,6 +10,9 @@
 <script>
 import Vue from 'vue'
 import $ from 'jquery'
+import axios from 'axios'
+import * as myPub from '@/assets/js/public.js'
+import * as openId from '@/assets/js/opid_public.js'
 export default {
     name: 'category',
     data(){
@@ -22,15 +25,12 @@ export default {
 　　　　　　}
 　　　　},
     created() {
-        this.getCategory()
+    },
+    //关闭缓存
+    deactivated () {
+        this.$destroy()
     },
     computed: {
-        menuBanner() {
-            return this.menu[this.currentIndex].img.url
-        },
-        categoryTitle() {
-            return this.menu[this.currentIndex].name
-        }
     },
     methods: {
         switchCategory(index, id) {
@@ -42,18 +42,30 @@ export default {
         },
         // 修改负责人
         people(){
-          const url ='http://public.weifenvip.com/merchant/Shop/editInfo';
+          const url =`${myPub.URL}/merchant/Shop/editInfo`;
           const user_name = $(".input").val()
           var params = new URLSearchParams();
           params.append('token',localStorage.currentUser_token);
           params.append('user_name',user_name);
-          params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
+          params.append('open_id',`${openId.open_id}`);
           axios.post(url,params).then(response => {
             // const currentUser_token = response.data.data //获取token
-            console.log(response)
-            next('/page/storesuccess')
+            // console.log(response)
+            // next('/page/storesuccess')
+         const status = response.data.status
+         if (status == "200") {
+               this.$router.push({ path: '/page/storesuccess'})
+            }else{
+                this.$vux.alert.show({
+                    title: '操作失败',
+                    content: response.data.msg
+                })
+                setTimeout(() => {
+                    this.$vux.alert.hide()
+                }, 3000)
+            }
           }).catch((err) => {
-            console.log(err)
+              console.log(err)
           })
         }
     }

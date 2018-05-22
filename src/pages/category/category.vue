@@ -84,7 +84,7 @@
                             <ul class="list fr">
                                 <li>成交订单 <span>{{item.suc}}</span>
                                 </li>
-                                <li>添加时间 <span><!-- <input class="time" /> -->{{item.create_time.split(" ")[0]}}</span>
+                                <li>添加时间 <span><!-- <input class="time" /> --></span>
                                 </li>
                             </ul>
                         </div>

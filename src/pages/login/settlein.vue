@@ -30,6 +30,9 @@
 import $ from 'jquery'
 import axios from 'axios'
 import { GroupTitle, Group, Cell, XInput, Selector, PopupPicker, Datetime, XNumber, ChinaAddressData, XAddress, XTextarea, XSwitch,Panel, Radio,XButton,Box} from 'vux'
+
+import * as myPub from '@/assets/js/public.js'
+import * as openId from '@/assets/js/opid_public.js'
 //引入上传图片组键
 import ossFile from '../../components/oss_file'
   /**
@@ -100,10 +103,10 @@ function getFileUrl(obj) {
         //提交信息到后台
         submit(){
             console.log('提交')
-            const url ='http://public.weifenvip.com/merchant/Shop/apply';
+            const url =`${myPub.URL}/merchant/Shop/apply`;
             var params = new URLSearchParams();
             params.append('token',localStorage.currentUser_token);
-            params.append('open_id','oo1Fj0vuyJHl27Zlytaj3z5c925Q');
+            params.append('open_id',`${openId.open_id}`);
             params.append('shopname',this.shopname);
             params.append('contact',this.contact);
             params.append('mobile',this.mobile);

@@ -45,8 +45,8 @@
 import $ from 'jquery'
 import axios from 'axios'
 import { Radio, Group } from 'vux'
-
-
+import * as myPub from '@/assets/js/public.js'
+import * as openId from '@/assets/js/opid_public.js'
 export default {
   components: {
     Radio,
@@ -109,11 +109,11 @@ export default {
         _this.$loading.show();//显示
         setTimeout(function(){  //模拟请求
               _this.$loading.hide(); //隐藏
-              const url ='http://public.weifenvip.com/merchant/Shop/order';
+              const url =`${myPub.URL}/merchant/Shop/order`;
               var params = new URLSearchParams();
               params.append('type','1'); 
               params.append('token',localStorage.currentUser_token);;
-              params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
+              params.append('open_id',`${openId.open_id}`);
               axios.post(url,params).then(response => {
                 const status = response.data.status
                 console.log(response)
@@ -133,11 +133,11 @@ export default {
         setTimeout(function(){  //模拟请求
               _this.$loading.hide(); //隐藏
                _this.$loading.hide(); //隐藏
-              const url ='http://public.weifenvip.com/merchant/Shop/order';
+              const url =`${myPub.URL}/merchant/Shop/order`;
               var params = new URLSearchParams();
               params.append('type','2'); 
               params.append('token',localStorage.currentUser_token);;
-              params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
+              params.append('open_id',`${openId.open_id}`);
               axios.post(url,params).then(response => {
                 const status = response.data.status
                 console.log(response)
