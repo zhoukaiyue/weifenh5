@@ -12,7 +12,7 @@
                 <div class="add-cart-btn "  v-on:click="Joinmaketing" v-if="!isshow11">
                     <span class="add-cart">立即加入营销列表</span>
                 </div>
-                <div class="add-cart-btn "  v-if="isshow11">
+                <div class="add-cart-btn "  v-if="isshow11" v-on:click="code">
                     <span class="add-cart">立即生成二维码</span>
 
                 <!-- 生成并分享二维码 -->
@@ -81,19 +81,25 @@
             <swiper v-model="index"
                     height="auto"
                     :show-dots="false">
-                <swiper-item v-for="(item, index) in list"
+                <swiper-item 
                              :key="index">
-                    <div class="tab-swiper vux-center">{{item}}</div>
+                    <div class="tab-swiper vux-center">{{product.goods_desc}}</div>
                 </swiper-item>
-
 
                 <div v-transfer-dom>
                   <x-dialog v-model="showHideOnBlur" class="dialog-demo" hide-on-blur>
                     <div class="img-box">
-                      <img src="https://ws1.sinaimg.cn/large/663d3650gy1fq6824ur1dj20ia0pydlm.jpg" style="max-width:100%">
+                      <h5>{{product.shop_name}}赠福利啦~</h5>
+                      <p>{{product.goods_name}}</p>
+                      <img :src="product.img_src">
                     </div>
-                    <div @click="showHideOnBlur=false" class="qrcode_box">
-                       <qrcode value="http://weixin.qq.com/q/02k5PNp0zhdzi10000g07J"  id="fx-qcode" type="img"></qrcode>长按识别二维码
+                    <div @click="showHideOnBlur=false" class="qrcode_box clearfix">
+                       <qrcode value="http://weixin.qq.com/q/02k5PNp0zhdzi10000g07J"  id="fx-qcode" type="img"></qrcode>
+                       <div class="code_right">
+                           <span class="shoprce">RMB {{product.markte_price}}</span>
+                           <p class="maketprice">市场价 {{product.shop_price}}</p>
+                           <p>长按二维码识别详情</p>
+                       </div>
                     </div>
                   </x-dialog>
                 </div>
@@ -223,6 +229,24 @@ export default {
                 console.log(err)
             })
         },
+        // 分享二维码图片
+        code(){
+            const _this = this;
+            const url =`${myPub.URL}/merchant/Shop/goodsShareQr` 
+            const id = this.$route.query.id
+            const params = new URLSearchParams();
+            params.append('token',localStorage.currentUser_token);
+            params.append('open_id',`${openId.open_id}`);
+            params.append('id',id);
+            axios.post(url,params).then(response => {
+                const data = response.data
+                if (data.status == '200') {
+                    $("#fx-qcode")
+                }
+            }).catch((err) => {
+                console.log(err)
+            })
+        }
     },
     components: {
         PopupPicker,
@@ -252,9 +276,21 @@ export default {
     .weui-cell__ft input{opacity: 0;position: relative;z-index:1;left:0.5rem;}
     .weui-dialog{background: #ffffff;}
     .weui-cells:before{border-top:0!important}
-    .weui-switch, .weui-switch-cp__box{width:100px!important;height: 50px!important}
+    .weui-cell_switch .weui-cell__ft{width: 100%;}
+    .weui-switch, .weui-switch-cp__box{width: 100%!important}
 </style>
 <style scoped lang="less">
+.clearfix:after {
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: " ";
+  clear: both;
+  height: 0;
+}
+.clearfix{
+    zoom:1;
+}
 @import '~vux/src/styles/center.less';
     @import '~vux/src/styles/close.less';
     .detail {
@@ -707,9 +743,20 @@ s {
     color: #666;
   }
   .img-box {
+    padding: 0 2rem;
     height: 350px;
+    width:80%;
     overflow: hidden;
+    h5{margin-top: 2rem;color: #EF2B1A}
+    p{font-size: 0.8rem;margin-top: 5px;}
+    img{width: 100%;margin-top: 1.5rem;}
   }
+  .code_right{float: left;text-align: left;
+    .shoprce{border: 1px solid #F54321;margin-top: 20px;color: #F54321;font-size: 0.8rem;padding: 0.2rem 1rem;display: block;}
+    p{color: #333333;text-align: center;font-size: 0.8rem;}
+    .maketprice{font-size: 0.7rem;color: #999999;position: relative;text-align: center;margin-top: 0.5rem;}
+    .maketprice:after{content: '';display: inline-block;position: absolute;width: 80%;height: 1px;left: 10%;top: 50%;background-color: #999999;}
+}
   .vux-close {
     margin-top: 8px;
     margin-bottom: 8px;
@@ -755,13 +802,13 @@ s {
 }
 
 #fx-qcode{
-    width:50px;
-    height:50px;
+    width:80px;
+    height:80px;
     margin:20px;
     margin-left:0;
-    display:inline-block;
+    float: left;
     vertical-align:middle;
-    canvas{width: 50px;height: 50px}
+    canvas{width: 100px;height: 100px}
 }
 /*针对iPhone X底部footer做适配*/
 @media only screen and (device-width: 375px) and (device-height:812px) and (-webkit-device-pixel-ratio:3) {
@@ -769,6 +816,8 @@ s {
 }
 
 .qrcode_box{
+    width: 80%;
+    margin-left: 10%;
     font-family:PingFangSC-Regular;
     font-size:1.2rem;
     color:#ffffff;
