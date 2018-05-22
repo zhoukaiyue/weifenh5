@@ -3,64 +3,43 @@
         <div class="detail-main"
              v-if="product">
             <!-- 购物车漂浮按钮 -->
-           <!--  <div class="fixed-cart-box"
-                 @click="linkToCart"
-                 :class="[isShake ?'animate':'']">
-                <img src="~@/assets/icon/cart@top.png"
-                     alt="icon-cart"
-                     ref="topCart">
-                <span class="total-count"
-                      v-if="this.totalCount>0">{{this.totalCount}}</span>
-            </div> -->
-            <div class="detail-img">
-                <img :src="product.main_img_url"
-                     alt="image">
-            </div>
-
+             <swiper :list="demo01_list" v-model="demo02_index" @on-index-change="demo01_onIndexChange"></swiper>
             <div class="cart-box marketing-box">
                 <div class="product-counts">
                     <div class="picker"></div>
                     <span class="counts-tips">客服</span>
-                   <!--  <popup-picker :data="countsArray"
-                                  v-model="count"
-                                  class="picker"
-                                  popup-title="请选择数量"
-                                  value-text-align="left"></popup-picker> -->
                 </div>
-                <!-- <div class="middle-border"></div> -->
-                <div class="add-cart-btn"
-                     @touchstart="onAddToCart">
+                <div class="add-cart-btn "  v-on:click="Joinmaketing" v-if="!isshow11">
                     <span class="add-cart">立即加入营销列表</span>
-                  <!--   <i class="icon-cart"></i>
-                    <img class="small-top-img"
-                         ref="smallTopImg"
-                         :src="product.main_img_url"
-                         :class="[isFly ?'animate':'']"
-                         alt="image"></img> -->
+                </div>
+                <div class="add-cart-btn "  v-if="isshow11">
+                    <span class="add-cart">立即生成二维码</span>
+
+                <!-- 生成并分享二维码 -->
+                <span id="fenxiang_falsebtn"></span>
+                <group id="fenxiang">
+                  <x-switch v-model="showHideOnBlur" title="" id="fenxiang_btn"></x-switch>
+                </group>
                 </div>
             </div>
 
             <div class="product-info-box">
-              <!--   <div class="stock"
-                     v-if="product.stock>0">有货</div>
-                <div class="stock no"
-                     v-else>缺货</div> -->
                 <div class="price">
-                    <span class="coupon_price">券后价</span>￥{{product.price}} <s>￥{{product.price}}</s>
+                    <span class="coupon_price">券后价</span>￥{{product.markte_price}} <s>￥{{product.shop_price}}</s>
                     <span class="order_information order_information_s">包税</span><span class="order_information">包邮</span>
                 </div>
                 <div class="sold_information">
-                    <div class="sold"><span>已售</span>1190件</div>
-                    <div class="preview">已有<span>2190</span>人预览</div>
+                    <div class="sold"><span>已售</span>{{product.sales_volume}}件</div>
+                    <div class="preview">已有<span>{{product.click_count}}</span>人预览</div>
                 </div>
                 <div class="name_box">
                     <div class="name_tbor"></div>
-                    <p class="name">{{product.name}}</p>
+                    <p class="name">{{product.goods_name}}</p>
                 </div>
                 <div class="country">
                     <div class="country_span">来自
-                    <img src="~@/assets/icon/fg.png" alt="">
-                    法国</div>
+                    <img :src="product.natinal_flag" alt="">
+                    {{product.natinal_name}}</div>
                     <div class="country_label">本商品售价已含税，无需额外支付税费</div>
                  </div>
             </div>
@@ -107,11 +86,6 @@
                     <div class="tab-swiper vux-center">{{item}}</div>
                 </swiper-item>
 
-                <!-- 生成并分享二维码 -->
-                <span id="fenxiang_falsebtn"></span>
-                <group id="fenxiang">
-                  <x-switch v-model="showHideOnBlur" title="" id="fenxiang_btn"></x-switch>
-                </group>
 
                 <div v-transfer-dom>
                   <x-dialog v-model="showHideOnBlur" class="dialog-demo" hide-on-blur>
@@ -125,16 +99,25 @@
                 </div>
             </swiper>
         </div>
-        <!-- <qrcode :value="value" :fg-color="fgColor"></qrcode> -->
     </div>
 </template>
 
 <script>
-import { PopupPicker, Tab, TabItem, Swiper, SwiperItem,Qrcode, Divider,XDialog, Popup, Group, Cell, XButton, XSwitch, Toast, XAddress, ChinaAddressData,TransferDomDirective as TransferDom } from 'vux'
+import { PopupPicker, Tab, TabItem, Swiper, SwiperItem,Qrcode, GroupTitle,  Divider,XDialog, Popup, Group, Cell, XButton, XSwitch, Toast, XAddress, ChinaAddressData,TransferDomDirective as TransferDom } from 'vux'
 import { mapState, mapMutations, mapGetters } from 'vuex'
 import axios from 'axios'
 import * as myPub from '@/assets/js/public.js'
+import * as openId from '@/assets/js/opid_public.js'
+
 const tabList = () => ['图文详情', '商品解答']
+const baseList = [{
+  img: 'https://ww1.sinaimg.cn/large/663d3650gy1fq66vvsr72j20p00gogo2.jpg',
+}, {
+  img: 'https://ww1.sinaimg.cn/large/663d3650gy1fq66vw1k2wj20p00goq7n.jpg',
+}, {
+  img: 'https://static.vux.li/demo/5.jpg', // 404
+  fallbackImg: 'https://ww1.sinaimg.cn/large/663d3650gy1fq66vw50iwj20ff0aaaci.jpg'
+}]
 export default {
     name: 'detail',
     directives: {
@@ -142,7 +125,7 @@ export default {
     },
     data() {
         return {
-            product: null,
+            product:'',
             countsArray: [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]],
             count: ['1'],
             list: tabList(),
@@ -159,7 +142,10 @@ export default {
             showScrollBox: false,
             show13: false,
             showHideOnBlur: false,
-            couponlist:[{'a':'155','b':'满100可用','c':'仅限亚菲儿香水使用','d':'3天内有效'},{'a':'155','b':'满100可用','c':'仅限亚菲儿香水使用','d':'3天内有效'},{'a':'155','b':'满100可用','c':'仅限亚菲儿香水使用','d':'3天内有效'}]
+            couponlist:'',
+            demo01_list: '',
+            demo02_index: 1,
+            isshow11:false
         }
     },
     computed: {
@@ -170,73 +156,24 @@ export default {
         }
     },
     mounted () {
-        setInterval(() => {
-          this.value = `http://www.pingminjie.cn?t=${Math.random()}`
-          this.fgColor = `#${Math.floor(Math.random() * 16777215).toString(16)}`
-          console.log(this.value)
-        }, 1000)
+        // setInterval(() => {
+        //   this.value = `http://www.pingminjie.cn?t=${Math.random()}`
+        //   this.fgColor = `#${Math.floor(Math.random() * 16777215).toString(16)}`
+        //   console.log(this.value)
+        // }, 1000)
     },
     created() {
         this.goods()
     },
     activated() {
-        this.getALLProducts()
     },
     methods: {
         ...mapMutations(['ADD_TO_CART']),
         linkToCart() {
             this.$router.push({ path: '/page/cart' })
         },
-        getALLProducts() {
-            this.$http
-                .get(
-                    `${myPub.URL}/mock/5a4896ba62de717d44f2406e/api/v1/product/all`
-                )
-                .then(res => {
-                    let detailData = res.data.data.filter(item => {
-                        return item.id === +this.$route.query.id
-                    })
-                    this.product = detailData[0]
-                })
-        },
-        onAddToCart() {
-            // 如果没登录，先去登录
-            if (!this.userInfo) {
-                this.$router.push({ path: '/login' })
-            }
-            // 缺货时禁止点击
-            if (!this.isDisabled) {
-                this.$vux.toast.text('暂时缺货哦~', 'middle')
-                return
-            }
-            // 防止过快点击
-            if (this.isFly) return
-            // 移动距离
-            let rect1 = this.$refs.smallTopImg.getBoundingClientRect()
-            let rect2 = this.$refs.topCart.getBoundingClientRect()
-            let x = rect1.right - rect2.right + (40 - 16)
-            let y = rect2.top - rect1.top - 20
-            this.isFly = true
-            this.$nextTick(() => {
-                this.$refs.smallTopImg.style.transform = `translate(${x}px,${y}px) rotate(350deg) scale(0)`
-            })
-            setTimeout(() => {
-                // 飞入购物车动画恢复到最初状态
-                this.isFly = false
-                this.$refs.smallTopImg.style.transform = 'none'
-                // 右侧购物车图标放大
-                this.isShake = true
-                setTimeout(() => {
-                    let count = +this.count // 字符串类型数字转为数字
-                    if (this.product.isChecked === undefined) {
-                        this.$set(this.product, 'isChecked', true)
-                    }
-                    this.ADD_TO_CART(
-                        Object.assign({}, this.product, { count: count })
-                    )
-                    this.isShake = false
-                }, 200)
-            }, 1000)
+        demo01_onIndexChange (index) {
+          this.demo01_index = index
         },
         // 商品数据
         goods(){
@@ -249,12 +186,43 @@ export default {
             params.append('id',id);
             axios.post(url,params).then(response => {
                 // const currentUser_token = response.data.data //获取token
+                const data = response.data.data
                 console.log(response.data.data)
-                _this.scdata = response.data.data;
+                _this.product = response.data.data;
+                _this.demo01_list =data.goods_photo
+                console.log(_this.demo01_list)
             }).catch((err) => {
                 console.log(err)
             })
-        }
+        },
+        // 加入营销商品
+        Joinmaketing(){
+            const _this = this;
+            const url =`${myPub.URL}/merchant/Shop/goodsUpDown`
+            const id = this.$route.query.id
+            const params = new URLSearchParams();
+            params.append('token',localStorage.currentUser_token);
+            params.append('open_id',`${openId.open_id}`);
+            params.append('id',id);
+            params.append('type','1');
+            axios.post(url,params).then(response => {
+                console.log(response)
+                if (response.data.status == '200') {
+                    _this.isshow11=true
+                }else{
+                    this.$vux.alert.show({
+                        title: '操作失败',
+                        content: response.data.msg
+                    })
+                    setTimeout(() => {
+                        this.$vux.alert.hide()
+                        // location.reload()
+                    }, 3000)
+                }
+            }).catch((err) => {
+                console.log(err)
+            })
+        },
     },
     components: {
         PopupPicker,
@@ -274,13 +242,17 @@ export default {
         XSwitch,
         Toast,
         XAddress,
-        XButton
+        XButton,
+        GroupTitle
     }
 }
 </script>
 <style type="text/css">
     .vux-no-group-title{position: relative;}
     .weui-cell__ft input{opacity: 0;position: relative;z-index:1;left:0.5rem;}
+    .weui-dialog{background: #ffffff;}
+    .weui-cells:before{border-top:0!important}
+    .weui-switch, .weui-switch-cp__box{width:100px!important;height: 50px!important}
 </style>
 <style scoped lang="less">
 @import '~vux/src/styles/center.less';
@@ -746,22 +718,23 @@ s {
 
 #fenxiang{
     background:none;
-    width:50px;
-    height:50px;
+    width:100%;
+    height:100%;
     border-radius:50%;
     padding-left:17px;
     box-sizing:border-box;
     border:none;
     padding:0;
     position:absolute;
-    right:20px;
-    top:50px;
-    opacity:0;
+    right:0px;
+    top:0px;
+    opacity:1;
+    z-index: 11111;
 }
 #fenxiang_btn{
     background:none;
-    width:50px;
-    height:50px;
+    width:100%;
+    height:100%;
     border-radius:50%;
     padding:0;
     box-sizing:border-box;

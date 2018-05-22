@@ -22,10 +22,10 @@
                 <li v-for="(item,index) in datalist">
                     <h5 class="clearfix"><span>订单编号:{{item.sn}}</span><span class="fr">{{item.status_name}}</span></h5>
                     <div class="bb t">
-                        <div class="goods-img">
+                        <div class="goods-img" v-on:click="linkToDetail(item.id)">
                             <img :src="item.img_src">
                         </div>
-                        <div class="goods" v-on:click="linkToDetail(11)">
+                        <div class="goods" >
                             <h5>{{item.goods_name}}</h5>
                             <p>下单时间：{{item.add_time}}</p>
                             <P><span>{{item.order_amount}}</span><span class="ml">数量:{{item.total_count}}</span></P>
@@ -203,10 +203,10 @@ export default {
         params.append('token',localStorage.currentUser_token);;
         params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
         axios.post(url,params).then(response => {
-            const data = response.data
-            _this.datalist = data
+            const data = response.data.data
+            _this.datalist = data.list
             console.log(data)
-            console.log(_this.datalist.sn)
+            console.log(_this.datalist)
         }).catch((err) => {
             console.log(err)
         })

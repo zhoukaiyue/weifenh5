@@ -35,8 +35,6 @@
         <!-- 中间数据 -->
         <div class="middle">
             <ul>
-                <!-- <li v-for="(item,$index) in items" @click="selectStyle (item, $index) " :class="{'select':item.select,'unselect':!item.select}">{{item.select}}
-    　　　　　　</li> -->
                 <li v-on:click="selectStyle1" class="click1 select"><span>营销中（{{datalist.now_counr}}）</span>
                 </li>
                 <li v-on:click="selectStyle" class="click2"><span>已下架（{{datalist.other_count}}）</span>
@@ -64,7 +62,7 @@
         <!-- 商品列表 -->
         <div class="goods-list">
             <ul>
-                <li v-for="(item,index) in goodlist">
+                <li v-for="(item,index) in goodlist" v-show="show">
                     <div class="bb t">
                         <div class="goods-img" @click='ToDetail(item.goods_id)'>
                             <img src="~@/assets/img/category-goods.png">
@@ -72,7 +70,7 @@
                         </div>
                         <div class="goods clerfix">
                              <h5>{{item.goods_name}}<span class="goodsId">{{item.goods_id}}</span></h5>
-                            <p><span class="price">{{item.market_price}}</span> <span class="y-charge">引客价</span> <span class="charge">{{item.shop_price}}</span>
+                            <p><span class="price">￥{{item.market_price}}</span> <span class="y-charge">引客价</span> <span class="charge">￥{{item.shop_price}}</span>
                                 <a href="javascript:">
                                     <img src="~@/assets/icon/goods-left.png">
                                 </a>
@@ -105,13 +103,13 @@
                                 </p>
                                 <p>营销分析</p>
                             </li>
-                            <li v-if="choosed2">
+                            <li v-if="choosed2" @click="Joinmarketing(item.goods_id)">
                                 <p>
                                     <img src="~@/assets/icon/categroy-select.png">
                                 </p>
                                 <p>加入营销</p>
                             </li>
-                            <li v-if="choosed1" v-on:click="Commodityframe">
+                            <li v-if="choosed1" @click="Commodityframe(item.goods_id)">
                                 <p>
                                     <img src="~@/assets/icon/categroy-xj.png">
                                 </p>
@@ -157,7 +155,7 @@ export default {
             choosed1:true,
         	choosed2:false,
             goodlist:'',
-            time:''
+            show:true
 　　　　 }
 　　},
     created() {
@@ -230,7 +228,7 @@ export default {
                   _this.$loading.hide(); //隐藏
             },2000);
         },
-        // 下架商品
+        // 已下架
         selectStyle () {
             const _this = this;
             $(".click1").removeClass('select');
@@ -247,15 +245,15 @@ export default {
                 params.append('type','2');
                 axios.post(url,params).then(response => {
                     const data =response.data.data
-                    _this.datalist = data
-                    _this.goodlist.push(data.list)
+                _this.datalist = data
+                _this.goodlist=data.list
                     console.log(data)
                 }).catch((err) => {
                     console.log(err)
                 })
             },2000);
     　　　　},
-        // 营销商品
+        // 营销中
         selectStyle1 () {
             const _this = this;
             $(".click2").removeClass('select');
@@ -271,9 +269,9 @@ export default {
                 params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
                 params.append('type','1');
                 axios.post(url,params).then(response => {
-                    const data =response.data
+                    const data =response.data.data
                     _this.datalist = data
-                    _this.goodlist.push(data.list)
+                    _this.goodlist=data.list
                     console.log(data)
                 }).catch((err) => {
                     console.log(err)
@@ -292,45 +290,51 @@ export default {
                 const data =response.data.data
                 _this.datalist = data
                 _this.goodlist=data.list
-                console.log(_this.goodlist)
+                console.log(data)
             }).catch((err) => {
                 console.log(err)
             })
         },
         // 商品下架
-        Commodityframe(){
+        Commodityframe(id){
             const url ='http://public.weifenvip.com/merchant/Shop/goodsUpDown';
             const _this =this
-            const id = $('.goods .goodsId').text()
             var params = new URLSearchParams();
             params.append('token',localStorage.currentUser_token);
             params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
             params.append('type','2');
             params.append('id',id);
             axios.post(url,params).then(response => {
-                const data =response.data.data
-                _this.datalist = data
-                _this.goodlist.push(data.list)
-                console.log(data.list)
+                const data =response.data
+                console.log(data.status)
+                this.$loading.show();//显示
+                if (data.status == '200') {
+                     // location.reload()
+                     this.$loading.hide(); //隐藏
+                     this.selectStyle()
+                }
             }).catch((err) => {
                 console.log(err)
             })
         },
         // 加入营销
-        Joinmarketing(){
+        Joinmarketing(id){
             const url ='http://public.weifenvip.com/merchant/Shop/goodsUpDown';
             const _this =this
-            const id = $('.goods .goodsId').text()
             var params = new URLSearchParams();
             params.append('token',localStorage.currentUser_token);
             params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
             params.append('type','1');
             params.append('id',id);
             axios.post(url,params).then(response => {
-                const data =response.data.data
-                _this.datalist = data
-                _this.goodlist.push(data.list)
-                console.log(data.list)
+                const data =response.data
+                console.log(data.status)
+                this.$loading.show();//显示
+                if (data.status == '200') {
+                     // location.reload()
+                     this.$loading.hide(); //隐藏
+                     this.selectStyle1()
+                }
             }).catch((err) => {
                 console.log(err)
             })
