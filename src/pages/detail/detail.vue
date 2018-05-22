@@ -243,7 +243,7 @@ export default {
                 const data = response.data
                 if (data.status == '200') {
                     console.log(data)
-                    $("#fx-qcode").attr('value',data.qr_str)
+                    $("#fx-qcode img").attr('src',data.img_src)
                 }
             }).catch((err) => {
                 console.log(err)
