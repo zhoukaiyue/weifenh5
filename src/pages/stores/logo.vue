@@ -11,8 +11,10 @@
 import Vue from 'vue'
 import $ from 'jquery'
 import axios from 'axios'
+
+import * as myPub from '@/assets/js/public.js'
+import * as openId from '@/assets/js/opid_public.js'
 export default {
-    name: 'category',
     data(){
 　　　　　　return {
 　　　　　　　　active: false,
@@ -28,6 +30,9 @@ export default {
             return this.menu[this.currentIndex].name
         }
     },
+    deactivated () {
+        this.$destroy()
+    },
     methods: {
         switchCategory(index, id) {
             this.currentIndex = index
@@ -38,18 +43,33 @@ export default {
         },
         // 更改品牌名称
         brand_name(){
-          const url ='http://public.weifenvip.com/merchant/Shop/editInfo';
+          const url =`${myPub.URL}/merchant/Shop/editInfo`;
           const brand_name = $(".input").val();
-          console.log(brand_name)
+          // console.log(brand_name)
           var params = new URLSearchParams();
           params.append('token',localStorage.currentUser_token);
-          params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
+          params.append('open_id',`${openId.open_id}`);
           params.append('brand_name',brand_name);
           axios.post(url,params).then(response => {
-            console.log(response)
-            this.$router.push({ path: '/page/storeInfo'})
+          //   console.log(response)
+          //   this.$router.push({ path: '/page/storeInfo', query: { num:  1}})
+          // }).catch((err) => {
+          //   console.log(err)
+          // })
+          const status = response.data.status
+         if (status == "200") {
+               this.$router.push({ path: '/page/storeInfo', query: { num:  brand_name},meta:{keepAlive: true}})
+            }else{
+                this.$vux.alert.show({
+                    title: '操作失败',
+                    content: response.data.msg
+                })
+                setTimeout(() => {
+                    this.$vux.alert.hide()
+                }, 3000)
+            }
           }).catch((err) => {
-            console.log(err)
+              console.log(err)
           })
         },
     }

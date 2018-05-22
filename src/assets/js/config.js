@@ -5,8 +5,8 @@
 /*相关域名和appid配置*/
 const config = {
 
-  //开发环境
-  developUrl: `https://www.easy-mock.com`, //开发环境
+  //线上环境环境
+  developUrl: `http://public.weifenvip.com`, //开发环境
   developWsUrl: ``,
   developAppId: 'wxb7146031bd5bbc93 ',
 

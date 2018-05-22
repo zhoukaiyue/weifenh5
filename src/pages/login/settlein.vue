@@ -5,10 +5,10 @@
         <p class="list_desc">{{list.desc}}</p>
     </div>
       <group label-width="4.5em" label-margin-right="2em" label-align="right" id="form_box">
-        <x-input title="店铺名称" v-model="value1" placeholder="请输入店铺名称" class="shopmame"></x-input>
-        <x-input title="负责人" v-model="value3" placeholder="请输入负责人名字" class="contact"></x-input>
+        <x-input title="店铺名称" v-model="shopname" placeholder="请输入店铺名称" class="shopmame"></x-input>
+        <x-input title="负责人" v-model="contact" placeholder="请输入负责人名字" class="contact"></x-input>
         <!-- <datetime title="申请时间" v-model="time1" value-text-align="left" ></datetime> -->
-        <x-input title="联系电话" type="number" placeholder="请输入负责人电话" v-model="value4" class="mobile"></x-input>
+        <x-input title="联系电话" type="number" placeholder="请输入负责人电话" v-model="mobile" class="mobile"></x-input>
         <!-- <x-address title="地址选择" v-model="addressValue" raw-value :list="addressData" value-text-align="left"></x-address>
         <x-textarea title="详细信息" placeholder="请填写详细信息" :show-counter="false" :rows="3"></x-textarea> -->
       </group>
@@ -28,6 +28,7 @@
 
 <script>
 import $ from 'jquery'
+import axios from 'axios'
 import { GroupTitle, Group, Cell, XInput, Selector, PopupPicker, Datetime, XNumber, ChinaAddressData, XAddress, XTextarea, XSwitch,Panel, Radio,XButton,Box} from 'vux'
 //引入上传图片组键
 import ossFile from '../../components/oss_file'
@@ -60,9 +61,6 @@ function getFileUrl(obj) {
      ossFile
     },
     methods: {
-        onImgError (item, $event) {
-            console.log(item, $event)
-        },
         login(){
           this.$router.push({ path: '/login'})
         },
@@ -101,28 +99,35 @@ function getFileUrl(obj) {
 
         //提交信息到后台
         submit(){
-          // alert("1")
-            const token = localStorage.currentUser_token
-            const imgurl = $('#img-wrapper img').attr('src')
-            const shopname = $(".shopname").val()
-            const contact = $(".contact").val()
-            const mobile = $(".mobile").val()
-            const data = {
-              shopname:shopname,
-              contact:contact,
-              mobile:mobile,
-              imgurl:imgurl
-              // token:localStorage.currentUser_token,
-            }
-            this.$http
-                .post(
-                    'http://public.weifenvip.com/api/v1/shop/shopApply',
-                    data
-                )
-                .then(res => {
-                    console.log(res)
-                })
-        }
+            console.log('提交')
+            const url ='http://public.weifenvip.com/merchant/Shop/apply';
+            var params = new URLSearchParams();
+            params.append('token',localStorage.currentUser_token);
+            params.append('open_id','oo1Fj0vuyJHl27Zlytaj3z5c925Q');
+            params.append('shopname',this.shopname);
+            params.append('contact',this.contact);
+            params.append('mobile',this.mobile);
+            params.append('img_src',this.img_src);
+            axios.post(url,params).then(response => {
+              // const currentUser_token = response.data.data //获取token
+              // console.log(response)
+              // next('/page/shopsuccess')
+              if (status == "200") {
+                  this.$router.push({ path: '/page/shopsuccess'})
+              }else{
+                  this.$vux.alert.show({
+                      title: '操作失败',
+                      content: response.data.msg
+                  })
+                  setTimeout(() => {
+                      this.$vux.alert.hide()
+                      location.reload()
+                  }, 3000)
+              }
+            }).catch((err) => {
+              console.log(err)
+            })
+          }
     },
     data () {
       return {
@@ -137,6 +142,14 @@ function getFileUrl(obj) {
         numberValue: 0,
         imgNum:1,    //上传的照片数量，可根据实际情况自定义
         type: '1',
+        //店铺名称
+        shopname:'',
+        // 负责人
+        contact:'',
+        // 联系电话
+        mobile:'',
+        // 营业执照
+        img_src:'',
         list: {
           title: '商家申请入驻',
           desc: '成功入驻店家圈，即可开启线上引客之路。',
@@ -146,17 +159,6 @@ function getFileUrl(obj) {
     },
     //页面加载后执行
     mounted(){
-      for(let i=0;i<this.imgNum;i++){
-       //生成input框，默认为1
-      let my_input = $('<input type="file" name="image" style="width:100%;height:100%;"/>');   //创建一个input
-      my_input.attr('id',i);                           //为创建的input添加id
-      $('#addTextForm').append(my_input);                     //将生成的input追加到指定的form
-      //生成img，默认为1
-      let my_img = $('<img src="src/assets/img/shangchuan.jpg">');
-      my_img.attr('id', 'img_'+i);
-      my_img.css({"width":"100%","height":"100%"});   //添加样式，由于vue的执行机制，页面加载的时候img标签还没有生成，直接写在style样式会不生效
-      $('#img-wrapper').append(my_img);
-      }
     }
   }
 </script>
@@ -241,7 +243,7 @@ function getFileUrl(obj) {
 }
 }.license {
   /*border-top:1px solid #D9D9D9;*/
-  padding:0px 10px 30px 10px;
+  padding:0px 10px 30px 0px;
   min-height:150px;
   position:relative;
   color: #333;

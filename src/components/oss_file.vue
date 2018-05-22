@@ -52,7 +52,7 @@
 
                         BeforeUpload: function(up, file) {
                             console.log('上传前'+file)
-                            self.set_upload_param(up, '此处定义文件名称/'+file.name, true);
+                            self.set_upload_param(up, 'user/'+file.name, true);
                             // 上传前
                         },
 

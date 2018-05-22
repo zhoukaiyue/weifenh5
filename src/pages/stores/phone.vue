@@ -131,7 +131,6 @@ export default {
               params.append('session_id',localStorage.sessionid);
               axios.post(url,params).then(response => {
                 const status = response.data.status
-                console.log(status)
                 if (status == "200") {
                     this.$router.push({ path: 'phonesuccess'})
                 }else{

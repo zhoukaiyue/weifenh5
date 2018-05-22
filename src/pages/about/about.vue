@@ -1,14 +1,14 @@
 <template>
-  <div class="shopcenter">
+  <div class="shop_center">
     <div class="mainInfo">
         <ul class="shop_info_left">
           <li class="shop_name">{{scdata.shop_info.name}}</li>
-          <li class="storeManager">{{scdata.shop_info.name}}&nbsp;&nbsp;<span class="storesanager_right">店长，欢迎您!</span></li>
+          <li class="storeManager">{{scdata.shop_info.brand_name}}&nbsp;&nbsp;<span class="storesanager_right">店长，欢迎您!</span></li>
           <li class="join_time">{{scdata.shop_info.create_time}}&nbsp;加入</li>
           <li class="passenger_traffic">
-            <div  class="passenger_traffic_box" style="border:0;"><span>4218</span><label>总引客量</label></div>
-            <div  class="passenger_traffic_box"><span>471</span><label>今日订单</label></div>
-            <div  class="passenger_traffic_box"><span>618</span><label>近日引客量</label></div>
+            <div  class="passenger_traffic_box" style="border:0;"><span>{{scdata.clerk_count}}</span><label>总引客量</label></div>
+            <div  class="passenger_traffic_box"><span>{{scdata.member_count}}</span><label>今日订单</label></div>
+            <div  class="passenger_traffic_box"><span>{{scdata.member_now_count}}</span><label>近日引客量</label></div>
           </li>
         </ul>
       <div class="shop_info_right">
@@ -31,8 +31,8 @@
     <div class="store_management">
       <p class="store_managementtext">店铺管理</p>
       <ul class="store_managementul">
-        <li v-on:click="storeer"><img src="~@/assets/icon/xinxi.png"><span class="store_managementli_span">店长信息管理</span><label  class="store_managementli_label">王富贵&nbsp;<span class="jiantou"></span></label></li>
-        <li v-on:click="shop"><img src="~@/assets/icon/xixi.png"><span class="store_managementli_span">店员管理</span><label  class="store_managementli_label">9人&nbsp;<span class="jiantou"></span></label></li>
+        <li><img src="~@/assets/icon/xinxi.png"><span class="store_managementli_span">店长信息管理</span><label  class="store_managementli_label">&nbsp;暂未开放<!-- <span class="jiantou"></span> --></label></li>
+        <li v-on:click="shop"><img src="~@/assets/icon/xixi.png"><span class="store_managementli_span">店员管理</span><label  class="store_managementli_label">{{scdata.member_count}}人&nbsp;<span class="jiantou"></span></label></li>
       </ul>
     </div>
     <p class="help_center">帮助中心</p>
@@ -42,8 +42,10 @@
 
 <script>
 import axios from 'axios'
+import * as myPub from '@/assets/js/public.js'
+import * as openId from '@/assets/js/opid_public.js'
 export default {
-    name: 'shopcenter',
+    name: 'shop_center',
     data(){
 　　　　　　return {
 　　　　　　　　active: false,
@@ -55,17 +57,16 @@ export default {
 　　　　　　}
 　　　　},
     created() {
+
     },
     computed: {
     },
     mounted(){
+            //数据请求接口
             this.mcenterdata()
     },
     methods: {
-        storeer() {
-            this.$router.push({ path: '/page/storeer'})
-        },
-        shop() {
+       shop() {
             this.$router.push({ path: '/page/shop'})
         },
        edit() {
@@ -77,10 +78,10 @@ export default {
         // 请求数据接口
         mcenterdata(){
           const _this = this;
-          const url ='http://public.weifenvip.com/index/Shop/shopCore';
+          const url =`${myPub.URL}/merchant/Shop/shopCore`;
           const params = new URLSearchParams();
           params.append('token',localStorage.currentUser_token);
-          params.append('open_id','oo1Fj0rhEG6wJ7UvjJUpR_97g3v0');
+          params.append('open_id',`${openId.open_id}`);
           axios.post(url,params).then(response => {
             // const currentUser_token = response.data.data //获取token
             console.log(response.data.data)
@@ -94,7 +95,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-.shopcenter{
+.shop_center{
     background-color:#f9f8f8;
     padding-bottom:20px;
     .mainInfo{

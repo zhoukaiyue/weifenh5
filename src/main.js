@@ -7,6 +7,7 @@ import store from './store'
 import http from './common/js/http'
 import {hex_sha1} from './assets/js/sha1.js'
 import * as myPub from '@/assets/js/public.js'
+import * as openId from '@/assets/js/opid_public.js'
 
 // vux 引入组件
 import { AlertPlugin, ToastPlugin } from 'vux'

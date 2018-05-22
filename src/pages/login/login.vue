@@ -46,6 +46,8 @@
 import { XInput, Group, XButton, Cell, Toast, base64 } from 'vux'
 import { mapMutations } from 'vuex'
 import axios from 'axios'
+import * as myPub from '@/assets/js/public.js'
+import * as openId from '@/assets/js/opid_public.js'
 //引入sha1加密方法
 import {hex_sha1} from '../../assets/js/sha1.js'
 export default {
@@ -94,7 +96,7 @@ export default {
             this.disabled = true
             this.timer()
              // 获取验证
-                const url ='http://public.weifenvip.com/merchant/Sendcodes/sms';
+              const url =`${myPub.URL}/merchant/Sendcodes/sms`;
               var params = new URLSearchParams();
               params.append('mobile',this.phoneNumber);
               params.append('token',localStorage.currentUser_token);
@@ -136,13 +138,15 @@ export default {
             }
         },
         login(){
-            const _this=this;
-             _this.$loading.show();//显示
-            const url ='http://public.weifenvip.com/merchant/Shop/login';
+             const _this=this;
+              _this.$loading.show();//显示
+             const url =`${myPub.URL}/merchant/Shop/login`;
               var params = new URLSearchParams();
               params.append('mobile',this.phoneNumber);
               params.append('token',localStorage.currentUser_token);
-              params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
+              params.append('open_id',`${openId.open_id}`);
+              // console.log(localStorage.openid)
+              // params.append('open_id',localStorage.openid);
               params.append('code',this.verifyCode);
               if(localStorage.sessionid){
                  params.append('session_id',localStorage.sessionid);

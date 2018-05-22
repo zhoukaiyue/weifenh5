@@ -59,7 +59,8 @@ const routes = [
                 name: 'home',
                 meta: {
                     title: '首页',
-                    // auth: true // 如果此路由需要微信授权请设置为true,默认为false
+                     keepAlive: false // 不需要被缓存
+                    //auth: true // 如果此路由需要微信授权请设置为true,默认为false
                 },
                 component: Home
             },
@@ -67,16 +68,18 @@ const routes = [
                 path: 'theme',
                 name: 'theme',
                 meta: {
-                    title: '主题'
+                    title: '主题',
+                     keepAlive: false // 不需要被缓存
                 },
-                component: Theme
+                component:Theme
             },
             {
                 path: 'category',
                 name: 'category',
                 meta: {
                     title: '店铺营销',
-                    requireAuth: true
+                    requireAuth: true,
+                     keepAlive: false // 不需要被缓存
                 },
                 component: Category
             },
@@ -85,7 +88,8 @@ const routes = [
                 name: 'addGoods',
                 meta: {
                     title: '添加商品',
-                    requireAuth: true
+                    requireAuth: true,
+                     keepAlive: false // 不需要被缓存
                 },
                 component: addGoods
             },
@@ -94,7 +98,8 @@ const routes = [
                 name: 'detail',
                 meta: {
                     title: '商品详情',
-                    requireAuth: true
+                    requireAuth: true,
+                     keepAlive: false // 不需要被缓存
                 },
                 component: Detail
             },
@@ -102,7 +107,8 @@ const routes = [
                 path: 'ceshi',
                 name: 'ceshi',
                 meta: {
-                    title: '测试'
+                    title: '测试',
+                     keepAlive: false // 不需要被缓存
                 },
                 component: Ceshi
             },
@@ -111,7 +117,8 @@ const routes = [
                 name: 'dyinvite',
                 meta: {
                     title: '店员邀新排行榜',
-                    requireAuth: true
+                    requireAuth: true,
+                     keepAlive: false // 不需要被缓存
                 },
                 component: Dyinvite
             },
@@ -129,7 +136,8 @@ const routes = [
                 name: 'order',
                 meta: {
                     title: '订单',
-                    requireAuth: true // 添加该字段，表示进入这个路由是需要登录的
+                    requireAuth: true ,// 添加该字段，表示进入这个路由是需要登录的
+                     keepAlive: false // 不需要被缓存
                 },
                 component: Order
             },
@@ -138,7 +146,8 @@ const routes = [
                 name: 'orderData',
                 meta: {
                     title: '店铺订单数据',
-                    requireAuth: true // 添加该字段，表示进入这个路由是需要登录的
+                    requireAuth: true ,// 添加该字段，表示进入这个路由是需要登录的
+                     keepAlive: false // 不需要被缓存
                 },
                 component: OrderData
             },
@@ -147,7 +156,8 @@ const routes = [
                 name: 'commodityData',
                 meta: {
                     title: '营销商品数据',
-                    requireAuth: true // 添加该字段，表示进入这个路由是需要登录的
+                    requireAuth: true ,// 添加该字段，表示进入这个路由是需要登录的
+                     keepAlive: false // 不需要被缓存
                 },
                 component: CommodityData
             },
@@ -156,7 +166,8 @@ const routes = [
                 name: 'address',
                 meta: {
                     title: '地址',
-                    requireAuth: true // 添加该字段，表示进入这个路由是需要登录的
+                    requireAuth: true ,// 添加该字段，表示进入这个路由是需要登录的
+                     keepAlive: false // 不需要被缓存
                 },
                 component: Address
             },
@@ -173,17 +184,19 @@ const routes = [
                 path: 'about',
                 name: 'about',
                 meta: {
-                    title: '店铺中心'
+                    title: '店铺中心',
+                    requireAuth: true,
+                     keepAlive: false // 不需要被缓存
                 },
                 component: About,
-                requireAuth: true
             },
             {
                 path: 'storeInfo',
                 name: 'storeInfo',
                 meta: {
                     title: '店铺信息',
-                    requireAuth: true
+                    requireAuth: true,
+                     keepAlive: false // 不需要被缓存
                 },
                 component: StoreInfo
             },
@@ -191,24 +204,28 @@ const routes = [
                 path: 'store_users',
                 name: 'store_users',
                 meta: {
-                    title: '店铺新增用户数据'
+                    title: '店铺新增用户数据',
+                    requireAuth: true,
+                     keepAlive: false // 不需要被缓存
                 },
                 component: Store_users
             },
-            {
-                path: 'shopCenter',
-                name: 'shopCenter',
-                meta: {
-                    title: '店铺中心',
-                    // requireAuth: true
-                },
-                component: ShopCenter
-            },
+            // 该路由暂时换为about
+            // {
+            //     path: 'shopCenter',
+            //     name: 'shopCenter',
+            //     meta: {
+            //         title: '店铺中心',
+            //         // requireAuth: true
+            //     },
+            //     component: ShopCenter
+            // },
             {
                 path: 'logo',
                 name: 'logo',
                 meta: {
-                    title: '品牌名称'
+                    title: '品牌名称',
+                     keepAlive: false // 不需要被缓存
                 },
                 component: logo
             },
@@ -217,7 +234,9 @@ const routes = [
                 path: 'people',
                 name: 'people',
                 meta: {
-                    title: '修改负责人'
+                    title: '修改负责人',
+                    requireAuth: true,
+                     keepAlive: false // 不需要被缓存
                 },
                 component: people
             },
@@ -225,7 +244,8 @@ const routes = [
                 path: 'shopinfo',
                 name: 'shopinfo',
                 meta: {
-                    title: '店铺介绍'
+                    title: '店铺介绍',
+                     keepAlive: false // 不需要被缓存
                 },
                 component: shopinfo
             },
@@ -233,7 +253,9 @@ const routes = [
                 path: 'changephone',
                 name: 'changephone',
                 meta: {
-                    title: '修改手机号'
+                    title: '修改手机号',
+                    requireAuth: true,
+                     keepAlive: false // 不需要被缓存
                 },
                 component: changephone
             },
@@ -241,7 +263,9 @@ const routes = [
                 path: 'phone',
                 name: 'phone',
                 meta: {
-                    title: '修改手机号'
+                    title: '修改手机号',
+                    requireAuth: true,
+                     keepAlive: false // 不需要被缓存
                 },
                 component: phone
             },
@@ -249,7 +273,8 @@ const routes = [
                 path: 'newphone',
                 name: 'newphone',
                 meta: {
-                    title: 'ceshi'
+                    title: 'ceshi',
+                     keepAlive: false // 不需要被缓存
                 },
                 component: newphone
             }
@@ -258,7 +283,8 @@ const routes = [
                 path: 'phonesuccess',
                 name: 'phonesuccess',
                 meta: {
-                    title: '修改手机号成功'
+                    title: '修改手机号成功',
+                     keepAlive: false // 不需要被缓存
                 },
                 component: phonesuccess
             }
@@ -267,7 +293,9 @@ const routes = [
                 path: 'storeer',
                 name: 'storeer',
                 meta: {
-                    title: '店长管理'
+                    title: '店长管理',
+                    requireAuth: true,
+                     keepAlive: false // 不需要被缓存
                 },
                 component: storeer
             }
@@ -276,7 +304,9 @@ const routes = [
                 path: 'changeshop',
                 name: 'changeshop',
                 meta: {
-                    title: '添加新店长'
+                    title: '添加新店长',
+                    requireAuth: true,
+                     keepAlive: false // 不需要被缓存
                 },
                 component: changeshop
             }
@@ -285,7 +315,9 @@ const routes = [
                 path: 'shop',
                 name: 'shop',
                 meta: {
-                    title: '店员管理'
+                    title: '店员管理',
+                    requireAuth: true,
+                     keepAlive: false // 不需要被缓存
                 },
                 component: shop
             }
@@ -294,7 +326,8 @@ const routes = [
                 path: 'shopsuccess',
                 name: 'shopsuccess',
                 meta: {
-                    title: '店长添加成功'
+                    title: '店长添加成功',
+                     keepAlive: false // 不需要被缓存
                 },
                 component: shopsuccess
             }
@@ -303,7 +336,9 @@ const routes = [
                 path: 'changestore',
                 name: 'changestore',
                 meta: {
-                    title: '更换店员'
+                    title: '更换店员',
+                    requireAuth: true,
+                     keepAlive: false // 不需要被缓存
                 },
                 component: changestore
             }
@@ -312,7 +347,8 @@ const routes = [
                 path: 'storesuccess',
                 name: 'storesuccess',
                 meta: {
-                    title: '店员添加成功'
+                    title: '店员添加成功',
+                     keepAlive: false // 不需要被缓存
                 },
                 component: storesuccess
             },
@@ -320,7 +356,9 @@ const routes = [
                 path: 'newData',
                 name: 'newData',
                 meta: {
-                    title: '邀新数据'
+                    title: '邀新数据',
+                    requireAuth: true,
+                     keepAlive: false // 不需要被缓存
                 },
                 component: newData
             },
@@ -328,7 +366,9 @@ const routes = [
                 path: 'data',
                 name: 'data',
                 meta: {
-                    title: '数据统计'
+                    title: '数据统计',
+                    requireAuth: true,
+                     keepAlive: false // 不需要被缓存
                 },
                 component: data
             }
@@ -339,15 +379,18 @@ const routes = [
         name: 'login',
         component: Login,
         meta: {
-            title: '商家登录'
+            title: '商家登录',
+             keepAlive: false // 不需要被缓存
         }
     },
+
     {
         path: '/settlein',
         name: 'settlein',
         component: Settlein,
         meta: {
-            title: '申请入驻'
+            title: '申请入驻',
+             keepAlive: false // 不需要被缓存
         }
     },
     { path: '*', component: Home }

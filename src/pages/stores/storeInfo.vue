@@ -11,6 +11,7 @@
           </div> -->
         </div>
     </div>
+    <p class="store_tishi">（点击图像可进行更换）</p>
     <p class="store_name">{{datas.name}}</p>
     <ul class="store-list">
       <li class="clearfix">
@@ -66,11 +67,13 @@
 import $ from 'jquery'
 import { GroupTitle, Group, Cell, XInput, Selector, PopupPicker, Datetime, XNumber, ChinaAddressData, XAddress, XTextarea, XSwitch,Panel, Radio,XButton,Box} from 'vux'
 import axios from 'axios'
+
+import * as myPub from '@/assets/js/public.js'
+import * as openId from '@/assets/js/opid_public.js'
 //引入上传图片组键
 import ossFile from '../../components/oss_file'
 
   export default {
-    name: 'storeInfo',
     components: {
       Group,
       GroupTitle,
@@ -90,11 +93,13 @@ import ossFile from '../../components/oss_file'
       ossFile
     },
      created() {
-      console.log('created')
-      this.binfo_data()
+     console.log(this.pass1 =this.$route.query.num)
      },
     computed:{
           // console.log('computed')
+    },
+    deactivated () {
+        this.$destroy()
     },
     methods:{
         logo() {
@@ -105,7 +110,7 @@ import ossFile from '../../components/oss_file'
         },
         changephone(a) {
           console.log(a)
-           this.$router.push({ path: '/page/changephone',query: { mobile: a }})
+           this.$router.push({ path: '/page/changephone',query: {mobile:a}})
         },
         people() {
             this.$router.push({ path: '/page/people'})
@@ -121,10 +126,10 @@ import ossFile from '../../components/oss_file'
         // 商铺数据接口
         binfo_data(){
           const _this= this;
-          const url ='http://public.weifenvip.com/merchant/Shop/shopInfo';
+          const url =`${myPub.URL}/merchant/Shop/shopInfo`;
           const params = new URLSearchParams();
           params.append('token',localStorage.currentUser_token);
-          params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
+          params.append('open_id',`${openId.open_id}`);
           axios.post(url,params).then(response => {
             const data = response.data.data
             const str=data.mobile;
@@ -146,12 +151,12 @@ import ossFile from '../../components/oss_file'
         },
         // 更改公司模式
         company_model(){
-          const url ='http://public.weifenvip.com/merchant/Shop/editInfo';
+          const url =`${myPub.URL}/merchant/Shop/editInfo`;
           const company_model = $(".select").find("option:selected").val();
           console.log(company_model)
           const params = new URLSearchParams();
           params.append('token',localStorage.currentUser_token);
-          params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
+          params.append('open_id',`${openId.open_id}`);
           params.append('company_model',company_model);
           axios.post(url,params).then(response => {
             console.log(response.data)
@@ -180,12 +185,13 @@ import ossFile from '../../components/oss_file'
         datas:{},
         type2:'',
         type:'',
-        mobile:''
+        mobile:'',
+        pass1:''
       }
     },
     //页面加载后执行
     mounted(){
-     console.log(localStorage.login_static)
+     this.binfo_data()
     }
   }
 </script>
@@ -265,6 +271,16 @@ import ossFile from '../../components/oss_file'
     .fl{background: #f7f7f7;border-radius: 4px;color: #333;}
     .fr{background: #fd5536;border-radius: 4px;color: #ffffff;}
   }
+}
+
+.store_tishi{
+    font-family: PingFangSC-Regular;
+    font-size: 0.6rem;
+    line-height: 2rem;
+    color: #F54321;
+    letter-spacing: 0;
+    text-align: center;
+    font-weight: 600;
 }
 /*蒙版*/
 .bg{width: 100%;height: 100%;position: absolute;background: rgba(0,0,0,.6);top: 0;left: 0;display: none;}

@@ -94,6 +94,7 @@
 import { Swiper, SwiperItem,ButtonTab, ButtonTabItem, Divider } from 'vux'
 import products from '@/components/Products'
 import * as myPub from '@/assets/js/public.js'
+import * as openId from '@/assets/js/opid_public.js'
 import axios from 'axios'
 const bannerId = 1
 const themeIds = '1,2,3'
@@ -109,14 +110,11 @@ export default {
         }
     },
     created() {
-        // this.getBanner()
-        // this.getTheme()
-        // this.getRecent()
         this.indeData()
     },
     methods: {
         linkToDetail(id) {
-            this.$router.push({ path: '/page/detail', query: { id: id } })
+            this.$router.push({ path: '/page/detail', query: {id: id}})
         },
         linkToTheme(id) {
             this.$router.push({
@@ -139,43 +137,14 @@ export default {
         commodityData(){
             this.$router.push({ path: '/page/commodityData' })
         },
-        // getBanner() {
-        //     this.$http
-        //         .get(
-        //             `${myPub.URL}/mock/5a4896ba62de717d44f2406e/api/v1/banner/${bannerId}`
-        //         )
-        //         .then(res => {
-        //             this.imgList = res.data.data.items
-        //             console.log(this.imgList)
-        //         })
-        // },
-        // getTheme() {
-        //     this.$http
-        //         .get(
-        //             `${myPub.URL}/mock/5a4896ba62de717d44f2406e/api/v1/theme?ids=${themeIds}`
-        //         )
-        //         .then(res => {
-        //             this.themeList = res.data.data
-        //         })
-        // },
-        // getRecent() {
-        //     console.log(`${myPub.URL}`)
-        //     this.$http
-        //         .get(
-        //         // https://www.easy-mock.com
-        //             `${myPub.URL}/mock/5a4896ba62de717d44f2406e/api/v1/product/recent`
-        //         )
-        //         .then(res => {
-        //             this.recentList = res.data.data
-        //         })
-        // },
         // 首页数据接口
         indeData(){
           const _this = this
-          const url ='http://public.weifenvip.com/merchant/Shop/index';
+          const url =`${myPub.URL}/merchant/Shop/index`;
+          console.log(`${openId.open_id}`)
           const params = new URLSearchParams();
           params.append('token',localStorage.currentUser_token);
-          params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
+          params.append('open_id',`${openId.open_id}`);
           axios.post(url,params).then(response => {
             const data = response.data.data
             this.num = data
@@ -196,9 +165,9 @@ export default {
         Divider
     },
     //页面加载后执行
-    // mounted(){
-    //   console.log(num.)
-    // }
+    mounted(){
+        
+    }
 }
 </script>
 
@@ -208,11 +177,11 @@ export default {
     padding-bottom:10px;
     .index_banner{
         width:100%;
-        height:140px;
+        height:190px;
         img{
             display:block;
             width:100%;
-            height:140px;
+            height:190px;
         }
     }
     .selected-themes {

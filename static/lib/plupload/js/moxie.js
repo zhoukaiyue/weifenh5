@@ -6409,7 +6409,6 @@ define("moxie/runtime/html5/file/FileInput", [
 	"moxie/core/utils/Mime",
 	"moxie/core/utils/Env"
 ], function(extensions, Basic, Dom, Events, Mime, Env) {
-	
 	function FileInput() {
 		var _files = [], _options;
 
