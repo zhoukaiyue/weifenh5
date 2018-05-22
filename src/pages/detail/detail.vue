@@ -112,6 +112,7 @@
 import { PopupPicker, Tab, TabItem, Swiper, SwiperItem,Qrcode, GroupTitle,  Divider,XDialog, Popup, Group, Cell, XButton, XSwitch, Toast, XAddress, ChinaAddressData,TransferDomDirective as TransferDom } from 'vux'
 import { mapState, mapMutations, mapGetters } from 'vuex'
 import axios from 'axios'
+import $ from 'jquery'
 import * as myPub from '@/assets/js/public.js'
 import * as openId from '@/assets/js/opid_public.js'
 
@@ -241,7 +242,8 @@ export default {
             axios.post(url,params).then(response => {
                 const data = response.data
                 if (data.status == '200') {
-                    $("#fx-qcode")
+                    console.log(data)
+                    $("#fx-qcode").attr('value',data.qr_str)
                 }
             }).catch((err) => {
                 console.log(err)
