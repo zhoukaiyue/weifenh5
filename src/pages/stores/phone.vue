@@ -37,6 +37,8 @@
 import { XInput, Group, XButton, Cell, Toast, base64 } from 'vux'
 import { mapMutations } from 'vuex'
 import axios from 'axios'
+import * as myPub from '@/assets/js/public.js'
+import * as openId from '@/assets/js/opid_public.js'
 export default {
     name: 'Login',
     data() {
@@ -83,11 +85,11 @@ export default {
             this.disabled = true
             this.timer()
              // 获取验证
-                const url ='http://public.weifenvip.com/merchant/Sendcodes/sms';
+                const url =`${myPub.URL}/merchant/Sendcodes/sms`;
               var params = new URLSearchParams();
               params.append('mobile',this.phoneNumber); 
               params.append('token',localStorage.currentUser_token);
-              params.append('type','111');
+              params.append('type','1');
               if (localStorage.sessionid) {
                 params.append('session_id',localStorage.sessionid);
               }else{}
@@ -120,14 +122,14 @@ export default {
             }
         },
         phone(){
-            const url ='http://public.weifenvip.com/merchant/Shop/editShopKeeper';
+            const url =`${myPub.URL}/merchant/Shop/editShopKeeper`;
             const check_shop = this.$route.query.check_shop
               var params = new URLSearchParams();
               params.append('mobile',this.phoneNumber); 
               params.append('token',localStorage.currentUser_token);
               params.append('code',this.verifyCode);
               params.append('check_shop',check_shop);
-              params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
+              params.append('open_id',`${openId.open_id}`);
               params.append('session_id',localStorage.sessionid);
               axios.post(url,params).then(response => {
                 const status = response.data.status

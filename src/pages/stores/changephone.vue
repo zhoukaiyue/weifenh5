@@ -28,6 +28,8 @@ import { XInput, Group, XButton, Cell, Toast, base64 } from 'vux'
 import { mapMutations } from 'vuex'
 import $ from 'jquery'
 import axios from 'axios'
+import * as myPub from '@/assets/js/public.js'
+import * as openId from '@/assets/js/opid_public.js'
 export default {
     name: 'Login',
     data() {
@@ -68,7 +70,7 @@ export default {
             this.disabled = true
             this.timer()
              // 获取验证
-                const url ='http://public.weifenvip.com/merchant/Sendcodes/sms';
+                const url =`${myPub.URL}/merchant/Sendcodes/sms`;
               const params = new URLSearchParams();
               const mobile =this.$route.query.mobile
               params.append('mobile',mobile); 
@@ -89,13 +91,13 @@ export default {
         },
         // 修改手机号
         changephone(){
-            const url ='http://public.weifenvip.com/merchant/Shop/editShopKeeper';
+            const url =`${myPub.URL}/merchant/Shop/editShopKeeper`;
               const mobile =this.$route.query.mobile
               const params = new URLSearchParams();
               params.append('mobile',mobile); 
               params.append('token',localStorage.currentUser_token);
               params.append('code',this.verifyCode);
-              params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
+              params.append('open_id',`${openId.open_id}`);
               params.append('session_id',localStorage.sessionid);
               axios.post(url,params).then(response => {
                 const status = response.data.status
@@ -103,7 +105,7 @@ export default {
                 if (status == "200") {
                     const check_shop = response.data.data
                     console.log(response)
-                    this.$router.push({ path: 'phone',query: { check_shop: check_shop }})
+                    this.$router.push({ path: 'phone',query:{check_shop: check_shop}})
                 }else{
                     this.$vux.alert.show({
                         title: '操作失败',

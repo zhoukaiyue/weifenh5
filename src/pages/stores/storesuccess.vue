@@ -26,15 +26,8 @@ export default {
       }
      },
     created() {
-        this.getCategory()
     },
     computed: {
-        menuBanner() {
-            return this.menu[this.currentIndex].img.url
-        },
-        categoryTitle() {
-            return this.menu[this.currentIndex].name
-        }
     },
     methods: {
         switchCategory(index, id) {

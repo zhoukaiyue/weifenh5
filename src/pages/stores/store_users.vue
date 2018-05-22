@@ -24,7 +24,8 @@
 import $ from 'jquery'
 import datepicker from '../../components/datepicker'
 import axios from 'axios'
-
+import * as myPub from '@/assets/js/public.js'
+import * as openId from '@/assets/js/opid_public.js'
 export default {
     name: 'store_users',
     data() {
@@ -112,10 +113,10 @@ export default {
         },
         // 店铺邀新数据
         Invitenew(){
-            const url ='http://public.weifenvip.com/merchant/Shop/inviteRanking';
+            const url =`${myPub.URL}/merchant/Shop/inviteRanking`;
             var params = new URLSearchParams();
             params.append('token',localStorage.currentUser_token);;
-            params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
+            params.append('open_id',`${openId.open_id}`);
             axios.post(url,params).then(response => {
                 const status = response.data.status
                 console.log(response)

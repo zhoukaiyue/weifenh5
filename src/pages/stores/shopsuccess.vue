@@ -23,15 +23,8 @@ export default {
       }
      },
     created() {
-        this.getCategory()
     },
     computed: {
-        menuBanner() {
-            return this.menu[this.currentIndex].img.url
-        },
-        categoryTitle() {
-            return this.menu[this.currentIndex].name
-        }
     },
     methods: {
         switchCategory(index, id) {
@@ -39,7 +32,7 @@ export default {
             this.getProduct(id)
         },
         shop() {
-            this.$router.push({ path: '/page/shopCenter'})
+            this.$router.push({ path: '/page/about'})
         },
         getCode(){
          const TIME_COUNT = 60;
