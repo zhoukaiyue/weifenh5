@@ -59,8 +59,8 @@ const routes = [
                 name: 'home',
                 meta: {
                     title: '首页',
-                     keepAlive: false // 不需要被缓存
-                    //auth: true // 如果此路由需要微信授权请设置为true,默认为false
+                     keepAlive: false,// 不需要被缓存
+                    // auth: true // 如果此路由需要微信授权请设置为true,默认为false
                 },
                 component: Home
             },
@@ -98,7 +98,7 @@ const routes = [
                 name: 'detail',
                 meta: {
                     title: '商品详情',
-                    requireAuth: true,
+                    // requireAuth: true,
                      keepAlive: false // 不需要被缓存
                 },
                 component: Detail
@@ -167,7 +167,7 @@ const routes = [
                 meta: {
                     title: '地址',
                     requireAuth: true ,// 添加该字段，表示进入这个路由是需要登录的
-                     keepAlive: false // 不需要被缓存
+                    keepAlive: false // 不需要被缓存
                 },
                 component: Address
             },

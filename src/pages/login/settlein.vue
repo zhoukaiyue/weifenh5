@@ -63,6 +63,9 @@ function getFileUrl(obj) {
       Box,
      ossFile
     },
+    deactivated () {
+        this.$destroy()
+    },
     methods: {
         login(){
           this.$router.push({ path: '/login'})
@@ -110,7 +113,7 @@ function getFileUrl(obj) {
             params.append('shopname',this.shopname);
             params.append('contact',this.contact);
             params.append('mobile',this.mobile);
-            params.append('img_src',this.img_src);
+            params.append('img_src',sessionStorage.getItem('bulicense_url'));
             axios.post(url,params).then(response => {
               // const currentUser_token = response.data.data //获取token
               // console.log(response)

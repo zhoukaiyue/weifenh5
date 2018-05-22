@@ -10,6 +10,8 @@
 <script>
     import axios from 'axios'
     import $ from 'jquery'
+    import * as openId from '@/assets/js/opid_public.js' 
+        
     export default {
       name: 'container',
        data() {
@@ -44,7 +46,7 @@
 
                         FilesAdded: function(up, files,event) {
                             //上传成功前
-                            console.log(files)
+                            // console.log(files)
                             self.files = files;
                             //此处是当选中图片之后触发向服务器提交的方法
                             self.selectFile()
@@ -52,17 +54,35 @@
 
                         BeforeUpload: function(up, file) {
                             console.log('上传前'+file)
-                            self.set_upload_param(up, 'user/'+file.name, true);
+                            //修改图片名称
+                            //生成文件夹名称
+                            var d = new Date();
+                            var curr_date = d.getDate();
+                            var curr_month = d.getMonth() + 1; 
+                            var curr_year = d.getFullYear();
+                            String(curr_month).length < 2 ? (curr_month = "0" + curr_month): curr_month;
+                            String(curr_date).length < 2 ? (curr_date = "0" + curr_date): curr_date;
+                            var yyyyMMdd = curr_year + "" + curr_month +""+ curr_date;
+                            // 文件夹名称
+                            console.log(yyyyMMdd)
+                            // 文件名称
+                            var imgurl =`${openId.open_id}`;
+                            console.log(imgurl)
+                            console.log(file.name=imgurl+'.png')
+                            //将营业执照图片地址存储起来 `${openId.open_id}`
+                            console.log(yyyyMMdd+'/'+file.name)
+                            var bulicense_url=yyyyMMdd+'/'+file.name;
+                            sessionStorage.setItem('bulicense_url',bulicense_url);
+                            self.set_upload_param(up, 'user/'+yyyyMMdd+'/'+file.name, true);
                             // 上传前
                         },
 
                         UploadProgress: function(up, file) {
-
                             // 可以在此设置上传进度
                         },
 
                         FileUploaded: function(up, file, info) {
-                            console.log(up, file, info)
+                            // console.log(up, file, info)
 
                             // 上传成功之后，文件的url为: host + file.name
                             if (info.status == 200) {

@@ -68,6 +68,9 @@ export default {
         }
     },
     created() {},
+    deactivated () {
+        this.$destroy()
+    },
     activated() {
         localStorage.removeItem('token')
         localStorage.removeItem('userInfo')
