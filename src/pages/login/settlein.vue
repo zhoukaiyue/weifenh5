@@ -109,7 +109,7 @@ function getFileUrl(obj) {
             const url =`${myPub.URL}/merchant/Shop/apply`;
             var params = new URLSearchParams();
             params.append('token',localStorage.currentUser_token);
-            params.append('open_id',`${openId.open_id}`);
+            params.append('open_id',localStorage.openid);
             params.append('shopname',this.shopname);
             params.append('contact',this.contact);
             params.append('mobile',this.mobile);

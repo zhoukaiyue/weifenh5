@@ -113,7 +113,7 @@ export default {
               var params = new URLSearchParams();
               params.append('type','1'); 
               params.append('token',localStorage.currentUser_token);;
-              params.append('open_id',`${openId.open_id}`);
+              params.append('open_id',localStorage.openid);
               axios.post(url,params).then(response => {
                 const status = response.data.status
                 console.log(response)
@@ -137,7 +137,7 @@ export default {
               var params = new URLSearchParams();
               params.append('type','2'); 
               params.append('token',localStorage.currentUser_token);;
-              params.append('open_id',`${openId.open_id}`);
+              params.append('open_id',localStorage.openid);
               axios.post(url,params).then(response => {
                 const status = response.data.status
                 console.log(response)
@@ -157,11 +157,11 @@ export default {
         setTimeout(function(){  //模拟请求
               _this.$loading.hide(); //隐藏
                _this.$loading.hide(); //隐藏
-              const url ='http://public.weifenvip.com/merchant/Shop/order';
+              const url =`${myPub.URL}/merchant/Shop/order`;
               var params = new URLSearchParams();
               params.append('type','3'); 
               params.append('token',localStorage.currentUser_token);;
-              params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
+              params.append('open_id',localStorage.openid);
               axios.post(url,params).then(response => {
                 const status = response.data.status
                 console.log(response)
@@ -181,11 +181,11 @@ export default {
         setTimeout(function(){  //模拟请求
               _this.$loading.hide(); //隐藏
                _this.$loading.hide(); //隐藏
-              const url ='http://public.weifenvip.com/merchant/Shop/order';
+              const url =`${myPub.URL}/merchant/Shop/order`;
               var params = new URLSearchParams();
               params.append('type','0'); 
               params.append('token',localStorage.currentUser_token);;
-              params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
+              params.append('open_id',localStorage.openid);
               axios.post(url,params).then(response => {
                 const status = response.data.status
                 console.log(response)
@@ -196,12 +196,12 @@ export default {
     },
     //店铺订单全部数据
     orderdata(){
-        const url ='http://public.weifenvip.com/merchant/Shop/order';
+        const url =`${myPub.URL}/merchant/Shop/order`;
         const _this = this
         var params = new URLSearchParams();
         params.append('type','0'); 
         params.append('token',localStorage.currentUser_token);;
-        params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
+        params.append('open_id',localStorage.openid);
         axios.post(url,params).then(response => {
             const data = response.data.data
             _this.datalist = data.list

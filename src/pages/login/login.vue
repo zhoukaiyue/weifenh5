@@ -147,7 +147,7 @@ export default {
               var params = new URLSearchParams();
               params.append('mobile',this.phoneNumber);
               params.append('token',localStorage.currentUser_token);
-              params.append('open_id',`${openId.open_id}`);
+              params.append('open_id',localStorage.openid);
               // console.log(localStorage.openid)
               // params.append('open_id',localStorage.openid);
               params.append('code',this.verifyCode);

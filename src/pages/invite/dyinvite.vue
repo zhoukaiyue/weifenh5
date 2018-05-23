@@ -49,10 +49,10 @@ export default {
             _this.$loading.show();//显示
             setTimeout(function(){  //模拟请求
                 _this.$loading.hide(); //隐藏
-                const url ='http://public.weifenvip.com/merchant/Shop/inviteRanking';
+                const url =`${myPub.URL}/merchant/Shop/inviteRanking`;
                 var params = new URLSearchParams();
                 params.append('token',localStorage.currentUser_token);;
-                params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
+                params.append('open_id',localStorage.openid);
                 axios.post(url,params).then(response => {
                     const status = response.data.status
                     console.log(response)
@@ -102,11 +102,11 @@ export default {
         // },
         //邀新数据
         Invite(){
-            const url ='http://public.weifenvip.com/merchant/Shop/inviteRanking';
+            const url =`${myPub.URL}/merchant/Shop/inviteRanking`;
             const _this = this
             const params = new URLSearchParams();
             params.append('token',localStorage.currentUser_token);;
-            params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
+            params.append('open_id',localStorage.openid);
             axios.post(url,params).then(response => {
                 const data = response.data.data
                 _this.products = data

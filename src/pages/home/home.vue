@@ -141,10 +141,9 @@ export default {
         indeData(){
           const _this = this
           const url =`${myPub.URL}/merchant/Shop/index`;
-          console.log(`${openId.open_id}`)
           const params = new URLSearchParams();
           params.append('token',localStorage.currentUser_token);
-          params.append('open_id',`${openId.open_id}`);
+          params.append('open_id',localStorage.openid);
           axios.post(url,params).then(response => {
             const data = response.data.data
             this.num = data

@@ -81,7 +81,7 @@ export default {
           const url =`${myPub.URL}/merchant/Shop/shopCore`;
           const params = new URLSearchParams();
           params.append('token',localStorage.currentUser_token);
-          params.append('open_id',`${openId.open_id}`);
+          params.append('open_id',localStorage.openid);
           axios.post(url,params).then(response => {
             // const currentUser_token = response.data.data //获取token
             console.log(response.data.data)
@@ -130,11 +130,11 @@ export default {
             /*设置背景图*/
             background:url(~@/assets/icon/storeManager.png) no-repeat
                         left center;
-            background-size:25px 100%;
+            background-size:25px;
             padding-left:27px;
             box-sizing:border-box;
             .storesanager_right{
-              font-size:0.7rem;
+              font-size:0.8rem;
               color:#333333;
             }
           }

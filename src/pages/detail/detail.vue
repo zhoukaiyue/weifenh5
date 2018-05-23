@@ -185,11 +185,11 @@ export default {
         // 商品数据
         goods(){
             const _this = this;
-            const url ='http://public.weifenvip.com/merchant/Shop/goodsInfo';
+            const url =`${myPub.URL}/merchant/Shop/goodsInfo`;
             const id = this.$route.query.id
             const params = new URLSearchParams();
             params.append('token',localStorage.currentUser_token);
-            params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
+            params.append('open_id',localStorage.openid);
             params.append('id',id);
             axios.post(url,params).then(response => {
                 // const currentUser_token = response.data.data //获取token
@@ -209,7 +209,7 @@ export default {
             const id = this.$route.query.id
             const params = new URLSearchParams();
             params.append('token',localStorage.currentUser_token);
-            params.append('open_id',`${openId.open_id}`);
+            params.append('open_id',localStorage.openid);
             params.append('id',id);
             params.append('type','1');
             axios.post(url,params).then(response => {
@@ -237,7 +237,7 @@ export default {
             const id = this.$route.query.id
             const params = new URLSearchParams();
             params.append('token',localStorage.currentUser_token);
-            params.append('open_id',`${openId.open_id}`);
+            params.append('open_id',localStorage.openid);
             params.append('id',id);
             axios.post(url,params).then(response => {
                 const data = response.data

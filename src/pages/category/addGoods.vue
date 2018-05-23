@@ -108,10 +108,10 @@ export default {
     // 加入营销商品
     join(id) {
         const _this =this
-        const url ='http://public.weifenvip.com/merchant/Shop/addGoods';
+        const url =`${myPub.URL}/merchant/Shop/addGoods`;
         var params = new URLSearchParams();
         params.append('token',localStorage.currentUser_token);;
-        params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
+        params.append('open_id',localStorage.openid);
         params.append('id',id);
         axios.post(url,params).then(response => {
             const data = response.data
@@ -178,10 +178,10 @@ export default {
     //营销商品数据接口
     Marketinggoods(){
         const _this =this
-        const url ='http://public.weifenvip.com/merchant/Shop/addShopGoods';
+        const url =`${myPub.URL}/merchant/Shop/addShopGoods`;
         var params = new URLSearchParams();
         params.append('token',localStorage.currentUser_token);;
-        params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
+        params.append('open_id',localStorage.openid);
         axios.post(url,params).then(response => {
             const data = response.data.data
             _this.datalist = data

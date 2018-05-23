@@ -91,13 +91,13 @@ export default {
         },
         // 修改手机号
         changephone(){
-            const url =`${myPub.URL}/merchant/Shop/editShopKeeper`;
+            const url =`${myPub.URL}/merchant/Shop/checkShopKeeper`;
               const mobile =this.$route.query.mobile
               const params = new URLSearchParams();
               params.append('mobile',mobile); 
               params.append('token',localStorage.currentUser_token);
               params.append('code',this.verifyCode);
-              params.append('open_id',`${openId.open_id}`);
+              params.append('open_id',localStorage.openid);
               params.append('session_id',localStorage.sessionid);
               axios.post(url,params).then(response => {
                 const status = response.data.status

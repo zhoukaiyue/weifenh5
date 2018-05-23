@@ -51,7 +51,7 @@ export default {
           params.append('token',localStorage.currentUser_token);
           params.append('name',this.name);
           params.append('mobile',this.mobile);
-          params.append('open_id',`${openId.open_id}`);
+          params.append('open_id',localStorage.openid);
           axios.post(url,params).then(response => {
             // const currentUser_token = response.data.data //获取token
             console.log(response)

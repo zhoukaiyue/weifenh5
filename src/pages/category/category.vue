@@ -238,10 +238,10 @@ export default {
                   _this.$loading.hide(); //隐藏
                   _this.choosed1=false;
             	  _this.choosed2=true;
-                  const url ='http://public.weifenvip.com/merchant/Shop/shopMarketing';
+                  const url =`${myPub.URL}/merchant/Shop/shopMarketing`;
                 var params = new URLSearchParams();
                 params.append('token',localStorage.currentUser_token);
-                params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
+                params.append('open_id',localStorage.openid);
                 params.append('type','2');
                 axios.post(url,params).then(response => {
                     const data =response.data.data
@@ -263,10 +263,10 @@ export default {
                   _this.$loading.hide(); //隐藏
                   _this.choosed1=true;
             	  _this.choosed2=false;
-                  const url ='http://public.weifenvip.com/merchant/Shop/shopMarketing';
+                  const url =`${myPub.URL}/merchant/Shop/shopMarketing`;
                 var params = new URLSearchParams();
                 params.append('token',localStorage.currentUser_token);
-                params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
+                params.append('open_id',localStorage.openid);
                 params.append('type','1');
                 axios.post(url,params).then(response => {
                     const data =response.data.data
@@ -280,11 +280,11 @@ export default {
     　　　　},
         //店铺营销数据
         storemaketing(){
-            const url ='http://public.weifenvip.com/merchant/Shop/shopMarketing';
+            const url =`${myPub.URL}/merchant/Shop/shopMarketing`;
             const _this =this
             var params = new URLSearchParams();
             params.append('token',localStorage.currentUser_token);
-            params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
+            params.append('open_id',localStorage.openid);
             params.append('type','1');
             axios.post(url,params).then(response => {
                 const data =response.data.data
@@ -297,11 +297,11 @@ export default {
         },
         // 商品下架
         Commodityframe(id){
-            const url ='http://public.weifenvip.com/merchant/Shop/goodsUpDown';
+            const url =`${myPub.URL}/merchant/Shop/goodsUpDown`;
             const _this =this
             var params = new URLSearchParams();
             params.append('token',localStorage.currentUser_token);
-            params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
+            params.append('open_id',localStorage.openid);
             params.append('type','2');
             params.append('id',id);
             axios.post(url,params).then(response => {
@@ -319,11 +319,11 @@ export default {
         },
         // 加入营销
         Joinmarketing(id){
-            const url ='http://public.weifenvip.com/merchant/Shop/goodsUpDown';
+            const url =`${myPub.URL}/merchant/Shop/goodsUpDown`;
             const _this =this
             var params = new URLSearchParams();
             params.append('token',localStorage.currentUser_token);
-            params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
+            params.append('open_id',localStorage.openid);
             params.append('type','1');
             params.append('id',id);
             axios.post(url,params).then(response => {
