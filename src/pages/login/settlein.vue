@@ -15,7 +15,7 @@
       <!--  营业执照 -->
          <div class="wrapper license">
             <p class="license-border"></p>
-           <span style="width: 4.5em; ">营业执照</span><ossFile :imgs='license' :message="set"></ossFile>
+           <span style="width: 4.5em; ">营业执照</span><ossFile :imgs='license' :message="msg"></ossFile>
         </div>
      <box gap="10px 10px">
         <div v-on:click="submit"><x-button class="apply_btn">立即申请</x-button></div>
@@ -186,6 +186,7 @@ function getFileUrl(obj) {
         numberValue: 0,
         imgNum:1,    //上传的照片数量，可根据实际情况自定义
         type: '1',
+        msg:'set',
         //店铺名称
         shopname:'',
         // 负责人

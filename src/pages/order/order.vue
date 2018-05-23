@@ -69,8 +69,16 @@ export default {
         //已完成
     }
   },
+    deactivated () {
+      this.$destroy()
+  },
   created() {
-    this.orderdata()
+    // this.orderdata()
+    const _this=this;
+    console.log(_this.$route.query.id)
+    const  a = _this.$route.query.id;
+    console.log('a'+a)
+    this.public_orderdata(a)
  },
   methods: {
     change (value, label) {
@@ -111,7 +119,7 @@ export default {
               _this.$loading.hide(); //隐藏
               const url =`${myPub.URL}/merchant/Shop/order`;
               var params = new URLSearchParams();
-              params.append('type','1'); 
+              params.append('type','1');
               params.append('token',localStorage.currentUser_token);;
               params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
               axios.post(url,params).then(response => {
@@ -184,6 +192,26 @@ export default {
               const url =`${myPub.URL}/merchant/Shop/order`;
               var params = new URLSearchParams();
               params.append('type','0'); 
+              params.append('token',localStorage.currentUser_token);;
+              params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
+              axios.post(url,params).then(response => {
+                const status = response.data.status
+                console.log(response)
+              }).catch((err) => {
+                console.log(err)
+              })
+        },2000);
+    },
+    public_orderdata(a){
+      console.log('123')
+        const _this = this;
+        _this.$loading.show();//显示
+        setTimeout(function(){  //模拟请求
+              _this.$loading.hide(); //隐藏
+               _this.$loading.hide(); //隐藏
+              const url =`${myPub.URL}/merchant/Shop/order`;
+              var params = new URLSearchParams();
+              params.append('type',a);
               params.append('token',localStorage.currentUser_token);;
               params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
               axios.post(url,params).then(response => {

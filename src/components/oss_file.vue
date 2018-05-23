@@ -11,6 +11,7 @@
     import axios from 'axios'
     import $ from 'jquery'
     import * as openId from '@/assets/js/opid_public.js' 
+    import * as myPub from '@/assets/js/public.js'
     export default {
       name: 'container',
        data() {
@@ -67,7 +68,23 @@
                             // 文件夹名称
                             console.log(yyyyMMdd)
                            var n1=Math.floor(Math.random()*10+1);
-                            if(this.message='set'){
+                           console.log(self.message)
+                            if(self.message=='store'){
+                                console.log('store111')
+                                 // 文件名称
+                                var imgurl ='oo1Fj0hcOBHHOfVJWV-zz-zyflE4'+'1';
+                                console.log(imgurl)
+                                file.name=imgurl+'.png'
+                                //将营业执照图片地址存储起来 `${openId.open_id}`
+                                console.log(yyyyMMdd+'/'+file.name)
+                                var bulicense_url1='user/'+yyyyMMdd+'/'+file.name;
+                                console.log('存儲商鋪圖像')
+                                sessionStorage.setItem('store_imgurl',bulicense_url1);
+                                self.set_upload_param(up, 'user/'+yyyyMMdd+'/'+file.name, true);
+                                self.photo()
+
+                            }
+                            if(self.message=='set'){
                                  // 文件名称
                                 var imgurl =localStorage.openid;
                                 console.log(imgurl)
@@ -80,21 +97,6 @@
                                 console.log(sessionStorage.getItem('bulicense_url'))
                                 self.set_upload_param(up, 'user/'+yyyyMMdd+'/'+file.name, true);
                             }
-                            if(this.message='store'){
-                                 // 文件名称
-                                var imgurl =localStorage.openid+'1';
-                                console.log(imgurl)
-                                file.name=imgurl+'.png'
-                                //将营业执照图片地址存储起来 `${openId.open_id}`
-                                console.log(yyyyMMdd+'/'+file.name)
-                                var bulicense_url1=yyyyMMdd+'/'+file.name;
-                                console.log('存儲商鋪圖像')
-                                sessionStorage.setItem('store_imgurl',bulicense_url1);
-                                self.set_upload_param(up, 'user/'+yyyyMMdd+'/'+file.name, true);
-                                self.photo()
-
-                            }
-                            
                             // self.set_upload_param(up, 'user/'+yyyyMMdd+'/'+file.name, true);
                             // 上传前
                         },
@@ -124,8 +126,6 @@
                 // 修改商铺头像
                 photo(){
                   const url =`${myPub.URL}/merchant/Shop/editInfo`;
-                  const img_src = $(".select").find("option:selected").val();
-                  console.log(company_model)
                   const params = new URLSearchParams();
                   params.append('token',localStorage.currentUser_token);
                   params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
@@ -140,7 +140,7 @@
                           sessionStorage.setItem('store_imgurl',null);
 
                     },2000)
-                    location.reload()
+                    // location.reload()
                   }).catch((err) => {
                     console.log(err)
                   })

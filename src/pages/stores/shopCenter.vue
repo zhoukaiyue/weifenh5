@@ -12,7 +12,7 @@
           </li>
         </ul>
       <div class="shop_info_right">
-          <img src="https://ws1.sinaimg.cn/large/663d3650gy1fq6824ur1dj20ia0pydlm.jpg" alt="" class="shop_logo">
+          <img src="scdata.shop_info.head_pic" alt="" class="shop_logo">
           <span class="info_modification" @click="edit">编辑店铺信息</span>
       </div>
     </div>
@@ -45,37 +45,28 @@ import axios from 'axios'
 import * as myPub from '@/assets/js/public.js'
 import * as openId from '@/assets/js/opid_public.js'
 export default {
-    name: 'shop_center',
+    // name: 'shop_center',
     data(){
 　　　　　　return {
-　　　　　　　　active: false,
-　　　　　　　　items: [
-　　　　　　　　　　{select:'营销中（29)'},
-　　　　　　　　　　{select:'已下架（39)'},
-　　　　　　　　],
-                scdata:{}
 　　　　　　}
 　　　　},
     created() {
     },
     computed: {
-        menuBanner() {
-            return this.menu[this.currentIndex].img.url
-        },
-        categoryTitle() {
-            return this.menu[this.currentIndex].name
-        }
+        // menuBanner() {
+        //     return this.menu[this.currentIndex].img.url
+        // },
+        // categoryTitle() {
+        //     return this.menu[this.currentIndex].name
+        // }
     },
     mounted(){
             this.mcenterdata()
     },
     methods: {
-        switchCategory(index, id) {
-            this.currentIndex = index
-            this.getProduct(id)
-        },
-        // storeer() {
-        //     this.$router.push({ path: '/page/storeer'})
+        // switchCategory(index, id) {
+        //     this.currentIndex = index
+        //     this.getProduct(id)
         // },
         shop() {
             this.$router.push({ path: '/page/shop'})

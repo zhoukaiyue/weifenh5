@@ -20,10 +20,10 @@
   <div class="store_order">
     <p class="store_ordertext">店铺订单<label @click="order" style="font-weight: normal;">查看更多&nbsp;<span class="jiantou"></span></label></p>
     <ul class="store_order_status">
-      <li class="processing"><span class="processing_img"></span><label>全部</label></li>
-      <li class="carryout"><span class="carryout_img"></span><label>进行中</label></li>
-      <li class="cancel"><span class="cancel_img"></span><label>已完成</label></li>
-      <li class="aftersales"><span class="aftersales_img"></span><label>已取消</label></li>
+      <li class="processing"   @click="torder(0)"><span class="processing_img"></span><label>全部</label></li>
+      <li class="carryout"  @click="torder1(1)"><span class="carryout_img"></span><label>进行中</label></li>
+      <li class="cancel"  @click="torder2(2)"><span class="cancel_img"></span><label>已完成</label></li>
+      <li class="aftersales"  @click="torder3(3)"><span class="aftersales_img"></span><label>已取消</label></li>
     </ul>
   </div>
 
@@ -48,12 +48,7 @@ export default {
     name: 'shop_center',
     data(){
 　　　　　　return {
-　　　　　　　　active: false,
-　　　　　　　　items: [
-　　　　　　　　　　{select:'营销中（29)'},
-　　　　　　　　　　{select:'已下架（39)'},
-　　　　　　　　],
-                scdata:{}
+            scdata:{}
 　　　　　　}
 　　　　},
     created() {
@@ -74,6 +69,26 @@ export default {
         },
         order(){
           this.$router.push({ path: '/page/order'})
+        },
+        torder(id){
+          console.log(id)
+         // this.$router.push({ path: '/page/order',query:{id:id}})
+         this.$router.push({path: '/page/order', query:{id: id}});
+        },
+                torder1(id){
+          console.log(id)
+         // this.$router.push({ path: '/page/order',query:{id:id}})
+         this.$router.push({path: '/page/order', query:{id: id}});
+        },
+                torder2(id){
+          console.log(id)
+         // this.$router.push({ path: '/page/order',query:{id:id}})
+         this.$router.push({path: '/page/order', query:{id: id}});
+        },
+                torder3(id){
+          console.log(id)
+         // this.$router.push({ path: '/page/order',query:{id:id}})
+         this.$router.push({path: '/page/order', query:{id: id}});
         },
         // 请求数据接口
         mcenterdata(){
