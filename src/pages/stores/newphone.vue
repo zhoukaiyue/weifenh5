@@ -15,6 +15,8 @@
 <script>
 import Vue from 'vue'
 import $ from 'jquery'
+import * as myPub from '@/assets/js/public.js'
+import * as openId from '@/assets/js/opid_public.js'
 export default {
     name: 'category',
     data(){

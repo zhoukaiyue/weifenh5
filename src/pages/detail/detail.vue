@@ -83,7 +83,7 @@
                     :show-dots="false">
                 <swiper-item 
                              :key="index">
-                    <div class="tab-swiper vux-center">{{product.goods_desc}}</div>
+                    <div class="tab-swiper vux-center"> <div v-html='product.goods_desc'></div></div>
                 </swiper-item>
 
                 <div v-transfer-dom>
@@ -190,6 +190,7 @@ export default {
             const params = new URLSearchParams();
             params.append('token',localStorage.currentUser_token);
             params.append('open_id',localStorage.openid);
+            // params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
             params.append('id',id);
             axios.post(url,params).then(response => {
                 // const currentUser_token = response.data.data //获取token

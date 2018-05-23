@@ -45,6 +45,8 @@
 </template>
 <script>
 import { Swiper, SwiperItem,ButtonTab, ButtonTabItem, Divider } from 'vux'
+import * as myPub from '@/assets/js/public.js'
+import * as openId from '@/assets/js/opid_public.js'
 export default {
   name:'orderData',
   components: {

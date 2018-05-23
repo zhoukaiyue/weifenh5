@@ -35,7 +35,7 @@
               </tr>
         </table>
         <div class="del_btn">
-        <input type="checkbox" v-model="checkAll" id="quan"><label for="quan" class="cb-label"></label>全选&nbsp;&nbsp;共有店员6人 <div class="del_dy">删除店员</div></div>
+        <input type="checkbox" v-model="checkAll" id="quan"><label for="quan" class="cb-label"></label>全选&nbsp;&nbsp;共有店员人 <div class="del_dy" @click="del_dy">删除店员</div></div>
         </div>
   </div>
 </template>
@@ -97,6 +97,9 @@ export default {
             // 调用请求数据的方法
             this.getData_shopassistant()
     },
+    deactivated () {
+        this.$destroy()
+    },
     methods: {
         // 请求数据接口
         getData_shopassistant(){
@@ -112,6 +115,21 @@ export default {
           }).catch((err) => {
             console.log(err)
           })
+        },
+        //删除店员操作
+        del_dy(){
+            const _this = this;
+            const url =`${myPub.URL}/merchant/Shop/delClerk`;
+            const params = new URLSearchParams();
+            params.append('token',localStorage.currentUser_token);
+            params.append('open_id',localStorage.openid);
+            axios.post(url,params).then(response => {
+              // const currentUser_token = response.data.data //获取token
+              console.log(response.data.data)
+              _this.lists = response.data.data;
+            }).catch((err) => {
+              console.log(err)
+            })
         },
         linktoDetail() {
             this.$router.push({ path: '/page/changestore'})

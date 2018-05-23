@@ -21,6 +21,8 @@
 import $ from 'jquery'
 import datepicker from '../../components/datepicker'
 import axios from 'axios'
+import * as myPub from '@/assets/js/public.js'
+import * as openId from '@/assets/js/opid_public.js'
 export default {
     name: 'dyinvite',
     data() {

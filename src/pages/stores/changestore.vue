@@ -28,6 +28,9 @@ export default {
     created() {
         this.getCategory()
     },
+    deactivated () {
+        this.$destroy()
+    },
     computed: {
         menuBanner() {
             return this.menu[this.currentIndex].img.url
@@ -45,8 +48,8 @@ export default {
             this.$router.push({ path: '/page/storesuccess'})
         },
         //添加店员信息
-        storeer(){
-          const url =`${myPub.URL}/merchant/Shop/editInfo`;
+       storeer(){
+          const url =`${myPub.URL}/merchant/Shop/addShopClerk`;
           var params = new URLSearchParams();
           params.append('token',localStorage.currentUser_token);
           params.append('name',this.name);
@@ -55,7 +58,25 @@ export default {
           axios.post(url,params).then(response => {
             // const currentUser_token = response.data.data //获取token
             console.log(response)
-            next('/page/storesuccess')
+            const status = response.data.status
+            console.log(status)
+            if (status == "200") {
+                setTimeout(() => {
+                    _this.$loading.hide();//隐藏
+                   this.$router.push({ path: '/page/storesuccess'})
+                }, 2000)
+                // this.$router.push({ path: 'page/shopCenter'})
+            }else{
+                 _this.$loading.hide();//隐藏
+                  this.$vux.alert.show({
+                      title: '操作失败',
+                      content: response.data.msg
+                  })
+                  setTimeout(() => {
+                      this.$vux.alert.hide()
+                      // location.reload()
+                  }, 3000)
+            }
           }).catch((err) => {
             console.log(err)
           })

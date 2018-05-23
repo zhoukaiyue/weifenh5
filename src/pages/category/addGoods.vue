@@ -69,7 +69,8 @@ import $ from 'jquery'
 import { Radio, Group, Toast} from 'vux'
 import { mapMutations } from 'vuex'
 import axios from 'axios'
-
+import * as myPub from '@/assets/js/public.js'
+import * as openId from '@/assets/js/opid_public.js'
 export default {
   components: {
     Radio,
@@ -88,9 +89,12 @@ export default {
 
     }
   },
-  created() {
+ created() {
     this.Marketinggoods()
  },
+ deactivated () {
+    this.$destroy()
+},
   methods: {
     change (value, label) {
         const _this = this;
@@ -110,8 +114,9 @@ export default {
         const _this =this
         const url =`${myPub.URL}/merchant/Shop/addGoods`;
         var params = new URLSearchParams();
-        params.append('token',localStorage.currentUser_token);;
-        params.append('open_id',localStorage.openid);
+        params.append('token',localStorage.currentUser_token);
+        // params.append('open_id',localStorage.openid);
+        params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
         params.append('id',id);
         axios.post(url,params).then(response => {
             const data = response.data
@@ -181,7 +186,8 @@ export default {
         const url =`${myPub.URL}/merchant/Shop/addShopGoods`;
         var params = new URLSearchParams();
         params.append('token',localStorage.currentUser_token);;
-        params.append('open_id',localStorage.openid);
+        // params.append('open_id',localStorage.openid);
+        params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
         axios.post(url,params).then(response => {
             const data = response.data.data
             _this.datalist = data

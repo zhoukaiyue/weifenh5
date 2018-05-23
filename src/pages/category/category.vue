@@ -44,7 +44,7 @@
         <!-- 商品数据查询 -->
         <div class="nav-list">
             <ul>
-                <li v-bind:class="{ select: is_show1}" @click="salesVolume1()">销量
+                <li v-bind:class="{ select: is_show1}" @click="salesVolume1()" v-if="choosed1">销量
                     <a href="javascript:" class="t">
                         <img src="~@/assets/icon/goods-down.png">
                     </a>
@@ -52,11 +52,24 @@
                         <img src="~@/assets/icon/goods-up.png">
                     </a>
                 </li>
-                <li v-bind:class="{ select: is_show2}" @click="salesVolume2()">订单量<span></span>
+                <li v-bind:class="{ select: is_show1}" @click="salesVolume11()" v-if="choosed2">销量
+                    <a href="javascript:" class="t">
+                        <img src="~@/assets/icon/goods-down.png">
+                    </a>
+                    <a href="javascript:" class="d">
+                        <img src="~@/assets/icon/goods-up.png">
+                    </a>
                 </li>
-                <li v-bind:class="{ select: is_show3}" @click="salesVolume3()">库存<span></span>
+                <li v-bind:class="{ select: is_show2}" @click="salesVolume2()"  v-if="choosed1">订单量<span></span>
                 </li>
-                <li v-bind:class="{ select: is_show4}" @click="salesVolume4()">添加时间</li>
+               <li v-bind:class="{ select: is_show2}" @click="salesVolume22()"  v-if="choosed2">订单量<span></span>
+                </li>
+                <li v-bind:class="{ select: is_show3}" @click="salesVolume3()"  v-if="choosed1">库存<span></span>
+                </li>
+                <li v-bind:class="{ select: is_show3}" @click="salesVolume33()"  v-if="choosed2">库存<span></span>
+                </li>
+                <li v-bind:class="{ select: is_show4}" @click="salesVolume4()" v-if="choosed1">添加时间</li>
+                <li v-bind:class="{ select: is_show4}" @click="salesVolume44()" v-if="choosed2">添加时间</li>
             </ul>
         </div>
         <!-- 商品列表 -->
@@ -65,14 +78,14 @@
                 <li v-for="(item,index) in goodlist" v-show="show">
                     <div class="bb t">
                         <div class="goods-img" @click='ToDetail(item.goods_id)'>
-                            <img src="~@/assets/img/category-goods.png">
+                            <img :src='item.img_src'>
                             <p>{{item.recpos_name}}</p>
                         </div>
                         <div class="goods clerfix">
                              <h5>{{item.goods_name}}<span class="goodsId">{{item.goods_id}}</span></h5>
-                            <p><span class="price">￥{{item.market_price}}</span> <span class="y-charge">引客价</span> <span class="charge">￥{{item.shop_price}}</span>
+                            <p><span class="price">￥{{item.shop_price}}</span> <span class="y-charge">引客价</span> <span class="charge">￥{{item.market_price}}</span>
                                 <a href="javascript:">
-                                    <img src="~@/assets/icon/goods-left.png">
+                                   <img src="~@/assets/icon/goods-left.png">
                                 </a>
                             </p>
                             <ul class="list fl">
@@ -82,9 +95,9 @@
                                 </li>
                             </ul>
                             <ul class="list fr">
-                                <li>成交订单 <span>{{item.suc}}</span>
+                                <li>成交订单 <span>{{item.order_count}}</span>
                                 </li>
-                                <li>添加时间 <span><!-- <input class="time" /> --></span>
+                                <li>添加时间 <span>{{item.create_time.split(" ")[0]}}</span>
                                 </li>
                             </ul>
                         </div>
@@ -138,6 +151,9 @@
 import Vue from 'vue'
 import axios from 'axios'
 import $ from 'jquery'
+import * as myPub from '@/assets/js/public.js'
+import * as openId from '@/assets/js/opid_public.js'
+import { XInput, Group, XButton, Cell, Toast, base64 } from 'vux'
 export default {
     name: 'category',
     data(){
@@ -160,6 +176,9 @@ export default {
 　　},
     created() {
         this.storemaketing()
+    },
+    deactivated () {
+        this.$destroy()
     },
     computed: {
         menuBanner() {
@@ -187,10 +206,7 @@ export default {
             this.is_show1=false
             this.is_show3=false
             this.is_show4=false
-            _this.$loading.show();//显示
-            setTimeout(function(){  //模拟请求
-                  _this.$loading.hide(); //隐藏
-            },2000);
+            _this.public_tab(1,1,1,1,1,1,1,20)
         },
         //库存
         salesVolume3:function(){
@@ -199,10 +215,7 @@ export default {
             this.is_show1=false
             this.is_show3=true
             this.is_show4=false
-            _this.$loading.show();//显示
-            setTimeout(function(){  //模拟请求
-                  _this.$loading.hide(); //隐藏
-            },2000);
+            _this.public_tab(1,1,1,1,1,1,1,20)
         },
         // 添加时间
         salesVolume4:function(){
@@ -211,10 +224,7 @@ export default {
             this.is_show1=false
             this.is_show3=false
             this.is_show4=true
-            _this.$loading.show();//显示
-            setTimeout(function(){  //模拟请求
-                  _this.$loading.hide(); //隐藏
-            },2000);
+            _this.public_tab(1,1,1,1,1,1,1,20)
         },
         //销量
         salesVolume1:function(){
@@ -223,10 +233,89 @@ export default {
             this.is_show1=true
             this.is_show3=false
             this.is_show4=false
-            _this.$loading.show();//显示
-            setTimeout(function(){  //模拟请求
-                  _this.$loading.hide(); //隐藏
-            },2000);
+            _this.public_tab(1,1,1,1,1,1,1,20)
+        },
+        //已下架tab 
+        // 订单量
+        salesVolume22:function(){
+            const _this = this;
+            this.is_show22=true
+            this.is_show11=false
+            this.is_show33=false
+            this.is_show44=false
+            _this.public_tab(1,1,1,1,1,1,1,20)
+        },
+        //库存
+        salesVolume33:function(){
+            const _this = this;
+            this.is_show22=false
+            this.is_show11=false
+            this.is_show33=true
+            this.is_show44=false
+            _this.public_tab(1,1,1,1,1,1,1,20)
+        },
+        // 添加时间
+        salesVolume44:function(){
+            const _this = this;
+            this.is_show22=false
+            this.is_show11=false
+            this.is_show33=false
+            this.is_show44=true
+           _this.public_tab(1,1,1,1,1,1,1,20)
+        },
+        //销量
+        salesVolume11:function(){
+            const _this = this;
+            this.is_show22=false
+            this.is_show11=true
+            this.is_show33=false
+            this.is_show44=false
+           _this.public_tab(1,1,1,1,1,1,1,20)
+        },
+
+        //tab选择切换时的方法封装
+        public_tab(a,b,c,d,e,f,g,h){
+            const _this=this;
+            const url =`${myPub.URL}/merchant/Shop/shopMarketing`;
+            var params = new URLSearchParams();
+            params.append('token',localStorage.currentUser_token);
+            // params.append('open_id',localStorage.openid);
+            params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
+            params.append('type',a);
+            params.append('sales_volume',b);
+            params.append('order_quantity',c);
+            params.append('stock',d);
+            params.append('create_time',e);
+            params.append('stock',f);
+            params.append('page',g);
+            params.append('size',h);
+            axios.post(url,params).then(response => {
+            // const data =response.data.data
+            // _this.datalist = data
+            // _this.goodlist=data.list
+              console.log(response)
+            const status = response.data.status
+            console.log(status)
+            if (status == "200") {
+                setTimeout(() => {
+                    _this.$loading.hide();//隐藏
+                    const data =response.data.data
+                    _this.datalist = data
+                    _this.goodlist=data.list
+                }, 2000)
+            }else{
+                 _this.$loading.hide();//隐藏
+                this.$vux.alert.show({
+                    title: '操作失败',
+                    content: response.data.msg
+                })
+                setTimeout(() => {
+                    this.$vux.alert.hide()
+                }, 3000)
+            }
+            }).catch((err) => {
+                console.log(err)
+            })
         },
         // 已下架
         selectStyle () {
@@ -241,7 +330,8 @@ export default {
                   const url =`${myPub.URL}/merchant/Shop/shopMarketing`;
                 var params = new URLSearchParams();
                 params.append('token',localStorage.currentUser_token);
-                params.append('open_id',localStorage.openid);
+                // params.append('open_id',localStorage.openid);
+                params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
                 params.append('type','2');
                 axios.post(url,params).then(response => {
                     const data =response.data.data
@@ -266,7 +356,8 @@ export default {
                   const url =`${myPub.URL}/merchant/Shop/shopMarketing`;
                 var params = new URLSearchParams();
                 params.append('token',localStorage.currentUser_token);
-                params.append('open_id',localStorage.openid);
+                // params.append('open_id',localStorage.openid);
+                params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
                 params.append('type','1');
                 axios.post(url,params).then(response => {
                     const data =response.data.data
@@ -284,7 +375,8 @@ export default {
             const _this =this
             var params = new URLSearchParams();
             params.append('token',localStorage.currentUser_token);
-            params.append('open_id',localStorage.openid);
+            // params.append('open_id',localStorage.openid);
+            params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
             params.append('type','1');
             axios.post(url,params).then(response => {
                 const data =response.data.data
@@ -301,7 +393,8 @@ export default {
             const _this =this
             var params = new URLSearchParams();
             params.append('token',localStorage.currentUser_token);
-            params.append('open_id',localStorage.openid);
+            // params.append('open_id',localStorage.openid);
+            params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
             params.append('type','2');
             params.append('id',id);
             axios.post(url,params).then(response => {
@@ -324,6 +417,7 @@ export default {
             var params = new URLSearchParams();
             params.append('token',localStorage.currentUser_token);
             params.append('open_id',localStorage.openid);
+            // params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
             params.append('type','1');
             params.append('id',id);
             axios.post(url,params).then(response => {

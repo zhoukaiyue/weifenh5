@@ -36,7 +36,7 @@ Vue.use(WechatAuth , {
   scope: 'snsapi_userinfo', // 应用授权作用域，snsapi_base （不弹出授权页面，直接跳转，只能获取用户openid），snsapi_userinfo （弹出授权页面，可通过openid拿到昵称、性别、所在地。并且，即使在未关注的情况下，只要用户授权，也能获取其信息）
   getCodeCallback (code, next) {
     console.log("此时拿到code")
-  	console.log(code)
+  	alert(code)
     localStorage.setItem('code',code);
   	console.log(next)
     // 用户同意授权后回调方法
@@ -46,18 +46,22 @@ Vue.use(WechatAuth , {
     // next说明：next方法接收两个参数
     // 参数1为通过code值请求后端获取到的access_token值，如果获取失败请填入空字符串''
     // 参数2(非必填，默认获取access_token切换到当前路由对象)，指定切换对象 next('/') 或者 next({ path: '/' })
-    const url = 'http://public.weifenvip.com/merchant/Baseapi/getToken'
+    const url = `${myPub.URL}/merchant/Token/getToken`
     const params = new URLSearchParams();
     params.append('code',code);
     axios.post(url,params).then(response => {
-      console.log('第一次向后台传输code')
+      console.log('向后台传输code1')
       console.log(response)
+      console.log('获取到openid')
+      const openid = response.data.openid
+      localStorage.setItem('openid',openid);
       next('/page/home')
     }).catch((err) => {
         axios.post(url,params).then(response => {
-          console.log('第二次向后台传输code')
+          console.log('向后台传输code2')
           const openid = response.data.openid
           localStorage.setItem('openid',openid);
+          console.log('获取到openid')
           console.log(localStorage.openid)
           next('/page/home')
 
@@ -83,7 +87,7 @@ router.beforeEach((to, from, next) => {
     }
 
     if (localStorage.currentUser_token == null || localStorage.currentUser_token == undefined) {
-      const url ='http://public.weifenvip.com/merchant/Baseapi/getToken'; //获取token接口地址
+      const url =`${myPub.URL}/merchant/Baseapi/getToken`; //获取token接口地址
       const params = new URLSearchParams();
       params.append('appid','wxedd78c056ac05c2b66dc6h84cb0285'); //接口传参
       axios.post(url,params).then(response => {
@@ -91,7 +95,7 @@ router.beforeEach((to, from, next) => {
         console.log(currentUser_token)
         localStorage.setItem('currentUser_token',currentUser_token);//本地存储token
         if (!currentUser_token) {
-          const url ='http://public.weifenvip.com/merchant/Baseapi/auth';
+          const url =`${myPub.URL}/merchant/Baseapi/auth`;
           const date = new Date();
           const time1 = date.getTime();
           const sh = "wxedd78c056ac05c2b66dc6h84cb028560"+time1

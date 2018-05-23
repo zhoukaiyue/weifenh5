@@ -37,6 +37,7 @@ const storesuccess = r => require.ensure([], () => r(require('@/pages/stores/sto
 const Store_users = r => require.ensure([], () => r(require('@/pages/stores/store_users')), 'store_users')
 const newData = r => require.ensure([], () => r(require('@/pages/order/newData')), 'newData')
 const data = r => require.ensure([], () => r(require('@/pages/order/data')), 'data')
+const sh_success = r => require.ensure([], () => r(require('@/pages/stores/sh_success')), 'sh_success')
 
 
 Vue.use(Router)
@@ -60,7 +61,8 @@ const routes = [
                 meta: {
                     title: '首页',
                      keepAlive: false,// 不需要被缓存
-                    // auth: true // 如果此路由需要微信授权请设置为true,默认为false
+                     //auth: true,// 如果此路由需要微信授权请设置为true,默认为false
+                      requireAuth: true
                 },
                 component: Home
             },
@@ -98,7 +100,7 @@ const routes = [
                 name: 'detail',
                 meta: {
                     title: '商品详情',
-                    // requireAuth: true,
+                    requireAuth: true,
                      keepAlive: false // 不需要被缓存
                 },
                 component: Detail
@@ -111,6 +113,15 @@ const routes = [
                      keepAlive: false // 不需要被缓存
                 },
                 component: Ceshi
+            },
+            {
+                path: 'sh_success',
+                name: 'sh_success',
+                meta: {
+                    title: '等待审核',
+                     keepAlive: false // 不需要被缓存
+                },
+                component: sh_success
             },
             {
                 path: 'dyinvite',

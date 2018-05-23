@@ -12,7 +12,7 @@ const config = {
   ldxopenid:`oo1Fj0hcOBHHOfVJWV-zz-zyflE4`, //开发环境
 
   //线上openid
-  devopenid:`localStorage.openid`           //线上环境
+  devopenid:localStorage.openid           //线上环境
 }
 
 

@@ -105,6 +105,47 @@ function getFileUrl(obj) {
 
         //提交信息到后台
         submit(){
+          console.log('11')
+            if(this.shopname==""){
+              this.$vux.alert.show({
+                      title: '操作失败',
+                      content: '店铺名称不能为空'
+                  })
+              setTimeout(() => {
+                      this.$vux.alert.hide()
+              }, 3000)
+              return false;
+            }
+            if(this.contact==""){
+              this.$vux.alert.show({
+                      title: '操作失败',
+                      content: '店铺负责人不能为空'
+                  })
+              setTimeout(() => {
+                      this.$vux.alert.hide()
+              }, 3000)
+                return false;
+            }
+            if(this.mobile==""){
+              this.$vux.alert.show({
+                      title: '操作失败',
+                      content: '联系电话不能为空'
+                  })
+              setTimeout(() => {
+                      this.$vux.alert.hide()
+              }, 3000)
+                return false;
+            }
+            if(sessionStorage.getItem('bulicense_url')==null||sessionStorage.getItem('bulicense_url')==undefined||sessionStorage.getItem('bulicense_url')==""){
+              this.$vux.alert.show({
+                      title: '操作失败',
+                      content: '营业执照不能为空'
+                  })
+              setTimeout(() => {
+                      this.$vux.alert.hide()
+              }, 3000)
+                return false;
+            }
             console.log('提交')
             const url =`${myPub.URL}/merchant/Shop/apply`;
             var params = new URLSearchParams();
@@ -118,18 +159,15 @@ function getFileUrl(obj) {
               // const currentUser_token = response.data.data //获取token
               // console.log(response)
               // next('/page/shopsuccess')
-              if (status == "200") {
-                  this.$router.push({ path: '/page/shopsuccess'})
-              }else{
                   this.$vux.alert.show({
-                      title: '操作失败',
+                      title: '提交成功',
                       content: response.data.msg
                   })
                   setTimeout(() => {
-                      this.$vux.alert.hide()
-                      location.reload()
+                  this.$vux.alert.hide()
+                  this.$router.push({ path: '/page/sh_success'})
+                  sessionStorage.setItem('bulicense_url',null);
                   }, 3000)
-              }
             }).catch((err) => {
               console.log(err)
             })

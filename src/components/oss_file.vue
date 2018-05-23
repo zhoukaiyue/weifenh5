@@ -11,7 +11,6 @@
     import axios from 'axios'
     import $ from 'jquery'
     import * as openId from '@/assets/js/opid_public.js' 
-        
     export default {
       name: 'container',
        data() {
@@ -30,7 +29,8 @@
                     uploader: {}
                 }
             },
-            props:['imgs'],
+            props:{'imgs':String  ,message:String},
+            created() {console.log(this.message)},
             mounted() {
                 const self = this;
                 var uploader = new plupload.Uploader({
@@ -45,6 +45,7 @@
                         PostInit: function() {},
 
                         FilesAdded: function(up, files,event) {
+                            console.log(this.message)
                             //上传成功前
                             // console.log(files)
                             self.files = files;
@@ -65,15 +66,33 @@
                             var yyyyMMdd = curr_year + "" + curr_month +""+ curr_date;
                             // 文件夹名称
                             console.log(yyyyMMdd)
-                            // 文件名称
-                            var imgurl =`${openId.open_id}`;
-                            console.log(imgurl)
-                            console.log(file.name=imgurl+'.png')
-                            //将营业执照图片地址存储起来 `${openId.open_id}`
-                            console.log(yyyyMMdd+'/'+file.name)
-                            var bulicense_url=yyyyMMdd+'/'+file.name;
-                            sessionStorage.setItem('bulicense_url',bulicense_url);
-                            self.set_upload_param(up, 'user/'+yyyyMMdd+'/'+file.name, true);
+                           var n1=Math.floor(Math.random()*10+1);
+                            if(this.message='set'){
+                                 // 文件名称
+                                var imgurl =`${openId.open_id}`;
+                                console.log(imgurl)
+                                file.name = imgurl+n1+'.png'
+                                //将营业执照图片地址存储起来 `${openId.open_id}`
+                                console.log(yyyyMMdd+'/'+file.name)
+                                var bulicense_url='user/'+yyyyMMdd+'/'+file.name;
+                                console.log('存儲營業執照')
+                                sessionStorage.setItem('bulicense_url',bulicense_url);
+                                console.log(sessionStorage.getItem('bulicense_url'))
+                                self.set_upload_param(up, 'user/'+yyyyMMdd+'/'+file.name, true);
+                            }else{
+                                 // 文件名称
+                                var imgurl =`${openId.open_id}`+'1';
+                                console.log(imgurl)
+                                file.name=imgurl+'.png'
+                                //将营业执照图片地址存储起来 `${openId.open_id}`
+                                console.log(yyyyMMdd+'/'+file.name)
+                                var bulicense_url=yyyyMMdd+'/'+file.name;
+                                console.log('存儲商鋪圖像')
+                                sessionStorage.setItem('store_imgurl',bulicense_url);
+                                self.set_upload_param(up, 'user/'+yyyyMMdd+'/'+file.name, true);
+                            }
+                            
+                            // self.set_upload_param(up, 'user/'+yyyyMMdd+'/'+file.name, true);
                             // 上传前
                         },
 

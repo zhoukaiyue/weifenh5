@@ -25,6 +25,8 @@
 
 <script>
 import { mapGetters, mapMutations } from 'vuex'
+import * as myPub from '@/assets/js/public.js'
+import * as openId from '@/assets/js/opid_public.js'
 import {
     XTextarea,
     Group,
