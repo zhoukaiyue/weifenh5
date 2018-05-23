@@ -46,7 +46,7 @@
         </div>
 
         <!-- 领取优惠券部分 -->
-        <group>
+        <group class="bgf">
           <x-switch title="领券" v-model="show13" id="title——lq"></x-switch>
           <img class="img" src="~@/assets/icon/goods-left.png">
         </group>
@@ -295,6 +295,7 @@ export default {
 .clearfix{
     zoom:1;
 }
+.bgf{background-color: #ffffff}
 @import '~vux/src/styles/center.less';
     @import '~vux/src/styles/close.less';
     .detail {
