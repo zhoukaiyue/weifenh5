@@ -65,7 +65,7 @@
                 <li v-for="(item,index) in goodlist" v-show="show">
                     <div class="bb t">
                         <div class="goods-img" @click='ToDetail(item.goods_id)'>
-                            <img src="~@/assets/img/category-goods.png">
+                            <img :src="item.img_src">
                             <p>{{item.recpos_name}}</p>
                         </div>
                         <div class="goods clerfix">
@@ -84,7 +84,7 @@
                             <ul class="list fr">
                                 <li>成交订单 <span>{{item.suc}}</span>
                                 </li>
-                                <li>添加时间 <span><!-- <input class="time" /> --></span>
+                                <li>添加时间 <span>{{item.create_time.split(" ")[0]}}</span>
                                 </li>
                             </ul>
                         </div>
@@ -137,6 +137,8 @@
 <script>
 import Vue from 'vue'
 import axios from 'axios'
+import * as myPub from '@/assets/js/public.js'
+import * as openId from '@/assets/js/opid_public.js'
 import $ from 'jquery'
 export default {
     name: 'category',
@@ -190,6 +192,20 @@ export default {
             _this.$loading.show();//显示
             setTimeout(function(){  //模拟请求
                   _this.$loading.hide(); //隐藏
+                  const url =`${myPub.URL}/merchant/Shop/shopMarketing`;
+                var params = new URLSearchParams();
+                params.append('token',localStorage.currentUser_token);
+                params.append('open_id',`${openId.open_id}`);
+                params.append('type','1');
+                params.append('order_quantity','1');
+                axios.post(url,params).then(response => {
+                    const data =response.dattypea.data
+                _this.datalist = data
+                _this.goodlist=data.list
+                    console.log(data)
+                }).catch((err) => {
+                    console.log(err)
+                })
             },2000);
         },
         //库存
@@ -202,6 +218,20 @@ export default {
             _this.$loading.show();//显示
             setTimeout(function(){  //模拟请求
                   _this.$loading.hide(); //隐藏
+                  const url =`${myPub.URL}/merchant/Shop/shopMarketing`;
+                var params = new URLSearchParams();
+                params.append('token',localStorage.currentUser_token);
+                params.append('open_id',`${openId.open_id}`);
+                params.append('type','1');
+                params.append('stock','1');
+                axios.post(url,params).then(response => {
+                    const data =response.dattypea.data
+                _this.datalist = data
+                _this.goodlist=data.list
+                    console.log(data)
+                }).catch((err) => {
+                    console.log(err)
+                })
             },2000);
         },
         // 添加时间
@@ -214,6 +244,20 @@ export default {
             _this.$loading.show();//显示
             setTimeout(function(){  //模拟请求
                   _this.$loading.hide(); //隐藏
+                   const url =`${myPub.URL}/merchant/Shop/shopMarketing`;
+                var params = new URLSearchParams();
+                params.append('token',localStorage.currentUser_token);
+                params.append('open_id',`${openId.open_id}`);
+                params.append('type','1');
+                params.append('create_time','1');
+                axios.post(url,params).then(response => {
+                    const data =response.dattypea.data
+                _this.datalist = data
+                _this.goodlist=data.list
+                    console.log(data)
+                }).catch((err) => {
+                    console.log(err)
+                })
             },2000);
         },
         //销量
@@ -241,7 +285,7 @@ export default {
                   const url =`${myPub.URL}/merchant/Shop/shopMarketing`;
                 var params = new URLSearchParams();
                 params.append('token',localStorage.currentUser_token);
-                params.append('open_id',localStorage.openid);
+                params.append('open_id',`${openId.open_id}`);
                 params.append('type','2');
                 axios.post(url,params).then(response => {
                     const data =response.data.data
@@ -266,7 +310,7 @@ export default {
                   const url =`${myPub.URL}/merchant/Shop/shopMarketing`;
                 var params = new URLSearchParams();
                 params.append('token',localStorage.currentUser_token);
-                params.append('open_id',localStorage.openid);
+                params.append('open_id',`${openId.open_id}`);
                 params.append('type','1');
                 axios.post(url,params).then(response => {
                     const data =response.data.data
@@ -284,7 +328,7 @@ export default {
             const _this =this
             var params = new URLSearchParams();
             params.append('token',localStorage.currentUser_token);
-            params.append('open_id',localStorage.openid);
+            params.append('open_id',`${openId.open_id}`);
             params.append('type','1');
             axios.post(url,params).then(response => {
                 const data =response.data.data
@@ -301,7 +345,7 @@ export default {
             const _this =this
             var params = new URLSearchParams();
             params.append('token',localStorage.currentUser_token);
-            params.append('open_id',localStorage.openid);
+            params.append('open_id',`${openId.open_id}`);
             params.append('type','2');
             params.append('id',id);
             axios.post(url,params).then(response => {
@@ -323,7 +367,7 @@ export default {
             const _this =this
             var params = new URLSearchParams();
             params.append('token',localStorage.currentUser_token);
-            params.append('open_id',localStorage.openid);
+            params.append('open_id',`${openId.open_id}`);
             params.append('type','1');
             params.append('id',id);
             axios.post(url,params).then(response => {

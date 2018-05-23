@@ -69,7 +69,8 @@ import $ from 'jquery'
 import { Radio, Group, Toast} from 'vux'
 import { mapMutations } from 'vuex'
 import axios from 'axios'
-
+import * as myPub from '@/assets/js/public.js'
+import * as openId from '@/assets/js/opid_public.js'
 export default {
   components: {
     Radio,
@@ -111,7 +112,7 @@ export default {
         const url =`${myPub.URL}/merchant/Shop/addGoods`;
         var params = new URLSearchParams();
         params.append('token',localStorage.currentUser_token);;
-        params.append('open_id',localStorage.openid);
+        params.append('open_id',`${openId.open_id}`);
         params.append('id',id);
         axios.post(url,params).then(response => {
             const data = response.data
@@ -178,10 +179,14 @@ export default {
     //营销商品数据接口
     Marketinggoods(){
         const _this =this
+        const category_id = _this.$route.query.id
         const url =`${myPub.URL}/merchant/Shop/addShopGoods`;
         var params = new URLSearchParams();
         params.append('token',localStorage.currentUser_token);;
-        params.append('open_id',localStorage.openid);
+        params.append('open_id',`${openId.open_id}`);
+        if (category_id) {
+            params.append('category_id',category_id);
+        }else{}
         axios.post(url,params).then(response => {
             const data = response.data.data
             _this.datalist = data

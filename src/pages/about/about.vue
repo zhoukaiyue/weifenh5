@@ -32,7 +32,7 @@
       <p class="store_managementtext">店铺管理</p>
       <ul class="store_managementul">
         <li><img src="~@/assets/icon/xinxi.png"><span class="store_managementli_span">店长信息管理</span><label  class="store_managementli_label">&nbsp;暂未开放<!-- <span class="jiantou"></span> --></label></li>
-        <li v-on:click="shop"><img src="~@/assets/icon/xixi.png"><span class="store_managementli_span">店员管理</span><label  class="store_managementli_label">{{scdata.member_count}}人&nbsp;<span class="jiantou"></span></label></li>
+        <li v-on:click="shop"><img src="~@/assets/icon/xixi.png"><span class="store_managementli_span">店员管理</span><label  class="store_managementli_label">{{scdata.clerk_count}}人&nbsp;<span class="jiantou"></span></label></li>
       </ul>
     </div>
     <p class="help_center">帮助中心</p>
@@ -81,7 +81,7 @@ export default {
           const url =`${myPub.URL}/merchant/Shop/shopCore`;
           const params = new URLSearchParams();
           params.append('token',localStorage.currentUser_token);
-          params.append('open_id',localStorage.openid);
+          params.append('open_id',`${openId.open_id}`);
           axios.post(url,params).then(response => {
             // const currentUser_token = response.data.data //获取token
             console.log(response.data.data)

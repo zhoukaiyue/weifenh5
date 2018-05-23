@@ -26,7 +26,6 @@ export default {
 　　　　　　}
 　　　　},
     created() {
-        this.getCategory()
     },
     computed: {
         menuBanner() {
@@ -46,16 +45,16 @@ export default {
         },
         //添加店员信息
         storeer(){
-          const url =`${myPub.URL}/merchant/Shop/editInfo`;
+          const url =`${myPub.URL}/merchant/Shop/addShopClerk`;
           var params = new URLSearchParams();
           params.append('token',localStorage.currentUser_token);
           params.append('name',this.name);
           params.append('mobile',this.mobile);
-          params.append('open_id',localStorage.openid);
+          params.append('open_id',`${openId.open_id}`);
           axios.post(url,params).then(response => {
             // const currentUser_token = response.data.data //获取token
             console.log(response)
-            next('/page/storesuccess')
+            this.$router.push({ path: '/page/storesuccess'})
           }).catch((err) => {
             console.log(err)
           })
