@@ -49,11 +49,13 @@ export default {
         //添加店员信息
        storeer(){
           const url =`${myPub.URL}/merchant/Shop/addShopClerk`;
+          const _this = this
+          _this.$loading.show();//隐藏
           var params = new URLSearchParams();
           params.append('token',localStorage.currentUser_token);
           params.append('name',this.name);
           params.append('mobile',this.mobile);
-          params.append('open_id',`${openId.open_id}`);
+          params.append('open_id',localStorage.openid);
           axios.post(url,params).then(response => {
             // const currentUser_token = response.data.data //获取token
             console.log(response)

@@ -147,7 +147,7 @@ export default {
               var params = new URLSearchParams();
               params.append('mobile',this.phoneNumber);
               params.append('token',localStorage.currentUser_token);
-              // params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
+              // params.append('open_id',localStorage.openid);
               // console.log(localStorage.openid)
               params.append('open_id',localStorage.openid);
               params.append('code',this.verifyCode);
@@ -176,7 +176,6 @@ export default {
                 }else{
                      _this.$loading.hide();//隐藏
                     this.$vux.alert.show({
-                        title: '操作失败',
                         content: response.data.msg
                     })
                     setTimeout(() => {

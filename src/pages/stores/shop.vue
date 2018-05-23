@@ -56,6 +56,9 @@ export default {
                 lists :[]
 　　　　　　}
 　　　　},
+    deactivated () {
+        this.$destroy()
+    },
     computed: {
           totalMoney:function(item,index){
                   let sum = 0;
@@ -74,7 +77,7 @@ export default {
                           this.totalPrice = [];
                           this.checked = this.lists.map(function(item) {
                               item.checked = true;
-                              let total = item.price*item.count;
+                              let total = item.id;
                               _this.totalPrice.push(total);
                               return item.id
                           })
@@ -89,6 +92,7 @@ export default {
               },
               checkedCount: {
                   get: function() {
+                      console.log(this.totalPrice)
                       return this.checked.length;
                   }
               }
@@ -107,10 +111,9 @@ export default {
           const url =`${myPub.URL}/merchant/Shop/clerkManage`;
           const params = new URLSearchParams();
           params.append('token',localStorage.currentUser_token);
-          params.append('open_id',`${openId.open_id}`);
+          params.append('open_id',localStorage.openid);
           axios.post(url,params).then(response => {
-            // const currentUser_token = response.data.data //获取token
-            console.log(response.data.data)
+            console.log(response.data)
             _this.lists = response.data.data;
           }).catch((err) => {
             console.log(err)
@@ -119,14 +122,30 @@ export default {
         //删除店员操作
         del_dy(){
             const _this = this;
+            _this.$loading.show();//隐藏
+            const id = this.totalPrice
             const url =`${myPub.URL}/merchant/Shop/delClerk`;
             const params = new URLSearchParams();
             params.append('token',localStorage.currentUser_token);
             params.append('open_id',localStorage.openid);
+            params.append('id',id);
             axios.post(url,params).then(response => {
-              // const currentUser_token = response.data.data //获取token
-              console.log(response.data.data)
-              _this.lists = response.data.data;
+              console.log(response.data.status)
+              if (status == "200") {
+                setTimeout(() => {
+                    _this.$loading.hide();//隐藏
+                    location.reload();
+                }, 2000)
+            }else{
+               _this.$loading.hide();//隐藏
+                this.$vux.alert.show({
+                    content: response.data.msg
+                })
+                setTimeout(() => {
+                    this.$vux.alert.hide()
+                    location.reload()
+                }, 3000)
+            }
             }).catch((err) => {
               console.log(err)
             })
@@ -138,7 +157,7 @@ export default {
             var _this = this;
             if(typeof item.checked == 'undefined'){
                 this.$set(item,'checked',true);
-                    let total = item.price*item.count;
+                    let total = item.id;
                     this.totalPrice.push(total);
                     console.log(this.totalPrice);
             }else{
@@ -147,7 +166,7 @@ export default {
                     this.totalPrice = [];
                     this.lists.forEach(function(item,index){
                         if(item.checked){
-                            let total = item.price*item.count;
+                            let total = item.id;
                             _this.totalPrice.push(total);
                         }
                     });
@@ -155,8 +174,8 @@ export default {
                     this.totalPrice = [];
                     this.lists.forEach(function(item,index){
                         if(item.checked){
-                            let total = item.price*item.count;
-                            _this.totalPrice.push(total);
+                            let total = item.id;
+                            v.push(total);
                         }
                     });
                 }
@@ -226,6 +245,7 @@ export default {
 
 table{
   width:100%;
+  padding-bottom: 50px;
   .dy_td{
     font-family:PingFangSC-Regular;
     font-size:0.9rem;
