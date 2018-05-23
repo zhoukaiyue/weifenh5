@@ -47,7 +47,7 @@ export default {
           var params = new URLSearchParams();
           params.append('token',localStorage.currentUser_token);
           params.append('user_name',user_name);
-          params.append('open_id',localStorage.openid);
+          params.append('open_id',`${openId.open_id}`);
           axios.post(url,params).then(response => {
             // const currentUser_token = response.data.data //获取token
             // console.log(response)

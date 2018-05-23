@@ -150,9 +150,9 @@
 <script>
 import Vue from 'vue'
 import axios from 'axios'
-import $ from 'jquery'
 import * as myPub from '@/assets/js/public.js'
 import * as openId from '@/assets/js/opid_public.js'
+import $ from 'jquery'
 import { XInput, Group, XButton, Cell, Toast, base64 } from 'vux'
 export default {
     name: 'category',
@@ -330,8 +330,6 @@ export default {
                   const url =`${myPub.URL}/merchant/Shop/shopMarketing`;
                 var params = new URLSearchParams();
                 params.append('token',localStorage.currentUser_token);
-                // params.append('open_id',localStorage.openid);
-                params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
                 params.append('type','2');
                 axios.post(url,params).then(response => {
                     const data =response.data.data

@@ -183,11 +183,15 @@ export default {
     //营销商品数据接口
     Marketinggoods(){
         const _this =this
+        const category_id = _this.$route.query.id
         const url =`${myPub.URL}/merchant/Shop/addShopGoods`;
         var params = new URLSearchParams();
         params.append('token',localStorage.currentUser_token);;
         // params.append('open_id',localStorage.openid);
         params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
+        if (category_id) {
+            params.append('category_id',category_id);
+        }else{}
         axios.post(url,params).then(response => {
             const data = response.data.data
             _this.datalist = data

@@ -36,13 +36,12 @@
         </div>
         </div>
         <div class="selected-themes">
-            <h5 class="title">营销商品 <span class="Notes">实惠佳品 营销利器</span> <span class="see" v-on:click="category">查看全部&emsp;<img src="~@/assets/icon/goods-left.png"></span></h5>
+            <h5 class="title">营销商品 <span class="Notes">实惠佳品 营销利器</span> <span class="see" v-on:click="addGoods">查看全部&emsp;<img src="~@/assets/icon/goods-left.png"></span></h5>
             <div class="selected-box">
                 <ul>
-                    <li v-for="(item,index) in datalist">
+                    <li v-for="(item,index) in datalist" @click="maketing(item.id)">
                         <h5>{{item.cate_name}}</h5>
                         <p>{{item.description}}</p>
-                        <p class="hide">{{item.id}}</p>
                         <img src="~@/assets/img/goods.png">
                     </li>
                     <li>
@@ -122,11 +121,14 @@ export default {
                 query: { id: id }
             })
         },
+        category(){
+            this.$router.push({ path: '/page/category' })
+        },
         shop(){
             this.$router.push({ path: '/page/shop' })
         },
-        category(){
-            this.$router.push({ path: '/page/category' })
+        addGoods(){
+            this.$router.push({ path: '/page/addGoods' })
         },
         order(){
             this.$router.push({ path: '/page/order' })
@@ -143,7 +145,7 @@ export default {
           const url =`${myPub.URL}/merchant/Shop/index`;
           const params = new URLSearchParams();
           params.append('token',localStorage.currentUser_token);
-          params.append('open_id',localStorage.openid);
+          params.append('open_id',`${openId.open_id}`);
           axios.post(url,params).then(response => {
             const data = response.data.data
             this.num = data
@@ -152,6 +154,10 @@ export default {
           }).catch((err) => {
             console.log(err)
           })
+        },
+        // 跳转营销商品
+        maketing(id){
+            this.$router.push({ path: '/page/addGoods',query: { id: id } })
         }
     },
 

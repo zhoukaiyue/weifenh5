@@ -15,7 +15,7 @@
                 <td>手机号码</td>
                 <td>添加时间</td>
               </tr>
-<!--               <tr style="height:60px">
+              <!-- <tr style="height:60px">
                 <td class="td1" style="padding-left:14px;box-sizing:border-box;">
                   <input type="checkbox" value="1" v-model="checked" @click="currClick(item,$index)" id='1'>  <label for="1" class="cb-label"></label>
                   <img src="http://img4.imgtn.bdimg.com/it/u=352151113,400415667&fm=27&gp=0.jpg" alt="" class="oimg">
@@ -27,11 +27,11 @@
               <tr v-for="(item,$index) in lists" style="height:60px">
                 <td class="td1" style="padding-left:14px;box-sizing:border-box;">
                   <input type="checkbox" :value="item.id" v-model="checked" @click="currClick(item,$index)" :id='item.id'>  <label :for="item.id" class="cb-label"></label>
-                  <img :src="item.head_pic" alt="" class="oimg">
+                  <img :src="item.head_pic" alt="" class="oimg">&emsp;
                   <span>{{item.truename}}</span>
                 </td>
-                <td>{{item.price}}</td>
-                <td>{{item.count}}</td>
+                <td class="dy_td">{{item.username}}</td>
+                <td class="dy_td">{{item.create_time.split(" ")[0]}}</td>
               </tr>
         </table>
         <div class="del_btn">
@@ -107,7 +107,7 @@ export default {
           const url =`${myPub.URL}/merchant/Shop/clerkManage`;
           const params = new URLSearchParams();
           params.append('token',localStorage.currentUser_token);
-          params.append('open_id',localStorage.openid);
+          params.append('open_id',`${openId.open_id}`);
           axios.post(url,params).then(response => {
             // const currentUser_token = response.data.data //获取token
             console.log(response.data.data)
@@ -208,6 +208,7 @@ export default {
           line-height:50px;
           td{
             width:27%;
+            color: #777777
           }
           .td1{
             width:46%;
