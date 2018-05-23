@@ -281,6 +281,7 @@ export default {
     .weui-cells:before{border-top:0!important}
     .weui-cell_switch .weui-cell__ft{width: 100%;}
     .weui-switch, .weui-switch-cp__box{width: 100%!important}
+    .weui-cells{background-color: rgb(255,255,255,0)!important;}
 </style>
 <style scoped lang="less">
 .clearfix:after {
