@@ -3,7 +3,7 @@
     <!--  店铺logo -->
     <div class='finish_room2'>
        <div class='room_add_btn'>
-           <ossFile :imgs='imgs'></ossFile>
+           <ossFile :imgs='imgs' :message="store"></ossFile>
          <!--  <div class="room_opacity"></div>
           <div id="img-change2">
             <div class="img-changeImg"></div>
@@ -158,30 +158,6 @@ import ossFile from '../../components/oss_file'
           params.append('token',localStorage.currentUser_token);
           params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
           params.append('company_model',company_model);
-          axios.post(url,params).then(response => {
-            console.log(response.data)
-            $('.shop').hide()
-            $(".bg").hide()
-            const _this = this
-            _this.$loading.show();//显示
-            setTimeout(function(){  //模拟请求
-                  _this.$loading.hide(); //隐藏
-
-            },2000)
-            location.reload()
-          }).catch((err) => {
-            console.log(err)
-          })
-        },
-        // 修改商铺头像
-        photo(){
-          const url =`${myPub.URL}/merchant/Shop/editInfo`;
-          const img_src = $(".select").find("option:selected").val();
-          console.log(company_model)
-          const params = new URLSearchParams();
-          params.append('token',localStorage.currentUser_token);
-          params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
-          params.append('img_src',img_src);
           axios.post(url,params).then(response => {
             console.log(response.data)
             $('.shop').hide()

@@ -69,7 +69,7 @@
                            var n1=Math.floor(Math.random()*10+1);
                             if(this.message='set'){
                                  // 文件名称
-                                var imgurl =`${openId.open_id}`;
+                                var imgurl =localStorage.openid;
                                 console.log(imgurl)
                                 file.name = imgurl+n1+'.png'
                                 //将营业执照图片地址存储起来 `${openId.open_id}`
@@ -79,17 +79,20 @@
                                 sessionStorage.setItem('bulicense_url',bulicense_url);
                                 console.log(sessionStorage.getItem('bulicense_url'))
                                 self.set_upload_param(up, 'user/'+yyyyMMdd+'/'+file.name, true);
-                            }else{
+                            }
+                            if(this.message='store'){
                                  // 文件名称
-                                var imgurl =`${openId.open_id}`+'1';
+                                var imgurl =localStorage.openid+'1';
                                 console.log(imgurl)
                                 file.name=imgurl+'.png'
                                 //将营业执照图片地址存储起来 `${openId.open_id}`
                                 console.log(yyyyMMdd+'/'+file.name)
-                                var bulicense_url=yyyyMMdd+'/'+file.name;
+                                var bulicense_url1=yyyyMMdd+'/'+file.name;
                                 console.log('存儲商鋪圖像')
-                                sessionStorage.setItem('store_imgurl',bulicense_url);
+                                sessionStorage.setItem('store_imgurl',bulicense_url1);
                                 self.set_upload_param(up, 'user/'+yyyyMMdd+'/'+file.name, true);
+                                self.photo()
+
                             }
                             
                             // self.set_upload_param(up, 'user/'+yyyyMMdd+'/'+file.name, true);
@@ -118,6 +121,30 @@
                 self.uploader.init();
             },
             methods: {
+                // 修改商铺头像
+                photo(){
+                  const url =`${myPub.URL}/merchant/Shop/editInfo`;
+                  const img_src = $(".select").find("option:selected").val();
+                  console.log(company_model)
+                  const params = new URLSearchParams();
+                  params.append('token',localStorage.currentUser_token);
+                  params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
+                  params.append('img_src',sessionStorage.getItem('store_imgurl'));
+                  axios.post(url,params).then(response => {
+                    console.log("向后台上传商铺图像")
+                    console.log(response.data)
+                    const _this = this
+                    _this.$loading.show();//显示
+                    setTimeout(function(){  //模拟请求
+                          _this.$loading.hide(); //隐藏
+                          sessionStorage.setItem('store_imgurl',null);
+
+                    },2000)
+                    location.reload()
+                  }).catch((err) => {
+                    console.log(err)
+                  })
+                },
                 selectFile() {
                     this.set_upload_param(this.uploader, '', false);
                 },

@@ -15,7 +15,7 @@
       <!--  营业执照 -->
          <div class="wrapper license">
             <p class="license-border"></p>
-           <span style="width: 4.5em; ">营业执照</span><ossFile :imgs='license'></ossFile>
+           <span style="width: 4.5em; ">营业执照</span><ossFile :imgs='license' :message="set"></ossFile>
         </div>
      <box gap="10px 10px">
         <div v-on:click="submit"><x-button class="apply_btn">立即申请</x-button></div>

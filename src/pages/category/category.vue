@@ -158,11 +158,11 @@ export default {
     name: 'category',
     data(){
 　　　　return {
-    　　　　　active: false,
-    　　　　　items: [
-    　　　　　　　{select:'营销中（29)'},
-    　　　　　　　{select:'已下架（39)'},
-    　　　　　],
+　　　　　active: false,
+　　　　　items: [
+　　　　　　　{select:'营销中（29)'},
+　　　　　　　{select:'已下架（39)'},
+　　　　　],
             is_show1: true,
             is_show2: false,
             is_show3: false,
@@ -206,6 +206,7 @@ export default {
             this.is_show1=false
             this.is_show3=false
             this.is_show4=false
+            console.log('111')
             _this.public_tab(1,1,1,1,1,1,1,20)
         },
         //库存
