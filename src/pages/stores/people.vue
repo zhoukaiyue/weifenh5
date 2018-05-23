@@ -2,7 +2,7 @@
     <div class="logo">
     <!-- 顶部数据 -->
           <h5>修改负责人</h5>
-          <input class="input" placeholder="王富贵" />
+          <input class="input" placeholder="修改负责人名字" />
           <span class="button" v-on:click="people">保存</span>
     </div>
 </template>
@@ -43,10 +43,10 @@ export default {
         // 修改负责人
         people(){
           const url =`${myPub.URL}/merchant/Shop/editInfo`;
-          const user_name = $(".input").val()
+          const name = $(".input").val()
           var params = new URLSearchParams();
           params.append('token',localStorage.currentUser_token);
-          params.append('user_name',user_name);
+          params.append('name',name);
           params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
           axios.post(url,params).then(response => {
             // const currentUser_token = response.data.data //获取token
