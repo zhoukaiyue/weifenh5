@@ -111,7 +111,7 @@ export default {
           const url =`${myPub.URL}/merchant/Shop/clerkManage`;
           const params = new URLSearchParams();
           params.append('token',localStorage.currentUser_token);
-          params.append('open_id',localStorage.openid);
+          params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
           axios.post(url,params).then(response => {
             console.log(response.data)
             _this.lists = response.data.data;
@@ -127,7 +127,7 @@ export default {
             const url =`${myPub.URL}/merchant/Shop/delClerk`;
             const params = new URLSearchParams();
             params.append('token',localStorage.currentUser_token);
-            params.append('open_id',localStorage.openid);
+            params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
             params.append('id',id);
             axios.post(url,params).then(response => {
               console.log(response.data.status)

@@ -113,7 +113,7 @@ export default {
               var params = new URLSearchParams();
               params.append('type','1'); 
               params.append('token',localStorage.currentUser_token);;
-              params.append('open_id',localStorage.openid);
+              params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
               axios.post(url,params).then(response => {
                 const status = response.data.status
                 console.log(response)
@@ -137,7 +137,7 @@ export default {
               var params = new URLSearchParams();
               params.append('type','2'); 
               params.append('token',localStorage.currentUser_token);;
-              params.append('open_id',localStorage.openid);
+              params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
               axios.post(url,params).then(response => {
                 const status = response.data.status
                 console.log(response)
@@ -161,7 +161,7 @@ export default {
               var params = new URLSearchParams();
               params.append('type','3'); 
               params.append('token',localStorage.currentUser_token);;
-              params.append('open_id',localStorage.openid);
+              params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
               axios.post(url,params).then(response => {
                 const status = response.data.status
                 console.log(response)
@@ -185,7 +185,7 @@ export default {
               var params = new URLSearchParams();
               params.append('type','0'); 
               params.append('token',localStorage.currentUser_token);;
-              params.append('open_id',localStorage.openid);
+              params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
               axios.post(url,params).then(response => {
                 const status = response.data.status
                 console.log(response)
@@ -201,7 +201,7 @@ export default {
         var params = new URLSearchParams();
         params.append('type','0'); 
         params.append('token',localStorage.currentUser_token);;
-        params.append('open_id',localStorage.openid);
+        params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
         axios.post(url,params).then(response => {
             const data = response.data.data
             _this.datalist = data.list

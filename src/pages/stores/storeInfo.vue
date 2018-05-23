@@ -129,7 +129,7 @@ import ossFile from '../../components/oss_file'
           const url =`${myPub.URL}/merchant/Shop/shopInfo`;
           const params = new URLSearchParams();
           params.append('token',localStorage.currentUser_token);
-          params.append('open_id',localStorage.openid);
+          params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
           axios.post(url,params).then(response => {
             const data = response.data.data
             const str=data.mobile;
@@ -156,7 +156,7 @@ import ossFile from '../../components/oss_file'
           console.log(company_model)
           const params = new URLSearchParams();
           params.append('token',localStorage.currentUser_token);
-          params.append('open_id',localStorage.openid);
+          params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
           params.append('company_model',company_model);
           axios.post(url,params).then(response => {
             console.log(response.data)
