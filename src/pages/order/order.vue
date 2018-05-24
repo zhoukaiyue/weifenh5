@@ -28,7 +28,7 @@
                         <div class="goods" >
                             <h5>{{item.goods_name}}</h5>
                             <p>下单时间：{{item.add_time}}</p>
-                            <P><span>{{item.order_amount}}</span><span class="ml">数量:{{item.total_count}}</span></P>
+                            <P><span>{{item.shop_price}}</span><span class="ml">数量:{{item.total_count}}</span></P>
                         </div>
                     </div>
                     <ul class="list">
@@ -63,22 +63,18 @@ export default {
         is_show4: false,
         datalist:'',
         state:'',
-        //全部
-        //进行中
-        //已取消
-        //已完成
     }
   },
     deactivated () {
       this.$destroy()
   },
   created() {
-    // this.orderdata()
+
     const _this=this;
+    _this.orderdata()
     console.log(_this.$route.query.id)
     const  a = _this.$route.query.id;
     console.log('a'+a)
-   
     if(a==0){
        this.public_orderdata(a)
        this.is_show1=true
@@ -145,17 +141,7 @@ export default {
         _this.$loading.show();//显示
         setTimeout(function(){  //模拟请求
               _this.$loading.hide(); //隐藏
-              const url =`${myPub.URL}/merchant/Shop/order`;
-              var params = new URLSearchParams();
-              params.append('type','1');
-              params.append('token',localStorage.currentUser_token);;
-              params.append('open_id',`${openId.open_id}`);
-              axios.post(url,params).then(response => {
-                const status = response.data.status
-                console.log(response)
-              }).catch((err) => {
-                console.log(err)
-              })
+              _this.changeData(1)
         },2000);
     },
     // 已完成
@@ -168,18 +154,7 @@ export default {
         _this.$loading.show();//显示
         setTimeout(function(){  //模拟请求
               _this.$loading.hide(); //隐藏
-               _this.$loading.hide(); //隐藏
-              const url =`${myPub.URL}/merchant/Shop/order`;
-              var params = new URLSearchParams();
-              params.append('type','2'); 
-              params.append('token',localStorage.currentUser_token);;
-              params.append('open_id',`${openId.open_id}`);
-              axios.post(url,params).then(response => {
-                const status = response.data.status
-                console.log(response)
-              }).catch((err) => {
-                console.log(err)
-              })
+              _this.changeData(2)
         },2000);
     },
     //已取消
@@ -192,18 +167,7 @@ export default {
         _this.$loading.show();//显示
         setTimeout(function(){  //模拟请求
               _this.$loading.hide(); //隐藏
-               _this.$loading.hide(); //隐藏
-              const url =`${myPub.URL}/merchant/Shop/order`;
-              var params = new URLSearchParams();
-              params.append('type','3'); 
-              params.append('token',localStorage.currentUser_token);;
-              params.append('open_id',`${openId.open_id}`);
-              axios.post(url,params).then(response => {
-                const status = response.data.status
-                console.log(response)
-              }).catch((err) => {
-                console.log(err)
-              })
+              _this.changeData(3)
         },2000);
     },
     // 全部
@@ -216,30 +180,17 @@ export default {
         _this.$loading.show();//显示
         setTimeout(function(){  //模拟请求
               _this.$loading.hide(); //隐藏
-               _this.$loading.hide(); //隐藏
-              const url =`${myPub.URL}/merchant/Shop/order`;
-              var params = new URLSearchParams();
-              params.append('type','0'); 
-              params.append('token',localStorage.currentUser_token);;
-              params.append('open_id',`${openId.open_id}`);
-              axios.post(url,params).then(response => {
-                const status = response.data.status
-                console.log(response)
-              }).catch((err) => {
-                console.log(err)
-              })
+              _this.changeData(0)
         },2000);
     },
     public_orderdata(a){
-      console.log('123')
         const _this = this;
         _this.$loading.show();//显示
         setTimeout(function(){  //模拟请求
               _this.$loading.hide(); //隐藏
-               _this.$loading.hide(); //隐藏
               const url =`${myPub.URL}/merchant/Shop/order`;
               var params = new URLSearchParams();
-              params.append('type',a);
+              params.append('type',a); 
               params.append('token',localStorage.currentUser_token);;
               params.append('open_id',`${openId.open_id}`);
               axios.post(url,params).then(response => {
@@ -250,6 +201,23 @@ export default {
               })
         },2000);
     },
+    // 切换数据
+    changeData(b){
+        const url =`${myPub.URL}/merchant/Shop/order`;
+        const _this = this
+        var params = new URLSearchParams();
+        params.append('type',b); 
+        params.append('token',localStorage.currentUser_token);;
+        params.append('open_id',`${openId.open_id}`);
+        axios.post(url,params).then(response => {
+            const data = response.data.data
+            _this.datalist = data.list
+            console.log(data)
+            console.log(_this.datalist)
+        }).catch((err) => {
+            console.log(err)
+        })
+      },
     //店铺订单全部数据
     orderdata(){
         const url =`${myPub.URL}/merchant/Shop/order`;
