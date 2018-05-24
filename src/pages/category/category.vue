@@ -159,14 +159,14 @@ export default {
     data(){
 　　　　return {
 　　　　　active: false,
-　　　　　items: [
-　　　　　　　{select:'营销中（29)'},
-　　　　　　　{select:'已下架（39)'},
-　　　　　],
             is_show1: true,
             is_show2: false,
             is_show3: false,
             is_show4: false,
+            is_show11: true,
+            is_show22: false,
+            is_show33: false,
+            is_show44: false,
             datalist:'',
             choosed1:true,
         	choosed2:false,
@@ -316,11 +316,7 @@ export default {
             params.append('page',g);
             params.append('size',h);
             axios.post(url,params).then(response => {
-            // const data =response.data.data
-            // _this.datalist = data
-            // _this.goodlist=data.list
               console.log(response)
-
             const status = response.data.status
             console.log(status)
             if (status == "200") {
@@ -357,6 +353,7 @@ export default {
                   const url =`${myPub.URL}/merchant/Shop/shopMarketing`;
                 var params = new URLSearchParams();
                 params.append('token',localStorage.currentUser_token);
+                 params.append('open_id',`${openId.open_id}`);
                 params.append('type','2');
                 axios.post(url,params).then(response => {
                     const data =response.data.data

@@ -66,13 +66,19 @@ export default {
         is_show3: false,
         is_show4: false,
         datalist:'',
-         is_flag:true,
-　　　　　　
-
+        is_flag:true,　　　　　　
     }
   },
  created() {
     this.Marketinggoods()
+    const  id = this.$route.query.id;
+    if (id) {
+        const _this = this;
+        this.is_show2=false
+        this.is_show1=false
+        this.is_show3=false
+        this.is_show4=true
+    }
  },
  deactivated () {
     this.$destroy()
@@ -174,12 +180,6 @@ export default {
         var params = new URLSearchParams();
         params.append('token',localStorage.currentUser_token);;
         params.append('open_id',`${openId.open_id}`);
-        // params.append('shop_price',`${openId.open_id}`);
-        // params.append('sales_volume',`${openId.open_id}`);
-        // params.append('stock',`${openId.open_id}`);
-        // params.append('type',`${openId.open_id}`);
-        // params.append('page',`${openId.open_id}`);
-        // params.append('size',`${openId.open_id}`);
         if(category_id) {
             params.append('category_id',category_id);
         }
@@ -202,9 +202,6 @@ export default {
             params.append('size',b);
         }
         axios.post(url,params).then(response => {
-            // const data = response.data.data
-            // _this.datalist = data
-            // console.log(response)
             console.log(response)
             const status = response.data;
             console.log(status)

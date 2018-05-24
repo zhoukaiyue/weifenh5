@@ -54,7 +54,7 @@ export default {
             // next('/page/storesuccess')
          const status = response.data.status
          if (status == "200") {
-               this.$router.push({ path: '/page/storesuccess'})
+               this.$router.push({ path: '/page/storeInfo'})
             }else{
                 this.$vux.alert.show({
                     title: '操作失败',
