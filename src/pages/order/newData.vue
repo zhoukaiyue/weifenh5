@@ -44,7 +44,7 @@
     </div>
 </template>
 <script>
-import { Swiper, SwiperItem,ButtonTab, ButtonTabItem, Divider } from 'vux'
+import { Swiper, SwiperItem,ButtonTab, ButtonTabItem, Divider, Toast } from 'vux'
 import * as myPub from '@/assets/js/public.js'
 import * as openId from '@/assets/js/opid_public.js'
 export default {
@@ -61,6 +61,9 @@ export default {
         is_show6:false
     };
   },
+  deactivated () {
+        this.$destroy()
+    },
   methods:{
     //这是营销订单趋势图
     yx_display(){
@@ -214,24 +217,31 @@ export default {
     },
     salesVolume2:function(){
         const _this = this;
-        this.is_show2=true
-        this.is_show1=false
+        this.is_show2=false
+        this.is_show1=true
         this.is_show3=false
-        _this.$loading.show();//显示
-        setTimeout(function(){  //模拟请求
-              _this.$loading.hide(); //隐藏
-        },2000);
+        this.$vux.alert.show({
+            content: "敬请期待"
+        })
+        setTimeout(() => {
+            this.$vux.alert.hide()
+            // location.reload()
+        }, 3000)
     },
     salesVolume3:function(){
         const _this = this;
         this.is_show2=false
-        this.is_show1=false
-        this.is_show3=true
-        _this.$loading.show();//显示
-        setTimeout(function(){  //模拟请求
-              _this.$loading.hide(); //隐藏
-        },2000);
-    },salesVolume4:function(){
+        this.is_show1=true
+        this.is_show3=false
+        this.$vux.alert.show({
+            content: "敬请期待"
+        })
+        setTimeout(() => {
+            this.$vux.alert.hide()
+            // location.reload()
+        }, 3000)
+    },
+    salesVolume4:function(){
         const _this = this;
         this.is_show4=true
         this.is_show5=false
@@ -243,23 +253,29 @@ export default {
     },
     salesVolume5:function(){
         const _this = this;
-        this.is_show4=false
-        this.is_show5=true
+        this.is_show4=true
+        this.is_show5=false
         this.is_show6=false
-        _this.$loading.show();//显示
-        setTimeout(function(){  //模拟请求
-              _this.$loading.hide(); //隐藏
-        },2000);
+        this.$vux.alert.show({
+            content: "敬请期待"
+        })
+        setTimeout(() => {
+            this.$vux.alert.hide()
+            // location.reload()
+        }, 3000)
     },
     salesVolume6:function(){
         const _this = this;
-        this.is_show4=false
+        this.is_show4=true
         this.is_show5=false
-        this.is_show6=true
-        _this.$loading.show();//显示
-        setTimeout(function(){  //模拟请求
-              _this.$loading.hide(); //隐藏
-        },2000);
+        this.is_show6=false
+        this.$vux.alert.show({
+            content: "敬请期待"
+        })
+        setTimeout(() => {
+            this.$vux.alert.hide()
+            // location.reload()
+        }, 3000)
     }
   },
   mounted(){

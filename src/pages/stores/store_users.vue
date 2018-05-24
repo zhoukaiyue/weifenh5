@@ -21,6 +21,7 @@
 </template>
 
 <script>
+import { XInput, Group, XButton, Cell, Toast, base64 } from 'vux'
 import $ from 'jquery'
 import datepicker from '../../components/datepicker'
 import axios from 'axios'
@@ -37,13 +38,17 @@ export default {
             isActive4: false,
             datalist:[{date:"2018-06-03",num:"208"},{date:"2018-06-04",num:"228"},{date:"2018-06-05",num:"211"},{date:"2018-06-06",num:"222"},{date:"2018-06-07",num:"235"},{date:"2018-06-08",num:"398"},{date:"2018-06-09",num:"248"}],
             nums:[],
-            Num:[]
+            number:[]
         }
+    },
+    deactivated () {
+        this.$destroy()
     },
     created() {
         const lists= this.datalist;
         for(var i =0;i<lists.length;i++){
-            console.log(this.nums.push(lists[i].num))
+            // console.log(this.nums.push(lists[i].num))
+            this.nums.push(lists[i].num)
         }
         console.log(this.nums)
         this.Invitenew()
@@ -51,15 +56,14 @@ export default {
     computed: {
     },
     methods: {
-         abc1show:function(){
+        abc1show:function(){
             const _this = this;
             this.isshow=false
-           this.isActive1=true
-           this.isActive2=false
-           this.isActive3=false
-           this.isActive4=false
-           $('.store_users_date').show()
-            _this.$loading.show();//显示
+            this.isActive2=false
+            this.isActive1=true
+            this.isActive3=false
+            this.isActive4=false
+           _this.$loading.show();//显示
             setTimeout(function(){  //模拟请求
                   _this.$loading.hide(); //隐藏
             },2000);
@@ -67,49 +71,79 @@ export default {
         abc2show:function(){
             const _this = this;
             this.isshow=false
-            this.isActive2=true
-           this.isActive1=false
-           this.isActive3=false
-           this.isActive4=false
+            this.isActive2=false
+            this.isActive1=true
+            this.isActive3=false
+            this.isActive4=false
            $('.store_users_date').show()   
-           _this.$loading.show();//显示   
-            setTimeout(function(){  //模拟请求
-                  _this.$loading.hide(); //隐藏
-            },2000);
+            // _this.$loading.show();//显示    //模拟请求
+            // _this.$loading.hide(); //隐藏
+              _this.$vux.alert.show({
+            content: '敬请期待'
+            })
+            setTimeout(() => {
+                this.$vux.alert.hide()
+                // location.reload()
+            }, 3000)
         },
         abc3show:function(){
-            const _this = this;
+           const _this = this;
             this.isshow=false
-           this.isActive3=true
-           this.isActive2=false
-           this.isActive1=false
-           this.isActive4=false
-           $('.store_users_date').show()
-           _this.$loading.show();//显示
-            setTimeout(function(){  //模拟请求
-                  _this.$loading.hide(); //隐藏
-            },2000);
+            this.isActive2=false
+            this.isActive1=true
+            this.isActive3=false
+            this.isActive4=false
+           $('.store_users_date').show()   
+            // _this.$loading.show();//显示    //模拟请求
+            // _this.$loading.hide(); //隐藏
+              _this.$vux.alert.show({
+            content: '敬请期待'
+            })
+            setTimeout(() => {
+                this.$vux.alert.hide()
+                // location.reload()
+            }, 3000)
         },
         abc4show:function(){
             const _this = this;
-            this.isshow=true
-           this.isActive4=true
-           this.isActive2=false
-           this.isActive3=false
-           this.isActive1=false
-           $('.store_users_date').hide()
-           _this.$loading.show();//显示
-            setTimeout(function(){  //模拟请求
-                  _this.$loading.hide(); //隐藏
-            },2000);
+            this.isshow=false
+            this.isActive2=false
+            this.isActive1=true
+            this.isActive3=false
+            this.isActive4=false
+           $('.store_users_date').show()   
+            // _this.$loading.show();//显示    //模拟请求
+            // _this.$loading.hide(); //隐藏
+              _this.$vux.alert.show({
+            content: '敬请期待'
+            })
+            setTimeout(() => {
+                this.$vux.alert.hide()
+                // location.reload()
+            }, 3000)
         },
         after(){
             const max = Math.max.apply(null, this.nums)
             console.log(max)
             for(var i =0;i<this.nums.length;i++){
-                $(".after").eq(i).css('width',(this.nums[i]/max)*100+'%')
-                console.log((this.nums[i]/max)*100+'%')
+                const integer = (this.nums[i]/max).toFixed(2)
+                const width = integer*100+'%'
+                $(".after").eq(i).css('width',width)
+                console.log(width)
+                this.number.push(integer)
             }
+            const max2 = Math.max.apply(null, this.number)
+            console.log(max2)
+            for (var i = 0; i < this.number.length; i++) {
+                if (this.number[i] == max2) {
+                    const index = i
+                    $(".after").eq(i).css('background','#FF8134')
+                    console.log(i)
+                }
+            }
+            // console.log(this.number)
+            // const max2 = Math.max.apply(null, this.number)
+            // console.log(max2)        
         },
         // 店铺邀新数据
         Invitenew(){
@@ -118,7 +152,7 @@ export default {
             params.append('token',localStorage.currentUser_token);;
             params.append('open_id',`${openId.open_id}`);
             axios.post(url,params).then(response => {
-                const status = response.data.status
+                const data = response.data
                 console.log(response)
             }).catch((err) => {
                 console.log(err)
@@ -185,8 +219,8 @@ export default {
         .map{
             position: relative;
             margin-bottom: 1rem;
-            height: 2rem;line-height: 2rem;background: #d8d8d8;width: 100%;position: relative;font-size: 0.8rem;
-            .after{display:inline-blobk;width: 80%;position: absolute;background: #ff8134;left: 0;top: 0;height: 2rem}
+            height: 2rem;line-height: 2rem;background: #f7f7f7;width: 100%;position: relative;font-size: 0.8rem;
+            .after{display:inline-blobk;width: 80%;position: absolute;background: #d8d8d8   ;left: 0;top: 0;height: 2rem}
             .date{float: left;color: #ffffff;position: absolute;z-index: 1;left: 2%;}
             .peo{float: right;right: 2%;position: absolute;z-index: 1;color: #ffffff;}
         }

@@ -12,13 +12,14 @@
         <ul class="dylist">
             <li class="dylist_title"><span>店员</span><label>引客数量</label></li>
             <!--店员排名列表循环体-->
-             <li v-for="(item,index) in products" class="dylist_cont" ><span class="dylist_mc">{{item.mc}}</span><img :src="item.tx" alt="" class="dylist_tx"><span class="dylist_name">{{item.name}}</span><label class="dylist_num">{{item.num}}</label></li>
+             <li v-for="(item,index) in products" class="dylist_cont" ><span class="dylist_mc">{{item.mc}}</span><img :src="item.head_pic" alt="" class="dylist_tx"><span class="dylist_name">{{item.truename}}</span><label class="dylist_num">{{item.member_count}}</label></li>
         </ul>
     </div>
 </template>
 
 <script>
 import $ from 'jquery'
+import { XInput, Group, XButton, Cell, Toast, base64 } from 'vux'
 import datepicker from '../../components/datepicker'
 import axios from 'axios'
 import * as myPub from '@/assets/js/public.js'
@@ -35,8 +36,12 @@ export default {
             isActive4: false,
         }
     },
+
     created() {
         this.Invite()
+    },
+    deactivated () {
+        this.$destroy()
     },
     methods: {
      //7日
@@ -66,15 +71,22 @@ export default {
         abc2show:function(){
             const _this = this;
             this.isshow=false
-            this.isActive2=true
-           this.isActive1=false
+            this.isActive2=false
+           this.isActive1=true
            this.isActive3=false
            this.isActive4=false
-           $('.store_users_date').show()   
-           _this.$loading.show();//显示   
-            setTimeout(function(){  //模拟请求
-                  _this.$loading.hide(); //隐藏
-            },2000);
+           $('.store_users_date').show()
+           this.$vux.alert.show({
+                content: "敬请期待"
+            })
+            setTimeout(() => {
+                this.$vux.alert.hide()
+                // location.reload()
+            }, 3000)
+           // _this.$loading.show();//显示   
+           //  setTimeout(function(){  //模拟请求
+           //        _this.$loading.hide(); //隐藏
+           //  },2000);
         },
         // abc3show:function(){
         //     const _this = this;

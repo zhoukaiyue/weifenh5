@@ -155,6 +155,9 @@ export default {
             isshow11:false
         }
     },
+    deactivated () {
+        this.$destroy()
+    },
     computed: {
         ...mapState(['userInfo']),
         ...mapGetters(['totalCount']),
@@ -198,6 +201,9 @@ export default {
                 console.log(response.data.data)
                 _this.product = response.data.data;
                 _this.demo01_list =data.goods_photo
+                if (data.limit_status == '1') {
+                    _this.isshow11=truesssss
+                }
                 console.log(_this.demo01_list)
             }).catch((err) => {
                 console.log(err)

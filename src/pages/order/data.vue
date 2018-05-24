@@ -1,16 +1,16 @@
 <template>
 	<div class="commodityData">
-		<p class="title">店铺订单<span>查看更多&ensp;<img src="~@/assets/icon/goods-left.png"></span></p>
+		<p class="title">店铺订单<span @click="order">查看更多&ensp;<img src="~@/assets/icon/goods-left.png"></span></p>
 		<ul class="commodityData_title">
-			  <li class="processing"><span class="processing_img"></span><label>全部</label></li>
-		      <li class="carryout"><span class="carryout_img"></span><label>进行中</label></li>
-		      <li class="cancel"><span class="cancel_img"></span><label>已完成</label></li>
-		      <li class="aftersales"><span class="aftersales_img"></span><label>已取消</label></li>
+			  <li class="processing" @click="torder(0)"><span class="processing_img"></span><label>全部</label></li>
+		      <li class="carryout" @click="torder(1)"><span class="carryout_img"></span><label>进行中</label></li>
+		      <li class="cancel" @click="torder(2)"><span class="cancel_img"></span><label>已完成</label></li>
+		      <li class="aftersales" @click="torder(3)"><span class="aftersales_img"></span><label>已取消</label></li>
 		</ul>
 
 		<div class="data_display">
 			<div class="yx_display">
-		    	<p class="yx_display_title">店铺用户数据<span v-on:click="store_users" >查看更多&ensp;<img src="~@/assets/icon/goods-left.png"></span></p>
+		    	<p class="yx_display_title">店铺用户数据<span v-on:click="orderData" >查看更多&ensp;<img src="~@/assets/icon/goods-left.png"></span></p>
 		    	<ul class="yx_display_tab">
 			    	<li class="oli frist" v-bind:class='{ li_select: is_show1}' v-on:click="salesVolume1">店铺新增用户数据</li>
 			    	<li class="oli last" v-bind:class='{ li_select: is_show2}' v-on:click="salesVolume2">员工邀新业绩排行</li>
@@ -34,7 +34,7 @@
 		      <weeksalescomparisonNewdata  v-if="isshow7"></weeksalescomparisonNewdata>
 		    </div>
 		     <div class="yh_display">
-		    	<p class="yh_display_title">订单数据<span v-on:click="orderData">查看更多&ensp;<img src="~@/assets/icon/goods-left.png"></span></p>
+		    	<p class="yh_display_title">订单数据<span v-on:click="newData">查看更多&ensp;<img src="~@/assets/icon/goods-left.png"></span></p>
 		    	<ul class="yh_display_tab">
 			    	<li class="oli frist" v-bind:class='{ li_select: is_show5}' v-on:click="salesVolume5()">7日订单量</li>
 			    	<li class="oli last" v-bind:class='{ li_select: is_show6}' v-on:click="salesVolume6()">7日交易额</li>
@@ -55,7 +55,7 @@ import visitsalesNewdata from '../../components/visit-sales-this-week'
 import weeksalescomparisonNewdata from '../../components/this-week-sales-comparison'
 import sdayordersdata from '../../components/sdayorders'
 import sdaystradingdata from '../../components/sdaystrading'
-import { Swiper, SwiperItem,ButtonTab, ButtonTabItem, Divider } from 'vux'
+import { Swiper, SwiperItem,ButtonTab, ButtonTabItem, Divider,Toast} from 'vux'
 import * as myPub from '@/assets/js/public.js'
 import * as openId from '@/assets/js/opid_public.js'
 export default {
@@ -90,18 +90,44 @@ export default {
         isshow8: false
     };
   },
+  deactivated () {
+        this.$destroy()
+    },
   methods:{
   	// 营销商品数据
   	commodityData(){
         this.$router.push({ path: '/page/commodityData' })
     },
     // 订单数据
+    newData(){
+        this.$router.push({ path: '/page/newData' })
+    },
+    // 店铺新增用户数据
     orderData(){
         this.$router.push({ path: '/page/orderData' })
     },
-    // 店铺新增用户数据
-    store_users(){
-        this.$router.push({ path: '/page/store_users' })
+    order(){
+    	this.$router.push({path: '/page/order'});
+    },
+    torder(id){
+      console.log(id)
+     // this.$router.push({ path: '/page/order',query:{id:id}})
+     this.$router.push({path: '/page/order', query:{id: id}});
+    },
+    torder1(id){
+      console.log(id)
+     // this.$router.push({ path: '/page/order',query:{id:id}})
+     this.$router.push({path: '/page/order', query:{id: id}});
+    },
+    torder2(id){
+      console.log(id)
+     // this.$router.push({ path: '/page/order',query:{id:id}})
+     this.$router.push({path: '/page/order', query:{id: id}});
+    },
+      torder3(id){
+      console.log(id)
+     // this.$router.push({ path: '/page/order',query:{id:id}})
+     this.$router.push({path: '/page/order', query:{id: id}});
     },
     salesVolume1:function(){
         const _this = this;

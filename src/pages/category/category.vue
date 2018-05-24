@@ -427,6 +427,16 @@ export default {
                      // location.reload()
                      this.$loading.hide(); //隐藏
                      this.selectStyle()
+                }else{
+                    _this.$loading.hide(); 
+                    this.$vux.alert.show({
+                        
+                        content: data.msg
+                    })
+                    setTimeout(() => {
+                        this.$vux.alert.hide()
+                        // location.reload()
+                    }, 3000)
                 }
             }).catch((err) => {
                 console.log(err)

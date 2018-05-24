@@ -22,7 +22,20 @@ export default {
                let mainChart = echarts.init(myChart);
                 var option = {
                     title: {
-                        text: ''
+                        text: '本周访问量/销售量',
+                        left:'center',
+                        textStyle:{
+                          //文字颜色
+                          color:'#ffffff',
+                          //字体风格,'normal','italic','oblique'
+                          fontStyle:'normal',
+                          //字体粗细 'normal','bold','bolder','lighter',100 | 200 | 300 | 400...
+                          fontWeight:'bold',
+                          //字体系列
+                          fontFamily:'sans-serif',
+                          //字体大小
+                  　　　　 fontSize:12
+                      }
                     },
                     tooltip : {
                        // trigger: 'item'

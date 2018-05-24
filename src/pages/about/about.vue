@@ -75,17 +75,17 @@ export default {
          // this.$router.push({ path: '/page/order',query:{id:id}})
          this.$router.push({path: '/page/order', query:{id: id}});
         },
-                torder1(id){
+        torder1(id){
           console.log(id)
          // this.$router.push({ path: '/page/order',query:{id:id}})
          this.$router.push({path: '/page/order', query:{id: id}});
         },
-                torder2(id){
+        torder2(id){
           console.log(id)
          // this.$router.push({ path: '/page/order',query:{id:id}})
          this.$router.push({path: '/page/order', query:{id: id}});
         },
-                torder3(id){
+          torder3(id){
           console.log(id)
          // this.$router.push({ path: '/page/order',query:{id:id}})
          this.$router.push({path: '/page/order', query:{id: id}});

@@ -2,39 +2,36 @@
 	<div class="orderData">
 		<ul class="orderData_title">
 			<li>
-				<span>营销商品(元)</span></br><label>32908.00</label>
+				<span>店铺总用户(人)</span></br><label>32908.00</label>
 			</li>
-			<li>
-				<span>用户消费(元)</span></br><label>32908.00</label>
-			</li>
-			<li>
-				<span>复购率(%)</span></br><label>32908.00</label>
+			<li class="bl">
+				<span>今日新增用户(人)</span></br><label>32908.00</label>
 			</li>
 		</ul>
 
 		<div class="data_display">
 
 		    <div class="yx_display">
-		    	<p class="yx_display_title">营销商品数据额统计<span>查看更多&ensp;<img src="~@/assets/icon/goods-left.png"></span></p>
+		    	<p class="yx_display_title">店铺新增用户数据<span v-on:click="store_users">查看更多&ensp;<img src="~@/assets/icon/goods-left.png"></span></p>
 		    	<ul class="yx_display_tab">
 			    	<li class="oli first" v-bind:class='{ li_select: is_show1}' v-on:click="salesVolume1()">7日</li>
 			    	<li class="oli" v-bind:class='{ li_select: is_show2}' v-on:click="salesVolume2()">30日</li>
 			    	<li class="oli last" v-bind:class='{ li_select: is_show3}' v-on:click="salesVolume3()">年度</li>
 		    	</ul>
-		      <p class="yx_display_ftitle">销售金额( 单位：元 )</p>
+		      <p class="yx_display_ftitle">新增用户( 单位：人 )</p>
 	          <div class="charts" >
 		     	<div id="myChart" style="width:100%;height:100%;"></div>
 			  </div>
 		    </div>
 
 		     <div class="yh_display">
-		    	<p class="yh_display_title">用户消费数据统计<span>查看更多&ensp;<img src="~@/assets/icon/goods-left.png"></span></p>
+		    	<p class="yh_display_title">店员邀新数据<span v-on:click="dyinvite">查看更多&ensp;<img src="~@/assets/icon/goods-left.png"></span></p>
 		    	<ul class="yh_display_tab">
 			    	<li class="oli first" v-bind:class='{ li_select: is_show4}' v-on:click="salesVolume4()">7日</li>
 			    	<li class="oli" v-bind:class='{ li_select: is_show5}' v-on:click="salesVolume5()">30日</li>
 			    	<li class="oli last" v-bind:class='{ li_select: is_show6}' v-on:click="salesVolume6()">年度</li>
 		    	</ul>
-		      <p class="yh_display_ftitle">销售金额( 单位：元 )</p>
+		      <p class="yh_display_ftitle">新增用户( 单位：人 )</p>
 	          <div class="yhcharts" >
 		     	 <div id="yhChart" style="width:100%;height:215px;"></div>
 			  </div>
@@ -44,7 +41,7 @@
 	</div>
 </template>
 <script>
-import { Swiper, SwiperItem,ButtonTab, ButtonTabItem, Divider } from 'vux'
+import { Swiper, SwiperItem,ButtonTab, ButtonTabItem, Divider, Toast } from 'vux'
 import * as myPub from '@/assets/js/public.js'
 import * as openId from '@/assets/js/opid_public.js'
 export default {
@@ -61,6 +58,9 @@ export default {
     	is_show6:false
     };
   },
+  deactivated () {
+        this.$destroy()
+    },
   methods:{
   	//这是营销订单趋势图
 	yx_display(){
@@ -140,79 +140,90 @@ export default {
 
   	  	//这是营销订单趋势图
 	yh_display(){
-		    let echarts = require('echarts/lib/echarts')
-		    let chartBox=document.getElementsByClassName('yhcharts')[0]
-		    let myChart=document.getElementById('yhChart')
-		    function resizeCharts() {//为调整图标尺寸的方法
-		        myChart.style.width=chartBox.style.width+'px'
-		        myChart.style.height=chartBox.style.height+'px'
-		    }
-		     let mainChart = echarts.init(myChart)// 基于准备好的dom，初始化echarts实例
-		     var option = null;
-		     // 指定图表的配置项和数据
-		     option = {
-		     // 	title:{
-			    //      text:'用户消费',
-			    //      textStyle:{
-			    //         //文字颜色
-			    //         color:'#f7ff50',
-			    //         //字体风格,'normal','italic','oblique'
-			    //         fontStyle:'normal',
-			    //         //字体粗细 'normal','bold','bolder','lighter',100 | 200 | 300 | 400...
-			    //         fontWeight:'normal',
-			    //         //字体系列
-			    //         fontFamily:'sans-serif',
-			    //         //字体大小
-			    // 　　　　 fontSize:14,
-			    //     }
-			    // },
-			    xAxis: {
-			        type: 'category',
-			        data: ['1日', '2日', '3日', '4日', '5日', '6日', '7日'],
-			        axisLine: {
-                    lineStyle: {
-                        type: 'solid',
-                        color: '#ffffff',//左边线的颜色
-                        width:'2'//坐标线的宽度
-	                    }
-	                },
-	                axisLabel: {
-	                    textStyle: {
-	                        color: '#ffffff',//坐标值得具体的颜色
-	                    }
-	                },
-	                axisTick:{
-				        show:false/*隐藏刻度*/
-				    }
-			    },
-			    yAxis: {
-			        type: 'value',
-			        axisLine: {
-                    lineStyle: {
-	                        type: 'solid',
-	                        color: 'transparent',//左边线的颜色
-	                        width:'2'//坐标线的宽度
-	                    }
-	                },
-			    },
-			    series: [{
-                    type: 'line',
-	                    itemStyle: {
-	                        normal: {
-	                            color: '#f7ff50'/*线条颜色*/,
-	                            label : {show: true}
-	                        }
-	                    },
-	                    data: [180, 92, 1, 994, 190, 10, 1320],
-	                }
-            	]
-			};
+            let echarts = require('echarts/lib/echarts')
+            let chartBox=document.getElementsByClassName('yhcharts')[0]
+            let myChart=document.getElementById('yhChart')
+            function resizeCharts() {//为调整图标尺寸的方法
+                myChart.style.width=chartBox.style.width+'px'
+                myChart.style.height=chartBox.style.height+'px'
+            }
+             let mainChart = echarts.init(myChart)// 基于准备好的dom，初始化echarts实例
+             var option = null;
+             var option={
+             title: {
+                      text: '员工邀新数据',
+                      left:'center',
+                      textStyle:{
+                        //文字颜色
+                        color:'#ffffff',
+                        //字体风格,'normal','italic','oblique'
+                        fontStyle:'normal',
+                        //字体粗细 'normal','bold','bolder','lighter',100 | 200 | 300 | 400...
+                        fontWeight:'bold',
+                        //字体系列
+                        fontFamily:'sans-serif',
+                        //字体大小
+                　　　　 fontSize:12
+                    }
+                  },
+                tooltip:{
+                    show:true
+                },
+                xAxis : [{
+                        type : 'category',
+                       data:['名字', '名字', '名字', '名字', '名字', '名字', '名字'],
+                       axisLine: {
+                                lineStyle: {
+                                    type: 'solid',
+                                    color: '#ffffff',//左边线的颜色
+                                    }
+                        },
+                        axisLabel:{
+                             textStyle:{
+                                 color:"#ffffff"
+                             },
+                              interval:0,
+                                    rotate:0
+                         }
+                }],
+                yAxis : [
+                {
+                           type: 'value',
+                            axisLine: {
+                            lineStyle: {
+                                    type: 'solid',
+                                    color: 'transparent',//左边线的颜色
+                                    width:'2'//坐标线的宽度
+                                }
+                            },
+                        }
+                ],
+                series : [
+                    {
+                        "name":"销量",
+                        "type":"bar",
+                        "data":[2270, 3456, 5432, 3423, 632, 291, 134],
+                        itemStyle : { normal: {label : {show: true,color:'#ffffff',position:'top'}}},
+                         barWidth : 10,//柱图宽度
+                                                 color: function(params) {
+                            // build a color map as your need.
+                            var colorList = [
+                              '#ffffff'
+                            ];
+                            return colorList[params.dataIndex]
+                        },
+                    }
+                ]
 
-		     // 使用刚指定的配置项和数据显示图表。
-		     if (option && typeof option === "object") {
-		         mainChart.setOption(option, true)
-		     };
-  	},
+            };
+            mainChart.setOption(option);
+    },
+    store_users(){
+    	this.$router.push({ path: '/page/store_users' })
+    },
+    dyinvite(){
+    	this.$router.push({ path: '/page/dyinvite' })
+    },
   	salesVolume1:function(){
         const _this = this;
         this.is_show1=true
@@ -225,23 +236,29 @@ export default {
 	},
     salesVolume2:function(){
         const _this = this;
-        this.is_show2=true
-        this.is_show1=false
+        this.is_show2=false
+        this.is_show1=true
         this.is_show3=false
-        _this.$loading.show();//显示
-	    setTimeout(function(){  //模拟请求
-	          _this.$loading.hide(); //隐藏
-	    },2000);
+        this.$vux.alert.show({
+            content: "敬请期待"
+        })
+        setTimeout(() => {
+            this.$vux.alert.hide()
+            // location.reload()
+        }, 3000)
 	},
 	salesVolume3:function(){
         const _this = this;
-        this.is_show2=false
-        this.is_show1=false
-        this.is_show3=true
-        _this.$loading.show();//显示
-	    setTimeout(function(){  //模拟请求
-	          _this.$loading.hide(); //隐藏
-	    },2000);
+       this.is_show2=false
+        this.is_show1=true
+        this.is_show3=false
+        this.$vux.alert.show({
+            content: "敬请期待"
+        })
+        setTimeout(() => {
+            this.$vux.alert.hide()
+            // location.reload()
+        }, 3000)
 	},salesVolume4:function(){
         const _this = this;
         this.is_show4=true
@@ -254,23 +271,29 @@ export default {
 	},
 	salesVolume5:function(){
         const _this = this;
-        this.is_show4=false
-        this.is_show5=true
+        this.is_show4=true
+        this.is_show5=false
         this.is_show6=false
-        _this.$loading.show();//显示
-	    setTimeout(function(){  //模拟请求
-	          _this.$loading.hide(); //隐藏
-	    },2000);
+        this.$vux.alert.show({
+            content: "敬请期待"
+        })
+        setTimeout(() => {
+            this.$vux.alert.hide()
+            // location.reload()
+        }, 3000)
 	},
 	salesVolume6:function(){
         const _this = this;
-        this.is_show4=false
+        this.is_show4=true
         this.is_show5=false
-        this.is_show6=true
-        _this.$loading.show();//显示
-	    setTimeout(function(){  //模拟请求
-	          _this.$loading.hide(); //隐藏
-	    },2000);
+        this.is_show6=false
+        this.$vux.alert.show({
+            content: "敬请期待"
+        })
+        setTimeout(() => {
+            this.$vux.alert.hide()
+            // location.reload()
+        }, 3000)
 	}
   },
   mounted(){
@@ -291,6 +314,7 @@ export default {
         justify-content:space-between;
         background-color:#ffffff;
         padding:20px 0 12px 0;
+        .bl{border-left: 1px solid #eeeeee}
         li{
         	text-align:center;
         	flex-grow:1;

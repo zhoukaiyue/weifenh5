@@ -38,7 +38,8 @@ const Store_users = r => require.ensure([], () => r(require('@/pages/stores/stor
 const newData = r => require.ensure([], () => r(require('@/pages/order/newData')), 'newData')
 const data = r => require.ensure([], () => r(require('@/pages/order/data')), 'data')
 const sh_success = r => require.ensure([], () => r(require('@/pages/stores/sh_success')), 'sh_success')
-
+const Customer = r => require.ensure([], () => r(require('@/pages/order/Customer')), 'Customer')
+sh_success
 
 Vue.use(Router)
 
@@ -382,6 +383,16 @@ const routes = [
                      keepAlive: false // 不需要被缓存
                 },
                 component: data
+            },
+            {
+                path: 'Customer',
+                name: 'Customerdata',
+                meta: {
+                    title: '客户订单',
+                    requireAuth: true,
+                     keepAlive: false // 不需要被缓存
+                },
+                component: Customer
             }
         ]
     },
@@ -389,6 +400,7 @@ const routes = [
         path: '/login',
         name: 'login',
         component: Login,
+        // auth: true, 如果此路由需要微信授权请设置为true,默认为false
         meta: {
             title: '商家登录',
              keepAlive: false // 不需要被缓存
