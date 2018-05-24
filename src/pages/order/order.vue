@@ -4,7 +4,7 @@
             <ul class="nav-list">
                 <li  v-bind:class="{ select: is_show1}" @click="salesVolume1()">全部
                 </li>
-                <li v-bind:class="{ select: is_show2}" @click="salesVolume2()">进行中<span></span></li>
+                <li v-bind:class="{ select: is_show2}" @click="salesVolume2()" id="text">进行中<span></span></li>
                 <li v-bind:class="{ select: is_show3}" @click="salesVolume3()">已完成<span></span></li>
                 <li v-bind:class="{ select: is_show4}" @click="salesVolume4()">
                     已取消
@@ -78,7 +78,35 @@ export default {
     console.log(_this.$route.query.id)
     const  a = _this.$route.query.id;
     console.log('a'+a)
-    this.public_orderdata(a)
+   
+    if(a==0){
+       this.public_orderdata(a)
+       this.is_show1=true
+       this.is_show2=false
+       this.is_show3=false
+       this.is_show4=false
+    }
+    if(a==1){
+       this.public_orderdata(a)
+       this.is_show2=true
+       this.is_show1=false
+       this.is_show3=false
+       this.is_show4=false
+    }
+    if(a==2){
+       this.public_orderdata(a)
+       this.is_show3=true
+       this.is_show2=false
+       this.is_show1=false
+       this.is_show4=false
+    }
+    if(a==3){
+       this.public_orderdata(a)
+       this.is_show4=true
+       this.is_show2=false
+       this.is_show3=false
+       this.is_show1=false
+    }
  },
   methods: {
     change (value, label) {
@@ -121,7 +149,7 @@ export default {
               var params = new URLSearchParams();
               params.append('type','1');
               params.append('token',localStorage.currentUser_token);;
-              params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
+              params.append('open_id',`${openId.open_id}`);
               axios.post(url,params).then(response => {
                 const status = response.data.status
                 console.log(response)
@@ -145,7 +173,7 @@ export default {
               var params = new URLSearchParams();
               params.append('type','2'); 
               params.append('token',localStorage.currentUser_token);;
-              params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
+              params.append('open_id',`${openId.open_id}`);
               axios.post(url,params).then(response => {
                 const status = response.data.status
                 console.log(response)
@@ -169,7 +197,7 @@ export default {
               var params = new URLSearchParams();
               params.append('type','3'); 
               params.append('token',localStorage.currentUser_token);;
-              params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
+              params.append('open_id',`${openId.open_id}`);
               axios.post(url,params).then(response => {
                 const status = response.data.status
                 console.log(response)
@@ -193,7 +221,7 @@ export default {
               var params = new URLSearchParams();
               params.append('type','0'); 
               params.append('token',localStorage.currentUser_token);;
-              params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
+              params.append('open_id',`${openId.open_id}`);
               axios.post(url,params).then(response => {
                 const status = response.data.status
                 console.log(response)
@@ -213,7 +241,7 @@ export default {
               var params = new URLSearchParams();
               params.append('type',a);
               params.append('token',localStorage.currentUser_token);;
-              params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
+              params.append('open_id',`${openId.open_id}`);
               axios.post(url,params).then(response => {
                 const status = response.data.status
                 console.log(response)
@@ -229,7 +257,7 @@ export default {
         var params = new URLSearchParams();
         params.append('type','0'); 
         params.append('token',localStorage.currentUser_token);;
-        params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
+        params.append('open_id',`${openId.open_id}`);
         axios.post(url,params).then(response => {
             const data = response.data.data
             _this.datalist = data.list

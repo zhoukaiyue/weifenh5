@@ -111,10 +111,16 @@ export default {
           const url =`${myPub.URL}/merchant/Shop/clerkManage`;
           const params = new URLSearchParams();
           params.append('token',localStorage.currentUser_token);
-          params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
+          params.append('open_id',`${openId.open_id}`);
           axios.post(url,params).then(response => {
-            console.log(response.data)
-            _this.lists = response.data.data;
+            // console.log(response.data)
+            // _this.lists = response.data.data;
+            if(response.data.data){
+              _this.lists = response.data.data;
+            }else{
+              _this.lists = [];
+            }
+
           }).catch((err) => {
             console.log(err)
           })
@@ -127,14 +133,14 @@ export default {
             const url =`${myPub.URL}/merchant/Shop/delClerk`;
             const params = new URLSearchParams();
             params.append('token',localStorage.currentUser_token);
-            params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
+            params.append('open_id',`${openId.open_id}`);
             params.append('id',id);
             axios.post(url,params).then(response => {
               console.log(response.data.status)
               if (status == "200") {
                 setTimeout(() => {
                     _this.$loading.hide();//隐藏
-                    location.reload();
+                    _this.getData_shopassistant()
                 }, 2000)
             }else{
                _this.$loading.hide();//隐藏
@@ -143,7 +149,7 @@ export default {
                 })
                 setTimeout(() => {
                     this.$vux.alert.hide()
-                    location.reload()
+                    _this.getData_shopassistant()
                 }, 3000)
             }
             }).catch((err) => {
@@ -295,8 +301,8 @@ input[type="checkbox"]{
 }
 
 .cb-label{
-  height: 20px;
-  width: 20px;
+  height: 30px;
+  width: 30px;
   background:#fc5738;
   border:0.2px ;
   border-radius: 50%;
@@ -307,7 +313,7 @@ input[type="checkbox"]{
   -moz-transition: border-color ease .4s/2;
   -o-transition: border-color ease .4s/2;
   -webkit-transition: border-color ease .4s/2;
-  vertical-align:text-top;
+    vertical-align: middle;
   cursor: pointer;
   margin-right:5px;
   &::before,&::after{
@@ -330,8 +336,8 @@ input[type="checkbox"]{
     transition: opacity ease 0.5s;
   }
   &::before{
-   top:17.2px;
-   left:8.2px;
+   top: 20.2px;
+    left: 13.2px;
    -moz-transform: rotate(-135deg);
     -ms-transform: rotate(-135deg);
     -o-transform: rotate(-135deg);
@@ -339,8 +345,8 @@ input[type="checkbox"]{
     transform: rotate(-135deg);
   }
   &::after {
-    top:11px;
-    left:2px;
+    top: 13px;
+    left: 6px;
     -moz-transform: rotate(-45deg);
     -ms-transform: rotate(-45deg);
     -o-transform: rotate(-45deg);

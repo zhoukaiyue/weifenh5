@@ -40,25 +40,6 @@
                         </div>
                     </div>
                 </li>
-               <!--  <li class="sq bb t">
-                    <div class="goods-img">
-                        <img src="~@/assets/img/goods.png">
-                        <p>适合所有人</p>
-                        <div class="mb"><span>已售罄</span></div>
-                    </div>
-                    <div class="goods ">
-                        <h5>mac/麦可子弹头经典唇膏麦可子弹头经典唇膏</h5>
-                        <p><span class="price">￥128.00</span>&ensp;<span class="y-charge">引客价</span>&ensp;<span class="charge">￥188.00</span><a href="javascript:"><img src="~@/assets/icon/goods-left.png"></a></p>
-                        <ul class="list">
-                            <li>销量 <span>889</span></li>
-                            <li>库存 <span>1890</span></li>
-                        </ul>
-                    </div>
-                    <div class="addgood">
-                        <img src="~@/assets/icon/goodsadd.png">
-                        &emsp;<span>已售罄</span>
-                    </div>
-                </li> -->
             </ul>
         </div>
         <div class="bg"></div>
@@ -84,7 +65,8 @@ export default {
         is_show2: false,
         is_show3: false,
         is_show4: false,
-        datalist:''
+        datalist:'',
+         is_flag:true,
 　　　　　　
 
     }
@@ -101,10 +83,8 @@ export default {
         console.log('change:', value)
         $(".nav-list .list").hide();
         $(".bg").hide()
-         _this.$loading.show();//显示
-        setTimeout(function(){  //模拟请求
-              _this.$loading.hide(); //隐藏
-        },2000);
+        // 适合人群请求
+         _this.Marketinggoods('type',value)
     },
     linkToDetail(id) {
         this.$router.push({ path: '/page/detail', query: { id: id } })
@@ -115,8 +95,8 @@ export default {
         const url =`${myPub.URL}/merchant/Shop/addGoods`;
         var params = new URLSearchParams();
         params.append('token',localStorage.currentUser_token);
-        // params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
-        params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
+        // params.append('open_id',`${openId.open_id}`);
+        params.append('open_id',`${openId.open_id}`);
         params.append('id',id);
         axios.post(url,params).then(response => {
             const data = response.data
@@ -139,10 +119,8 @@ export default {
         this.is_show1=false
         this.is_show3=false
         this.is_show4=false
-        _this.$loading.show();//显示
-        setTimeout(function(){  //模拟请求
-            _this.$loading.hide(); //隐藏
-        },2000);
+        // 根据销量请求
+         _this.Marketinggoods('sales_volume',1)
     },
     // 库存接口
     Stock(){
@@ -151,10 +129,8 @@ export default {
         this.is_show1=false
         this.is_show3=true
         this.is_show4=false
-        _this.$loading.show();//显示
-        setTimeout(function(){  //模拟请求
-            _this.$loading.hide(); //隐藏
-        },2000);
+        // 根据库存请求
+         _this.Marketinggoods('stock',1)
     },
     // 适合人群
     fit(){
@@ -166,7 +142,6 @@ export default {
         $(".nav-list .list").show()
         $(".bg").show ()
         $(".nav-list").css("z-index",100);
-
     },
     // 价格
     price(){
@@ -175,27 +150,78 @@ export default {
         this.is_show1=true
         this.is_show3=false
         this.is_show4=false
-        _this.$loading.show();//显示
-        setTimeout(function(){  //模拟请求
-            _this.$loading.hide(); //隐藏
-        },2000);
+        //价格请求接口
+        const flag=this.is_flag
+        if(flag){
+            //请求价格高
+            console.log('请求价格高')
+            _this.Marketinggoods('shop_price',1)
+            this.is_flag=!this.is_flag
+        }else{
+            //请求价格低
+            console.log('请求价格低')
+             _this.Marketinggoods('shop_price',2)
+            this.is_flag=!this.is_flag
+        }
     },
+
     //营销商品数据接口
-    Marketinggoods(){
+    Marketinggoods(a,b){
         const _this =this
+         _this.$loading.show();//显示
         const category_id = _this.$route.query.id
         const url =`${myPub.URL}/merchant/Shop/addShopGoods`;
         var params = new URLSearchParams();
         params.append('token',localStorage.currentUser_token);;
-        // params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
-        params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
-        if (category_id) {
+        params.append('open_id',`${openId.open_id}`);
+        // params.append('shop_price',`${openId.open_id}`);
+        // params.append('sales_volume',`${openId.open_id}`);
+        // params.append('stock',`${openId.open_id}`);
+        // params.append('type',`${openId.open_id}`);
+        // params.append('page',`${openId.open_id}`);
+        // params.append('size',`${openId.open_id}`);
+        if(category_id) {
             params.append('category_id',category_id);
-        }else{}
+        }
+        if(a=='shop_price'){
+            params.append('shop_price',b);
+        }
+        if(a=='sales_volume') {
+            params.append('sales_volume',b);
+        }
+        if(a=='stock'){
+            params.append('stock',b);
+        }
+        if(a=='type') {
+            params.append('type',b);
+        }
+        if(a=='page'){
+            params.append('page',b);
+        }
+        if(a=='size'){
+            params.append('size',b);
+        }
         axios.post(url,params).then(response => {
-            const data = response.data.data
-            _this.datalist = data
+            // const data = response.data.data
+            // _this.datalist = data
+            // console.log(response)
             console.log(response)
+            const status = response.data;
+            console.log(status)
+            if (status.status == "200") {
+                 _this.datalist = status.data
+                    _this.$loading.hide();//隐藏
+
+            }else{
+                 _this.$loading.hide();//隐藏
+                this.$vux.alert.show({
+                    content: response.data.msg
+                })
+                setTimeout(() => {
+                    this.$vux.alert.hide()
+                    // location.reload()
+                }, 3000)
+            }
         }).catch((err) => {
             console.log(err)
         })

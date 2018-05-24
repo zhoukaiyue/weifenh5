@@ -6,8 +6,8 @@ import router from './router'
 import store from './store'
 import http from './common/js/http'
 import {hex_sha1} from './assets/js/sha1.js'
-import * as myPub from '@/assets/js/public.js'
-import * as openId from '@/assets/js/opid_public.js'
+import * as myPub from './assets/js/public.js'
+import * as openId from './assets/js/opid_public.js'
 
 // vux 引入组件
 import { AlertPlugin, ToastPlugin } from 'vux'
@@ -55,6 +55,8 @@ Vue.use(WechatAuth , {
       console.log('获取到openid')
       const openid = response.data.openid
       localStorage.setItem('openid',openid);
+      console.log('这是openid'+`${openId.open_id}`)
+      console.log('这是本地存储openid'+localStorage.openid)
       next('/page/home')
     }).catch((err) => {
         axios.post(url,params).then(response => {
@@ -63,6 +65,7 @@ Vue.use(WechatAuth , {
           localStorage.setItem('openid',openid);
           console.log('获取到openid')
           console.log(localStorage.openid)
+          console.log(`${openId.open_id}`)
           next('/page/home')
 
         })

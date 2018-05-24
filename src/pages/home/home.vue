@@ -78,12 +78,6 @@
                     <h5>美妆护肤</h5>
                     <p>月引客158<img src="~@/assets/icon/hot.png"></p>
                 </li>
-                <li>
-                    <img src="~@/assets/img/goods.png">
-                    <img class="icon" src="~@/assets/icon/three.png">
-                    <h5>美妆护肤</h5>
-                    <p>月引客158<img src="~@/assets/icon/hot.png"></p>
-                </li>
             </ul>
         </div>
     </div>
@@ -145,7 +139,7 @@ export default {
           const url =`${myPub.URL}/merchant/Shop/index`;
           const params = new URLSearchParams();
           params.append('token',localStorage.currentUser_token);
-          params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
+          params.append('open_id',`${openId.open_id}`);
           axios.post(url,params).then(response => {
             const data = response.data.data
             this.num = data

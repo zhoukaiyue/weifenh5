@@ -150,7 +150,7 @@ function getFileUrl(obj) {
             const url =`${myPub.URL}/merchant/Shop/apply`;
             var params = new URLSearchParams();
             params.append('token',localStorage.currentUser_token);
-            params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
+            params.append('open_id',`${openId.open_id}`);
             params.append('shopname',this.shopname);
             params.append('contact',this.contact);
             params.append('mobile',this.mobile);
@@ -199,7 +199,7 @@ function getFileUrl(obj) {
           title: '商家申请入驻',
           desc: '成功入驻店家圈，即可开启线上引客之路。',
         },
-        license:'https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1526556689&di=f790387d8684799e63556e887b7adfd3&src=http://docs.ebdoor.com/Image/CompanyCertificate/22/229544.JPG'
+        license:'http://www.pingminjie.cn/yyzz.jpg',
       }
     },
     //页面加载后执行

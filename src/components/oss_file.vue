@@ -72,7 +72,7 @@
                             if(self.message=='store'){
                                 console.log('store111')
                                  // 文件名称
-                                var imgurl ='oo1Fj0hcOBHHOfVJWV-zz-zyflE4'+'1';
+                                var imgurl =`${openId.open_id}`+'1';
                                 console.log(imgurl)
                                 file.name=imgurl+'.png'
                                 //将营业执照图片地址存储起来 `${openId.open_id}`
@@ -86,7 +86,7 @@
                             }
                             if(self.message=='set'){
                                  // 文件名称
-                                var imgurl =localStorage.openid;
+                                var imgurl =`${openId.open_id}`;
                                 console.log(imgurl)
                                 file.name = imgurl+n1+'.png'
                                 //将营业执照图片地址存储起来 `${openId.open_id}`
@@ -128,7 +128,7 @@
                   const url =`${myPub.URL}/merchant/Shop/editInfo`;
                   const params = new URLSearchParams();
                   params.append('token',localStorage.currentUser_token);
-                  params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
+                  params.append('open_id',`${openId.open_id}`);
                   params.append('img_src',sessionStorage.getItem('store_imgurl'));
                   axios.post(url,params).then(response => {
                     console.log("向后台上传商铺图像")

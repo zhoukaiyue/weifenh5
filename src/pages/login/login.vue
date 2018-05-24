@@ -67,7 +67,14 @@ export default {
             code_num: '',
         }
     },
-    created() {},
+    created() {
+        console.log(`${openId.open_id}`)
+        if(`${openId.open_id}`==undefined||`${openId.open_id}`=='undefined'){
+            console.log('执行了')
+            console.log(`${openId.open_id}`)
+            location.reload()
+        }
+    },
     deactivated () {
         this.$destroy()
     },
@@ -147,9 +154,9 @@ export default {
               var params = new URLSearchParams();
               params.append('mobile',this.phoneNumber);
               params.append('token',localStorage.currentUser_token);
-              // params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
-              // console.log('oo1Fj0hcOBHHOfVJWV-zz-zyflE4')
-              params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
+              // params.append('open_id',`${openId.open_id}`);
+              // console.log(`${openId.open_id}`)
+              params.append('open_id',`${openId.open_id}`);
               params.append('code',this.verifyCode);
               if(localStorage.sessionid){
                  params.append('session_id',localStorage.sessionid);

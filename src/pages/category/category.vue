@@ -5,29 +5,29 @@
             <ul>
                 <li>
                     <p>访问数(个)</p>
-                    <p :class="{f16: choosed1, f16_selecct: choosed2}">1908</p>
+                    <p :class="{f16: choosed1, f16_selecct: choosed2}">{{datalist.marketing_data.visit_count}}</p>
                     <p :class="{f17: choosed1, f17_selecct: choosed2}">今日 <span>
                     <img src="~@/assets/icon/ys.png" v-if="choosed1" class="img_cate">
                     <img src="~@/assets/icon/xs.png" v-if="choosed2" class="img_cate">
-                    </span>  <span :class="{f18: choosed1, f18_selecct: choosed2}">200</span>
+                    </span>  <span :class="{f18: choosed1, f18_selecct: choosed2}">{{datalist.marketing_data.visit_now_count}}</span>
                     </p>
                 </li>
                 <li>
                     <p>订单量(单)</p>
-                    <p :class="{f16: choosed1, f16_selecct: choosed2}">1908</p>
+                    <p :class="{f16: choosed1, f16_selecct: choosed2}">{{datalist.marketing_data.order_count}}</p>
                     <p :class="{f17: choosed1, f17_selecct: choosed2}">今日 <span>
                     <img src="~@/assets/icon/yx.png" v-if="choosed1" class="img_cate">
                     <img src="~@/assets/icon/xx.png" v-if="choosed2" class="img_cate">
-                    </span>  <span :class="{f19: choosed1, f19_selecct: choosed2}">200</span>
+                    </span>  <span :class="{f19: choosed1, f19_selecct: choosed2}">{{datalist.marketing_data.order_now_count}}</span>
                     </p>
                 </li>
                 <li>
                     <p>销售量(件)</p>
-                    <p :class="{f16: choosed1, f16_selecct: choosed2}">1908</p>
+                    <p :class="{f16: choosed1, f16_selecct: choosed2}">{{datalist.marketing_data.order_goods_count}}</p>
                     <p :class="{f17: choosed1, f17_selecct: choosed2}">今日 <span>
                     <img src="~@/assets/icon/yx.png" v-if="choosed1" class="img_cate">
                     <img src="~@/assets/icon/xx.png" v-if="choosed2" class="img_cate">
-                    </span>  <span :class="{f20: choosed1, f20_selecct: choosed2}">200</span>
+                    </span>  <span :class="{f20: choosed1, f20_selecct: choosed2}">{{datalist.marketing_data.order_now_goods_count}}</span>
                     </p>
                 </li>
             </ul>
@@ -45,14 +45,14 @@
         <div class="nav-list">
             <ul>
                 <li v-bind:class="{ select: is_show1}" @click="salesVolume1()" v-if="choosed1">销量
-                    <a href="javascript:" class="t">
+                    <a href="javascript:" class="t" >
                         <img src="~@/assets/icon/goods-down.png">
                     </a>
                     <a href="javascript:" class="d">
                         <img src="~@/assets/icon/goods-up.png">
                     </a>
                 </li>
-                <li v-bind:class="{ select: is_show1}" @click="salesVolume11()" v-if="choosed2">销量
+                <li v-bind:class="{ select: is_show11}" @click="salesVolume11()" v-if="choosed2">销量
                     <a href="javascript:" class="t">
                         <img src="~@/assets/icon/goods-down.png">
                     </a>
@@ -62,14 +62,14 @@
                 </li>
                 <li v-bind:class="{ select: is_show2}" @click="salesVolume2()"  v-if="choosed1">订单量<span></span>
                 </li>
-               <li v-bind:class="{ select: is_show2}" @click="salesVolume22()"  v-if="choosed2">订单量<span></span>
+               <li v-bind:class="{ select: is_show22}" @click="salesVolume22()"  v-if="choosed2">订单量<span></span>
                 </li>
                 <li v-bind:class="{ select: is_show3}" @click="salesVolume3()"  v-if="choosed1">库存<span></span>
                 </li>
-                <li v-bind:class="{ select: is_show3}" @click="salesVolume33()"  v-if="choosed2">库存<span></span>
+                <li v-bind:class="{ select: is_show33}" @click="salesVolume33()"  v-if="choosed2">库存<span></span>
                 </li>
                 <li v-bind:class="{ select: is_show4}" @click="salesVolume4()" v-if="choosed1">添加时间</li>
-                <li v-bind:class="{ select: is_show4}" @click="salesVolume44()" v-if="choosed2">添加时间</li>
+                <li v-bind:class="{ select: is_show44}" @click="salesVolume44()" v-if="choosed2">添加时间</li>
             </ul>
         </div>
         <!-- 商品列表 -->
@@ -171,7 +171,9 @@ export default {
             choosed1:true,
         	choosed2:false,
             goodlist:'',
-            show:true
+            show:true,
+            is_flag:true,
+            is_flag1:true
 　　　　 }
 　　},
     created() {
@@ -206,7 +208,6 @@ export default {
             this.is_show1=false
             this.is_show3=false
             this.is_show4=false
-            console.log('111')
             _this.public_tab(1,1,1,1,1,1,1,20)
         },
         //库存
@@ -234,7 +235,19 @@ export default {
             this.is_show1=true
             this.is_show3=false
             this.is_show4=false
-            _this.public_tab(1,1,1,1,1,1,1,20)
+            const flag=this.is_flag
+            if(flag){
+                //请求销量高
+                console.log('请求销量高')
+                _this.public_tab(1,1,1,1,1,1,1,20)
+                this.is_flag=!this.is_flag
+            }else{
+                //请求销量低
+                console.log('请求销量低')
+                _this.public_tab(1,2,1,1,1,1,1,20)
+                this.is_flag=!this.is_flag
+            }
+            
         },
         //已下架tab 
         // 订单量
@@ -244,7 +257,7 @@ export default {
             this.is_show11=false
             this.is_show33=false
             this.is_show44=false
-            _this.public_tab(1,1,1,1,1,1,1,20)
+            _this.public_tab(2,1,1,1,1,1,1,20)
         },
         //库存
         salesVolume33:function(){
@@ -253,7 +266,7 @@ export default {
             this.is_show11=false
             this.is_show33=true
             this.is_show44=false
-            _this.public_tab(1,1,1,1,1,1,1,20)
+            _this.public_tab(2,1,1,1,1,1,1,20)
         },
         // 添加时间
         salesVolume44:function(){
@@ -262,7 +275,7 @@ export default {
             this.is_show11=false
             this.is_show33=false
             this.is_show44=true
-           _this.public_tab(1,1,1,1,1,1,1,20)
+           _this.public_tab(2,1,1,1,1,1,1,20)
         },
         //销量
         salesVolume11:function(){
@@ -271,7 +284,18 @@ export default {
             this.is_show11=true
             this.is_show33=false
             this.is_show44=false
-           _this.public_tab(1,1,1,1,1,1,1,20)
+            const flag1=this.is_flag1;
+            if(flag1){
+                //请求销量高
+                console.log('请求销量高')
+                _this.public_tab(2,1,1,1,1,1,1,20)
+                this.is_flag1=!this.is_flag1
+            }else{
+                //请求销量低
+                console.log('请求销量低')
+                _this.public_tab(2,2,1,1,1,1,1,20)
+                this.is_flag1=!this.is_flag1
+            }
         },
 
         //tab选择切换时的方法封装
@@ -279,9 +303,10 @@ export default {
             const _this=this;
             const url =`${myPub.URL}/merchant/Shop/shopMarketing`;
             var params = new URLSearchParams();
+            _this.$loading.show();//隐藏
             params.append('token',localStorage.currentUser_token);
-            // params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
-            params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
+            // params.append('open_id',`${openId.open_id}`);
+            params.append('open_id',`${openId.open_id}`);
             params.append('type',a);
             params.append('sales_volume',b);
             params.append('order_quantity',c);
@@ -295,6 +320,7 @@ export default {
             // _this.datalist = data
             // _this.goodlist=data.list
               console.log(response)
+
             const status = response.data.status
             console.log(status)
             if (status == "200") {
@@ -355,8 +381,8 @@ export default {
                   const url =`${myPub.URL}/merchant/Shop/shopMarketing`;
                 var params = new URLSearchParams();
                 params.append('token',localStorage.currentUser_token);
-                // params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
-                params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
+                // params.append('open_id',`${openId.open_id}`);
+                params.append('open_id',`${openId.open_id}`);
                 params.append('type','1');
                 axios.post(url,params).then(response => {
                     const data =response.data.data
@@ -374,8 +400,8 @@ export default {
             const _this =this
             var params = new URLSearchParams();
             params.append('token',localStorage.currentUser_token);
-            // params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
-            params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
+            // params.append('open_id',`${openId.open_id}`);
+            params.append('open_id',`${openId.open_id}`);
             params.append('type','1');
             axios.post(url,params).then(response => {
                 const data =response.data.data
@@ -392,8 +418,8 @@ export default {
             const _this =this
             var params = new URLSearchParams();
             params.append('token',localStorage.currentUser_token);
-            // params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
-            params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
+            // params.append('open_id',`${openId.open_id}`);
+            params.append('open_id',`${openId.open_id}`);
             params.append('type','2');
             params.append('id',id);
             axios.post(url,params).then(response => {
@@ -415,8 +441,8 @@ export default {
             const _this =this
             var params = new URLSearchParams();
             params.append('token',localStorage.currentUser_token);
-            params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
-            // params.append('open_id','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
+            params.append('open_id',`${openId.open_id}`);
+            // params.append('open_id',`${openId.open_id}`);
             params.append('type','1');
             params.append('id',id);
             axios.post(url,params).then(response => {
@@ -819,20 +845,20 @@ export default {
     /*添加商品*/
     .add-goods {
         position: fixed;
-        top: 60%;
+        top: 75%;
         right: 1rem;
-        width: 5rem;
-        height:5rem;
+        width: 4.2rem;
+        height:4.2rem;
         border-radius: 50%;
         background: #ff8134;
         text-align: center;
         z-index:11;
         img {
-            margin-top: 1rem;
+           margin-top: 0.7rem;
         }
         p {
             color: #ffffff;
-            font-size: 0.9rem;
+            font-size: 0.5rem;
         }
     }
 }
