@@ -9,7 +9,7 @@
                     <p :class="{f17: choosed1, f17_selecct: choosed2}">今日 <span>
                     <img src="~@/assets/icon/ys.png" v-if="choosed1" class="img_cate">
                     <img src="~@/assets/icon/xs.png" v-if="choosed2" class="img_cate">
-                    </span>  <span :class="{f18: choosed1, f18_selecct: choosed2}">{{datalist.marketing_data.visit_now_count}}</span>
+                    </span>  <span :class="{f18: choosed1, f18_selecct: choosed2}">{{datalist.marketing_data.visit_count}}</span>
                     </p>
                 </li>
                 <li>
@@ -81,7 +81,7 @@
                             <img :src='item.img_src'>
                             <p>{{item.recpos_name}}</p>
                         </div>
-                        <div class="goods clerfix">
+                        <div class="goods clerfix"  @click='ToCommoditydetail(item.goods_id)'>
                              <h5>{{item.goods_name}}<span class="goodsId">{{item.goods_id}}</span></h5>
                             <p><span class="price">￥{{item.shop_price}}</span> <span class="y-charge">引客价</span> <span class="charge">￥{{item.market_price}}</span>
                                 <a href="javascript:">
@@ -200,6 +200,10 @@ export default {
         },
         linktoDetail() {
             this.$router.push({ path: '/page/addgoods'})
+        },
+        //进入商品营销详情
+        ToCommoditydetail(id) {
+            this.$router.push({ path: '/page/storearmketingdetails', query: { id: id } })
         },
         // 订单量
         salesVolume2:function(){

@@ -1,6 +1,5 @@
    <template>
-    <div class="login"
-        >
+    <div class="login">
         <div class="logo-wrap">
            <div class="logo_box">
                 <div class='logo_imgbox'>
@@ -117,7 +116,7 @@ export default {
                 params.append('session_id',localStorage.sessionid);
              }
               axios.post(url,params).then(response => {
-                // const currentUser_token = response.data.data //获取token
+                  // const currentUser_token = response.data.data //获取token
                     console.log(response)
                     const sessionid = response.data.sessionid
                     console.log(sessionid)
@@ -164,11 +163,15 @@ export default {
              }
               axios.post(url,params).then(response => {
                 console.log(response)
-                const status = response.data.status
+                const status = response.data.status;
+                const identity =  response.data.type;
                 console.log(status)
                 if (status == "200") {
                     //登陆成功存储登录状态
                     localStorage.setItem('login_static','true');
+                    // 存储是店员or店长登录字段
+                    // response.data.type=1  店长 localStorage.Identity
+                    localStorage.setItem('Identity',identity);
                     // 重定向到首页或者登录前的页面
                     let redirect = decodeURIComponent(
                         this.$route.query.redirect || '/'
@@ -189,6 +192,7 @@ export default {
                         this.$vux.alert.hide()
                         // location.reload()
                     }, 3000)
+
                 }
               }).catch((err) => {
                 console.log(err)

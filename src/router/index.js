@@ -39,6 +39,7 @@ const newData = r => require.ensure([], () => r(require('@/pages/order/newData')
 const data = r => require.ensure([], () => r(require('@/pages/order/data')), 'data')
 const sh_success = r => require.ensure([], () => r(require('@/pages/stores/sh_success')), 'sh_success')
 const Customer = r => require.ensure([], () => r(require('@/pages/order/Customer')), 'Customer')
+const Storearmketingdetails = r => require.ensure([], () => r(require('@/pages/stores/storearmketingdetails')), 'storearmketingdetails')
 sh_success
 
 Vue.use(Router)
@@ -85,6 +86,16 @@ const routes = [
                      keepAlive: false // 不需要被缓存
                 },
                 component: Category
+            },
+            {
+                path: 'storearmketingdetails',
+                name: 'storearmketingdetails',
+                meta: {
+                    title: '店铺营销详情',
+                    requireAuth: true,
+                     keepAlive: false // 不需要被缓存
+                },
+                component: Storearmketingdetails
             },
             {
                 path: 'addGoods',
@@ -400,11 +411,11 @@ const routes = [
         path: '/login',
         name: 'login',
         component: Login,
-        // auth: true, 如果此路由需要微信授权请设置为true,默认为false
         meta: {
             title: '商家登录',
-             keepAlive: false // 不需要被缓存
-        }
+             keepAlive: false, // 不需要被缓存
+             // auth: true// 如果此路由需要微信授权请设置为true,默认为false 
+           }
     },
 
     {
@@ -416,7 +427,14 @@ const routes = [
              keepAlive: false // 不需要被缓存
         }
     },
-    { path: '*', component: Home }
+    { 
+        path: '*', 
+        component: Home,
+        requireAuth: true, 
+         meta: {
+            // auth: true
+        }
+     }
 ]
 
 const router = new Router({

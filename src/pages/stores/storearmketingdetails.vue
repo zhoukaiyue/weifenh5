@@ -85,6 +85,7 @@ export default {
 <style scoped lang="less">
 .productin{
   background:#f8f7f7;
+  height:100%;
   .productinformation{
     width:100%;
     height:10rem;
