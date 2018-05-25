@@ -202,7 +202,7 @@ export default {
                 _this.product = response.data.data;
                 _this.demo01_list =data.goods_photo
                 if (data.limit_status == '1') {
-                    _this.isshow11=truesssss
+                    _this.isshow11=true
                 }
                 console.log(_this.demo01_list)
             }).catch((err) => {
