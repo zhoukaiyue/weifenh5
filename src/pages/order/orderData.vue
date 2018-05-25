@@ -279,7 +279,8 @@ export default {
             this.$vux.alert.hide()
             // location.reload()
         }, 3000)
-	},salesVolume4:function(){
+	},
+  salesVolume4:function(){
         const _this = this;
         this.is_show4=true
         this.is_show5=false
@@ -325,6 +326,15 @@ export default {
           params.append('open_id',`${openId.open_id}`);
           params.append('type',a);
           axios.post(url,params).then(response => {
+            if (response.data.status =='1024') {
+                this.$vux.alert.show({
+                    content: response.data.msg
+                })
+                setTimeout(() => {
+                    this.$vux.alert.hide()
+                    location.href = '/login'
+                }, 3000)
+              }
               const data = response.data.data
               this.shopdata = data.member_data
               var objdata = this.shopdata.seven;
@@ -333,16 +343,6 @@ export default {
                Data.push(objdata[i])
               }
                _this.yx_display(arr,Data);
-               if (response.data.status =='1024') {
-                this.$vux.alert.show({
-                    content: response.data.msg
-                })
-                setTimeout(() => {
-                    this.$vux.alert.hide()
-                    this.$router.push({path: '/login'});
-                }, 3000)
-              }
-
           }).catch((err) => {
               console.log(err)
           })
@@ -357,23 +357,22 @@ export default {
           params.append('open_id',`${openId.open_id}`);
           params.append('type',b);
           axios.post(url,params).then(response => {
+            if (response.data.status =='1024') {
+                this.$vux.alert.show({
+                    content: response.data.msg
+                })
+                setTimeout(() => {
+                    this.$vux.alert.hide()
+                    location.href = '/login'
+                }, 3000)
+              }
               const data = response.data.data
               var objdata = data.member_data;
               for(var i in objdata){
                arr.push(objdata[i].truename)
                Data.push(objdata[i].member_count)
               }
-               _this.yh_display(arr,Data);
-               if (response.data.status =='1024') {
-                this.$vux.alert.show({
-                    content: response.data.msg
-                })
-                setTimeout(() => {
-                    this.$vux.alert.hide()
-                    this.$router.push({path: '/login'});
-                }, 3000)
-              }
-
+               _this.yh_display(arr,Data);               
           }).catch((err) => {
               console.log(err)
           })

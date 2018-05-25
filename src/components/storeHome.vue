@@ -7,7 +7,7 @@
        <!-- tab菜单切换 -->
        <div class="mid_tab">
             <div class="mid_tab_item" v-on:click="shop">
-                <img src="~@/assets/icon/dygl.png" alt="" class='img'><span>店员管理</span>
+                <img src="~@/assets/icon/dygl.png" alt="" class='img'><span>11店员管理</span>
             </div>
             <div class="mid_tab_item" v-on:click="category">
                 <img src="~@/assets/icon/dpyx.png" alt="" class='img'><span>店铺营销</span>
@@ -84,7 +84,7 @@
 </template>
 
 <script>
-import { Swiper, SwiperItem,ButtonTab, ButtonTabItem, Divider } from 'vux'
+import { Swiper, SwiperItem,ButtonTab, ButtonTabItem, Divider,Toast } from 'vux'
 import products from '@/components/Products'
 import * as myPub from '@/assets/js/public.js'
 import * as openId from '@/assets/js/opid_public.js'
@@ -137,10 +137,7 @@ export default {
           params.append('token',localStorage.currentUser_token);
           params.append('open_id',`${openId.open_id}`);
           axios.post(url,params).then(response => {
-            const data = response.data.data
-            this.num = data
-            this.datalist = data.category_list
-            console.log(data.category_list)
+            console.log('1')
             if (response.data.status =='1024') {
               this.$vux.alert.show({
                   content: response.data.msg
@@ -150,6 +147,10 @@ export default {
                   this.$router.push({path: '/login'});
               }, 3000)
             }
+            const data = response.data.data
+            this.num = data
+            this.datalist = data.category_list
+            console.log(response.data.status)
           }).catch((err) => {
             console.log(err)
           })
@@ -166,7 +167,8 @@ export default {
         products,
         ButtonTab,
         ButtonTabItem,
-        Divider
+        Divider,
+        Toast
     },
     //页面加载后执行
     mounted(){

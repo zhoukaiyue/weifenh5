@@ -100,6 +100,15 @@ export default {
               params.append('open_id',`${openId.open_id}`);
               params.append('session_id',localStorage.sessionid);
               axios.post(url,params).then(response => {
+                if (response.data.status =='1024') {
+                  this.$vux.alert.show({
+                      content: response.data.msg
+                  })
+                  setTimeout(() => {
+                      this.$vux.alert.hide()
+                      location.href = '/login'
+                  }, 3000)
+                }
                 const status = response.data.status
                 console.log(status)
                 if (status == "200") {
@@ -114,15 +123,6 @@ export default {
                     setTimeout(() => {
                         this.$vux.alert.hide()
                     }, 3000)
-                }
-                if (response.data.status =='1024') {
-                  this.$vux.alert.show({
-                      content: response.data.msg
-                  })
-                  setTimeout(() => {
-                      this.$vux.alert.hide()
-                      this.$router.push({path: '/login'});
-                  }, 3000)
                 }
               }).catch((err) => {
                 console.log(err)

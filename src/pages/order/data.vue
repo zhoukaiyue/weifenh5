@@ -212,18 +212,18 @@ deactivated () {
           params.append('open_id',`${openId.open_id}`);
           params.append('type',a);
           axios.post(url,params).then(response => {
-              const data = response.data.data
-              this.shopdata = data.order_data
-              var objdata = this.shopdata;
-              if (response.data.status =='1024') {
+          	if (response.data.status =='1024') {
 	              this.$vux.alert.show({
 	                  content: response.data.msg
 	              })
 	              setTimeout(() => {
 	                  this.$vux.alert.hide()
-	                  this.$router.push({path: '/login'});
+	                  location.href = '/login'
 	              }, 3000)
 	            }
+              const data = response.data.data
+              this.shopdata = data.order_data
+              var objdata = this.shopdata;
               console.log(objdata)
           }).catch((err) => {
               console.log(err)

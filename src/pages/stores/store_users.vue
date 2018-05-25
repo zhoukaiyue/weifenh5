@@ -152,6 +152,15 @@ export default {
             params.append('token',localStorage.currentUser_token);;
             params.append('open_id',`${openId.open_id}`);
             axios.post(url,params).then(response => {
+            if (response.data.status =='1024') {
+              this.$vux.alert.show({
+                  content: response.data.msg
+              })
+              setTimeout(() => {
+                  this.$vux.alert.hide()
+                  location.href = '/login'
+              }, 3000)
+            }
                 const data = response.data
                 console.log(response)
             }).catch((err) => {

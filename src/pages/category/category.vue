@@ -116,13 +116,13 @@
                                 </p>
                                 <p>营销分析</p>
                             </li>
-                            <li v-if="choosed2" @click="Joinmarketing(item.goods_id)">
+                            <li v-if="choosed2" @click="Commodityframe(1,item.goods_id)">
                                 <p>
                                     <img src="~@/assets/icon/categroy-select.png">
                                 </p>
                                 <p>加入营销</p>
                             </li>
-                            <li v-if="choosed1" @click="Commodityframe(item.goods_id)">
+                            <li v-if="choosed1" @click="Commodityframe(2,item.goods_id)">
                                 <p>
                                     <img src="~@/assets/icon/categroy-xj.png">
                                 </p>
@@ -320,10 +320,7 @@ export default {
             params.append('page',g);
             params.append('size',h);
             axios.post(url,params).then(response => {
-              console.log(response)
-            const status = response.data.status
-            console.log(status)
-            if (status == "200") {
+                if (status == "200") {
                 setTimeout(() => {
                     _this.$loading.hide();//隐藏
                     const data =response.data.data
@@ -346,9 +343,12 @@ export default {
               })
               setTimeout(() => {
                   this.$vux.alert.hide()
-                  this.$router.push({path: '/login'});
+                  location.href = '/login'
               }, 3000)
             }
+              console.log(response)
+            const status = response.data.status
+            console.log(status)
             }).catch((err) => {
                 console.log(err)
             })
@@ -363,12 +363,21 @@ export default {
                   _this.$loading.hide(); //隐藏
                   _this.choosed1=false;
             	  _this.choosed2=true;
-                  const url =`${myPub.URL}/merchant/Shop/shopMarketing`;
+                const url =`${myPub.URL}/merchant/Shop/shopMarketing`;
                 var params = new URLSearchParams();
                 params.append('token',localStorage.currentUser_token);
                  params.append('open_id',`${openId.open_id}`);
                 params.append('type','2');
                 axios.post(url,params).then(response => {
+                    if (response.data.status =='1024') {
+                  this.$vux.alert.show({
+                      content: response.data.msg
+                  })
+                  setTimeout(() => {
+                      this.$vux.alert.hide()
+                      location.href = '/login'
+                  }, 3000)
+                }
                     const data =response.data.data
                 _this.datalist = data
                 _this.goodlist=data.list
@@ -395,6 +404,15 @@ export default {
                 params.append('open_id',`${openId.open_id}`);
                 params.append('type','1');
                 axios.post(url,params).then(response => {
+                    if (response.data.status =='1024') {
+                  this.$vux.alert.show({
+                      content: response.data.msg
+                  })
+                  setTimeout(() => {
+                      this.$vux.alert.hide()
+                      location.href = '/login'
+                  }, 3000)
+                }
                     const data =response.data.data
                     _this.datalist = data
                     _this.goodlist=data.list
@@ -414,6 +432,15 @@ export default {
             params.append('open_id',`${openId.open_id}`);
             params.append('type','1');
             axios.post(url,params).then(response => {
+                if (response.data.status =='1024') {
+                  this.$vux.alert.show({
+                      content: response.data.msg
+                  })
+                  setTimeout(() => {
+                      this.$vux.alert.hide()
+                      location.href = '/login'
+                  }, 3000)
+                }
                 const data =response.data.data
                 _this.datalist = data
                 _this.goodlist=data.list
@@ -422,24 +449,27 @@ export default {
                 console.log(err)
             })
         },
-        // 商品下架
-        Commodityframe(id){
+        // 商品下架 和加入营销
+        Commodityframe(a,id){
+            console.log('fangfahebingl ')
             const url =`${myPub.URL}/merchant/Shop/goodsUpDown`;
-            const _this =this
-            var params = new URLSearchParams();
+            const _this =this;
+            this.$loading.show();//显示
+            const params = new URLSearchParams();
             params.append('token',localStorage.currentUser_token);
             // params.append('open_id',`${openId.open_id}`);
             params.append('open_id',`${openId.open_id}`);
-            params.append('type','2');
+            params.append('type',a);
             params.append('id',id);
             axios.post(url,params).then(response => {
-                const data =response.data
-                console.log(data.status)
-                this.$loading.show();//显示
                 if (data.status == '200') {
                      // location.reload()
                      this.$loading.hide(); //隐藏
-                     this.selectStyle()
+                     if(a==1){
+                        this.selectStyle()
+                     }else{
+                        this.selectStyle1()
+                     }
                 }else{
                     _this.$loading.hide(); 
                     this.$vux.alert.show({
@@ -448,36 +478,46 @@ export default {
                     })
                     setTimeout(() => {
                         this.$vux.alert.hide()
-                        // location.reload()
                     }, 3000)
                 }
+                if (response.data.status =='1024') {
+                  this.$vux.alert.show({
+                      content: response.data.msg
+                  })
+                  setTimeout(() => {
+                      this.$vux.alert.hide()
+                      location.href = '/login'
+                  }, 3000)
+                }
+                const data =response.data
+                console.log(data.status)
             }).catch((err) => {
                 console.log(err)
             })
         },
         // 加入营销
-        Joinmarketing(id){
-            const url =`${myPub.URL}/merchant/Shop/goodsUpDown`;
-            const _this =this
-            var params = new URLSearchParams();
-            params.append('token',localStorage.currentUser_token);
-            params.append('open_id',`${openId.open_id}`);
-            // params.append('open_id',`${openId.open_id}`);
-            params.append('type','1');
-            params.append('id',id);
-            axios.post(url,params).then(response => {
-                const data =response.data
-                console.log(data.status)
-                this.$loading.show();//显示
-                if (data.status == '200') {
-                     // location.reload()
-                     this.$loading.hide(); //隐藏
-                     this.selectStyle1()
-                }
-            }).catch((err) => {
-                console.log(err)
-            })
-        }
+        // Joinmarketing(id){
+        //     const url =`${myPub.URL}/merchant/Shop/goodsUpDown`;
+        //     const _this =this
+        //     var params = new URLSearchParams();
+        //     params.append('token',localStorage.currentUser_token);
+        //     params.append('open_id',`${openId.open_id}`);
+        //     // params.append('open_id',`${openId.open_id}`);
+        //     params.append('type','1');
+        //     params.append('id',id);
+        //     axios.post(url,params).then(response => {
+        //         const data =response.data
+        //         console.log(data.status)
+        //         this.$loading.show();//显示
+        //         if (data.status == '200') {
+        //              // location.reload()
+        //              this.$loading.hide(); //隐藏
+        //              this.selectStyle1()
+        //         }
+        //     }).catch((err) => {
+        //         console.log(err)
+        //     })
+        // }
     }
 }
 </script>

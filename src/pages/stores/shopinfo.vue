@@ -57,7 +57,7 @@ export default {
               })
               setTimeout(() => {
                   this.$vux.alert.hide()
-                  this.$router.push({path: '/login'});
+                  location.href = '/login'
               }, 3000)
             }
           }).catch((err) => {

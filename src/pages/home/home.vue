@@ -27,7 +27,7 @@ export default {
         }else{
              //此方法打开的是店员端
             _this.storeshow=false;
-            _this.shopshow=true;          
+            _this.shopshow=true;
         }
     },
     deactivated () {

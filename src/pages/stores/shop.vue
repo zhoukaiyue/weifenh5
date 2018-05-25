@@ -15,15 +15,6 @@
                 <td>手机号码</td>
                 <td>添加时间</td>
               </tr>
-              <!-- <tr style="height:60px">
-                <td class="td1" style="padding-left:14px;box-sizing:border-box;">
-                  <input type="checkbox" value="1" v-model="checked" @click="currClick(item,$index)" id='1'>  <label for="1" class="cb-label"></label>
-                  <img src="http://img4.imgtn.bdimg.com/it/u=352151113,400415667&fm=27&gp=0.jpg" alt="" class="oimg">
-                  <span>刘大脑大</span>
-                </td>
-                <td class="dy_td">13649259704</td>
-                <td class="dy_td">2016.08.09</td>
-              </tr> -->
               <tr v-for="(item,$index) in lists" style="height:60px">
                 <td class="td1" style="padding-left:14px;box-sizing:border-box;">
                   <input type="checkbox" :value="item.id" v-model="checked" @click="currClick(item,$index)" :id='item.id'>  <label :for="item.id" class="cb-label"></label>
@@ -106,30 +97,33 @@ export default {
         this.$destroy()
     },
     methods: {
-        // 请求数据接口
+        //请求数据接口
         getData_shopassistant(){
           const _this = this;
+          _this.$loading.show();//隐藏
           const url =`${myPub.URL}/merchant/Shop/clerkManage`;
           const params = new URLSearchParams();
           params.append('token',localStorage.currentUser_token);
           params.append('open_id',`${openId.open_id}`);
           axios.post(url,params).then(response => {
-            // console.log(response.data)
-            // _this.lists = response.data.data;
-            if(response.data.data){
-              _this.lists = response.data.data;
-            }else{
-              _this.lists = [];
-            }
             if (response.data.status =='1024') {
               this.$vux.alert.show({
                   content: response.data.msg
               })
               setTimeout(() => {
                   this.$vux.alert.hide()
-                  this.$router.push({path: '/login'});
+                  location.href = '/login'
               }, 3000)
             }
+            if (response.data.status == "200") {
+                    _this.$loading.hide();//隐藏
+                     _this.lists = response.data.data;
+                    
+            }else{
+               _this.$loading.hide();//隐藏
+               _this.lists = [];
+            }
+    
           }).catch((err) => {
             console.log(err)
           })
@@ -138,19 +132,17 @@ export default {
         del_dy(){
             const _this = this;
             _this.$loading.show();//隐藏
-            const id = this.totalPrice
+            const id = this.totalPrice;
             const url =`${myPub.URL}/merchant/Shop/delClerk`;
             const params = new URLSearchParams();
             params.append('token',localStorage.currentUser_token);
             params.append('open_id',`${openId.open_id}`);
             params.append('id',id);
             axios.post(url,params).then(response => {
-              console.log(response.data.status)
-              if (status == "200") {
-                setTimeout(() => {
-                    _this.$loading.hide();//隐藏
+            console.log(response.data.status)
+              if (response.data.status == "200") {
                     _this.getData_shopassistant()
-                }, 2000)
+                    
             }else{
                _this.$loading.hide();//隐藏
                 this.$vux.alert.show({
@@ -167,7 +159,7 @@ export default {
                   })
                   setTimeout(() => {
                       this.$vux.alert.hide()
-                      this.$router.push({path: '/login'});
+                      location.href = '/login'
                   }, 3000)
                 }
             }).catch((err) => {

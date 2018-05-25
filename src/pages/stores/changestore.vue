@@ -58,7 +58,15 @@ export default {
           params.append('mobile',this.mobile);
           params.append('open_id',`${openId.open_id}`);
           axios.post(url,params).then(response => {
-            // const currentUser_token = response.data.data //获取token
+            if (response.data.status =='1024') {
+              this.$vux.alert.show({
+                  content: response.data.msg
+              })
+              setTimeout(() => {
+                  this.$vux.alert.hide()
+                  location.href = '/login'
+              }, 3000)
+            }
             console.log(response)
             const status = response.data.status
             console.log(status)
@@ -78,15 +86,6 @@ export default {
                       this.$vux.alert.hide()
                       // location.reload()
                   }, 3000)
-            }
-            if (response.data.status =='1024') {
-              this.$vux.alert.show({
-                  content: response.data.msg
-              })
-              setTimeout(() => {
-                  this.$vux.alert.hide()
-                  this.$router.push({path: '/login'});
-              }, 3000)
             }
           }).catch((err) => {
             console.log(err)

@@ -195,17 +195,17 @@ export default {
               params.append('token',localStorage.currentUser_token);;
               params.append('open_id',`${openId.open_id}`);
               axios.post(url,params).then(response => {
+                if (response.data.status =='1024') {
+                  this.$vux.alert.show({
+                      content: response.data.msg
+                  })
+                  setTimeout(() => {
+                      this.$vux.alert.hide()
+                      location.href = '/login'
+                  }, 3000)
+                }
                 const data = response.data.data
                 _this.datalist = data.list
-                if (response.data.status =='1024') {
-                this.$vux.alert.show({
-                    content: response.data.msg
-                })
-                setTimeout(() => {
-                    this.$vux.alert.hide()
-                    this.$router.push({path: '/login'});
-                }, 3000)
-              }
                 console.log(response)
               }).catch((err) => {
                 console.log(err)
@@ -221,19 +221,19 @@ export default {
         params.append('token',localStorage.currentUser_token);;
         params.append('open_id',`${openId.open_id}`);
         axios.post(url,params).then(response => {
-            const data = response.data.data
-            _this.datalist = data.list
-            console.log(data)
-            console.log(_this.datalist)
-            if (response.data.status =='1024') {
+          if (response.data.status =='1024') {
               this.$vux.alert.show({
                   content: response.data.msg
               })
               setTimeout(() => {
                   this.$vux.alert.hide()
-                  this.$router.push({path: '/login'});
+                  location.href = '/login'
               }, 3000)
             }
+            const data = response.data.data
+            _this.datalist = data.list
+            console.log(data)
+            console.log(_this.datalist)
         }).catch((err) => {
             console.log(err)
         })
@@ -247,19 +247,19 @@ export default {
         params.append('token',localStorage.currentUser_token);;
         params.append('open_id',`${openId.open_id}`);
         axios.post(url,params).then(response => {
-            const data = response.data.data
-            _this.datalist = data.list
-            console.log(data)
-            console.log(_this.datalist)
-            if (response.data.status =='1024') {
+          if (response.data.status =='1024') {
               this.$vux.alert.show({
                   content: response.data.msg
               })
               setTimeout(() => {
                   this.$vux.alert.hide()
-                  this.$router.push({path: '/login'});
+                  location.href = '/login'
               }, 3000)
             }
+            const data = response.data.data
+            _this.datalist = data.list
+            console.log(data)
+            console.log(_this.datalist)
         }).catch((err) => {
             console.log(err)
         })
