@@ -63,7 +63,7 @@ const routes = [
                 meta: {
                      title: '首页',
                      keepAlive: false,// 不需要被缓存
-                     auth: true,// 如果此路由需要微信授权请设置为true,默认为false
+                     //auth: true,// 如果此路由需要微信授权请设置为true,默认为false
                      requireAuth: true
                 },
                 component: Home
@@ -73,7 +73,7 @@ const routes = [
                 name: 'theme',
                 meta: {
                     title: '主题',
-                     keepAlive: false // 不需要被缓存
+                    keepAlive: false // 不需要被缓存
                 },
                 component:Theme
             },
@@ -83,7 +83,7 @@ const routes = [
                 meta: {
                     title: '店铺营销',
                     requireAuth: true,
-                     keepAlive: false // 不需要被缓存
+                    keepAlive: false // 不需要被缓存
                 },
                 component: Category
             },
@@ -93,7 +93,7 @@ const routes = [
                 meta: {
                     title: '店铺营销详情',
                     requireAuth: true,
-                     keepAlive: false // 不需要被缓存
+                    keepAlive: false // 不需要被缓存
                 },
                 component: Storearmketingdetails
             },
@@ -103,7 +103,7 @@ const routes = [
                 meta: {
                     title: '添加商品',
                     requireAuth: true,
-                     keepAlive: false // 不需要被缓存
+                    keepAlive: false // 不需要被缓存
                 },
                 component: addGoods
             },
@@ -113,7 +113,7 @@ const routes = [
                 meta: {
                     title: '商品详情',
                     requireAuth: true,
-                     keepAlive: false // 不需要被缓存
+                    keepAlive: false // 不需要被缓存
                 },
                 component: Detail
             },
@@ -122,7 +122,7 @@ const routes = [
                 name: 'ceshi',
                 meta: {
                     title: '测试',
-                     keepAlive: false // 不需要被缓存
+                    keepAlive: false // 不需要被缓存
                 },
                 component: Ceshi
             },
@@ -131,7 +131,7 @@ const routes = [
                 name: 'sh_success',
                 meta: {
                     title: '等待审核',
-                     keepAlive: false // 不需要被缓存
+                    keepAlive: false // 不需要被缓存
                 },
                 component: sh_success
             },
@@ -141,7 +141,7 @@ const routes = [
                 meta: {
                     title: '店员邀新排行榜',
                     requireAuth: true,
-                     keepAlive: false // 不需要被缓存
+                    keepAlive: false // 不需要被缓存
                 },
                 component: Dyinvite
             },
@@ -160,7 +160,7 @@ const routes = [
                 meta: {
                     title: '订单',
                     requireAuth: true ,// 添加该字段，表示进入这个路由是需要登录的
-                     keepAlive: false // 不需要被缓存
+                    keepAlive: false // 不需要被缓存
                 },
                 component: Order
             },
@@ -170,7 +170,7 @@ const routes = [
                 meta: {
                     title: '店铺订单数据',
                     requireAuth: true ,// 添加该字段，表示进入这个路由是需要登录的
-                     keepAlive: false // 不需要被缓存
+                    keepAlive: false // 不需要被缓存
                 },
                 component: OrderData
             },
@@ -180,7 +180,7 @@ const routes = [
                 meta: {
                     title: '营销商品数据',
                     requireAuth: true ,// 添加该字段，表示进入这个路由是需要登录的
-                     keepAlive: false // 不需要被缓存
+                    keepAlive: false // 不需要被缓存
                 },
                 component: CommodityData
             },
@@ -414,7 +414,7 @@ const routes = [
         meta: {
             title: '商家登录',
              keepAlive: false, // 不需要被缓存
-              auth: true// 如果此路由需要微信授权请设置为true,默认为false 
+             //auth: true// 如果此路由需要微信授权请设置为true,默认为false 
            }
     },
 
@@ -432,7 +432,7 @@ const routes = [
         component: Home,
         requireAuth: true, 
          meta: {
-            auth: true
+            //auth: true
         }
      }
 ]

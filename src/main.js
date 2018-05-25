@@ -89,6 +89,23 @@ router.beforeEach((to, from, next) => {
         next()
     }
 
+    console.log(`${openId.open_id}`)
+    // 如果发现openid为空时再次向后台请求获取openid
+    if(`${openId.open_id}`==undefined||`${openId.open_id}`=='undefined'){
+        console.log('再次向后台请求获取openid')
+        const url = `${myPub.URL}/merchant/Token/getToken`
+        const params = new URLSearchParams();
+        params.append('code',localStorage.code);
+        axios.post(url,params).then(response => {
+            console.log('向后台传输code2')
+            const openid = response.data.openid
+            localStorage.setItem('openid',openid);
+            console.log('获取到openid')
+            console.log(localStorage.openid)
+            console.log(`${openId.open_id}`)
+      })
+    }
+
     if (localStorage.currentUser_token == null || localStorage.currentUser_token == undefined) {
       const url =`${myPub.URL}/merchant/Baseapi/getToken`; //获取token接口地址
       const params = new URLSearchParams();
