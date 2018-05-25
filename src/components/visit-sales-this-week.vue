@@ -5,7 +5,9 @@
     </div>
 </template>
 <script>
-
+import * as myPub from '@/assets/js/public.js'
+import * as openId from '@/assets/js/opid_public.js'
+import axios from 'axios'
 export default {
   name:'charts',
   components: {
@@ -41,7 +43,8 @@ export default {
                        // trigger: 'item'
                     },
                     grid: {
-                        left: '-8%',
+                        width:'100%',
+                        left: '-6%',
                         right: '10%',
                         bottom: '10%',
                         containLabel: true
@@ -85,6 +88,7 @@ export default {
                             name:'访问量',
                             type:'line',
                             stack: '销量',
+                            areaStyle: {color: ['rgba(250,250,250,0.1)','rgba(200,200,200,0.1)']},
                             itemStyle : { normal: {label : {show: true,color:'#ffffff'}}},
                             data:[1270, 6382, 2091, 1034, 6382, 2091, 1034],
                             color:"#ffffff"
@@ -94,6 +98,7 @@ export default {
                             type:'line',
                             stack: '销量',
                             itemStyle : { normal: {label : {show: true,color:'#f7ff50'}}},
+                            areaStyle: {color: ['rgba(250,250,250,0.1)','rgba(200,200,200,0.1)']},
                             data:[2270, 3456, 5432, 3423, 12, 291, 134],
                             color:"#f7ff50"
                         }
@@ -101,11 +106,30 @@ export default {
                 };
                 mainChart.setOption(option);
     },
+    order(a){
+      const url =`${myPub.URL}/merchant/Shop/dataStatistics`;
+          var params = new URLSearchParams();
+          params.append('token',localStorage.currentUser_token);;
+          params.append('open_id',`${openId.open_id}`);
+          params.append('type',a);
+          axios.post(url,params).then(response => {
+              const data = response.data.data
+              console.log(response)
+              this.yx_display()
+          }).catch((err) => {
+              console.log(err)
+          })
+    }
   },
 
   mounted(){
-      this.yx_display()
-  }
+  },
+  deactivated () {
+        this.$destroy()
+    },
+   created() {
+        this.order('5')
+    },
 }
 </script>
 <style scoped lang="less">

@@ -12,11 +12,11 @@
 		<div class="data_display">
 
 		    <div class="yx_display">
-		    	<p class="yx_display_title">店铺新增用户数据<span v-on:click="store_users">查看更多&ensp;<img src="~@/assets/icon/goods-left.png"></span></p>
+		    	<p class="yx_display_title">店铺新增用户数据<!-- <span v-on:click="store_users">查看更多&ensp;<img src="ss"></span> --></p>
 		    	<ul class="yx_display_tab">
 			    	<li class="oli first" v-bind:class='{ li_select: is_show1}' v-on:click="salesVolume1()">7日</li>
 			    	<li class="oli" v-bind:class='{ li_select: is_show2}' v-on:click="salesVolume2()">30日</li>
-			    	<li class="oli last" v-bind:class='{ li_select: is_show3}' v-on:click="salesVolume3()">年度</li>
+			    	<!-- <li class="oli last" v-bind:class='{ li_select: is_show3}' v-on:click="salesVolume3()">年度</li> -->
 		    	</ul>
 		      <p class="yx_display_ftitle">新增用户( 单位：人 )</p>
 	          <div class="charts" >
@@ -25,11 +25,11 @@
 		    </div>
 
 		     <div class="yh_display">
-		    	<p class="yh_display_title">店员邀新数据<span v-on:click="dyinvite">查看更多&ensp;<img src="~@/assets/icon/goods-left.png"></span></p>
+		    	<p class="yh_display_title">店员邀新数据<!-- <span v-on:click="dyinvite">查看更多&ensp;<img src="~@/assets/icon/goods-left.png"></span> --></p>
 		    	<ul class="yh_display_tab">
 			    	<li class="oli first" v-bind:class='{ li_select: is_show4}' v-on:click="salesVolume4()">7日</li>
 			    	<li class="oli" v-bind:class='{ li_select: is_show5}' v-on:click="salesVolume5()">30日</li>
-			    	<li class="oli last" v-bind:class='{ li_select: is_show6}' v-on:click="salesVolume6()">年度</li>
+			    	<!-- <li class="oli last" v-bind:class='{ li_select: is_show6}' v-on:click="salesVolume6()">年度</li> -->
 		    	</ul>
 		      <p class="yh_display_ftitle">新增用户( 单位：人 )</p>
 	          <div class="yhcharts" >
@@ -44,6 +44,7 @@
 import { Swiper, SwiperItem,ButtonTab, ButtonTabItem, Divider, Toast } from 'vux'
 import * as myPub from '@/assets/js/public.js'
 import * as openId from '@/assets/js/opid_public.js'
+import axios from 'axios'
 export default {
   name:'orderData',
   components: {
@@ -58,12 +59,16 @@ export default {
     	is_show6:false
     };
   },
+  created() {
+        this.order('4')
+        this.new('1')
+    },
   deactivated () {
         this.$destroy()
     },
   methods:{
-  	//这是营销订单趋势图
-	yx_display(){
+  	//店铺新增用户
+	yx_display(a,b){
 		    let echarts = require('echarts/lib/echarts')
 		    let chartBox=document.getElementsByClassName('charts')[0]
 		    let myChart=document.getElementById('myChart')
@@ -75,62 +80,77 @@ export default {
 		     var option = null;
 		     // 指定图表的配置项和数据
 		     option = {
-		     // 	title:{
-			    //      text:'营销商品销售额',
-			    //      textStyle:{
-			    //         //文字颜色
-			    //         color:'#ffffff',
-			    //         //字体风格,'normal','italic','oblique'
-			    //         fontStyle:'normal',
-			    //         //字体粗细 'normal','bold','bolder','lighter',100 | 200 | 300 | 400...
-			    //         fontWeight:'normal',
-			    //         //字体系列
-			    //         fontFamily:'sans-serif',
-			    //         //字体大小
-			    // 　　　　 fontSize:14,
-			    //     }
-			    // },
-			    xAxis: {
-			        type: 'category',
-			        data: ['1日', '2日', '3日', '4日', '5日', '6日', '7日'],
-			        axisLine: {
-                    lineStyle: {
-                        type: 'solid',
-                        color: '#ffffff',//左边线的颜色
-                        width:'2'//坐标线的宽度
-	                    }
-	                },
-	                axisLabel: {
-	                    textStyle: {
-	                        color: '#ffffff',//坐标值得具体的颜色
-	                    }
-	                },
-	                axisTick:{
-				        show:false/*隐藏刻度*/
-				    }
-			    },
-			    yAxis: {
-			        type: 'value',
-			        axisLine: {
-                    lineStyle: {
-	                        type: 'solid',
-	                        color: 'transparent',//左边线的颜色
-	                        width:'2'//坐标线的宽度
-	                    }
-	                },
-			    },
-			    series: [{
-                    type: 'line',
-	                    itemStyle: {
-	                        normal: {
-	                            color: '#ffffff'/*线条颜色*/,
-	                            label : {show: true}
-	                        }
-	                    },
-	                    data: [80, 932, 91, 934, 190, 130, 1320],
-	                }
-            	]
-			};
+                  //   title: {
+                  //       text: '店铺新增用户数据',
+                  //       left:'center',
+                  //       textStyle:{
+                  //         //文字颜色
+                  //         color:'#ffffff',
+                  //         //字体风格,'normal','italic','oblique'
+                  //         fontStyle:'normal',
+                  //         //字体粗细 'normal','bold','bolder','lighter',100 | 200 | 300 | 400...
+                  //         fontWeight:'bold',
+                  //         //字体系列
+                  //         fontFamily:'sans-serif',
+                  //         //字体大小
+                  // 　　　　 fontSize:12
+                  //     }
+                  //   },
+                    tooltip : {
+                       // trigger: 'item'
+                    },
+                    grid: {
+                        width:'95%',
+                        left: '-2%',
+                        right: '10%',
+                        bottom: '10%',
+                        containLabel: true
+                    },
+                    xAxis : [
+                        {
+                            type : 'category',
+                            boundaryGap : false,
+                            data :a,
+                             axisLine: {
+                          lineStyle: {
+                              type: 'solid',
+                              color: '#ffffff',//左边线的颜色
+                              width:'2'//坐标线的宽度
+                            }
+                        },
+                        axisLabel: {
+                            textStyle: {
+                                color: '#ffffff',//坐标值得具体的颜色
+                            }
+                        },
+                        axisTick:{
+                      show:false/*隐藏刻度*/
+                  }
+                      }
+                    ],
+                    yAxis : [
+                        {
+                       type: 'value',
+                  axisLine: {
+                        lineStyle: {
+                              type: 'solid',
+                              color: 'transparent',//左边线的颜色
+                              width:'2'//坐标线的宽度
+                          }
+                      },
+                        }
+                    ],
+                    series : [
+                        {
+                            name:'访问量',
+                            type:'line',
+                            stack: '销量',
+                            itemStyle : { normal: {label : {show: true,color:'#ffffff'}}},
+                            data:b,
+                            color:"#ffffff"
+                        }
+                    ]
+                };
 
 		     // 使用刚指定的配置项和数据显示图表。
 		     if (option && typeof option === "object") {
@@ -138,8 +158,8 @@ export default {
 		     };
   	},
 
-  	  	//这是营销订单趋势图
-	yh_display(){
+  	//员工业绩
+	yh_display(a,b){
             let echarts = require('echarts/lib/echarts')
             let chartBox=document.getElementsByClassName('yhcharts')[0]
             let myChart=document.getElementById('yhChart')
@@ -149,29 +169,29 @@ export default {
             }
              let mainChart = echarts.init(myChart)// 基于准备好的dom，初始化echarts实例
              var option = null;
-             var option={
-             title: {
-                      text: '员工邀新数据',
-                      left:'center',
-                      textStyle:{
-                        //文字颜色
-                        color:'#ffffff',
-                        //字体风格,'normal','italic','oblique'
-                        fontStyle:'normal',
-                        //字体粗细 'normal','bold','bolder','lighter',100 | 200 | 300 | 400...
-                        fontWeight:'bold',
-                        //字体系列
-                        fontFamily:'sans-serif',
-                        //字体大小
-                　　　　 fontSize:12
-                    }
-                  },
+             option={
+             // title: {
+             //          text: '员工邀新数据',
+             //          left:'center',
+             //          textStyle:{
+             //            //文字颜色
+             //            color:'#ffffff',
+             //            //字体风格,'normal','italic','oblique'
+             //            fontStyle:'normal',
+             //            //字体粗细 'normal','bold','bolder','lighter',100 | 200 | 300 | 400...
+             //            fontWeight:'bold',
+             //            //字体系列
+             //            fontFamily:'sans-serif',
+             //            //字体大小
+             //    　　　　 fontSize:12
+             //        }
+             //      },
                 tooltip:{
                     show:true
                 },
                 xAxis : [{
                         type : 'category',
-                       data:['名字', '名字', '名字', '名字', '名字', '名字', '名字'],
+                       data:a,
                        axisLine: {
                                 lineStyle: {
                                     type: 'solid',
@@ -202,7 +222,7 @@ export default {
                     {
                         "name":"销量",
                         "type":"bar",
-                        "data":[2270, 3456, 5432, 3423, 632, 291, 134],
+                        "data":b,
                         itemStyle : { normal: {label : {show: true,color:'#ffffff',position:'top'}}},
                          barWidth : 10,//柱图宽度
                                                  color: function(params) {
@@ -294,11 +314,54 @@ export default {
             this.$vux.alert.hide()
             // location.reload()
         }, 3000)
-	}
+	},
+	order(a){
+      const _this = this;
+      var arr = [];
+      var Data = [];
+      const url =`${myPub.URL}/merchant/Shop/dataStatistics`;
+          var params = new URLSearchParams();
+          params.append('token',localStorage.currentUser_token);;
+          params.append('open_id',`${openId.open_id}`);
+          params.append('type',a);
+          axios.post(url,params).then(response => {
+              const data = response.data.data
+              this.shopdata = data.member_data
+              var objdata = this.shopdata.seven;
+              for(var i in objdata){
+               arr.push(i)
+               Data.push(objdata[i])
+              }
+               _this.yx_display(arr,Data);
+
+          }).catch((err) => {
+              console.log(err)
+          })
+    },
+    new(b){
+      const _this = this;
+      var arr = [];
+      var Data = [];
+      const url =`${myPub.URL}/merchant/Shop/dataStatistics`;
+          var params = new URLSearchParams();
+          params.append('token',localStorage.currentUser_token);;
+          params.append('open_id',`${openId.open_id}`);
+          params.append('type',b);
+          axios.post(url,params).then(response => {
+              const data = response.data.data
+              var objdata = data.member_data;
+              for(var i in objdata){
+               arr.push(objdata[i].truename)
+               Data.push(objdata[i].member_count)
+              }
+               _this.yh_display(arr,Data);
+
+          }).catch((err) => {
+              console.log(err)
+          })
+    }
   },
   mounted(){
-	  	this.yx_display()
-	  	this.yh_display()
   }
 }
 </script>

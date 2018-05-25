@@ -4,7 +4,9 @@
       </div>
 </template>
 <script>
-
+import * as myPub from '@/assets/js/public.js'
+import * as openId from '@/assets/js/opid_public.js'
+import axios from 'axios'
 export default {
   name:'charts',
   components: {
@@ -15,98 +17,7 @@ export default {
   },
   methods:{
     //7日交易额
-    // qj_display(){
-    //     let echarts = require('echarts/lib/echarts')
-    //     let chartBox=document.getElementsByClassName('yhcharts')[0]
-    //     let myChart=document.getElementById('ddChart')
-    //     function resizeCharts() {//为调整图标尺寸的方法
-    //         myChart.style.width=chartBox.style.width+'px'
-    //         myChart.style.height=chartBox.style.height+'px'
-    //     }
-    //      let mainChart = echarts.init(myChart)// 基于准备好的dom，初始化echarts实例
-    //      var option = null;
-    //      var option = {
-    //                 title: {
-    //                   text: '7日订单量',
-    //                   left:'center',
-    //                   textStyle:{
-    //                     //文字颜色
-    //                     color:'#ffffff',
-    //                     //字体风格,'normal','italic','oblique'
-    //                     fontStyle:'normal',
-    //                     //字体粗细 'normal','bold','bolder','lighter',100 | 200 | 300 | 400...
-    //                     fontWeight:'bold',
-    //                     //字体系列
-    //                     fontFamily:'sans-serif',
-    //                     //字体大小
-    //             　　　　 fontSize:12
-    //                 }
-    //               },
-    //                 tooltip : {
-    //                    // trigger: 'item'
-    //                 },
-    //                 grid: {
-    //                     left: '-8%',
-    //                     right: '10%',
-    //                     bottom: '10%',
-    //                     containLabel: true
-    //                 },
-    //                 xAxis : [
-    //                     {
-    //                         type : 'category',
-    //                         boundaryGap : false,
-    //                         data : ['1日', '2日', '3日', '4日', '5日', '6日', '7日'],
-    //                          axisLine: {
-    //                       lineStyle: {
-    //                           type: 'solid',
-    //                           color: '#ffffff',//左边线的颜色
-    //                           width:'2'//坐标线的宽度
-    //                         }
-    //                     },
-    //                     axisLabel: {
-    //                         textStyle: {
-    //                             color: '#ffffff',//坐标值得具体的颜色
-    //                         }
-    //                     },
-    //                     axisTick:{
-    //                   show:false/*隐藏刻度*/
-    //               }
-    //                   }
-    //                 ],
-    //                 yAxis : [
-    //                     {
-    //                    type: 'value',
-    //               axisLine: {
-    //                     lineStyle: {
-    //                           type: 'solid',
-    //                           color: 'transparent',//左边线的颜色
-    //                           width:'2'//坐标线的宽度
-    //                       }
-    //                   },
-    //                     }
-    //                 ],
-    //                 series : [
-    //                     {
-    //                         name:'访问量',
-    //                         type:'line',
-    //                         stack: '销量',
-    //                         itemStyle : { normal: {label : {show: true,color:'#ffffff'}}},
-    //                         data:[1270, 6382, 2091, 1034, 6382, 2091, 1034],
-    //                         color:"#ffffff"
-    //                     },
-    //                     {
-    //                         name:'销售量',
-    //                         type:'line',
-    //                         stack: '销量',
-    //                         itemStyle : { normal: {label : {show: true,color:'#f7ff50'}}},
-    //                         data:[2270, 3456, 5432, 3423, 12, 291, 134],
-    //                         color:"#f7ff50"
-    //                     }
-    //                 ]
-    //             };
-    //     mainChart.setOption(option);
-    // },
-    qj_display(){
+    qj_display(a,b){
             let echarts = require('echarts/lib/echarts')
             let chartBox=document.getElementsByClassName('yhcharts')[0]
             let myChart=document.getElementById('qjChart')
@@ -140,7 +51,7 @@ export default {
                         {
                             type : 'category',
                             boundaryGap : false,
-                            data : ['1日', '2日', '3日', '4日', '5日', '6日', '7日'],
+                            data : a,
                              axisLine: {
                           lineStyle: {
                               type: 'solid',
@@ -172,31 +83,52 @@ export default {
                     ],
                     series : [
                         {
-                            name:'访问量',
-                            type:'line',
-                            stack: '销量',
-                            itemStyle : { normal: {label : {show: true,color:'#ffffff'}}},
-                            data:[1270, 6382, 2091, 1034, 6382, 2091, 1034],
-                            color:"#ffffff"
-                        },
-                        {
                             name:'销售量',
                             type:'line',
                             stack: '销量',
-                            itemStyle : { normal: {label : {show: true,color:'#f7ff50'}}},
-                            data:[2270, 3456, 5432, 3423, 12, 291, 134],
-                            color:"#f7ff50"
+                            itemStyle : { normal: {label : {show: true,color:'#ffffff'}}},
+                            data:b,
+                            color:"#ffffff"
                         }
                     ]
 
             };
             mainChart.setOption(option);
     },
+    order(a){
+      const _this = this;
+      var arr = [];
+      var Data = [];
+      const url =`${myPub.URL}/merchant/Shop/dataStatistics`;
+          var params = new URLSearchParams();
+          params.append('token',localStorage.currentUser_token);;
+          params.append('open_id',`${openId.open_id}`);
+          params.append('type',a);
+          axios.post(url,params).then(response => {
+            console.log(response)
+              const data = response.data.data
+              this.shopdata = data.order_data_non
+              var objdata = this.shopdata;
+              for(var i in objdata){
+               arr.push(i)
+               Data.push(objdata[i])
+              }
+               _this.qj_display(arr,Data);
+
+          }).catch((err) => {
+              console.log(err)
+          })
+    }
   },
 
   mounted(){
-      this.qj_display()
-  }
+  },
+  deactivated () {
+        this.$destroy()
+    },
+  created() {
+        this.order('3')
+    },
 }
 </script>
 <style scoped lang="less">

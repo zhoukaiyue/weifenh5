@@ -4,7 +4,9 @@
         </div>
 </template>
 <script>
-
+import * as myPub from '@/assets/js/public.js'
+import * as openId from '@/assets/js/opid_public.js'
+import axios from 'axios'
 export default {
   name:'charts',
   components: {
@@ -15,7 +17,7 @@ export default {
   },
   methods:{
     //员工邀新数据
-    yh_display(){
+    yh_display(a,b){
             let echarts = require('echarts/lib/echarts')
             let chartBox=document.getElementsByClassName('yhcharts')[0]
             let myChart=document.getElementById('yhChart')
@@ -47,7 +49,7 @@ export default {
                 },
                 xAxis : [{
                         type : 'category',
-                       data:['名字', '名字', '名字', '名字', '名字', '名字', '名字'],
+                       data:a,
                        axisLine: {
                                 lineStyle: {
                                     type: 'solid',
@@ -78,7 +80,7 @@ export default {
                     {
                         "name":"销量",
                         "type":"bar",
-                        "data":[2270, 3456, 5432, 3423, 632, 291, 134],
+                        "data":b,
                         itemStyle : { normal: {label : {show: true,color:'#ffffff',position:'top'}}},
                          barWidth : 10,//柱图宽度
                                                  color: function(params) {
@@ -94,11 +96,39 @@ export default {
             };
             mainChart.setOption(option);
     },
+    // 接口数据
+    order(a){
+      const _this = this;
+      var arr = [];
+      var Data = [];
+      const url =`${myPub.URL}/merchant/Shop/dataStatistics`;
+          var params = new URLSearchParams();
+          params.append('token',localStorage.currentUser_token);;
+          params.append('open_id',`${openId.open_id}`);
+          params.append('type',a);
+          axios.post(url,params).then(response => {
+              const data = response.data.data
+              var objdata = data.member_data  
+              for (var i = 0; i < objdata.length; i++) {
+                arr.push(objdata[i].truename)
+                Data.push(objdata[i].member_count)
+              }
+               _this.yh_display(arr,Data);
+
+          }).catch((err) => {
+              console.log(err)
+          })
+    }
   },
 
   mounted(){
-      this.yh_display()
-  }
+  },
+  deactivated () {
+        this.$destroy()
+    },
+  created() {
+        this.order('1')
+    },
 }
 </script>
 <style scoped lang="less">

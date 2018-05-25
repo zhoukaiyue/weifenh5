@@ -5,7 +5,9 @@
       </div>
 </template>
 <script>
-
+import * as myPub from '@/assets/js/public.js'
+import * as openId from '@/assets/js/opid_public.js'
+import axios from 'axios'
 export default {
   name:'charts',
   components: {
@@ -16,8 +18,9 @@ export default {
   },
   methods:{
     //店铺新增用户数据
-    order_display(){
+    order_display(a,b){
            let chart = document.getElementById("Chart");
+           let _this=this;
                let echarts = require('echarts/lib/echarts');
                let mainChart = echarts.init(Chart);
                 var option = {
@@ -41,7 +44,8 @@ export default {
                        // trigger: 'item'
                     },
                     grid: {
-                        left: '-8%',
+                        width:'95%',
+                        left: '-2%',
                         right: '10%',
                         bottom: '10%',
                         containLabel: true
@@ -50,7 +54,7 @@ export default {
                         {
                             type : 'category',
                             boundaryGap : false,
-                            data : ['1日', '2日', '3日', '4日', '5日', '6日', '7日'],
+                            data :a,
                              axisLine: {
                           lineStyle: {
                               type: 'solid',
@@ -86,18 +90,49 @@ export default {
                             type:'line',
                             stack: '销量',
                             itemStyle : { normal: {label : {show: true,color:'#ffffff'}}},
-                            data:[1270, 6382, 2091, 1034, 6382, 2091, 1034],
-                            color:"#ffffff"
+                            data:b,
+                            color:"#ffffff",
+                            areaStyle: {color: ['rgba(250,250,250,0.1)','rgba(200,200,200,0.1)']}
                         }
                     ]
                 };
                 mainChart.setOption(option);
     },
+      // 接口数据
+    order(a){
+      const _this = this;
+      var arr = [];
+      var Data = [];
+      const url =`${myPub.URL}/merchant/Shop/dataStatistics`;
+          var params = new URLSearchParams();
+          params.append('token',localStorage.currentUser_token);;
+          params.append('open_id',`${openId.open_id}`);
+          params.append('type',a);
+          axios.post(url,params).then(response => {
+              const data = response.data.data
+              this.shopdata = data.member_data
+              var objdata = this.shopdata.seven;
+              for(var i in objdata){
+               arr.push(i)
+               Data.push(objdata[i])
+              }
+               _this.order_display(arr,Data);
+
+          }).catch((err) => {
+              console.log(err)
+          })
+    }
   },
 
   mounted(){
-      this.order_display()
-  }
+      
+  },
+  deactivated () {
+        this.$destroy()
+    },
+  created() {
+        this.order('4')
+    },
 }
 </script>
 <style scoped lang="less">

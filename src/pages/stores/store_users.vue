@@ -190,7 +190,8 @@ export default {
             line-height:50px;
         }
         .store_users_li_active{
-            border-bottom:2px solid #f54321;
+            border-bottom:2px solid #f54321
+            ;
             color: #f54321;
         }
     }

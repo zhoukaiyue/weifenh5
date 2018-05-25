@@ -4,7 +4,9 @@
       </div>
 </template>
 <script>
-
+import * as myPub from '@/assets/js/public.js'
+import * as openId from '@/assets/js/opid_public.js'
+import axios from 'axios'
 export default {
   name:'',
   components: {
@@ -79,6 +81,7 @@ export default {
                         "name":"销量",
                         "type":"bar",
                         "data":[2270, 3456, 5432, 3423, 632, 291, 134],
+                        areaStyle: {color: ['rgba(250,250,250,0.1)','rgba(200,200,200,0.1)']},
                         itemStyle : { normal: {label : {show: true,color:'#ffffff',position:'top'}}},
                          barWidth : 10,//柱图宽度
                                                  color: function(params) {
@@ -94,11 +97,30 @@ export default {
             };
             mainChart.setOption(option);
     },
+    order(a){
+      const url =`${myPub.URL}/merchant/Shop/dataStatistics`;
+          var params = new URLSearchParams();
+          params.append('token',localStorage.currentUser_token);;
+          params.append('open_id',`${openId.open_id}`);
+          params.append('type',a);
+          axios.post(url,params).then(response => {
+              const data = response.data.data
+              console.log(data)
+              this.shopdata = data.member_data
+              console.log(this.shopdata)
+          }).catch((err) => {
+              console.log(err)
+          })
+    }
   },
 
   mounted(){
+      
       this.zx_display()
-  }
+  },
+      created() {
+        this.order('2')
+    },
 }
 </script>
 <style scoped lang="less">
