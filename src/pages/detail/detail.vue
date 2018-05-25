@@ -202,7 +202,16 @@ export default {
                 _this.product = response.data.data;
                 _this.demo01_list =data.goods_photo
                 if (data.limit_status == '1') {
-                    _this.isshow11=truesssss
+                    _this.isshow11=true
+                }
+                if (response.data.status =='1024') {
+                  this.$vux.alert.show({
+                      content: response.data.msg
+                  })
+                  setTimeout(() => {
+                      this.$vux.alert.hide()
+                      this.$router.push({path: '/login'});
+                  }, 3000)
                 }
                 console.log(_this.demo01_list)
             }).catch((err) => {
@@ -233,6 +242,15 @@ export default {
                         // location.reload()
                     }, 3000)
                 }
+                if (response.data.status =='1024') {
+                  this.$vux.alert.show({
+                      content: response.data.msg
+                  })
+                  setTimeout(() => {
+                      this.$vux.alert.hide()
+                      this.$router.push({path: '/login'});
+                  }, 3000)
+                }
             }).catch((err) => {
                 console.log(err)
             })
@@ -251,6 +269,15 @@ export default {
                 if (data.status == '200') {
                     console.log(data)
                     $("#fx-qcode img").attr('src',data.img_src)
+                }
+                if (response.data.status =='1024') {
+                  this.$vux.alert.show({
+                      content: response.data.msg
+                  })
+                  setTimeout(() => {
+                      this.$vux.alert.hide()
+                      this.$router.push({path: '/login'});
+                  }, 3000)
                 }
             }).catch((err) => {
                 console.log(err)

@@ -333,7 +333,15 @@ export default {
                Data.push(objdata[i])
               }
                _this.yx_display(arr,Data);
-
+            if (response.data.status =='1024') {
+              this.$vux.alert.show({
+                  content: response.data.msg
+              })
+              setTimeout(() => {
+                  this.$vux.alert.hide()
+                  this.$router.push({path: '/login'});
+              }, 3000)
+            }
           }).catch((err) => {
               console.log(err)
           })
@@ -355,6 +363,15 @@ export default {
                Data.push(objdata[i])
               }
                _this.yh_display(arr,Data);
+               if (response.data.status =='1024') {
+              this.$vux.alert.show({
+                  content: response.data.msg
+              })
+              setTimeout(() => {
+                  this.$vux.alert.hide()
+                  this.$router.push({path: '/login'});
+              }, 3000)
+            }
 
           }).catch((err) => {
               console.log(err)

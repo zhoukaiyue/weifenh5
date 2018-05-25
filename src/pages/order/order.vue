@@ -33,7 +33,7 @@
                     </div>
                     <ul class="list">
                         <li class="clearfix"><span class="fl">买家:{{item.sername}}</span> <span class="fr">实付:<b>{{item.order_amount}}</b></span></li>
-                        <li class="clearfix"><span class="fl">推广店长:{{item.first_leader_name}}</span> <span class="fr">推广店员:{{item.second_leader_name}}</span></li>
+                        <li class="clearfix"><span class="fl">推广店长:{{item.second_leader_name}}</span> <span class="fr">推广店员:{{item.first_leader_name}}</span></li>
                     </ul>
                 </li>
             </ul>
@@ -44,7 +44,7 @@
 <script>
 import $ from 'jquery'
 import axios from 'axios'
-import { Radio, Group } from 'vux'
+import { Radio, Group, Toast } from 'vux'
 import * as myPub from '@/assets/js/public.js'
 import * as openId from '@/assets/js/opid_public.js'
 export default {
@@ -74,13 +74,14 @@ export default {
     _this.orderdata()
     console.log(_this.$route.query.id)
     const  a = _this.$route.query.id;
-    console.log('a'+a)
+    console.log(a)
     if(a==0){
        this.public_orderdata(a)
        this.is_show1=true
        this.is_show2=false
        this.is_show3=false
        this.is_show4=false
+       console.log('1')
     }
     if(a==1){
        this.public_orderdata(a)
@@ -194,7 +195,17 @@ export default {
               params.append('token',localStorage.currentUser_token);;
               params.append('open_id',`${openId.open_id}`);
               axios.post(url,params).then(response => {
-                const status = response.data.status
+                const data = response.data.data
+                _this.datalist = data.list
+                if (response.data.status =='1024') {
+                this.$vux.alert.show({
+                    content: response.data.msg
+                })
+                setTimeout(() => {
+                    this.$vux.alert.hide()
+                    this.$router.push({path: '/login'});
+                }, 3000)
+              }
                 console.log(response)
               }).catch((err) => {
                 console.log(err)
@@ -214,6 +225,15 @@ export default {
             _this.datalist = data.list
             console.log(data)
             console.log(_this.datalist)
+            if (response.data.status =='1024') {
+              this.$vux.alert.show({
+                  content: response.data.msg
+              })
+              setTimeout(() => {
+                  this.$vux.alert.hide()
+                  this.$router.push({path: '/login'});
+              }, 3000)
+            }
         }).catch((err) => {
             console.log(err)
         })
@@ -231,6 +251,15 @@ export default {
             _this.datalist = data.list
             console.log(data)
             console.log(_this.datalist)
+            if (response.data.status =='1024') {
+              this.$vux.alert.show({
+                  content: response.data.msg
+              })
+              setTimeout(() => {
+                  this.$vux.alert.hide()
+                  this.$router.push({path: '/login'});
+              }, 3000)
+            }
         }).catch((err) => {
             console.log(err)
         })

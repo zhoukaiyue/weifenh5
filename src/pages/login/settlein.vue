@@ -156,9 +156,6 @@ function getFileUrl(obj) {
             params.append('mobile',this.mobile);
             params.append('img_src',sessionStorage.getItem('bulicense_url'));
             axios.post(url,params).then(response => {
-              // const currentUser_token = response.data.data //获取token
-              // console.log(response)
-              // next('/page/shopsuccess')
                   this.$vux.alert.show({
                       title: '提交成功',
                       content: response.data.msg

@@ -63,6 +63,15 @@ export default {
                 axios.post(url,params).then(response => {
                     const status = response.data.status
                     console.log(response)
+                    if (response.data.status =='1024') {
+                      this.$vux.alert.show({
+                          content: response.data.msg
+                      })
+                      setTimeout(() => {
+                          this.$vux.alert.hide()
+                          this.$router.push({path: '/login'});
+                      }, 3000)
+                    }
                 }).catch((err) => {
                     console.log(err)
                 })
@@ -125,6 +134,15 @@ export default {
                 const data = response.data.data
                 _this.products = data
                 console.log(data)
+                if (response.data.status =='1024') {
+                  this.$vux.alert.show({
+                      content: response.data.msg
+                  })
+                  setTimeout(() => {
+                      this.$vux.alert.hide()
+                      this.$router.push({path: '/login'});
+                  }, 3000)
+                }
             }).catch((err) => {
                 console.log(err)
             })

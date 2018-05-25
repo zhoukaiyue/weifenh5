@@ -8,6 +8,7 @@
 </template>
 
 <script>
+import { XInput, Group, XButton, Cell, Toast, base64 } from 'vux'
 import Vue from 'vue'
 import $ from 'jquery'
 import axios from 'axios'
@@ -50,6 +51,15 @@ export default {
           axios.post(url,params).then(response => {
             // const currentUser_token = response.data.data //获取token
             console.log(response)
+            if (response.data.status =='1024') {
+              this.$vux.alert.show({
+                  content: response.data.msg
+              })
+              setTimeout(() => {
+                  this.$vux.alert.hide()
+                  this.$router.push({path: '/login'});
+              }, 3000)
+            }
           }).catch((err) => {
             console.log(err)
           })

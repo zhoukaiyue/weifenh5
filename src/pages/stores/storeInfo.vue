@@ -146,6 +146,15 @@ import ossFile from '../../components/oss_file'
             if (data.company_model == '2') {
               _this.type = '加盟'
             }
+            if (response.data.status =='1024') {
+              this.$vux.alert.show({
+                  content: response.data.msg
+              })
+              setTimeout(() => {
+                  this.$vux.alert.hide()
+                  this.$router.push({path: '/login'});
+              }, 3000)
+            }
           }).catch((err) => {
             console.log(err)
           })
@@ -169,6 +178,15 @@ import ossFile from '../../components/oss_file'
                   _this.$loading.hide(); //隐藏
 
             },2000)
+            if (response.data.status =='1024') {
+              this.$vux.alert.show({
+                  content: response.data.msg
+              })
+              setTimeout(() => {
+                  this.$vux.alert.hide()
+                  this.$router.push({path: '/login'});
+              }, 3000)
+            }
             location.reload()
           }).catch((err) => {
             console.log(err)

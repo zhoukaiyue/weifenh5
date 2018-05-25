@@ -41,6 +41,7 @@
 </template>
 
 <script>
+import { XInput, Group, XButton, Cell, Toast, base64 } from 'vux'
 import axios from 'axios'
 import * as myPub from '@/assets/js/public.js'
 import * as openId from '@/assets/js/opid_public.js'
@@ -88,6 +89,15 @@ export default {
             // const currentUser_token = response.data.data //获取token
             console.log(response.data.data)
             _this.scdata = response.data.data;
+            if (response.data.status =='1024') {
+              this.$vux.alert.show({
+                  content: response.data.msg
+              })
+              setTimeout(() => {
+                  this.$vux.alert.hide()
+                  this.$router.push({path: '/login'});
+              }, 3000)
+            }
           }).catch((err) => {
             console.log(err)
           })

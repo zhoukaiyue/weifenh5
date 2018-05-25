@@ -4,8 +4,8 @@
 		<ul class="commodityData_title">
 			  <li class="processing" @click="torder(0)"><span class="processing_img"></span><label>全部</label><span class="circular">{{shopdata.all_count}}</span></li>
 		      <li class="carryout" @click="torder(1)"><span class="carryout_img"></span><label>进行中</label><span class="circular">{{shopdata.count_ing}}</span></li>
-		      <li class="cancel" @click="torder(2)"><span class="cancel_img"></span><label>已完成</label><span class="circular">{{shopdata.count_complete}}</span></li>
-		      <li class="aftersales" @click="torder(3)"><span class="aftersales_img"></span><label>已取消</label></li>
+		      <li class="cancel" @click="torder(2)"><span class="cancel_img"></span><label>已完成</label><span class="circular" >{{shopdata.count_complete}}</span></li>
+		      <li class="aftersales" @click="torder(3)"><span class="aftersales_img"></span><label>已取消</label><span class="circular">{{shopdata.count_cancel}}</span></li>
 		</ul>
 
 		<div class="data_display">
@@ -213,9 +213,17 @@ deactivated () {
           params.append('type',a);
           axios.post(url,params).then(response => {
               const data = response.data.data
-              // console.log(response)
               this.shopdata = data.order_data
               var objdata = this.shopdata;
+              if (response.data.status =='1024') {
+	              this.$vux.alert.show({
+	                  content: response.data.msg
+	              })
+	              setTimeout(() => {
+	                  this.$vux.alert.hide()
+	                  this.$router.push({path: '/login'});
+	              }, 3000)
+	            }
               console.log(objdata)
           }).catch((err) => {
               console.log(err)
