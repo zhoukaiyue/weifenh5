@@ -39,7 +39,7 @@
                 <div class="country">
                     <div class="country_span">来自
                     <img :src="product.natinal_flag" alt="">
-                    {{product.natinal_name}}</div>
+                    {{product.natinal_name}}日本</div>
                     <div class="country_label">本商品售价已含税，无需额外支付税费</div>
                  </div>
             </div>
@@ -225,12 +225,12 @@ export default {
                     _this.isshow11=true
                 }else{
                     this.$vux.alert.show({
-                        title: '操作失败',
+                        title: '温馨提示',
                         content: response.data.msg
                     })
                     setTimeout(() => {
                         this.$vux.alert.hide()
-                        // location.reload()
+                        _this.isshow11=true
                     }, 3000)
                 }
             }).catch((err) => {
@@ -284,12 +284,15 @@ export default {
     .vux-no-group-title{position: relative;}
     .weui-cell__ft input{opacity: 0;position: relative;z-index:1;left:0.5rem;}
     .weui-dialog{background: #ffffff;}
-    .weui-cells:before{border-top:0!important}
+    .weui-cells:before{border:0!important}
+    .weui-cells:after{border:0!important}
     .weui-cell_switch .weui-cell__ft{width: 100%;}
     .weui-switch, .weui-switch-cp__box{width: 100%!important}
-    .weui-cells{background-color: rgb(255,255,255,0)!important;}
+    .weui-cells{background-color:transparent!important;}
 </style>
 <style scoped lang="less">
+@import '~vux/src/styles/center.less';
+@import '~vux/src/styles/close.less';
 .clearfix:after {
   visibility: hidden;
   display: block;
@@ -302,8 +305,6 @@ export default {
     zoom:1;
 }
 .bgf{background-color: #ffffff}
-@import '~vux/src/styles/center.less';
-    @import '~vux/src/styles/close.less';
     .detail {
     background-color:#f9f9f9;
     .img{position: absolute;top:0.9rem;right: 1.2rem;width: 0.7rem;}
@@ -385,8 +386,6 @@ export default {
 .counts-tips {
     display:block;
     height:40%;
-    /*border:1px solid red;
-    */
     font-size:1rem;
 }
 }.add-cart-btn {
@@ -424,7 +423,7 @@ export default {
     // opacity:1;
     visibility:visible;
     transition:all 1000ms
-                            cubic-bezier(0.175,0.885,0.32,1.275);
+    cubic-bezier(0.175,0.885,0.32,1.275);
 }
 }}}.product-info-box {
     border-top:1px solid #eeeeee;
@@ -433,13 +432,13 @@ export default {
     color:#454552;
     /*text-align:center;
     */
-            div {
-    margin:10px auto;
-    &.stock {
-    font-size:0.6rem;
-    &.no {
-    color:#b42f2d;
-}
+    div {
+        margin:10px auto;
+        &.stock {
+        font-size:0.6rem;
+        &.no {
+        color:#b42f2d;
+    }
 }&.country {
     width:100%;
     padding:0px 17px;
@@ -448,24 +447,23 @@ export default {
     letter-spacing:0;
     text-align:left;
     display:flex;
-    height:34px;
-    line-height:34px;
-    /*border:1px solid red;
-    */
-                    box-sizing:border-box;
+    height:2rem;
+    line-height:2rem;
+    /*border:1px solid red;*/
+    box-sizing:border-box;
     flex-wrap:nowrap;
     justify-content:space-between;
     .country_span {
-        font-size: 0.8rem;
+    font-size: 0.9rem;
     img {
-    position: relative;
-    top: 0.4rem;
+    display:inline-block;
     width:1.5rem;
+    height:1rem;
+    /*background:red;*/
+    vertical-align: middle;
 }
-}.country_label {
-    position: relative;
-    font-size: 0.8rem;
-    top: 0.2rem;
+}.country_span,.country_label {
+    margin:0;
 }
 }&.name_box {
     box-sizing:border-box;

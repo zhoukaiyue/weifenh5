@@ -216,7 +216,6 @@ export default {
                 })
                 setTimeout(() => {
                     this.$vux.alert.hide()
-                    // location.reload()
                 }, 3000)
             }
         }).catch((err) => {

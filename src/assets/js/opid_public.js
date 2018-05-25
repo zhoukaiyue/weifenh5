@@ -5,7 +5,7 @@ import  wxopenidConfig from '../js/opid_config'
 // 1. DEVE线上环境；
 // 2. ZK 周的openid；
 // 3. LDX李的openid。
-window.ENV = "LDX";
+window.ENV = "ZK";
 
 let open_id;
 
