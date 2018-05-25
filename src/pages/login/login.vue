@@ -71,7 +71,7 @@ export default {
         if(`${openId.open_id}`==undefined||`${openId.open_id}`=='undefined'){
             console.log('执行了')
             console.log(`${openId.open_id}`)
-            location.reload()
+            // location.reload()
         }
     },
     deactivated () {
