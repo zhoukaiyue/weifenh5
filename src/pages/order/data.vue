@@ -2,9 +2,9 @@
 	<div class="commodityData">
 		<p class="title">店铺订单<span @click="order">查看更多&ensp;<img src="~@/assets/icon/goods-left.png"></span></p>
 		<ul class="commodityData_title">
-			  <li class="processing" @click="torder(0)"><span class="processing_img"></span><label>全部</label></li>
-		      <li class="carryout" @click="torder(1)"><span class="carryout_img"></span><label>进行中</label></li>
-		      <li class="cancel" @click="torder(2)"><span class="cancel_img"></span><label>已完成</label></li>
+			  <li class="processing" @click="torder(0)"><span class="processing_img"></span><label>全部</label><span class="circular">{{shopdata.all_count}}</span></li>
+		      <li class="carryout" @click="torder(1)"><span class="carryout_img"></span><label>进行中</label><span class="circular">{{shopdata.count_ing}}</span></li>
+		      <li class="cancel" @click="torder(2)"><span class="cancel_img"></span><label>已完成</label><span class="circular">{{shopdata.count_complete}}</span></li>
 		      <li class="aftersales" @click="torder(3)"><span class="aftersales_img"></span><label>已取消</label></li>
 		</ul>
 
@@ -58,6 +58,7 @@ import sdaystradingdata from '../../components/sdaystrading'
 import { Swiper, SwiperItem,ButtonTab, ButtonTabItem, Divider,Toast} from 'vux'
 import * as myPub from '@/assets/js/public.js'
 import * as openId from '@/assets/js/opid_public.js'
+import axios from 'axios'
 export default {
   name:'commodityData',
   components: {
@@ -87,12 +88,17 @@ export default {
         // 本周访问量销售量 和 本周销量对比图 组件切换条件
         isshow7: false,
         // 7日订单量 和 7日交易额 组件切换条件
-        isshow8: false
+        isshow8: false,
+        // 店铺数据
+        shopdata:{}
     };
   },
-  deactivated () {
-        this.$destroy()
+  created() {
+        this.order('0')
     },
+deactivated () {
+    this.$destroy()
+},
   methods:{
   	// 营销商品数据
   	commodityData(){
@@ -129,6 +135,7 @@ export default {
      // this.$router.push({ path: '/page/order',query:{id:id}})
      this.$router.push({path: '/page/order', query:{id: id}});
     },
+    // 店铺新增用户数据
     salesVolume1:function(){
         const _this = this;
         this.is_show1=true
@@ -139,6 +146,7 @@ export default {
 	           _this.isshow=false
 	    },2000);
 	},
+	// 员工邀新数据
     salesVolume2:function(){
         const _this = this;
         this.is_show2=true
@@ -149,6 +157,7 @@ export default {
 	          _this.isshow=true
 	    },2000);
 	},
+	// 本周访问量/销售量
 	salesVolume3:function(){
         const _this = this;
         this.is_show3=true
@@ -158,7 +167,9 @@ export default {
 	          _this.$loading.hide(); //隐藏
 	          _this.isshow7=false
 	    },2000);
-	},salesVolume4:function(){
+	},
+	//本周商品对比图
+	salesVolume4:function(){
         const _this = this;
         this.is_show3=false
         this.is_show4=true
@@ -168,6 +179,7 @@ export default {
 	         _this.isshow7=true
 	    },2000);
 	},
+	// 7月订单销售额
 	salesVolume5:function(){
         const _this = this;
         this.is_show5=true
@@ -178,6 +190,7 @@ export default {
 	          _this.isshow8=false
 	    },2000);
 	},
+	// 7月用户消费额
 	salesVolume6:function(){
         const _this = this;
         this.is_show5=false
@@ -187,7 +200,27 @@ export default {
 	          _this.$loading.hide(); //隐藏
 	         _this.isshow8=true
 	    },2000);
-	}
+	},
+	// 请求数据
+	order(a){
+      const _this = this;
+      var arr = [];
+      var Data = [];
+      const url =`${myPub.URL}/merchant/Shop/dataStatistics`;
+          var params = new URLSearchParams();
+          params.append('token',localStorage.currentUser_token);;
+          params.append('open_id',`${openId.open_id}`);
+          params.append('type',a);
+          axios.post(url,params).then(response => {
+              const data = response.data.data
+              // console.log(response)
+              this.shopdata = data.order_data
+              var objdata = this.shopdata;
+              console.log(objdata)
+          }).catch((err) => {
+              console.log(err)
+          })
+    }
   },
 
   mounted(){
@@ -215,7 +248,7 @@ export default {
 	.commodityData_title{
 		background: #ffffff;
         width:100%;
-        height:90px;
+        height:100px;
         list-style:none;
         /*border:1px solid red;*/
         display: flex;
@@ -223,6 +256,7 @@ export default {
         flex-wrap: nowrap;
         justify-content:space-between;
         li{
+          position: relative;
           flex-grow: 1;
           font-family:PingFangSC-Regular;
           font-size:0.8rem;
@@ -240,22 +274,49 @@ export default {
           .processing_img{
               background:url(~@/assets/icon/dingdanq.png) no-repeat
                         right center;
-              background-size:100% 100%;
+              background-size:60% 60%;
+              background-position:center;
+              padding: 0.5rem;
+              border: 1px solid #777777;
+              border-radius: 50%;
             }
           .carryout_img{
               background:url(~@/assets/icon/dingdan j.png) no-repeat
                         right center;
-              background-size:100% 100%;
+              background-size:60% 60%;
+              background-position:center;
+              padding: 0.5rem;
+              border: 1px solid #777777;
+              border-radius: 50%;
             }
           .cancel_img{
               background:url(~@/assets/icon/dingdan w.png) no-repeat
                         right center;
-              background-size:100% 100%;
+              background-size:60% 60%;
+              background-position:center;
+              padding: 0.5rem;
+              border: 1px solid #777777;
+              border-radius: 50%;
           }
           .aftersales_img{
               background:url(~@/assets/icon/dingdanquxiao.png) no-repeat
                         right center;
-              background-size:100% 100%;
+              background-size:60% 60%;
+              background-position:center;
+              padding: 0.5rem;
+              border: 1px solid #777777;
+              border-radius: 50%;
+          }
+          .circular{
+          	position: absolute;
+          	display: inline-block;
+          	width: 1rem;
+          	height: 1rem;
+          	border-radius: 50%;
+          	background: #F54321;
+          	color: #ffffff;
+          	font-size:0.6rem;
+          	right: 1rem;top: -0.1rem;
           }
         }
       }
@@ -394,5 +455,12 @@ export default {
 	 		background:-webkit-gradient(linear, 0% 20%, 8% 100%,from(#e84f57), to(#eb8139));
 	 	}
 	}
+	/*6/7/8plus*/
+	/*针对iPhone X底部footer做适配*/
+	@media screen and (min-width: 414px) {
+   .circular {
+        right: 1.3rem!important;
+    }
+}
 }
 </style>

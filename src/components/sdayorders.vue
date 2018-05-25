@@ -4,7 +4,9 @@
       </div>
 </template>
 <script>
-
+import * as myPub from '@/assets/js/public.js'
+import * as openId from '@/assets/js/opid_public.js'
+import axios from 'axios'
 export default {
   name:'charts',
   components: {
@@ -15,7 +17,7 @@ export default {
   },
   methods:{
     //7日订单量
-  dd_data(){
+  dd_data(a,b,c){
         let echarts = require('echarts/lib/echarts')
         let chartBox=document.getElementsByClassName('yhcharts')[0]
         let myChart=document.getElementById('ddChart')
@@ -46,7 +48,8 @@ export default {
                        // trigger: 'item'
                     },
                     grid: {
-                        left: '-8%',
+                        width:'100%',
+                        left: '-6%',
                         right: '10%',
                         bottom: '10%',
                         containLabel: true
@@ -55,7 +58,7 @@ export default {
                         {
                             type : 'category',
                             boundaryGap : false,
-                            data : ['1日', '2日', '3日', '4日', '5日', '6日', '7日'],
+                            data : a,
                              axisLine: {
                           lineStyle: {
                               type: 'solid',
@@ -87,30 +90,52 @@ export default {
                     ],
                     series : [
                         {
-                            name:'访问量',
+                            name:'订单销售额',
                             type:'line',
                             stack: '销量',
                             itemStyle : { normal: {label : {show: true,color:'#ffffff'}}},
-                            data:[1270, 6382, 2091, 1034, 6382, 2091, 1034],
+                            data:b,
                             color:"#ffffff"
-                        },
-                        {
-                            name:'销售量',
-                            type:'line',
-                            stack: '销量',
-                            itemStyle : { normal: {label : {show: true,color:'#f7ff50'}}},
-                            data:[2270, 3456, 5432, 3423, 12, 291, 134],
-                            color:"#f7ff50"
                         }
                     ]
                 };
         mainChart.setOption(option);
     },
+    order(a){
+      const _this = this;
+      var arr = [];
+      var Data = [];
+      const url =`${myPub.URL}/merchant/Shop/dataStatistics`;
+          var params = new URLSearchParams();
+          params.append('token',localStorage.currentUser_token);;
+          params.append('open_id',`${openId.open_id}`);
+          params.append('type',a);
+          axios.post(url,params).then(response => {
+            console.log(response)
+              const data = response.data.data
+              this.shopdata = data.order_data_yin
+              var objdata = this.shopdata;
+              for(var i in objdata){
+               arr.push(i)
+               Data.push(objdata[i])
+              }
+               _this.dd_data(arr,Data);
+
+          }).catch((err) => {
+              console.log(err)
+          })
+    }
   },
 
   mounted(){
-      this.dd_data()
-  }
+      
+  },
+  deactivated () {
+        this.$destroy()
+    },
+  created() {
+        this.order('6')
+    },
 }
 </script>
 <style scoped lang="less">
