@@ -20,14 +20,16 @@ export default {
     },
     created() {
         const _this =this;
-        //此方法打开的是店家端
+        
         if(localStorage.Identity==1){
+
+            //此方法打开的是店家端
             _this.storeshow=true;
             _this.shopshow=false;
         }else{
-             //此方法打开的是店员端
+            //此方法打开的是店员端
             _this.storeshow=false;
-            _this.shopshow=true;          
+            _this.shopshow=true;  
         }
     },
     deactivated () {
