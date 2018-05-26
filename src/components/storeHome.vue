@@ -7,7 +7,7 @@
        <!-- tab菜单切换 -->
        <div class="mid_tab">
             <div class="mid_tab_item" v-on:click="shop">
-                <img src="~@/assets/icon/dygl.png" alt="" class='img'><span>11店员管理</span>
+                <img src="~@/assets/icon/dygl.png" alt="" class='img'><span>店员管理</span>
             </div>
             <div class="mid_tab_item" v-on:click="category">
                 <img src="~@/assets/icon/dpyx.png" alt="" class='img'><span>店铺营销</span>
@@ -22,7 +22,7 @@
         <!-- 当前累计客户量 -->
         <div class="customer_quantity">
         <p class="customer_quantity_title">当前累计客户量</p>
-        <div class="customer_quantity_cont"><span class="customer_quantity_num">{{num.member_count}}&nbsp;<b style="font-size:0.9rem;">人</b></span><label class="customer_quantity_qs" v-on:click="dyinvite"><i class="customer_quantity_qsimg"></i>&nbsp;查看员工引客趋势图</label>
+        <div class="customer_quantity_cont"><span class="customer_quantity_num">{{num.member_count}}&nbsp;<b style="font-size:0.8rem;font-weight:600;">人</b></span><label class="customer_quantity_qs" v-on:click="dyinvite"><i class="customer_quantity_qsimg"></i>&nbsp;查看员工引客趋势图</label>
         </div>
         <div class="customer_quantity_box">
             <div class="customer_quantity_m">
@@ -200,8 +200,8 @@ export default {
             width:100%;
         }
         .title{
-            font-size: 1rem;
-            .Notes{padding: 0.2rem 0.6rem;background: #f54321;color: #fff;line-height: 1.5rem;text-align: center;border-radius: 66px;font-size: 0.5rem;font-weight: normal;margin-left: 0.5rem;}
+            font-size: 0.9rem;
+            .Notes{padding: 0.1rem 0.6rem;background: #f54321;color: #fff;line-height: 1.5rem;text-align: center;border-radius: 66px;font-size: 0.5rem;font-weight: normal;margin-left: 0.5rem;}
             .see{font-size:0.8rem;float:right;font-weight:normal;color:#999999;img{width: 0.6rem;position: relative;top: 0.3rem;}}
         }
         ul{
@@ -228,7 +228,7 @@ export default {
         background: #fff;
         height: 12rem;
         .title{
-            font-size: 1rem;
+            font-size: 0.9rem;
             span{font-size: 0.8rem;color: #999999;font-weight: normal;}
             .see{font-size:0.8rem;float:right;font-weight:normal;color:#999999;img{width: 0.6rem;position: relative;top: 0.3rem;}}
         }
@@ -272,6 +272,7 @@ export default {
             width:25%;
             height:100%;
             text-align:center;
+            span{font-size: 0.8rem}
             .img{
                 display:block;
                 /*background:#eeeeee;*/
@@ -284,7 +285,7 @@ export default {
     }
     .customer_quantity{
         width:100%;
-        min-height:180px;
+        min-height:175px;
 /*        border:1px solid red;*/
         box-sizing:border-box;
         margin-top:10px;
@@ -292,13 +293,13 @@ export default {
         padding:17px 15px 25px 15px;
         .customer_quantity_title{
             font-family:PingFangSC-Regular;
-            font-size:1rem;
+            font-size:0.8rem;
             color:#999999;
             letter-spacing:0;
             text-align:left;
         }
         .customer_quantity_cont{
-            min-height:2rem;
+            min-height:1.5rem;
             .customer_quantity_num{
                 float:left;
                 font-family:PingFangSC-Semibold;
@@ -314,11 +315,13 @@ export default {
                 font-size:0.8rem;
                 color:#999999;
                 letter-spacing:0;
+                position: relative;
+                top: 0.4rem;
                 .customer_quantity_qsimg{
                     display:inline-block;
-                    width:1.1rem;
-                    height:1.1rem;
-                    vertical-align: top;
+                    width:1rem;
+                    height:0.8rem;
+                    /*vertical-align: top;*/
                     background:url(~@/assets/icon/zushi.png) no-repeat
                         right center;
                     background-size:100% 100%;
@@ -355,7 +358,6 @@ export default {
                 padding:1rem;
             }
             .customer_quantity_mnum,.customer_quantity_dnum{
-                font-weight:600;
                 font-size:1rem;
             }
         }
