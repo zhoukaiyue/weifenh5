@@ -114,6 +114,15 @@ export default {
                 this.$vux.alert.hide()
                 _this.Marketinggoods()
             }, 3000)
+            if (response.data.status =='1024') {
+              this.$vux.alert.show({
+                  content: response.data.msg
+              })
+              setTimeout(() => {
+                  this.$vux.alert.hide()
+                  location.href = '/login'
+              }, 3000)
+            }
         }).catch((err) => {
             console.log(err)
         })
@@ -202,12 +211,19 @@ export default {
             params.append('size',b);
         }
         axios.post(url,params).then(response => {
-            console.log(response)
+            if (response.data.status =='1024') {
+              this.$vux.alert.show({
+                  content: response.data.msg
+              })
+              setTimeout(() => {
+                  this.$vux.alert.hide()
+                  location.href = '/login'
+              }, 3000)
+            }
             const status = response.data;
-            console.log(status)
             if (status.status == "200") {
                  _this.datalist = status.data
-                    _this.$loading.hide();//隐藏
+                _this.$loading.hide();//隐藏
 
             }else{
                  _this.$loading.hide();//隐藏
@@ -218,6 +234,8 @@ export default {
                     this.$vux.alert.hide()
                 }, 3000)
             }
+            console.log(response)
+            console.log(status)
         }).catch((err) => {
             console.log(err)
         })

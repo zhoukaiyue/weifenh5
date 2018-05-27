@@ -1,7 +1,7 @@
 <template>
     <div>
         <!-- 店家端 -->
-        <div class="page-view"  v-if="storeshow">
+        <div class="page-view">
             <view-box ref="viewBox"
                       body-padding-top="46px"
                       :body-padding-bottom="isPaddingBottom">
@@ -38,44 +38,6 @@
                 </tabbar>
             </view-box>
         </div>
-        <!--店员端 -->
-        <div class="page-view" v-if="shopshow">
-            <view-box ref="viewBox"
-                      body-padding-top="46px"
-                      :body-padding-bottom="isPaddingBottom">
-                <keep-alive>
-                    <router-view class="router-view" />
-                </keep-alive>
-                <tabbar slot="bottom"
-                        style="position:fixed"
-                        v-if="!isShowTabbar">
-                    <tabbar-item link="/page/home"
-                                 :selected="$route.path === '/page/home'">
-                        <span class="icon icon-home"
-                              slot="icon"></span>
-                        <span slot="label">首页</span>
-                    </tabbar-item>
-                    <tabbar-item link="/page/shopCatgory"
-                                 :selected="$route.path === '/page/shopCatgory'">
-                        <span class="icon icon-category"
-                              slot="icon"></span>
-                        <span slot="label">店铺营销</span>
-                    </tabbar-item>
-                    <tabbar-item link="/page/data"
-                                 :selected="$route.path === '/page/data'">
-                        <span class="icon icon-cart"
-                              slot="icon"></span>
-                        <span slot="label">数据统计</span>
-                    </tabbar-item>
-                    <tabbar-item link="/page/about"
-                                 :selected="$route.path === '/page/about'">
-                        <span class="icon icon-user"
-                              slot="icon"></span>
-                        <span slot="label">商家中心</span>
-                    </tabbar-item>
-                </tabbar>
-            </view-box>
-        </div> 
     </div>
 </template>
 
@@ -96,22 +58,9 @@ export default {
     data() {
         return {
             showMenu: false,
-            storeshow:true,
-            shopshow:false
         }
     },
     created() {
-        const _this =this;
-        if(localStorage.Identity==1){
-             //此方法打开的是店家端
-            _this.storeshow=true;
-            _this.shopshow=false;             
-
-        }else{
-            //此方法打开的是店员端
-            _this.storeshow=false;
-            _this.shopshow=true;  
-        }
     },
     computed: {
         ...mapState(['title']),
@@ -126,7 +75,7 @@ export default {
             }
         },
         isShowTabbar() {
-            if(/detail|ceshi|storeer|store_users|addgoods|storeInfo|shop|order|commodityData|logo|people|changephone|changestore|sh_success|storesuccess|addGoods|dyinvite|Customer|storearmketingdetails/.test(this.$route.path)) {
+            if(/detail|ceshi|storeer|store_users|addgoods|storeInfo|shop|order|commodityData|logo|people|changephone|changestore|sh_success|storesuccess|addGoods|dyinvite|Customer|storearmketingdetails|shop_mine|phone|shopdata|shop_storeinfo/.test(this.$route.path)) {
                 return true
             }
                return false 

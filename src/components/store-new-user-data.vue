@@ -25,7 +25,7 @@ export default {
                let mainChart = echarts.init(Chart);
                 var option = {
                     title: {
-                        text: '店铺新增用户数据',
+                        text: '我的新增用户数据',
                         left:'center',
                         textStyle:{
                           //文字颜色

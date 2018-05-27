@@ -6,7 +6,6 @@ import  wxopenidConfig from '../js/opid_config'
 // 2. ZK 周的openid；
 // 3. LDX李的openid。
 window.ENV = "ZK";
-
 let open_id;
 
 if (window.ENV !== "undefined") {

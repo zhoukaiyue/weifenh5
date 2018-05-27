@@ -51,12 +51,12 @@ export default {
         console.log(this.$route.query.mobile)
     },
     activated() {
-        localStorage.removeItem('token')
-        localStorage.removeItem('userInfo')
-        localStorage.removeItem('cartData')
-        this.UPDATE_USERINFO({
-            userInfo: null
-        })
+        // localStorage.removeItem('token')
+        // localStorage.removeItem('userInfo')
+        // localStorage.removeItem('cartData')
+        // this.UPDATE_USERINFO({
+        //     userInfo: null
+        // })
     },
     mounted() {
          this.phone()
@@ -100,6 +100,15 @@ export default {
               params.append('open_id',`${openId.open_id}`);
               params.append('session_id',localStorage.sessionid);
               axios.post(url,params).then(response => {
+                if (response.data.status =='1024') {
+                  this.$vux.alert.show({
+                      content: response.data.msg
+                  })
+                  setTimeout(() => {
+                      this.$vux.alert.hide()
+                      location.href = '/login'
+                  }, 3000)
+                }
                 const status = response.data.status
                 console.log(status)
                 if (status == "200") {

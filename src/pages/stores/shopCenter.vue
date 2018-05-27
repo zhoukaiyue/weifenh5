@@ -41,6 +41,7 @@
 </template>
 
 <script>
+import { XInput, Group, XButton, Cell, Toast, base64 } from 'vux'
 import axios from 'axios'
 import * as myPub from '@/assets/js/public.js'
 import * as openId from '@/assets/js/opid_public.js'
@@ -85,7 +86,15 @@ export default {
           params.append('token',localStorage.currentUser_token);
           params.append('open_id',`${openId.open_id}`);
           axios.post(url,params).then(response => {
-            // const currentUser_token = response.data.data //获取token
+            if (response.data.status =='1024') {
+              this.$vux.alert.show({
+                  content: response.data.msg
+              })
+              setTimeout(() => {
+                  this.$vux.alert.hide()
+                  location.href = '/login'
+              }, 3000)
+            }
             console.log(response.data.data)
             _this.scdata = response.data.data;
           }).catch((err) => {

@@ -22,7 +22,7 @@
         <!-- 当前累计客户量 -->
         <div class="customer_quantity">
         <p class="customer_quantity_title">当前累计客户量</p>
-        <div class="customer_quantity_cont"><span class="customer_quantity_num">{{num.member_count}}&nbsp;<b style="font-size:0.9rem;">人</b></span><label class="customer_quantity_qs" v-on:click="dyinvite"><i class="customer_quantity_qsimg"></i>&nbsp;查看员工引客趋势图</label>
+        <div class="customer_quantity_cont"><span class="customer_quantity_num">{{num.member_count}}&nbsp;<b style="font-size:0.8rem;font-weight:600;">人</b></span><label class="customer_quantity_qs" v-on:click="dyinvite"><i class="customer_quantity_qsimg"></i>&nbsp;查看员工引客趋势图</label>
         </div>
         <div class="customer_quantity_box">
             <div class="customer_quantity_m">
@@ -84,7 +84,7 @@
 </template>
 
 <script>
-import { Swiper, SwiperItem,ButtonTab, ButtonTabItem, Divider } from 'vux'
+import { Swiper, SwiperItem,ButtonTab, ButtonTabItem, Divider,Toast } from 'vux'
 import products from '@/components/Products'
 import * as myPub from '@/assets/js/public.js'
 import * as openId from '@/assets/js/opid_public.js'
@@ -137,10 +137,20 @@ export default {
           params.append('token',localStorage.currentUser_token);
           params.append('open_id',`${openId.open_id}`);
           axios.post(url,params).then(response => {
+            console.log('1')
+            if (response.data.status =='1024') {
+              this.$vux.alert.show({
+                  content: response.data.msg
+              })
+              setTimeout(() => {
+                  this.$vux.alert.hide()
+                  this.$router.push({path: '/login'});
+              }, 3000)
+            }
             const data = response.data.data
             this.num = data
             this.datalist = data.category_list
-            console.log(data.category_list)
+            console.log(response.data.status)
           }).catch((err) => {
             console.log(err)
           })
@@ -157,7 +167,8 @@ export default {
         products,
         ButtonTab,
         ButtonTabItem,
-        Divider
+        Divider,
+        Toast
     },
     //页面加载后执行
     mounted(){
@@ -189,8 +200,8 @@ export default {
             width:100%;
         }
         .title{
-            font-size: 1rem;
-            .Notes{padding: 0.2rem 0.6rem;background: #f54321;color: #fff;line-height: 1.5rem;text-align: center;border-radius: 66px;font-size: 0.5rem;font-weight: normal;margin-left: 0.5rem;}
+            font-size: 0.9rem;
+            .Notes{padding: 0.1rem 0.6rem;background: #f54321;color: #fff;line-height: 1.5rem;text-align: center;border-radius: 66px;font-size: 0.5rem;font-weight: normal;margin-left: 0.5rem;}
             .see{font-size:0.8rem;float:right;font-weight:normal;color:#999999;img{width: 0.6rem;position: relative;top: 0.3rem;}}
         }
         ul{
@@ -217,7 +228,7 @@ export default {
         background: #fff;
         height: 12rem;
         .title{
-            font-size: 1rem;
+            font-size: 0.9rem;
             span{font-size: 0.8rem;color: #999999;font-weight: normal;}
             .see{font-size:0.8rem;float:right;font-weight:normal;color:#999999;img{width: 0.6rem;position: relative;top: 0.3rem;}}
         }
@@ -261,6 +272,7 @@ export default {
             width:25%;
             height:100%;
             text-align:center;
+            span{font-size: 0.8rem}
             .img{
                 display:block;
                 /*background:#eeeeee;*/
@@ -273,7 +285,7 @@ export default {
     }
     .customer_quantity{
         width:100%;
-        min-height:180px;
+        min-height:175px;
 /*        border:1px solid red;*/
         box-sizing:border-box;
         margin-top:10px;
@@ -281,13 +293,13 @@ export default {
         padding:17px 15px 25px 15px;
         .customer_quantity_title{
             font-family:PingFangSC-Regular;
-            font-size:1rem;
+            font-size:0.8rem;
             color:#999999;
             letter-spacing:0;
             text-align:left;
         }
         .customer_quantity_cont{
-            min-height:2rem;
+            min-height:1.5rem;
             .customer_quantity_num{
                 float:left;
                 font-family:PingFangSC-Semibold;
@@ -303,11 +315,13 @@ export default {
                 font-size:0.8rem;
                 color:#999999;
                 letter-spacing:0;
+                position: relative;
+                top: 0.4rem;
                 .customer_quantity_qsimg{
                     display:inline-block;
-                    width:1.1rem;
-                    height:1.1rem;
-                    vertical-align: top;
+                    width:1rem;
+                    height:0.8rem;
+                    /*vertical-align: top;*/
                     background:url(~@/assets/icon/zushi.png) no-repeat
                         right center;
                     background-size:100% 100%;
@@ -344,7 +358,6 @@ export default {
                 padding:1rem;
             }
             .customer_quantity_mnum,.customer_quantity_dnum{
-                font-weight:600;
                 font-size:1rem;
             }
         }

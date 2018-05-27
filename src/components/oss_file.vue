@@ -1,7 +1,7 @@
 <template>
     <div id="container" class="container">
       <div id="selectfiles"></div>
-      <img  :src=imgs  alt="图片显示失败" id='imgId'>
+      <img  :src=imgs  alt="" id='imgId'>
       <!--<ul>
         <li v-for="file in files">{{file}}</li>
       </ul> -->
@@ -22,7 +22,8 @@
                     policyText: {
                         "expiration": "2020-01-01T12:00:00.000Z", //设置该Policy的失效时间，超过这个失效时间之后，就没有办法通过这个policy上传文件了
                         "conditions": [
-                            ["content-length-range", 0, 1048576000] // 设置上传文件的大小限制
+                            ["content-length-range", 0, 10485760001111100000000000] // 设置上传文件的大小限制
+                            // ["content-length-range", 0, 1048576000] // 设置上传文件的大小限制
                         ]
                     },
                     signature: '',
@@ -97,6 +98,21 @@
                                 console.log(sessionStorage.getItem('bulicense_url'))
                                 self.set_upload_param(up, 'user/'+yyyyMMdd+'/'+file.name, true);
                             }
+                            if(self.message=='shop_min'){
+                                console.log('上传店员图像')
+                                 // 文件名称
+                                var imgurl =`${openId.open_id}`;
+                                console.log(imgurl)
+                                file.name = imgurl+n1+n1+'.png'
+                                //将营业执照图片地址存储起来 `${openId.open_id}`
+                                console.log(yyyyMMdd+'/'+file.name)
+                                var bulicense_url='shop/'+yyyyMMdd+'/'+file.name;
+                                console.log('存儲店员图像')
+                                sessionStorage.setItem('shopmin_url',bulicense_url);
+                                console.log(sessionStorage.getItem('shopmin_url'))
+                                self.set_upload_param(up, 'shop/'+yyyyMMdd+'/'+file.name, true);
+                                self.shop_min()
+                            }
                             // self.set_upload_param(up, 'user/'+yyyyMMdd+'/'+file.name, true);
                             // 上传前
                         },
@@ -138,6 +154,28 @@
                     setTimeout(function(){  //模拟请求
                           _this.$loading.hide(); //隐藏
                           sessionStorage.setItem('store_imgurl',null);
+
+                    },2000)
+                    // location.reload()
+                  }).catch((err) => {
+                    console.log(err)
+                  })
+                },
+                // 修改店员头像
+                shop_min(){
+                  const url =`${myPub.URL}/merchant/Clerk/editInfo`;
+                  const params = new URLSearchParams();
+                  params.append('token',localStorage.currentUser_token);
+                  params.append('open_id',`${openId.open_id}`);
+                  params.append('img_src',sessionStorage.getItem('shopmin_url'));
+                  axios.post(url,params).then(response => {
+                    console.log("向后台上传店员图像")
+                    console.log(response.data)
+                    const _this = this
+                    _this.$loading.show();//显示
+                    setTimeout(function(){  //模拟请求
+                          _this.$loading.hide(); //隐藏
+                          sessionStorage.setItem('shopmin_url',null);
 
                     },2000)
                     // location.reload()

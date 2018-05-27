@@ -32,6 +32,7 @@
 </template>
 
 <script>
+import { XInput, Group, XButton, Cell, Toast, base64 } from 'vux'
 import Vue from 'vue'
 import $ from 'jquery'
 import axios from 'axios'
@@ -105,13 +106,15 @@ export default {
           params.append('token',localStorage.currentUser_token);
           params.append('open_id',`${openId.open_id}`);
           axios.post(url,params).then(response => {
-            // console.log(response.data)
-            // _this.lists = response.data.data;
-            // if(response.data.data){
-            //   _this.lists = response.data.data;
-            // }else{
-            //   _this.lists = [];
-            // }
+            if (response.data.status =='1024') {
+              this.$vux.alert.show({
+                  content: response.data.msg
+              })
+              setTimeout(() => {
+                  this.$vux.alert.hide()
+                  location.href = '/login'
+              }, 3000)
+            }
             if (response.data.status == "200") {
                     _this.$loading.hide();//隐藏
                      _this.lists = response.data.data;
@@ -120,6 +123,7 @@ export default {
                _this.$loading.hide();//隐藏
                _this.lists = [];
             }
+    
           }).catch((err) => {
             console.log(err)
           })
@@ -149,6 +153,15 @@ export default {
                     _this.getData_shopassistant()
                 }, 3000)
             }
+            if (response.data.status =='1024') {
+                  this.$vux.alert.show({
+                      content: response.data.msg
+                  })
+                  setTimeout(() => {
+                      this.$vux.alert.hide()
+                      location.href = '/login'
+                  }, 3000)
+                }
             }).catch((err) => {
               console.log(err)
             })

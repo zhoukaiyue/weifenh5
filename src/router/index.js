@@ -8,7 +8,6 @@ const Page = r => require.ensure([], () => r(require('@/pages/page/page')), 'pag
 const Home = r => require.ensure([], () => r(require('@/pages/home/home')), 'home')
 const Theme = r => require.ensure([], () => r(require('@/pages/theme/theme')), 'theme')
 const Category = r => require.ensure([], () => r(require('@/pages/category/category')), 'category')
-const ShopCatgory = r => require.ensure([], () => r(require('@/pages/category/shopCatgory')), 'shopCatgory')
 const addGoods = r => require.ensure([], () => r(require('@/pages/category/addGoods')), 'addGoods')
 const Detail = r => require.ensure([], () => r(require('@/pages/detail/detail')), 'detail')
 const Ceshi = r => require.ensure([], () => r(require('@/pages/detail/ceshi')), 'ceshi')
@@ -23,6 +22,7 @@ const ShopCenter = r => require.ensure([], () => r(require('@/pages/stores/shopC
 const logo = r => require.ensure([], () => r(require('@/pages/stores/logo')), 'logo')
 const people = r => require.ensure([], () => r(require('@/pages/stores/people')), 'people')
 const shopinfo = r => require.ensure([], () => r(require('@/pages/stores/shopinfo')), 'shopinfo')
+const shopstroeinfo = r => require.ensure([], () => r(require('@/pages/shop/shop_storeinfo')), 'shop_storeinfo')
 const phone = r => require.ensure([], () => r(require('@/pages/stores/phone')), 'phone')
 const newphone = r => require.ensure([], () => r(require('@/pages/stores/newphone')), 'newphone')
 const phonesuccess = r => require.ensure([], () => r(require('@/pages/stores/phonesuccess')), 'phonesuccess')
@@ -33,15 +33,23 @@ const changephone = r => require.ensure([], () => r(require('@/pages/stores/chan
 const shop = r => require.ensure([], () => r(require('@/pages/stores/shop')), 'shop')
 const shopsuccess = r => require.ensure([], () => r(require('@/pages/stores/shopsuccess')), 'shopsuccess')
 const Dyinvite = r => require.ensure([], () => r(require('@/pages/invite/dyinvite')), 'dyinvite')
+const ShopDyinvite = r => require.ensure([], () => r(require('@/pages/invite/shopdyinvite')), 'shopdyinvite')
 const CommodityData = r => require.ensure([], () => r(require('@/pages/commodity/commodityData')), 'commodityData')
 const storesuccess = r => require.ensure([], () => r(require('@/pages/stores/storesuccess')), 'storesuccess')
 const Store_users = r => require.ensure([], () => r(require('@/pages/stores/store_users')), 'store_users')
 const newData = r => require.ensure([], () => r(require('@/pages/order/newData')), 'newData')
+const ShopnewData = r => require.ensure([], () => r(require('@/pages/shopdata/shopnewdata')), 'shopnewdata')
 const data = r => require.ensure([], () => r(require('@/pages/order/data')), 'data')
+const Shopdata = r => require.ensure([], () => r(require('@/pages/shopdata/shopdata')), 'shopdata')
 const sh_success = r => require.ensure([], () => r(require('@/pages/stores/sh_success')), 'sh_success')
 const Customer = r => require.ensure([], () => r(require('@/pages/order/Customer')), 'Customer')
 const Storearmketingdetails = r => require.ensure([], () => r(require('@/pages/stores/storearmketingdetails')), 'storearmketingdetails')
-
+const Shopmine = r => require.ensure([], () => r(require('@/pages/shop/shop_mine')), 'shop_mine')
+const Shopname = r => require.ensure([], () => r(require('@/pages/shop/shop_name')), 'shop_name')
+const Shoporderdata = r => require.ensure([], () => r(require('@/pages/shopdata/shoporderdata')), 'shoporderdata')
+const Shopphonesuccess = r => require.ensure([], () => r(require('@/pages/shop/shop_phonesuccess')), 'shop_phonesuccess')
+const Shopcheckphone = r => require.ensure([], () => r(require('@/pages/shop/shop_checkphone')), 'shop_checkphone')
+const Shopmodifyphone = r => require.ensure([], () => r(require('@/pages/shop/shop_modifyphone')), 'shop_modifyphone')
 Vue.use(Router)
 const routes = [
     {
@@ -86,17 +94,6 @@ const routes = [
                 },
                 component: Category
             },
-            //店员端店铺营销页面
-            {
-                path: 'shopCatgory',
-                name: 'shopCatgory',
-                meta: {
-                    title: '店铺营销',
-                    requireAuth: true,
-                    keepAlive: false // 不需要被缓存
-                },
-                component: ShopCatgory
-            },
             {
                 path: 'storearmketingdetails',
                 name: 'storearmketingdetails',
@@ -106,6 +103,17 @@ const routes = [
                     keepAlive: false // 不需要被缓存
                 },
                 component: Storearmketingdetails
+            },
+            // 店员端店铺中心
+            {
+                path: 'shop_storeinfo',
+                name: 'shop_storeinfo',
+                meta: {
+                    title: '店铺中心',
+                    requireAuth: true,
+                    keepAlive: false // 不需要被缓存
+                },
+                component: shopstroeinfo
             },
             {
                 path: 'addGoods',
@@ -154,6 +162,16 @@ const routes = [
                     keepAlive: false // 不需要被缓存
                 },
                 component: Dyinvite
+            },
+            {
+                path: 'shopdyinvite',
+                name: 'shopdyinvite',
+                meta: {
+                    title: '营销邀新排行榜',
+                    requireAuth: true,
+                    keepAlive: false // 不需要被缓存
+                },
+                component: ShopDyinvite
             },
             // {
             //     path: 'cart',
@@ -204,6 +222,16 @@ const routes = [
                 },
                 component: Address
             },
+            {
+                path: 'shoporderdata',
+                name: 'shoporderdata',
+                meta: {
+                    title: '数据',
+                    requireAuth: true ,// 添加该字段，表示进入这个路由是需要登录的
+                    keepAlive: false // 不需要被缓存
+                },
+                component: Shoporderdata
+            },
             // {
             //     path: 'user',
             //     name: 'user',
@@ -232,6 +260,26 @@ const routes = [
                      keepAlive: false // 不需要被缓存
                 },
                 component: StoreInfo
+            },
+            {
+                path: 'shop_mine',
+                name: 'shop_mine',
+                meta: {
+                    title: '个人信息',
+                    requireAuth: true,
+                    keepAlive: false // 不需要被缓存
+                },
+                component: Shopmine
+            },
+                        {
+                path: 'shop_name',
+                name: 'shop_name',
+                meta: {
+                    title: '修改昵称',
+                    requireAuth: true,
+                    keepAlive: false // 不需要被缓存
+                },
+                component: Shopname
             },
             {
                 path: 'store_users',
@@ -293,6 +341,16 @@ const routes = [
                 component: changephone
             },
             {
+                path: 'shop_modifyphone',
+                name: 'shop_modifyphone',
+                meta: {
+                    title: '修改手机号',
+                    requireAuth: true,
+                    keepAlive: false // 不需要被缓存
+                },
+                component: Shopmodifyphone
+            },
+            {
                 path: 'phone',
                 name: 'phone',
                 meta: {
@@ -301,6 +359,16 @@ const routes = [
                     keepAlive: false // 不需要被缓存
                 },
                 component: phone
+            },
+            {
+                path: 'shop_checkphone',
+                name: 'shop_checkphone',
+                meta: {
+                    title: '修改手机号',
+                    requireAuth: true,
+                    keepAlive: false // 不需要被缓存
+                },
+                component: Shopcheckphone
             },
             {
                 path: 'newphone',
@@ -322,6 +390,15 @@ const routes = [
                 component: phonesuccess
             }
             ,
+            {
+                path: 'shop_phonesuccess',
+                name: 'shop_phonesuccess',
+                meta: {
+                    title: '修改手机号成功',
+                     keepAlive: false // 不需要被缓存
+                },
+                component: Shopphonesuccess
+            },
             {
                 path: 'storeer',
                 name: 'storeer',
@@ -396,6 +473,16 @@ const routes = [
                 component: newData
             },
             {
+                path: 'shopnewdata',
+                name: 'shopnewdata',
+                meta: {
+                    title: '我的营销数据',
+                    requireAuth: true,
+                    keepAlive: false // 不需要被缓存
+                },
+                component: ShopnewData
+            },
+            {
                 path: 'data',
                 name: 'data',
                 meta: {
@@ -404,6 +491,17 @@ const routes = [
                     keepAlive: false // 不需要被缓存
                 },
                 component: data
+            },
+            //店员端数据统计
+            {
+                path: 'shopdata',
+                name: 'shopdata',
+                meta: {
+                    title: '数据统计',
+                    requireAuth: true,
+                    keepAlive: false // 不需要被缓存
+                },
+                component: Shopdata
             },
             {
                 path: 'Customer',

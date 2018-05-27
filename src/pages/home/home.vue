@@ -7,14 +7,16 @@
 
 <script>
 //引入商家端首页
-import storeHome from '../../components/storeHome'
+import storeHome from '../../components/Home/storeHome'
 // 引入店员端首页
-import shopAssistant from '../../components/shopAssistant'
+import shopAssistant from '../../components/Home/shopAssistant'
 export default {
     name: 'home_index',
     data() {
         return {
+            //显示商家端字段
             storeshow:true,
+            // 显示店员端字段
             shopshow:false,
         }
     },
@@ -50,4 +52,7 @@ export default {
 </script>
 
 <style scoped lang="less">
+.home_index{
+    background: #f8f7f7;
+}
 </style>

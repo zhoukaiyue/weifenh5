@@ -326,6 +326,15 @@ export default {
           params.append('open_id',`${openId.open_id}`);
           params.append('type',a);
           axios.post(url,params).then(response => {
+            if (response.data.status =='1024') {
+              this.$vux.alert.show({
+                  content: response.data.msg
+              })
+              setTimeout(() => {
+                  this.$vux.alert.hide()
+                  location.href = '/login'
+              }, 3000)
+            }
               const data = response.data.data
               var objdata = data.order_data_yin;
               for(var i in objdata){
@@ -333,7 +342,7 @@ export default {
                Data.push(objdata[i])
               }
                _this.yx_display(arr,Data);
-
+            
           }).catch((err) => {
               console.log(err)
           })
@@ -348,6 +357,15 @@ export default {
           params.append('open_id',`${openId.open_id}`);
           params.append('type',b);
           axios.post(url,params).then(response => {
+            if (response.data.status =='1024') {
+              this.$vux.alert.show({
+                  content: response.data.msg
+              })
+              setTimeout(() => {
+                  this.$vux.alert.hide()
+                  location.href = '/login'
+              }, 3000)
+            }
               const data = response.data.data
               var objdata = data.order_data_non;
               for(var i in objdata){

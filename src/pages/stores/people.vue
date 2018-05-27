@@ -8,6 +8,7 @@
 </template>
 
 <script>
+import { XInput, Group, XButton, Cell, Toast, base64 } from 'vux'
 import Vue from 'vue'
 import $ from 'jquery'
 import axios from 'axios'
@@ -49,9 +50,15 @@ export default {
           params.append('name',name);
           params.append('open_id',`${openId.open_id}`);
           axios.post(url,params).then(response => {
-            // const currentUser_token = response.data.data //获取token
-            // console.log(response)
-            // next('/page/storesuccess')
+            if (response.data.status =='1024') {
+              this.$vux.alert.show({
+                  content: response.data.msg
+              })
+              setTimeout(() => {
+                  this.$vux.alert.hide()
+                  location.href = '/login'
+              }, 3000)
+            }
          const status = response.data.status
          if (status == "200") {
                this.$router.push({ path: '/page/storeInfo'})

@@ -1,5 +1,37 @@
 <template>
     <div class="goods">
+        <!-- 顶部数据 -->
+        <div :class="{top: choosed1, top_selecct: choosed2}">
+            <ul>
+                <li>
+                    <p>访问数(个)</p>
+                    <p :class="{f16: choosed1, f16_selecct: choosed2}">{{datalist.marketing_data.visit_count}}</p>
+                    <p :class="{f17: choosed1, f17_selecct: choosed2}">今日 <span>
+                    <img src="~@/assets/icon/ys.png" v-if="choosed1" class="img_cate">
+                    <img src="~@/assets/icon/xs.png" v-if="choosed2" class="img_cate">
+                    </span>  <span :class="{f18: choosed1, f18_selecct: choosed2}">{{datalist.marketing_data.visit_count}}</span>
+                    </p>
+                </li>
+                <li>
+                    <p>订单量(单)</p>
+                    <p :class="{f16: choosed1, f16_selecct: choosed2}">{{datalist.marketing_data.order_count}}</p>
+                    <p :class="{f17: choosed1, f17_selecct: choosed2}">今日 <span>
+                    <img src="~@/assets/icon/yx.png" v-if="choosed1" class="img_cate">
+                    <img src="~@/assets/icon/xx.png" v-if="choosed2" class="img_cate">
+                    </span>  <span :class="{f19: choosed1, f19_selecct: choosed2}">{{datalist.marketing_data.order_now_count}}</span>
+                    </p>
+                </li>
+                <li>
+                    <p>销售量(件)</p>
+                    <p :class="{f16: choosed1, f16_selecct: choosed2}">{{datalist.marketing_data.order_goods_count}}</p>
+                    <p :class="{f17: choosed1, f17_selecct: choosed2}">今日 <span>
+                    <img src="~@/assets/icon/yx.png" v-if="choosed1" class="img_cate">
+                    <img src="~@/assets/icon/xx.png" v-if="choosed2" class="img_cate">
+                    </span>  <span :class="{f20: choosed1, f20_selecct: choosed2}">{{datalist.marketing_data.order_now_goods_count}}</span>
+                    </p>
+                </li>
+            </ul>
+        </div>
         <!-- 中间数据 -->
         <div class="middle">
             <ul>
@@ -107,6 +139,11 @@
                 </li>
             </ul>
         </div>
+        <!-- 添加商品 -->
+        <div class="add-goods" v-on:click="linktoDetail">
+            <img src="~@/assets/icon/goodsadd.png">
+            <p>添加商品</p>
+        </div>
     </div>
 </template>
 
@@ -121,7 +158,7 @@ export default {
     name: 'category',
     data(){
 　　　　return {
-　　　　　  active: false,
+　　　　　active: false,
             is_show1: true,
             is_show2: false,
             is_show3: false,
@@ -140,274 +177,350 @@ export default {
 　　　　 }
 　　},
     created() {
-        // this.storemaketing()
+        this.storemaketing()
     },
-    //清楚页面缓存
     deactivated () {
         this.$destroy()
     },
     computed: {
+        menuBanner() {
+            return this.menu[this.currentIndex].img.url
+        },
+        categoryTitle() {
+            return this.menu[this.currentIndex].name
+        }
     },
     methods: {
-    //     switchCategory(index, id) {
-    //         this.currentIndex = index
-    //         this.getProduct(id)
-    //     },
-    //     ToDetail(id) {
-    //         this.$router.push({ path: '/page/detail', query: { id: id } })
-    //     },
-    //     linktoDetail() {
-    //         this.$router.push({ path: '/page/addgoods'})
-    //     },
-    //     //进入商品营销详情
-    //     ToCommoditydetail(id) {
-    //         this.$router.push({ path: '/page/storearmketingdetails', query: { id: id } })
-    //     },
-    //     // 订单量
-    //     salesVolume2:function(){
-    //         const _this = this;
-    //         this.is_show2=true
-    //         this.is_show1=false
-    //         this.is_show3=false
-    //         this.is_show4=false
-    //         _this.public_tab(1,1,1,1,1,1,1,20)
-    //     },
-    //     //库存
-    //     salesVolume3:function(){
-    //         const _this = this;
-    //         this.is_show2=false
-    //         this.is_show1=false
-    //         this.is_show3=true
-    //         this.is_show4=false
-    //         _this.public_tab(1,1,1,1,1,1,1,20)
-    //     },
-    //     // 添加时间
-    //     salesVolume4:function(){
-    //         const _this = this;
-    //         this.is_show2=false
-    //         this.is_show1=false
-    //         this.is_show3=false
-    //         this.is_show4=true
-    //         _this.public_tab(1,1,1,1,1,1,1,20)
-    //     },
-    //     //销量
-    //     salesVolume1:function(){
-    //         const _this = this;
-    //         this.is_show2=false
-    //         this.is_show1=true
-    //         this.is_show3=false
-    //         this.is_show4=false
-    //         const flag=this.is_flag
-    //         if(flag){
-    //             //请求销量高
-    //             console.log('请求销量高')
-    //             _this.public_tab(1,1,1,1,1,1,1,20)
-    //             this.is_flag=!this.is_flag
-    //         }else{
-    //             //请求销量低
-    //             console.log('请求销量低')
-    //             _this.public_tab(1,2,1,1,1,1,1,20)
-    //             this.is_flag=!this.is_flag
-    //         }
+        switchCategory(index, id) {
+            this.currentIndex = index
+            this.getProduct(id)
+        },
+        ToDetail(id) {
+            this.$router.push({ path: '/page/detail', query: { id: id } })
+        },
+        linktoDetail() {
+            this.$router.push({ path: '/page/addgoods'})
+        },
+        //进入商品营销详情
+        ToCommoditydetail(id) {
+            this.$router.push({ path: '/page/storearmketingdetails', query: { id: id } })
+        },
+        // 订单量
+        salesVolume2:function(){
+            const _this = this;
+            this.is_show2=true
+            this.is_show1=false
+            this.is_show3=false
+            this.is_show4=false
+            _this.public_tab(1,1,1,1,1,1,1,20)
+        },
+        //库存
+        salesVolume3:function(){
+            const _this = this;
+            this.is_show2=false
+            this.is_show1=false
+            this.is_show3=true
+            this.is_show4=false
+            _this.public_tab(1,1,1,1,1,1,1,20)
+        },
+        // 添加时间
+        salesVolume4:function(){
+            const _this = this;
+            this.is_show2=false
+            this.is_show1=false
+            this.is_show3=false
+            this.is_show4=true
+            _this.public_tab(1,1,1,1,1,1,1,20)
+        },
+        //销量
+        salesVolume1:function(){
+            const _this = this;
+            this.is_show2=false
+            this.is_show1=true
+            this.is_show3=false
+            this.is_show4=false
+            const flag=this.is_flag
+            if(flag){
+                //请求销量高
+                console.log('请求销量高')
+                _this.public_tab(1,1,1,1,1,1,1,20)
+                this.is_flag=!this.is_flag
+            }else{
+                //请求销量低
+                console.log('请求销量低')
+                _this.public_tab(1,2,1,1,1,1,1,20)
+                this.is_flag=!this.is_flag
+            }
             
-    //     },
-    //     //已下架tab 
-    //     // 订单量
-    //     salesVolume22:function(){
-    //         const _this = this;
-    //         this.is_show22=true
-    //         this.is_show11=false
-    //         this.is_show33=false
-    //         this.is_show44=false
-    //         _this.public_tab(2,1,1,1,1,1,1,20)
-    //     },
-    //     //库存
-    //     salesVolume33:function(){
-    //         const _this = this;
-    //         this.is_show22=false
-    //         this.is_show11=false
-    //         this.is_show33=true
-    //         this.is_show44=false
-    //         _this.public_tab(2,1,1,1,1,1,1,20)
-    //     },
-    //     // 添加时间
-    //     salesVolume44:function(){
-    //         const _this = this;
-    //         this.is_show22=false
-    //         this.is_show11=false
-    //         this.is_show33=false
-    //         this.is_show44=true
-    //        _this.public_tab(2,1,1,1,1,1,1,20)
-    //     },
-    //     //销量
-    //     salesVolume11:function(){
-    //         const _this = this;
-    //         this.is_show22=false
-    //         this.is_show11=true
-    //         this.is_show33=false
-    //         this.is_show44=false
-    //         const flag1=this.is_flag1;
-    //         if(flag1){
-    //             //请求销量高
-    //             console.log('请求销量高')
-    //             _this.public_tab(2,1,1,1,1,1,1,20)
-    //             this.is_flag1=!this.is_flag1
-    //         }else{
-    //             //请求销量低
-    //             console.log('请求销量低')
-    //             _this.public_tab(2,2,1,1,1,1,1,20)
-    //             this.is_flag1=!this.is_flag1
-    //         }
-    //     },
+        },
+        //已下架tab 
+        // 订单量
+        salesVolume22:function(){
+            const _this = this;
+            this.is_show22=true
+            this.is_show11=false
+            this.is_show33=false
+            this.is_show44=false
+            _this.public_tab(2,1,1,1,1,1,1,20)
+        },
+        //库存
+        salesVolume33:function(){
+            const _this = this;
+            this.is_show22=false
+            this.is_show11=false
+            this.is_show33=true
+            this.is_show44=false
+            _this.public_tab(2,1,1,1,1,1,1,20)
+        },
+        // 添加时间
+        salesVolume44:function(){
+            const _this = this;
+            this.is_show22=false
+            this.is_show11=false
+            this.is_show33=false
+            this.is_show44=true
+           _this.public_tab(2,1,1,1,1,1,1,20)
+        },
+        //销量
+        salesVolume11:function(){
+            const _this = this;
+            this.is_show22=false
+            this.is_show11=true
+            this.is_show33=false
+            this.is_show44=false
+            const flag1=this.is_flag1;
+            if(flag1){
+                //请求销量高
+                console.log('请求销量高')
+                _this.public_tab(2,1,1,1,1,1,1,20)
+                this.is_flag1=!this.is_flag1
+            }else{
+                //请求销量低
+                console.log('请求销量低')
+                _this.public_tab(2,2,1,1,1,1,1,20)
+                this.is_flag1=!this.is_flag1
+            }
+        },
 
-    //     //tab选择切换时的方法封装
-    //     public_tab(a,b,c,d,e,f,g,h){
-    //         const _this=this;
-    //         const url =`${myPub.URL}/merchant/Shop/shopMarketing`;
-    //         var params = new URLSearchParams();
-    //         _this.$loading.show();//隐藏
-    //         params.append('token',localStorage.currentUser_token);
-    //         // params.append('open_id',`${openId.open_id}`);
-    //         params.append('open_id',`${openId.open_id}`);
-    //         params.append('type',a);
-    //         params.append('sales_volume',b);
-    //         params.append('order_quantity',c);
-    //         params.append('stock',d);
-    //         params.append('create_time',e);
-    //         params.append('stock',f);
-    //         params.append('page',g);
-    //         params.append('size',h);
-    //         axios.post(url,params).then(response => {
-    //           console.log(response)
-    //         const status = response.data.status
-    //         console.log(status)
-    //         if (status == "200") {
-    //             setTimeout(() => {
-    //                 _this.$loading.hide();//隐藏
-    //                 const data =response.data.data
-    //                 _this.datalist = data
-    //                 _this.goodlist=data.list
-    //             }, 2000)
-    //         }else{
-    //              _this.$loading.hide();//隐藏
-    //             this.$vux.alert.show({
-    //                 title: '操作失败',
-    //                 content: response.data.msg
-    //             })
-    //             setTimeout(() => {
-    //                 this.$vux.alert.hide()
-    //             }, 3000)
-    //         }
-    //         }).catch((err) => {
-    //             console.log(err)
-    //         })
-    //     },
-    //     // 已下架
-    //     selectStyle () {
-    //         const _this = this;
-    //         $(".click1").removeClass('select');
-    //         $(".click2").addClass('select')
-    //         _this.$loading.show();//显示
-    //         setTimeout(function(){  //模拟请求
-    //               _this.$loading.hide(); //隐藏
-    //               _this.choosed1=false;
-    //         	  _this.choosed2=true;
-    //             const url =`${myPub.URL}/merchant/Shop/shopMarketing`;
-    //             var params = new URLSearchParams();
-    //             params.append('token',localStorage.currentUser_token);
-    //              params.append('open_id',`${openId.open_id}`);
-    //             params.append('type','2');
-    //             axios.post(url,params).then(response => {
-    //                 const data =response.data.data
-    //             _this.datalist = data
-    //             _this.goodlist=data.list
-    //                 console.log(data)
-    //             }).catch((err) => {
-    //                 console.log(err)
-    //             })
-    //         },2000);
-    // 　　　　},
-    //     // 营销中
-    //     selectStyle1 () {
-    //         const _this = this;
-    //         $(".click2").removeClass('select');
-    //         $(".click1").addClass('select')
-    //         _this.$loading.show();//显示
-    //         setTimeout(function(){  //模拟请求
-    //               _this.$loading.hide(); //隐藏
-    //               _this.choosed1=true;
-    //         	  _this.choosed2=false;
-    //               const url =`${myPub.URL}/merchant/Shop/shopMarketing`;
-    //             var params = new URLSearchParams();
-    //             params.append('token',localStorage.currentUser_token);
-    //             // params.append('open_id',`${openId.open_id}`);
-    //             params.append('open_id',`${openId.open_id}`);
-    //             params.append('type','1');
-    //             axios.post(url,params).then(response => {
-    //                 const data =response.data.data
-    //                 _this.datalist = data
-    //                 _this.goodlist=data.list
-    //                 console.log(data)
-    //             }).catch((err) => {
-    //                 console.log(err)
-    //             })
-    //         },2000);
-    // 　　　　},
-    //     //店铺营销数据
-    //     storemaketing(){
-    //         const url =`${myPub.URL}/merchant/Shop/shopMarketing`;
-    //         const _this =this
-    //         var params = new URLSearchParams();
-    //         params.append('token',localStorage.currentUser_token);
-    //         // params.append('open_id',`${openId.open_id}`);
-    //         params.append('open_id',`${openId.open_id}`);
-    //         params.append('type','1');
-    //         axios.post(url,params).then(response => {
-    //             const data =response.data.data
-    //             _this.datalist = data
-    //             _this.goodlist=data.list
-    //             console.log(data)
-    //         }).catch((err) => {
-    //             console.log(err)
-    //         })
-    //     },
-    //     // 商品下架 和加入营销
-    //     Commodityframe(a,id){
-    //         console.log('fangfahebingl ')
-    //         const url =`${myPub.URL}/merchant/Shop/goodsUpDown`;
-    //         const _this =this;
-    //         this.$loading.show();//显示
-    //         const params = new URLSearchParams();
-    //         params.append('token',localStorage.currentUser_token);
-    //         // params.append('open_id',`${openId.open_id}`);
-    //         params.append('open_id',`${openId.open_id}`);
-    //         params.append('type',a);
-    //         params.append('id',id);
-    //         axios.post(url,params).then(response => {
-    //             const data =response.data
-    //             console.log(data.status)
-    //             if (data.status == '200') {
-    //                  // location.reload()
-    //                  this.$loading.hide(); //隐藏
-    //                  if(a==1){
-    //                     this.selectStyle()
-    //                  }else{
-    //                     this.selectStyle1()
-    //                  }
-    //             }else{
-    //                 _this.$loading.hide(); 
-    //                 this.$vux.alert.show({
+        //tab选择切换时的方法封装
+        public_tab(a,b,c,d,e,f,g,h){
+            const _this=this;
+            const url =`${myPub.URL}/merchant/Shop/shopMarketing`;
+            var params = new URLSearchParams();
+            _this.$loading.show();//隐藏
+            params.append('token',localStorage.currentUser_token);
+            // params.append('open_id',`${openId.open_id}`);
+            params.append('open_id',`${openId.open_id}`);
+            params.append('type',a);
+            params.append('sales_volume',b);
+            params.append('order_quantity',c);
+            params.append('stock',d);
+            params.append('create_time',e);
+            params.append('stock',f);
+            params.append('page',g);
+            params.append('size',h);
+            axios.post(url,params).then(response => {
+            console.log(response)
+            const status = response.data.status
+            console.log(status)
+                if (status == "200") {
+                setTimeout(() => {
+                    _this.$loading.hide();//隐藏
+                    const data =response.data.data
+                    _this.datalist = data
+                    _this.goodlist=data.list
+                }, 2000)
+            }else{
+                 _this.$loading.hide();//隐藏
+                this.$vux.alert.show({
+                    title: '操作失败',
+                    content: response.data.msg
+                })
+                setTimeout(() => {
+                    this.$vux.alert.hide()
+                }, 3000)
+            }
+            if (response.data.status =='1024') {
+              this.$vux.alert.show({
+                  content: response.data.msg
+              })
+              setTimeout(() => {
+                  this.$vux.alert.hide()
+                  location.href = '/login'
+              }, 3000)
+            }
+
+            }).catch((err) => {
+                console.log(err)
+            })
+        },
+        // 已下架
+        selectStyle () {
+            const _this = this;
+            $(".click1").removeClass('select');
+            $(".click2").addClass('select')
+            _this.$loading.show();//显示
+            setTimeout(function(){  //模拟请求
+                  _this.$loading.hide(); //隐藏
+                  _this.choosed1=false;
+            	  _this.choosed2=true;
+                const url =`${myPub.URL}/merchant/Shop/shopMarketing`;
+                var params = new URLSearchParams();
+                params.append('token',localStorage.currentUser_token);
+                 params.append('open_id',`${openId.open_id}`);
+                params.append('type','2');
+                axios.post(url,params).then(response => {
+                    if (response.data.status =='1024') {
+                  this.$vux.alert.show({
+                      content: response.data.msg
+                  })
+                  setTimeout(() => {
+                      this.$vux.alert.hide()
+                      location.href = '/login'
+                  }, 3000)
+                }
+                    const data =response.data.data
+                _this.datalist = data
+                _this.goodlist=data.list
+                    console.log(data)
+                }).catch((err) => {
+                    console.log(err)
+                })
+            },2000);
+    　　　　},
+        // 营销中
+        selectStyle1 () {
+            const _this = this;
+            $(".click2").removeClass('select');
+            $(".click1").addClass('select')
+            _this.$loading.show();//显示
+            setTimeout(function(){  //模拟请求
+                  _this.$loading.hide(); //隐藏
+                  _this.choosed1=true;
+            	  _this.choosed2=false;
+                  const url =`${myPub.URL}/merchant/Shop/shopMarketing`;
+                var params = new URLSearchParams();
+                params.append('token',localStorage.currentUser_token);
+                // params.append('open_id',`${openId.open_id}`);
+                params.append('open_id',`${openId.open_id}`);
+                params.append('type','1');
+                axios.post(url,params).then(response => {
+                    if (response.data.status =='1024') {
+                  this.$vux.alert.show({
+                      content: response.data.msg
+                  })
+                  setTimeout(() => {
+                      this.$vux.alert.hide()
+                      location.href = '/login'
+                  }, 3000)
+                }
+                    const data =response.data.data
+                    _this.datalist = data
+                    _this.goodlist=data.list
+                    console.log(data)
+                }).catch((err) => {
+                    console.log(err)
+                })
+            },2000);
+    　　　　},
+        //店铺营销数据
+        storemaketing(){
+            const url =`${myPub.URL}/merchant/Shop/shopMarketing`;
+            const _this =this
+            var params = new URLSearchParams();
+            params.append('token',localStorage.currentUser_token);
+            // params.append('open_id',`${openId.open_id}`);
+            params.append('open_id',`${openId.open_id}`);
+            params.append('type','1');
+            axios.post(url,params).then(response => {
+                if (response.data.status =='1024') {
+                  this.$vux.alert.show({
+                      content: response.data.msg
+                  })
+                  setTimeout(() => {
+                      this.$vux.alert.hide()
+                      location.href = '/login'
+                  }, 3000)
+                }
+                const data =response.data.data
+                _this.datalist = data
+                _this.goodlist=data.list
+                console.log(data)
+            }).catch((err) => {
+                console.log(err)
+            })
+        },
+        // 商品下架 和加入营销
+        Commodityframe(a,id){
+            console.log('fangfahebingl ')
+            const url =`${myPub.URL}/merchant/Shop/goodsUpDown`;
+            const _this =this;
+            this.$loading.show();//显示
+            const params = new URLSearchParams();
+            params.append('token',localStorage.currentUser_token);
+            // params.append('open_id',`${openId.open_id}`);
+            params.append('open_id',`${openId.open_id}`);
+            params.append('type',a);
+            params.append('id',id);
+            axios.post(url,params).then(response => {
+            console.log(response)
+            const status = response.data.status
+            console.log(status)
+                if (status == 200||status == '200') {
+                     this.$loading.hide(); //隐藏
+                     if(a==1){
+                        _this.selectStyle()
+                     }else{
+                        _this.selectStyle1()
+                     }
+                }else{
+                    _this.$loading.hide(); 
+                    this.$vux.alert.show({
                         
-    //                     content: data.msg
-    //                 })
-    //                 setTimeout(() => {
-    //                     this.$vux.alert.hide()
-    //                 }, 3000)
-    //             }
-    //         }).catch((err) => {
-    //             console.log(err)
-    //         })
-    //     },
+                        content: data.msg
+                    })
+                    setTimeout(() => {
+                        this.$vux.alert.hide()
+                    }, 3000)
+                }
+                if (response.data.status =='1024') {
+                  this.$vux.alert.show({
+                      content: response.data.msg
+                  })
+                  setTimeout(() => {
+                      this.$vux.alert.hide()
+                      location.href = '/login'
+                  }, 3000)
+                }
+                const data =response.data
+                console.log(data.status)
+            }).catch((err) => {
+                console.log(err)
+            })
+        },
+        // 加入营销
+        // Joinmarketing(id){
+        //     const url =`${myPub.URL}/merchant/Shop/goodsUpDown`;
+        //     const _this =this
+        //     var params = new URLSearchParams();
+        //     params.append('token',localStorage.currentUser_token);
+        //     params.append('open_id',`${openId.open_id}`);
+        //     // params.append('open_id',`${openId.open_id}`);
+        //     params.append('type','1');
+        //     params.append('id',id);
+        //     axios.post(url,params).then(response => {
+        //         const data =response.data
+        //         console.log(data.status)
+        //         this.$loading.show();//显示
+        //         if (data.status == '200') {
+        //              // location.reload()
+        //              this.$loading.hide(); //隐藏
+        //              this.selectStyle1()
+        //         }
+        //     }).catch((err) => {
+        //         console.log(err)
+        //     })
+        // }
     }
 }
 </script>

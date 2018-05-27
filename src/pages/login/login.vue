@@ -72,17 +72,18 @@ export default {
         this.$destroy()
     },
     activated() {
-        localStorage.removeItem('token')
-        localStorage.removeItem('userInfo')
-        localStorage.removeItem('cartData')
-        this.UPDATE_USERINFO({
-            userInfo: null
-        })
+        // localStorage.removeItem('token')
+        // localStorage.removeItem('userInfo')
+        // localStorage.removeItem('cartData')
+        // this.UPDATE_USERINFO({
+        //     userInfo: null
+        // })
     },
     mounted() {
             console.log('这是'+`${openId.open_id}`)
               // 如果发现openid为空时再次向后台请求获取openid
               if(`${openId.open_id}`==undefined||`${openId.open_id}`=='undefined'){
+                console.log('kong')
                  location.reload()
               }
     },

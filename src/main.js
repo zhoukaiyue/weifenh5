@@ -27,6 +27,18 @@ import Loading from 'wc-loading'
 import 'wc-loading/style.css'
 Vue.use(Loading);
 
+import VueLazyload from 'vue-lazyload'
+
+
+
+// or with options
+Vue.use(VueLazyload, {
+  preLoad: 1.3,
+  error: 'http://www.pingminjie.cn/error.jpg',
+  loading: 'http://www.pingminjie.cn/loadding.gif',
+  attempt: 1,
+  listenEvents: [ 'scroll' ]
+})
 
 // 微信授权插件初始化
 Vue.use(WechatAuth , {

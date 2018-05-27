@@ -26,10 +26,12 @@
             <h5 class="title">营销商品 <span class="Notes">实惠佳品 营销利器</span> <span class="see" v-on:click="addGoods">查看全部&emsp;<img src="~@/assets/icon/goods-left.png"></span></h5>
             <div class="selected-box">
                 <ul class="selected-box_ul">
-                    <li v-for="(item,index) in datalist" @click="maketing(item.id)">
-                        <img :src="item.img_src">
-                        <h5 class="commodity_name">{{item.goods_name}}</h5>
-                        <div class="comm_price"><span><img src="~@/assets/icon/rmb.png" alt="">385.00</span><label>生成二维码</label></div>
+                    <li v-for="(item,index) in datalist">
+                        <div @click="linkToDetail(item.goods_id)">
+                            <img v-lazy="item.img_src">
+                            <h5 class="commodity_name">{{item.goods_name}}</h5>                        
+                        </div>
+                        <div class="comm_price"><span><img src="~@/assets/icon/rmb.png" alt="">{{item.shop_price}}</span><label @click="showcode()">生成二维码</label></div>
                     </li>
                 </ul>
             </div>
@@ -47,6 +49,21 @@
                 </li>
             </ul>
         </div>
+
+        <div style="height:16px;width:100%;background-color: #f8f7f7;"></div>
+
+        <!-- 分享二维码弹窗样式 -->
+        <div class="code_box" v-if="show_code">
+            <div class="code_bg"></div>
+            <div class="code_title">长按保存图片,分享让客户购买商品哦~</div> 
+            <!-- 商品图片-->
+            <div class="code_com">
+                <p></p>
+            </div>
+            <!--关闭按钮-->
+            <div class="code_close" @click="hidecode()"></div>
+        </div>
+
     </div>
 </template>
 
@@ -64,7 +81,8 @@ export default {
         return {
             datalist:[],
             access:{},
-            shop_list:[]
+            shop_list:[],
+            show_code:false
         }
     },
     created() {
@@ -73,11 +91,24 @@ export default {
         this.$destroy()
     },
     methods: {
+        // 显示二维码分享
+        showcode(){
+            this.show_code=true;
+        },
+        // 关闭二维码分享
+        hidecode(){
+             this.show_code=false;
+        },
+
+        //跳转到对应商品详情
+        linkToDetail(id) {
+            this.$router.push({ path: '/page/detail', query: {id: id}})
+        },
         addGoods(){
-            this.$router.push({ path: '/page/addGoods' })
+            this.$router.push({ path: '/page/category' })
         },
         dyinvite(){
-            this.$router.push({ path: '/page/dyinvite' })
+            this.$router.push({ path: '/page/shopdyinvite' })
         },
         // 首页数据接口
         indeData(){
@@ -128,10 +159,6 @@ export default {
             console.log(err)
           })
         },
-        // 跳转营销商品
-        maketing(id){
-            this.$router.push({ path: '/page/addGoods',query: {id:id}})
-        }
     },
 
     components: {
@@ -218,8 +245,9 @@ export default {
         }
         li:first-child{margin-left: 0;}
     }
-    .recent-products {overflow: hidden;
-        padding: 17px 15px 0px 15px;
+    .recent-products {
+        overflow: hidden;
+        padding: 17px 15px 23px 15px;
         margin: 10px 0px 0px 0px;
         background: #fff;
         height: 12rem;
@@ -238,14 +266,14 @@ export default {
         ul::-webkit-scrollbar {
             display: none;
         }
-        li{list-style: none;border: 1px solid #eeeeee;min-width:35%;float: left;margin-top: 1rem;margin-left: 1rem;padding:0px 5px;position:relative;
+        li{list-style: none;border: 1px solid #eeeeee;min-width:35%;float: left;margin-top: 1rem;margin-left: 1rem;padding:10px 5px;position:relative;
             h5{text-align: center;color:#333333;height:20px;font-size:0.8rem;line-height:20px;padding:10px 0;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;}
             p{font-size: 0.8rem;color: #f54321;text-align: center;
-            img{width:0.8rem;height:0.8rem;display: inline-block;margin-left:3px;}
+            img{width:14px;height:20px;display: inline-block;margin-left:3px;}
             }
-           img{display: block;width:4rem;height:4rem;margin:0 auto;}
+           img{display: block;width:4.5rem;height:4rem;margin:0 auto;}
             .hide{display: none;}
-            .icon{position: absolute;width: 1.5rem;height:1.5rem;top: 0.3rem;left: 0;}
+            .icon{position: absolute;width: 18px;height:22px;top: 0.3rem;left: 0;}
         }
         li:first-child{margin-left: 0;}
     }
@@ -356,6 +384,52 @@ export default {
                 font-weight:600;
                 font-size:1rem;
             }
+        }
+    }
+
+    /*分享二维码组建样式*/
+    .code_box{width:100;height:100%;
+        .code_bg{
+            width:100%;
+            height:100%;
+            position: absolute;
+            top:0;
+            background:#000000;
+            opacity:0.5;
+            z-index:10000000;
+        }
+        .code_title{
+            width:100%;
+            height:35px;
+            position: fixed;
+            top:0;
+            background:#F54321;
+            z-index:100000001; 
+            font-size:1rem;    
+            color:#ffffff; 
+            line-height:35px; 
+            text-align:center;
+        }
+        .code_com{
+            width:80%;
+            height:70%;
+            background:#ffffff;
+            position: fixed;
+            top:10%;
+            left:10%;
+            z-index:100000001;
+        }
+        .code_close{
+            width:40px;
+            height:40px;
+            position: fixed;
+            z-index:100000001;
+            bottom:10%;
+            left:50%;
+            margin-left:-20px;
+            background:url(~@/assets/icon/close_code.png) no-repeat
+                        right center;
+              background-size:100% 100%;
         }
     }
 }

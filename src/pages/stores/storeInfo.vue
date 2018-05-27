@@ -131,6 +131,15 @@ import ossFile from '../../components/oss_file'
           params.append('token',localStorage.currentUser_token);
           params.append('open_id',`${openId.open_id}`);
           axios.post(url,params).then(response => {
+            if (response.data.status =='1024') {
+              this.$vux.alert.show({
+                  content: response.data.msg
+              })
+              setTimeout(() => {
+                  this.$vux.alert.hide()
+                  this.$router.push({path: '/login'});
+              }, 3000)
+            }
             const data = response.data.data
             const str=data.mobile;
             const str2 = str.substr(0,3)+"****"+str.substr(7);
@@ -160,6 +169,15 @@ import ossFile from '../../components/oss_file'
           params.append('open_id',`${openId.open_id}`);
           params.append('company_model',company_model);
           axios.post(url,params).then(response => {
+            if (response.data.status =='1024') {
+              this.$vux.alert.show({
+                  content: response.data.msg
+              })
+              setTimeout(() => {
+                  this.$vux.alert.hide()
+                  location.href = '/login'
+              }, 3000)
+            }
             console.log(response.data)
             $('.shop').hide()
             $(".bg").hide()
