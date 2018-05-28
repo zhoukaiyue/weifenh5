@@ -97,7 +97,7 @@ export default {
           const url =`${myPub.URL}/merchant/Shop/shopCore`;
           const params = new URLSearchParams();
           params.append('token',localStorage.currentUser_token);
-          params.append('open_id',`${openId.open_id}`);
+          params.append('open_id',localStorage.openid);
           axios.post(url,params).then(response => {
             if (response.data.status =='1024') {
               this.$vux.alert.show({

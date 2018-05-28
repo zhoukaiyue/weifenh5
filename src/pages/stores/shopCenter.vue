@@ -68,7 +68,7 @@ export default {
         customer(){
           const url = 'http://im.weifenvip.com/?c=service&openid=$openid&gid=$goods_id&oid=$order'
           var params = new URLSearchParams();
-          params.append('open_id',`${openId.open_id}`);
+          params.append('open_id',localStorage.openid);
           axios.post(url,params).then(response => {
             console.log(response)
             const status = response.status
@@ -95,7 +95,7 @@ export default {
           const url =`${myPub.URL}/merchant/Shop/shopCore`;
           const params = new URLSearchParams();
           params.append('token',localStorage.currentUser_token);
-          params.append('open_id',`${openId.open_id}`);
+          params.append('open_id',localStorage.openid);
           axios.post(url,params).then(response => {
             if (response.data.status =='1024') {
               this.$vux.alert.show({

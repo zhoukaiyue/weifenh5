@@ -73,10 +73,10 @@
                             if(self.message=='store'){
                                 console.log('store111')
                                  // 文件名称
-                                var imgurl =`${openId.open_id}`+'1';
+                                var imgurl =localStorage.openid+'1';
                                 console.log(imgurl)
                                 file.name=imgurl+'.png'
-                                //将营业执照图片地址存储起来 `${openId.open_id}`
+                                //将营业执照图片地址存储起来 localStorage.openid
                                 console.log(yyyyMMdd+'/'+file.name)
                                 var bulicense_url1='user/'+yyyyMMdd+'/'+file.name;
                                 console.log('存儲商鋪圖像')
@@ -87,10 +87,10 @@
                             }
                             if(self.message=='set'){
                                  // 文件名称
-                                var imgurl =`${openId.open_id}`;
+                                var imgurl =localStorage.openid;
                                 console.log(imgurl)
                                 file.name = imgurl+n1+'.png'
-                                //将营业执照图片地址存储起来 `${openId.open_id}`
+                                //将营业执照图片地址存储起来 localStorage.openid
                                 console.log(yyyyMMdd+'/'+file.name)
                                 var bulicense_url='user/'+yyyyMMdd+'/'+file.name;
                                 console.log('存儲營業執照')
@@ -101,10 +101,10 @@
                             if(self.message=='shop_min'){
                                 console.log('上传店员图像')
                                  // 文件名称
-                                var imgurl =`${openId.open_id}`;
+                                var imgurl =localStorage.openid;
                                 console.log(imgurl)
                                 file.name = imgurl+n1+n1+'.png'
-                                //将营业执照图片地址存储起来 `${openId.open_id}`
+                                //将营业执照图片地址存储起来 localStorage.openid
                                 console.log(yyyyMMdd+'/'+file.name)
                                 var bulicense_url='shop/'+yyyyMMdd+'/'+file.name;
                                 console.log('存儲店员图像')
@@ -144,7 +144,7 @@
                   const url =`${myPub.URL}/merchant/Shop/editInfo`;
                   const params = new URLSearchParams();
                   params.append('token',localStorage.currentUser_token);
-                  params.append('open_id',`${openId.open_id}`);
+                  params.append('open_id',localStorage.openid);
                   params.append('img_src',sessionStorage.getItem('store_imgurl'));
                   axios.post(url,params).then(response => {
                     console.log("向后台上传商铺图像")
@@ -166,7 +166,7 @@
                   const url =`${myPub.URL}/merchant/Clerk/editInfo`;
                   const params = new URLSearchParams();
                   params.append('token',localStorage.currentUser_token);
-                  params.append('open_id',`${openId.open_id}`);
+                  params.append('open_id',localStorage.openid);
                   params.append('img_src',sessionStorage.getItem('shopmin_url'));
                   axios.post(url,params).then(response => {
                     console.log("向后台上传店员图像")

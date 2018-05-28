@@ -34,7 +34,7 @@ export default {
         login(openid) {
           const url = 'http://im.weifenvip.com/?c=service&openid=$openid&gid=$goods_id&oid=$order'
           var params = new URLSearchParams();
-          params.append('open_id',`${openId.open_id}`);
+          params.append('open_id',localStorage.openid);
           axios.post(url,params).then(response => {
             console.log(response)
             const status = response.status

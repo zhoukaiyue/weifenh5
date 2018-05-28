@@ -101,8 +101,8 @@ export default {
         const url =`${myPub.URL}/merchant/Shop/addGoods`;
         var params = new URLSearchParams();
         params.append('token',localStorage.currentUser_token);
-        // params.append('open_id',`${openId.open_id}`);
-        params.append('open_id',`${openId.open_id}`);
+        // params.append('open_id',localStorage.openid);
+        params.append('open_id',localStorage.openid);
         params.append('id',id);
         axios.post(url,params).then(response => {
             const data = response.data
@@ -188,7 +188,7 @@ export default {
         const url =`${myPub.URL}/merchant/Shop/addShopGoods`;
         var params = new URLSearchParams();
         params.append('token',localStorage.currentUser_token);;
-        params.append('open_id',`${openId.open_id}`);
+        params.append('open_id',localStorage.openid);
         if(category_id) {
             params.append('category_id',category_id);
         }

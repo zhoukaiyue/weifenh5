@@ -80,9 +80,9 @@ export default {
         // })
     },
     mounted() {
-            console.log('这是'+`${openId.open_id}`)
+            console.log('这是'+localStorage.openid)
               // 如果发现openid为空时再次向后台请求获取openid
-              if(`${openId.open_id}`==undefined||`${openId.open_id}`=='undefined'){
+              if(localStorage.openid==undefined||localStorage.openid=='undefined'){
                 console.log('kong')
                  location.reload()
               }
@@ -152,9 +152,9 @@ export default {
               var params = new URLSearchParams();
               params.append('mobile',this.phoneNumber);
               params.append('token',localStorage.currentUser_token);
-              // params.append('open_id',`${openId.open_id}`);
-              // console.log(`${openId.open_id}`)
-              params.append('open_id',`${openId.open_id}`);
+              // params.append('open_id',localStorage.openid);
+              // console.log(localStorage.openid)
+              params.append('open_id',localStorage.openid);
               params.append('code',this.verifyCode);
               if(localStorage.sessionid){
                  params.append('session_id',localStorage.sessionid);

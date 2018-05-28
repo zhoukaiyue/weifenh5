@@ -192,8 +192,8 @@ export default {
             const id = this.$route.query.id
             const params = new URLSearchParams();
             params.append('token',localStorage.currentUser_token);
-            params.append('open_id',`${openId.open_id}`);
-            // params.append('open_id',`${openId.open_id}`);
+            params.append('open_id',localStorage.openid);
+            // params.append('open_id',localStorage.openid);
             params.append('id',id);
             axios.post(url,params).then(response => {
                 if (response.data.status =='1024') {
@@ -224,7 +224,7 @@ export default {
             const id = this.$route.query.id
             const params = new URLSearchParams();
             params.append('token',localStorage.currentUser_token);
-            params.append('open_id',`${openId.open_id}`);
+            params.append('open_id',localStorage.openid);
             params.append('id',id);
             params.append('type','1');
             axios.post(url,params).then(response => {
@@ -261,7 +261,7 @@ export default {
             const id = this.$route.query.id
             const params = new URLSearchParams();
             params.append('token',localStorage.currentUser_token);
-            params.append('open_id',`${openId.open_id}`);
+            params.append('open_id',localStorage.openid);
             params.append('id',id);
             axios.post(url,params).then(response => {
                 const data = response.data

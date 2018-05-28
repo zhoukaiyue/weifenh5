@@ -75,7 +75,7 @@ export default {
         const _this = this
         var params = new URLSearchParams();
         params.append('token',localStorage.currentUser_token);
-        params.append('open_id',`${openId.open_id}`);
+        params.append('open_id',localStorage.openid);
         params.append('id',id);
         axios.post(url,params).then(response => {
           _this.$loading.show();

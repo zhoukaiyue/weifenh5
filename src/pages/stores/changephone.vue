@@ -97,7 +97,7 @@ export default {
               params.append('mobile',mobile); 
               params.append('token',localStorage.currentUser_token);
               params.append('code',this.verifyCode);
-              params.append('open_id',`${openId.open_id}`);
+              params.append('open_id',localStorage.openid);
               params.append('session_id',localStorage.sessionid);
               axios.post(url,params).then(response => {
                 if (response.data.status =='1024') {

@@ -35,7 +35,7 @@ export default {
           const brand_name = $(".input").val();
           var params = new URLSearchParams();
           params.append('token',localStorage.currentUser_token);
-          params.append('open_id',`${openId.open_id}`);
+          params.append('open_id',localStorage.openid);
           params.append('name',brand_name);
           axios.post(url,params).then(response => {
             if(brand_name==""){

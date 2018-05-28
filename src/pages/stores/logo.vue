@@ -49,7 +49,7 @@ export default {
           // console.log(brand_name)
           var params = new URLSearchParams();
           params.append('token',localStorage.currentUser_token);
-          params.append('open_id',`${openId.open_id}`);
+          params.append('open_id',localStorage.openid);
           params.append('brand_name',brand_name);
           axios.post(url,params).then(response => {
           if (response.data.status =='1024') {

@@ -305,8 +305,8 @@ export default {
             const url =`${myPub.URL}/merchant/Shop/shopMarketing`;
             var params = new URLSearchParams();
             params.append('token',localStorage.currentUser_token);
-            // params.append('open_id',`${openId.open_id}`);
-            params.append('open_id',`${openId.open_id}`);
+            // params.append('open_id',localStorage.openid);
+            params.append('open_id',localStorage.openid);
             params.append('type',a);
             params.append('sales_volume',b);
             params.append('order_quantity',c);
@@ -318,8 +318,8 @@ export default {
             axios.post(url,params).then(response => {
             _this.$loading.show();//出现
             console.log(response)
-            const status = response.data.data.status
-            console.log(response.data.data.status)
+            const status = response.data.status
+            console.log(response.data.status)
                 if (status == "200") {
                 setTimeout(() => {
                     _this.$loading.hide();//隐藏
@@ -365,7 +365,7 @@ export default {
                 const url =`${myPub.URL}/merchant/Shop/shopMarketing`;
                 var params = new URLSearchParams();
                 params.append('token',localStorage.currentUser_token);
-                 params.append('open_id',`${openId.open_id}`);
+                 params.append('open_id',localStorage.openid);
                 params.append('type','2');
                 axios.post(url,params).then(response => {
                     if (response.data.status =='1024') {
@@ -399,8 +399,8 @@ export default {
                   const url =`${myPub.URL}/merchant/Shop/shopMarketing`;
                 var params = new URLSearchParams();
                 params.append('token',localStorage.currentUser_token);
-                // params.append('open_id',`${openId.open_id}`);
-                params.append('open_id',`${openId.open_id}`);
+                // params.append('open_id',localStorage.openid);
+                params.append('open_id',localStorage.openid);
                 params.append('type','1');
                 axios.post(url,params).then(response => {
                     if (response.data.status =='1024') {
@@ -427,8 +427,8 @@ export default {
             const _this =this
             var params = new URLSearchParams();
             params.append('token',localStorage.currentUser_token);
-            // params.append('open_id',`${openId.open_id}`);
-            params.append('open_id',`${openId.open_id}`);
+            // params.append('open_id',localStorage.openid);
+            params.append('open_id',localStorage.openid);
             params.append('type','1');
             axios.post(url,params).then(response => {
                 if (response.data.status =='1024') {
@@ -456,8 +456,8 @@ export default {
             this.$loading.show();//显示
             const params = new URLSearchParams();
             params.append('token',localStorage.currentUser_token);
-            // params.append('open_id',`${openId.open_id}`);
-            params.append('open_id',`${openId.open_id}`);
+            // params.append('open_id',localStorage.openid);
+            params.append('open_id',localStorage.openid);
             params.append('type',a);
             params.append('id',id);
             axios.post(url,params).then(response => {

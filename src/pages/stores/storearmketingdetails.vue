@@ -104,7 +104,7 @@ export default {
         const _this = this
         var params = new URLSearchParams();
         params.append('token',localStorage.currentUser_token);
-        params.append('open_id',`${openId.open_id}`);
+        params.append('open_id',localStorage.openid);
         params.append('type','0');
         params.append('id',id);
         axios.post(url,params).then(response => {
@@ -142,7 +142,7 @@ export default {
         const _this = this
         var params = new URLSearchParams();
         params.append('token',localStorage.currentUser_token);
-        params.append('open_id',`${openId.open_id}`);
+        params.append('open_id',localStorage.openid);
         params.append('type',a);
         params.append('id',id);
         axios.post(url,params).then(response => {

@@ -89,7 +89,7 @@ import * as openId from '@/assets/js/opid_public.js'
           const url =`${myPub.URL}/merchant/Clerk/shopInfo`;
           const params = new URLSearchParams();
           params.append('token',localStorage.currentUser_token);
-          params.append('open_id',`${openId.open_id}`);
+          params.append('open_id',localStorage.openid);
           axios.post(url,params).then(response => {
             if (response.data.status =='1024') {
               this.$vux.alert.show({
@@ -126,7 +126,7 @@ import * as openId from '@/assets/js/opid_public.js'
         //   console.log(company_model)
         //   const params = new URLSearchParams();
         //   params.append('token',localStorage.currentUser_token);
-        //   params.append('open_id',`${openId.open_id}`);
+        //   params.append('open_id',localStorage.openid);
         //   params.append('company_model',company_model);
         //   axios.post(url,params).then(response => {
         //     if (response.data.status =='1024') {

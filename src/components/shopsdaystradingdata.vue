@@ -102,7 +102,7 @@ export default {
       const url =`${myPub.URL}/merchant/Clerk/orderData`;
           var params = new URLSearchParams();
           params.append('token',localStorage.currentUser_token);;
-          params.append('open_id',`${openId.open_id}`);
+          params.append('open_id',localStorage.openid);
           params.append('type',a);
           axios.post(url,params).then(response => {
             console.log(response)
