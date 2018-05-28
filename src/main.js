@@ -62,14 +62,14 @@ Vue.use(WechatAuth , {
     const params = new URLSearchParams();
     params.append('code',code);
     axios.post(url,params).then(response => {
-        console.log('向后台传输code1')
-        console.log(response)
-        console.log('获取到openid')
-        const openid = response.data.openid
-        localStorage.setItem('openid',openid);
-        console.log('这是openid'+`${openId.open_id}`)
-        console.log('这是本地存储openid'+localStorage.openid)
-        next('/page/home')
+            console.log('向后台传输code1')
+            console.log(response)
+            console.log('获取到openid')
+            const openid = response.data.openid
+            localStorage.setItem('openid',openid);
+            console.log('这是openid'+`${openId.open_id}`)
+            console.log('这是本地存储openid'+localStorage.openid)
+            next('/page/home')
       }).catch((err) => {
           axios.post(url,params).then(response => {
             console.log('向后台传输code2')
@@ -85,6 +85,7 @@ Vue.use(WechatAuth , {
   }
 })
 router.beforeEach((to, from, next) => {
+ localStorage.setItem('openid','oo1Fj0vuyJHl27Zlytaj3z5c925Q');
     // 设置标题
     document.title = to.meta.title
     //判断登录跳转
@@ -135,7 +136,7 @@ router.beforeEach((to, from, next) => {
 })
 
 
-/* eslint-disable no-new */
+/*eslint-disable no-new */
 new Vue({
     el: '#app',
     router,
