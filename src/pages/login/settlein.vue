@@ -2,27 +2,26 @@
   <div id='accident'>
     <div class="accident_title">
         <p class="list_title">{{list.title}}</p>
-        <p class="list_desc">{{list.desc}}</p>
+        <p class="list_desc" style="font-size: 0.9rem;">{{list.desc}}</p>
     </div>
-      <group label-width="4.5em" label-margin-right="2em" label-align="right" id="form_box">
-        <x-input title="店铺名称" v-model="shopname" placeholder="请输入店铺名称" class="shopmame"></x-input>
-        <x-input title="负责人" v-model="contact" placeholder="请输入负责人名字" class="contact"></x-input>
-        <!-- <datetime title="申请时间" v-model="time1" value-text-align="left" ></datetime> -->
-        <x-input title="联系电话" type="number" placeholder="请输入负责人电话" v-model="mobile" class="mobile"></x-input>
-        <!-- <x-address title="地址选择" v-model="addressValue" raw-value :list="addressData" value-text-align="left"></x-address>
-        <x-textarea title="详细信息" placeholder="请填写详细信息" :show-counter="false" :rows="3"></x-textarea> -->
-      </group>
+<!--       
+      <input title="负责人" v-model="contact" placeholder="请输入负责人名字" class="contact"></input>
+      <input title="联系电话" type="number" placeholder="请输入负责人电话" v-model="mobile" class="mobile"></input> -->
+    <div class="oinputs">
+      <p><span>店铺名称</span><input  v-model="shopname" placeholder="请输入店铺名称"></input></p>
+      <p><span>负责人</span><input v-model="contact" placeholder="请输入负责人名字"></input></p>
+      <p><span>联系电话</span><input type="number" placeholder="请输入负责人电话" v-model="mobile"></input></p>
+    </div>
       <!--  营业执照 -->
-         <div class="wrapper license">
-            <p class="license-border"></p>
-           <span style="width: 4.5em; ">营业执照</span><ossFile :imgs='license' :message="msg"></ossFile>
-        </div>
+    <div class="wrapper license">
+        <p class="license-border"></p>
+       <span>营业执照</span><ossFile :imgs='license' :message="msg"></ossFile>
+    </div>
      <box gap="10px 10px">
         <div v-on:click="submit"><x-button class="apply_btn">立即申请</x-button></div>
         <x-button show-loading  style="display:none;">立即申请</x-button>
         <div v-on:click="login" style="margin-top: 0.5rem;"><x-button class="set_login_btn" >立即登录</x-button></div>
       </box>
-
   </div>
 </template>
 
@@ -30,14 +29,10 @@
 import $ from 'jquery'
 import axios from 'axios'
 import { GroupTitle, Group, Cell, XInput, Selector, PopupPicker, Datetime, XNumber, ChinaAddressData, XAddress, XTextarea, XSwitch,Panel, Radio,XButton,Box} from 'vux'
-
 import * as myPub from '@/assets/js/public.js'
 import * as openId from '@/assets/js/opid_public.js'
 //引入上传图片组键
 import ossFile from '../../components/oss_file'
-  /**
-* 从 file 域获取 本地图片 url
-*/
 function getFileUrl(obj) {
   let url;
   url = window.URL.createObjectURL(obj.files.item(0));
@@ -69,38 +64,6 @@ function getFileUrl(obj) {
     methods: {
         login(){
           this.$router.push({ path: '/login'})
-        },
-         //根据点击上传按钮触发input
-        change_input(){
-            let inputArr=$('#addTextForm input');
-            let add_inputId='';     //需要被触发的input
-            for(let i=0;i<inputArr.length;i++){
-                // 根据input的value值判断是否已经选择文件
-              if(!inputArr[i].value){          //如果没有选择,获得这个input的ID
-                 add_inputId=inputArr[i].id;
-                 break;
-              }
-            }
-            if(add_inputId){                   //如果需要被触发的input ID存在,将对应的input触发
-              return  $("#"+add_inputId).click();
-            }else{
-              alert("最多选择"+this.imgNum+"张图片")
-            }
-        },
-        //当input选择了图片的时候触发,将获得的src赋值到相对应的img
-        setImg(e){
-            let target=e.target;
-            $('#img_'+target.id).attr('src',getFileUrl(e.srcElement));
-        },
-        //点击图片删除该图片并清除相对的input
-        deleteImg(e){
-            let target=e.target;
-            let inputID='';       //需要清除value的input
-            if(target.nodeName=='IMG'){
-              target.src='';
-              inputID=target.id.replace('img_','');    //获得需要清除value的input
-              $('input#'+inputID).val("");
-            }
         },
 
         //提交信息到后台
@@ -173,7 +136,6 @@ function getFileUrl(obj) {
     data () {
       return {
         addressData: ChinaAddressData,
-        addressValue: ['陕西省', '西安市', '长安区'],
         value1: '',
         value3: '',
         value7: '',
@@ -215,24 +177,29 @@ function getFileUrl(obj) {
   .weui-cells:after{background: #FFFFFF;}
 
 .container{
-    width:12rem!important;
-    height:10rem!important;
+    width:70%!important;
+    height:135px!important;
     position:relative;
     float:right;
-    border:1px solid #e7e7e7;
 }
 #selectfiles{
-    width:12rem!important;
-    height:10rem!important;
+    width:100%!important;
+    height:100%!important;
     opacity:0;
     position:absolute;
     top:0;
     left:0;
     border:1px solid #e7e7e7;
+   /* width: 200px;
+    height: 200px;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;*/
 }
 #imgId{
-    width:12rem!important;
-    height:10rem!important;
+     width:100%!important;
+    height:100%!important;
     position:absolute;
     top:0;
     left:0;
@@ -284,12 +251,11 @@ function getFileUrl(obj) {
   border:0!important;
 }
 }.license {
-  /*border-top:1px solid #D9D9D9;*/
   padding:0px 10px 30px 0px;
   min-height:150px;
   position:relative;
-  color: #333;
-  font-size: 0.9rem;
+  color: #333333;
+  font-size: 1rem;
   #addTextForm {
   border:1px solid #e7e7e7;
   width:60%;
@@ -303,7 +269,7 @@ function getFileUrl(obj) {
 .license-border{
     width:100%;
     height:1px;
-    background-color:#D9D9D9;
+    background-color:transparent;
     margin-bottom:13px;
   }
 #img-wrapper {
@@ -333,4 +299,24 @@ function getFileUrl(obj) {
   word-break:break-all;
 }
 
+.oinputs{
+  width:100%;
+  margin-top:15px;
+  p{
+    height:54px;
+    font-size:1rem;
+    color:#333333;
+    line-height:54px;
+    border-bottom: 1px solid #D9D9D9;
+    input{
+      float:right;
+      width:70%;
+      height:54px;
+      font-size:1rem;
+      line-height:54px;
+      color:#333333;
+      border: 0px;outline:none;cursor: pointer;
+    }
+  }
+}
 </style>

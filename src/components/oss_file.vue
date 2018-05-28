@@ -2,9 +2,6 @@
     <div id="container" class="container">
       <div id="selectfiles"></div>
       <img  :src=imgs  alt="" id='imgId'>
-      <!--<ul>
-        <li v-for="file in files">{{file}}</li>
-      </ul> -->
     </div>
 </template>
 <script>
@@ -22,7 +19,7 @@
                     policyText: {
                         "expiration": "2020-01-01T12:00:00.000Z", //设置该Policy的失效时间，超过这个失效时间之后，就没有办法通过这个policy上传文件了
                         "conditions": [
-                            ["content-length-range", 0, 10485760001111100000000000] // 设置上传文件的大小限制
+                            ["content-length-range", 0, 1048576000000] // 设置上传文件的大小限制
                             // ["content-length-range", 0, 1048576000] // 设置上传文件的大小限制
                         ]
                     },
@@ -187,10 +184,6 @@
                     this.set_upload_param(this.uploader, '', false);
                 },
                 set_upload_param(up, filename, ret) {
-                    // console.log('可以改变图片路径了')
-                    // this.imgs =this.host+'/'+filename
-                    // console.log(this.imgs)
-
                     var me = this;
                     me.$loading.show()
                     setTimeout(function(){

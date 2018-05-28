@@ -85,7 +85,7 @@ Vue.use(WechatAuth , {
   }
 })
 router.beforeEach((to, from, next) => {
- localStorage.setItem('openid','oo1Fj0vuyJHl27Zlytaj3z5c925Q');
+ // localStorage.setItem('openid','oo1Fj0vuyJHl27Zlytaj3z5c925Q');
     // 设置标题
     document.title = to.meta.title
     //判断登录跳转
