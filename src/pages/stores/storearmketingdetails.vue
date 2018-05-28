@@ -99,76 +99,102 @@ export default {
       },
       // 数据请求接口
       goodsdata(){
+        console.log('1111')
+        const _this = this
+         _this.$loading.show();//隐藏
         const url =`${myPub.URL}/merchant/Shop/goodsOrder`;
         const id = this.$route.query.id
-        const _this = this
+        
         var params = new URLSearchParams();
         params.append('token',localStorage.currentUser_token);
         params.append('open_id',localStorage.openid);
         params.append('type','0');
         params.append('id',id);
         axios.post(url,params).then(response => {
-          _this.$loading.show();
-          const status = response.data.status
-          console.log(response)
-          if (status == "200") {
-              setTimeout(() => {
                 _this.$loading.hide();//隐藏
+            const status = response.data.status
+            //状态码
+            const ost = response.data.status;
+            // 当前状态为未登录状态 提示用户登录
+            if(ost==1024||ost=='1024'){
+               this.$vux.alert.show({
+                    title: '温馨提示',
+                    content: response.data.msg
+                })
+                setTimeout(() => {
+                    this.$vux.alert.hide()
+                    location.href = '/login'
+                }, 2000)
+
+            }
+            //当前状态为登录状态 一切正常进行
+            if(ost==200||ost=='200'){
                 const data =response.data.data
                 _this.datalist = data.goods_info
                 _this.goodlist=data.order_list
                 console.log(_this.datalist)
                 console.log(_this.goodlist)
-              }, 2000)
             }
-          if (response.data.status =='1024') {
-            _this.$loading.hide();
-            this.$vux.alert.show({
-              content: response.data.msg
-            })
-          setTimeout(() => {
-            this.$vux.alert.hide()
-            location.href = '/login'
-          }, 3000)
-        }
+            //当前请求存在某些异常 页面弹出提示框提示用户异常详情
+            else{
+               this.$vux.alert.show({
+                    title: '温馨提示',
+                    content: response.data.msg
+                })
+                setTimeout(() => {
+                    this.$vux.alert.hide()
+                }, 2000)
+            }
         }).catch((err) => {
             console.log(err)
         })
       },
       //数据请求封装方法
      public_tab(a){
+        const _this = this;
+        _this.$loading.show();
         const url =`${myPub.URL}/merchant/Shop/goodsOrder`;
         const id = this.$route.query.id
-        const _this = this
         var params = new URLSearchParams();
         params.append('token',localStorage.currentUser_token);
         params.append('open_id',localStorage.openid);
         params.append('type',a);
         params.append('id',id);
         axios.post(url,params).then(response => {
-          _this.$loading.show();
+          _this.$loading.hide();//隐藏
           const status = response.data.status
-          console.log(response)
-          if (status == "200") {
-              setTimeout(() => {
-                _this.$loading.hide();//隐藏
+            //状态码
+            const ost = response.data.status;
+            // 当前状态为未登录状态 提示用户登录
+            if(ost==1024||ost=='1024'){
+               this.$vux.alert.show({
+                    title: '温馨提示',
+                    content: response.data.msg
+                })
+                setTimeout(() => {
+                    this.$vux.alert.hide()
+                    location.href = '/login'
+                }, 2000)
+
+            }
+            //当前状态为登录状态 一切正常进行
+            if(ost==200||ost=='200'){
                 const data =response.data.data
                 _this.datalist = data.goods_info
                 _this.goodlist=data.order_list
                 console.log(_this.datalist)
                 console.log(_this.goodlist)
-              }, 2000)
             }
-          if (response.data.status =='1024') {
-            _this.$loading.hide();
-            this.$vux.alert.show({
-              content: response.data.msg
-            })
-          setTimeout(() => {
-            this.$vux.alert.hide()
-            location.href = '/login'
-          }, 3000)
-        }
+            //当前请求存在某些异常 页面弹出提示框提示用户异常详情
+            else{
+               this.$vux.alert.show({
+                    title: '温馨提示',
+                    content: response.data.msg
+                })
+                setTimeout(() => {
+                    this.$vux.alert.hide()
+                }, 2000)
+            }
         }).catch((err) => {
             console.log(err)
         })
