@@ -75,13 +75,13 @@
         <!-- 商品列表 -->
         <div class="goods-list">
             <ul>
-                <li v-for="(item,index) in goodlist" v-show="show">
+                <li v-for="(item,index) in goodlist" v-show="show" @click='ToCommoditydetail(item.goods_id)'>
                     <div class="bb t">
-                        <div class="goods-img" @click='ToDetail(item.goods_id)'>
+                        <div class="goods-img">
                             <img :src='item.img_src'>
                             <p>{{item.recpos_name}}</p>
                         </div>
-                        <div class="goods clerfix"  @click='ToCommoditydetail(item.goods_id)'>
+                        <div class="goods clerfix"  >
                              <h5>{{item.goods_name}}<span class="goodsId">{{item.goods_id}}</span></h5>
                             <p><span class="price">￥{{item.shop_price}}</span> <span class="y-charge">引客价</span> <span class="charge">￥{{item.market_price}}</span>
                                 <a href="javascript:">
@@ -195,9 +195,6 @@ export default {
             this.currentIndex = index
             this.getProduct(id)
         },
-        ToDetail(id) {
-            this.$router.push({ path: '/page/detail', query: { id: id } })
-        },
         linktoDetail() {
             this.$router.push({ path: '/page/addgoods'})
         },
@@ -307,7 +304,6 @@ export default {
             const _this=this;
             const url =`${myPub.URL}/merchant/Shop/shopMarketing`;
             var params = new URLSearchParams();
-            _this.$loading.show();//隐藏
             params.append('token',localStorage.currentUser_token);
             // params.append('open_id',`${openId.open_id}`);
             params.append('open_id',`${openId.open_id}`);
@@ -320,9 +316,10 @@ export default {
             params.append('page',g);
             params.append('size',h);
             axios.post(url,params).then(response => {
+            _this.$loading.show();//出现
             console.log(response)
-            const status = response.data.status
-            console.log(status)
+            const status = response.data.data.status
+            console.log(response.data.data.status)
                 if (status == "200") {
                 setTimeout(() => {
                     _this.$loading.hide();//隐藏
@@ -341,6 +338,7 @@ export default {
                 }, 3000)
             }
             if (response.data.status =='1024') {
+                _this.$loading.hide();
               this.$vux.alert.show({
                   content: response.data.msg
               })
@@ -497,30 +495,7 @@ export default {
             }).catch((err) => {
                 console.log(err)
             })
-        },
-        // 加入营销
-        // Joinmarketing(id){
-        //     const url =`${myPub.URL}/merchant/Shop/goodsUpDown`;
-        //     const _this =this
-        //     var params = new URLSearchParams();
-        //     params.append('token',localStorage.currentUser_token);
-        //     params.append('open_id',`${openId.open_id}`);
-        //     // params.append('open_id',`${openId.open_id}`);
-        //     params.append('type','1');
-        //     params.append('id',id);
-        //     axios.post(url,params).then(response => {
-        //         const data =response.data
-        //         console.log(data.status)
-        //         this.$loading.show();//显示
-        //         if (data.status == '200') {
-        //              // location.reload()
-        //              this.$loading.hide(); //隐藏
-        //              this.selectStyle1()
-        //         }
-        //     }).catch((err) => {
-        //         console.log(err)
-        //     })
-        // }
+        }
     }
 }
 </script>

@@ -492,6 +492,7 @@ export default {
     vertical-align: middle;
 }
 }.country_span,.country_label {
+    font-size: 0.7rem;
     margin:0;
 }
 }&.name_box {

@@ -6,38 +6,40 @@
       <div class="address">
           <img class="position" src="~@/assets/icon/position.png">
           <div>
-            <p>王先生&emsp;<input type="text" class="mobile" v-model="mobile"/></p>
-            <p class="ares">上海省上海市徐汇区泗凤路泗泾镇 </p>
+            <p>{{datalist.receiver}}&emsp;<input type="text" class="mobile" v-model="mobile"/></p>
+            <p class="ares">{{datalist.address}}</p>
           </div>
           <img class="bottom" src="~@/assets/icon/line@2x.png">
       </div>
 
       <div class="Cusproductinformation">
+        <h5>推广店员：<span>{{datalist.first_leader_name}}</span></h5>
+        <div class="clearfixss">
           <div class="Cusproductinformation_img">
-            <img src="" alt="">
+            <img :src="datalist.img_src" alt="">
           </div>
-
           <div class="Cusproductinformation_con">
-            <p class="Cusproductinformation_name">券后价券后价券后价券后价券后价</p>
+            <p class="Cusproductinformation_name">{{datalist.goods_name}}</p>
             <p class="Cusproductinformation_xl"><span>规格：200ml</span></p>
-            <p class="Cusproductinformation_stock"><span>¥999.00</span><label>数量：2</label></p>
+            <p class="Cusproductinformation_stock"><span>¥{{datalist.shop_price}}</span><label>数量：{{datalist.total_count}}</label></p>
           </div>
+        </div>
       </div>
       
-      <p class="Cusproductinformation_bz"><span>备注</span><label>未备注</label></p>
-      <p class="Cusproductinformation_yhq"><span>优惠券</span><label>-0.00</label></p>
+      <p class="Cusproductinformation_bz"><span>备注</span><label>{{datalist.user_note}}</label></p>
+      <p class="Cusproductinformation_yhq"><span>优惠券</span><label>-{{datalist.coupon_price}}</label></p>
       
       <ul class="Cusproductinformation_xx">
-        <li><span>商品总价</span><label></label></li>
-        <li><span>税费</span><label></label></li>
-        <li><span>运费</span><label></label></li>
-        <li><span>总优惠</span><label></label></li>
-        <li class="Cusproductinformation_total"><label>订单金额：<span>¥123.00</span></label></li>
+        <li><span>商品总价</span><label>{{datalist.coupon_price}}</label></li>
+        <li><span>税费</span><label>0</label></li>
+        <li><span>运费</span><label>0</label></li>
+        <li><span>总优惠</span><label>{{datalist.coupon_price}}</label></li>
+        <li class="Cusproductinformation_total"><label>订单金额：<span>¥{{datalist.total_amount}}</span></label></li>
       </ul>
 
       <div class="Cusproductinformation_order">
-        <p><span>订单编号：12345678909887</span><label>复制</label></p>
-        <p><span>下单时间：2019-08-09</span></p>
+        <p><span>订单编号：{{datalist.sn}}</span><label>复制</label></p>
+        <p><span>下单时间：{{datalist.add_time.split(" ")[0]}}</span></p>
       </div>
     </div>
 </template>
@@ -54,48 +56,77 @@ export default {
   },
   data () {
     return {
-      mobile:''
+      mobile:'',
+      datalist:'',
+      goodlist:''
     }
   },
     deactivated () {
       this.$destroy()
   },
   created() {
-    this.phone()
+    this.goodsdata()
  },
   methods: {
-    // 处理手机号
-    phone(){
-      const str='15146105546';
-      const str2 = str.substr(0,3)+"****"+str.substr(7);
-      this.mobile = str2
-    },
     //店铺订单全部数据
-    orderdata(){
-        const url =`${myPub.URL}/merchant/Shop/order`;
+   goodsdata(){
+        const url =`${myPub.URL}/merchant/Shop/orderInfo`;
+        const id = this.$route.query.id
         const _this = this
         var params = new URLSearchParams();
-        params.append('type','0'); 
-        params.append('token',localStorage.currentUser_token);;
+        params.append('token',localStorage.currentUser_token);
         params.append('open_id',`${openId.open_id}`);
+        params.append('id',id);
         axios.post(url,params).then(response => {
-            const data = response.data.data
-            _this.datalist = data.list
-            console.log(data)
-            console.log(_this.datalist)
+          _this.$loading.show();
+          const status = response.data.status
+          console.log(response)
+          if (status == "200") {
+              setTimeout(() => {
+                _this.$loading.hide();//隐藏
+                const data =response.data.data
+                _this.datalist = data
+                _this.goodlist=data.order_list
+                console.log(_this.datalist)
+              }, 2000)
+            }
+          if (response.data.status =='1024') {
+            _this.$loading.hide();
+            this.$vux.alert.show({
+              content: response.data.msg
+            })
+          setTimeout(() => {
+            this.$vux.alert.hide()
+            location.href = '/login'
+          }, 3000)
+        }
         }).catch((err) => {
             console.log(err)
         })
-    }
+      },
   }
 }
 
 </script>
 <style type="text/css">
     .weui-icon-checked:before{color: #f54321!important;}
+    body{background: #f8f7f7;font-family: "微软雅黑"}
 </style>
 <style scoped lang="less">
+
+.clearfix:after {
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: " ";
+  clear: both;
+  height: 0;
+}
+.clearfix{
+    zoom:1;
+}
 /*订单顶部*/
+
 .goods{
   background: #f8f7f7;
   .title{
@@ -122,7 +153,7 @@ export default {
         color: #333333;
         line-height: 1.5rem;
         display: inline-block;
-        .ares{color: #999999}
+        .ares{color: #999999;font-size: 0.9rem;}
         .mobile{border: 0;}
       }
       .position{position: relative;bottom: 0.5rem;}
@@ -133,41 +164,44 @@ export default {
     width:100%;
     height:9rem;
     background-color:#ffffff;
-    /*border-bottom:1px solid red;*/
     box-sizing: border-box;
     padding:1rem;
     margin-top:11px;
+    min-height: 160px;
+    h5{
+      color: #333333;
+      font-weight: normal;
+      border-bottom: 1px solid #eeeeee;
+      padding-bottom: 0.5rem;
+    }
     .Cusproductinformation_img{
       float:left;
-      width:28%;
-      height:100%;
-      /*border:1px solid red;*/
+      width:25%;
+      margin-top: 10px;
+      img{width: 100%;border: 1px solid #eeeeee;}
     }
     .Cusproductinformation_con{
       float:right;
       width:70%;
       height:100%;
-      /*border:1px solid red; */
+      margin-top: 10px;
       .Cusproductinformation_name{
         width:100%;
-        height:20px;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
-        font-size:1rem;
+        font-size:0.9rem;
         color:#333333;
       } 
       .Cusproductinformation_price{
         margin-top:10px;
         width:100%;
-        height:23px;
         span{
           font-size:1rem;
           color:#F54321;
         }
         label{
           display:inline-block;
-          height:21px;
           font-size:0.7rem;
           color:#F54321;
           border:1px solid #F54321;
@@ -183,8 +217,7 @@ export default {
       .Cusproductinformation_xl{
         margin-top:10px;
         width:100%;
-        height:17px;
-        font-size:0.9rem;
+        font-size:0.8rem;
         color:#777777;
         span{
         }
@@ -192,8 +225,8 @@ export default {
       .Cusproductinformation_stock{
         margin-top:10px;
         width:100%;
-        height:17px;
-        font-size:0.9rem;
+
+        font-size:0.8rem;
         color:#777777;
         span{
           display:inline-block;
@@ -206,43 +239,35 @@ export default {
 
   .Cusproductinformation_bz{
     margin-top:10px;
-    height:50px;
-    padding-left: 1rem;
-    padding-right: 1rem;
+    padding: 0.8rem 1rem;
     box-sizing: border-box;
     background-color:#fff;
-    font-size:1rem; 
+    font-size:0.9rem; 
     color:#333333;
-    line-height:50px;
-    label{float:right;}
+    label{float:right;color: #999999;}
   }
   .Cusproductinformation_yhq{
     margin-top:10px;
-    height:50px;
-    padding-left: 1rem;
-    padding-right: 1rem;
+    padding: 0.8rem 1rem;
     box-sizing: border-box;
     background-color:#fff;
-    font-size:1rem; 
+    font-size:0.9rem; 
     color:#333333;
-    line-height:50px;
-    label{float:right;}
+    label{float:right;color: #999999}
   }
   .Cusproductinformation_xx{
     list-style: none;
     margin-top:10px;
-    height:auto;
-    padding-left: 1rem;
-    padding-right: 1rem;
+    padding: 0.8rem 1rem;
     box-sizing: border-box;
     background-color:#fff;
-    font-size:1rem; 
+    font-size:0.9rem; 
     color:#333333;
-    line-height:50px;
     li{
-      height:50px;
+      height:2.5rem;
+      line-height: 2.5rem;
     }
-    label{float:right;}
+    label{float:right;color: #999999}
     .Cusproductinformation_total{
       span{
         color:#FF5639;
@@ -252,13 +277,15 @@ export default {
   }
   .Cusproductinformation_order{
     margin-top:10px;
+    padding-top: 10px;
     background-color:#fff;
     padding-left: 1rem;
     padding-right: 1rem;
     box-sizing: border-box;
-    font-size:1rem; 
+    font-size:0.9rem; 
     color:#333333;
     line-height:2rem;
+    padding-bottom: 10px;
     label{
       float:right;
       border:1px solid #999999;

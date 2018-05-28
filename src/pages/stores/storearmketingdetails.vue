@@ -1,15 +1,16 @@
 <template>
     <div class="productin">
-        <div class="productinformation">
+        <div class="productinformation"  @click='ToDetail()'>
           <div class="productinformation_img">
-            <img src="" alt="">
+            <img :src="datalist.img_src" alt="">
+            <p>{{datalist.recpos_name}}</p>
           </div>
 
           <div class="productinformation_con">
-            <p class="productinformation_name">券后价券后价券后价券后价券后价</p>
-            <p class="productinformation_price"><span>¥128.00</span><label>券后价</label><b>¥128.00</b></p>
-            <p class="productinformation_xl"><span>销量898</span><label>成交订单898</label></p>
-            <p class="productinformation_stock"><span>库存8</span><label>下架时间2018/08/08</label></p>
+            <p class="productinformation_name">{{datalist.goods_name}}</p>
+            <p class="productinformation_price"><span>￥{{datalist.shop_price}}</span><label>券后价:</label><b>￥{{datalist.markte_price}}<i></i></b></p>
+            <p class="productinformation_xl"><span>销量:{{datalist.ogm}}</span><label>成交订单:{{datalist.order_count}}</label></p>
+            <p class="productinformation_stock"><span>库存:{{datalist.goods_stock}}</span><label>下架时间:{{datalist.create_time.split(" ")[0]}}</label></p>
           </div>
         </div>
 
@@ -19,17 +20,17 @@
           <li v-bind:class="{'borColor':isColor3}" @click="linkToDetail3">已完成</li>
           <li v-bind:class="{'borColor':isColor4}" @click="linkToDetail4">已取消</li>
         </ul>
-
-        <div class="productinformation_tgy">
-          <p class="productinformation_tgyname"><span>推广员：张三丰</span><label>待支付</label></p>
-          <div class="productinformation_cont"><img src="" alt=""><span>天使艾栗栗</span><label>&nbsp;&nbsp;&nbsp;共两件商品</label><b>实付：<strong>¥288.00</strong></b></div>
-          <p class="productinformation_time"><span>下单时间：2018-09-08 11:00</span><label>查看订单信息</label></p>
+        <div class="productinformation_tgy" v-for="(item,index) in goodlist">
+          <p class="productinformation_tgyname"><span>推广员：{{item.first_leader_name}}</span><label>{{item.status_name}}</label></p>
+          <div class="productinformation_cont"><img :src="item.head_pic" alt=""><span>{{item.truename}}</span><label>&nbsp;&nbsp;&nbsp;共{{item.total_count}}件商品</label><b>实付：<strong>{{item.order_amount}}</strong></b></div>
+          <p class="productinformation_time"><span>下单时间：{{item.add_time}}</span><label @click="ToCustomer(item.id)">查看订单信息</label></p>
         </div>
     </div>
 </template>
 
 <script>
 import $ from 'jquery'
+import axios from 'axios'
 import * as myPub from '@/assets/js/public.js'
 import * as openId from '@/assets/js/opid_public.js'
 export default {
@@ -39,10 +40,13 @@ export default {
         isColor1:true,
         isColor2:false,
         isColor3:false,
-        isColor4:false
+        isColor4:false,
+        datalist:'',
+        goodlist:''
       }
      },
     created() {
+      this.goodsdata()
     },
     computed: {
     },
@@ -50,34 +54,125 @@ export default {
         this.$destroy()
     },
     methods: {
+      // 全部
       linkToDetail1(){
         const _this=this;
         _this.isColor1=true,
         _this.isColor2=false,
         _this.isColor3=false,
         _this.isColor4=false
+        _this.public_tab('0')
       },
+      // 进行中
       linkToDetail2(){
         const _this=this;
         _this.isColor2=true,
         _this.isColor1=false,
         _this.isColor3=false,
         _this.isColor4=false
+        _this.public_tab('1')
       },
+      // 已完成
       linkToDetail3(){
         const _this=this;
         _this.isColor3=true,
         _this.isColor1=false,
         _this.isColor2=false,
         _this.isColor4=false
+        _this.public_tab('2')
       },
+      // 已取消
       linkToDetail4(){
         const _this=this;
         _this.isColor4=true,
         _this.isColor1=false,
         _this.isColor3=false,
         _this.isColor2=false
-      }
+        _this.public_tab('3')
+      },
+      ToDetail(id) {
+          id = this.$route.query.id
+          this.$router.push({ path: '/page/detail', query: { id: id } })
+      },
+      ToCustomer(id) {
+          this.$router.push({ path: '/page/Customer', query: { id: id } })
+      },
+      // 数据请求接口
+      goodsdata(){
+        const url =`${myPub.URL}/merchant/Shop/goodsOrder`;
+        const id = this.$route.query.id
+        const _this = this
+        var params = new URLSearchParams();
+        params.append('token',localStorage.currentUser_token);
+        params.append('open_id',`${openId.open_id}`);
+        params.append('type','0');
+        params.append('id',id);
+        axios.post(url,params).then(response => {
+          _this.$loading.show();
+          const status = response.data.status
+          console.log(response)
+          if (status == "200") {
+              setTimeout(() => {
+                _this.$loading.hide();//隐藏
+                const data =response.data.data
+                _this.datalist = data.goods_info
+                _this.goodlist=data.order_list
+                console.log(_this.datalist)
+                console.log(_this.goodlist)
+              }, 2000)
+            }
+          if (response.data.status =='1024') {
+            _this.$loading.hide();
+            this.$vux.alert.show({
+              content: response.data.msg
+            })
+          setTimeout(() => {
+            this.$vux.alert.hide()
+            location.href = '/login'
+          }, 3000)
+        }
+        }).catch((err) => {
+            console.log(err)
+        })
+      },
+      //数据请求封装方法
+     public_tab(a){
+        const url =`${myPub.URL}/merchant/Shop/goodsOrder`;
+        const id = this.$route.query.id
+        const _this = this
+        var params = new URLSearchParams();
+        params.append('token',localStorage.currentUser_token);
+        params.append('open_id',`${openId.open_id}`);
+        params.append('type',a);
+        params.append('id',id);
+        axios.post(url,params).then(response => {
+          _this.$loading.show();
+          const status = response.data.status
+          console.log(response)
+          if (status == "200") {
+              setTimeout(() => {
+                _this.$loading.hide();//隐藏
+                const data =response.data.data
+                _this.datalist = data.goods_info
+                _this.goodlist=data.order_list
+                console.log(_this.datalist)
+                console.log(_this.goodlist)
+              }, 2000)
+            }
+          if (response.data.status =='1024') {
+            _this.$loading.hide();
+            this.$vux.alert.show({
+              content: response.data.msg
+            })
+          setTimeout(() => {
+            this.$vux.alert.hide()
+            location.href = '/login'
+          }, 3000)
+        }
+        }).catch((err) => {
+            console.log(err)
+        })
+      },
     }
 }
 </script>
@@ -92,16 +187,17 @@ export default {
     background-color:#ffffff;
     /*border-bottom:1px solid red;*/
     box-sizing: border-box;
-    padding:20px;
+    padding:1rem;
     .productinformation_img{
       float:left;
-      width:28%;
-      height:100%;
-      /*border:1px solid red;*/
+      width:30%;
+      position: relative;
+      img{width: 100%;}
+      p{position: absolute;background: rgba(0,0,0,.3);text-align: center;font-size: 0.8rem;color: #ffffff;width: 100%;bottom: 0;left: 0;}
     }
     .productinformation_con{
       float:right;
-      width:70%;
+      width:65%;
       height:100%;
       /*border:1px solid red; */
       .productinformation_name{
@@ -110,7 +206,7 @@ export default {
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
-        font-size:1rem;
+        font-size:0.9rem;
         color:#333333;
       } 
       .productinformation_price{
@@ -123,7 +219,7 @@ export default {
         }
         label{
           display:inline-block;
-          height:21px;
+          padding: 0rem 0.2rem;
           font-size:0.7rem;
           color:#F54321;
           border:1px solid #F54321;
@@ -134,30 +230,37 @@ export default {
           font-size:0.7rem;
           color:#999999;
           margin-left:9px;
+          position: relative;
+          i{
+            position: absolute;
+            width: 100%;
+            height: 1px;
+            background: #777777;
+            left: 0;
+            top: 50%;
+          }
         }
       } 
       .productinformation_xl{
         margin-top:10px;
         width:100%;
-        height:17px;
-        font-size:0.7rem;
+        font-size:0.8rem;
         color:#777777;
         span{
           display:inline-block;
           width:20%;
-          margin-right:50px;
+          margin-right:1rem;
         }
       } 
       .productinformation_stock{
         margin-top:10px;
         width:100%;
-        height:17px;
-        font-size:0.7rem;
+        font-size:0.8rem;
         color:#777777;
         span{
           display:inline-block;
           width:20%;
-          margin-right:50px;
+          margin-right:1rem;
         }
       }
     }
@@ -177,26 +280,26 @@ export default {
     li{
       width:25%;
       text-align: center;
+      font-size: 0.9rem;
     }
     .borColor{
-      border-bottom:1px solid #F54321;
+      border-bottom:2px solid #F54321;
       color:#F54321;
     }
   }
   /*推廣員樣式*/
   .productinformation_tgy{
     margin-top:10px;
-    height:155px;
+    min-height:155px;
     background-color:#ffffff;
     box-sizing: border-box;
-    padding:20px;
+    padding:1rem;
     .productinformation_tgyname{
-      height:50px;
-      line-height:50px;
-      font-size:1rem;
+      height:2rem;
+      font-size:0.9rem;
       color:#333;
       border-bottom:1px solid #dedcdc;
-      label{float:right;}
+      label{float:right;color: #999999}
     }
   }
   .productinformation_cont{
@@ -218,12 +321,12 @@ export default {
       color:#333333;
     }
     label{
-      font-size:0.9rem;
+      font-size:0.8rem;
       color:#999999;
     }
     b{
       float:right;
-      font-size:0.9rem;
+      font-size:0.8rem;
       color:#999999;
       font-weight: 500;
       strong{
@@ -234,7 +337,7 @@ export default {
   }
   .productinformation_time{
       margin-top:16px;
-      font-size:0.9rem;
+      font-size:0.8rem;
       color:#999999;
       height:20px;
       line-height:20px;
@@ -247,6 +350,8 @@ export default {
       font-size:0.8rem;
       padding:3px;
       border:1px solid #DDDDDD;
+      position: relative;
+      top: -0.3rem;
     }
   }
 }
