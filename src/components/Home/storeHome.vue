@@ -225,7 +225,7 @@ export default {
         }
         li{min-width:100px;list-style: none;border: 1px solid #eeeeee;width: 6rem;float: left;margin-top: 1rem;padding: 0.5rem;margin-left: 1rem;
             h5{text-align: center;color: #333333}
-            p{font-size: 0.8rem;color: #999999;text-align: center;overflow: hidden;width: 90%;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;font-weight: normal;}
+            p{font-size: 0.8rem;color: #999999;text-align: center;overflow: hidden;width: 90%;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;font-weight: normal;height: 1.3rem;}
             img{display: block;width: 90%;margin-left: 5%;}
             .hide{display: none;}
         }

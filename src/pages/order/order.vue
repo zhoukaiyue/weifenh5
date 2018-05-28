@@ -71,38 +71,39 @@ export default {
   created() {
 
     const _this=this;
-    _this.orderdata()
-    console.log(_this.$route.query.id)
     const  a = _this.$route.query.id;
-    console.log(a)
-    if(a==0){
+    if (a) {
+      if(a==0){
+      console.log(a)
        this.public_orderdata(a)
        this.is_show1=true
        this.is_show2=false
        this.is_show3=false
        this.is_show4=false
-       console.log('1')
-    }
-    if(a==1){
-       this.public_orderdata(a)
-       this.is_show2=true
-       this.is_show1=false
-       this.is_show3=false
-       this.is_show4=false
-    }
-    if(a==2){
-       this.public_orderdata(a)
-       this.is_show3=true
-       this.is_show2=false
-       this.is_show1=false
-       this.is_show4=false
-    }
-    if(a==3){
-       this.public_orderdata(a)
-       this.is_show4=true
-       this.is_show2=false
-       this.is_show3=false
-       this.is_show1=false
+      }
+      if(a==1){
+         this.public_orderdata(a)
+         this.is_show2=true
+         this.is_show1=false
+         this.is_show3=false
+         this.is_show4=false
+      }
+      if(a==2){
+         this.public_orderdata(a)
+         this.is_show3=true
+         this.is_show2=false
+         this.is_show1=false
+         this.is_show4=false
+      }
+      if(a==3){
+         this.public_orderdata(a)
+         this.is_show4=true
+         this.is_show2=false
+         this.is_show3=false
+         this.is_show1=false
+      }
+    }else{
+      _this.orderdata()
     }
  },
   methods: {
@@ -185,40 +186,39 @@ export default {
         },2000);
     },
     public_orderdata(a){
-        const _this = this;
-        _this.$loading.show();//显示
         const url =`${myPub.URL}/merchant/Shop/order`;
+        const _this = this
+        _this.$loading.show();
         var params = new URLSearchParams();
         params.append('type',a); 
         params.append('token',localStorage.currentUser_token);;
         params.append('open_id',localStorage.openid);
         axios.post(url,params).then(response => {
           if (response.data.status =='1024') {
-            this.$vux.alert.show({
+              this.$vux.alert.show({
+                  content: response.data.msg
+              })
+              setTimeout(() => {
+                  this.$vux.alert.hide()
+                  location.href = '/login'
+              }, 3000)
+            }
+            // 状态码
+            if (response.data.status =='200') {
+              _this.$loading.hide();
+              const data = response.data.data
+              _this.datalist = data.list
+              console.log(_this.datalist)
+            }else{
+              this.$vux.alert.show({
                 content: response.data.msg
-            })
-            setTimeout(() => {
-                this.$vux.alert.hide()
-                location.href = '/login'
-            }, 3000)
-          }
-        // 状态码
-        if (response.data.status =='200') {
-          _this.$loading.hide();//隐藏
-          const data = response.data.data
-          _this.datalist = data.list
-          console.log(response)
-        }else{
-          this.$vux.alert.show({
-            content: response.data.msg
-          })
-          setTimeout(() => {
-              this.$vux.alert.hide()
-          }, 3000)
-        }
-          
+              })
+              setTimeout(() => {
+                  this.$vux.alert.hide()
+              }, 3000)
+            }
         }).catch((err) => {
-          console.log(err)
+            console.log(err)
         })
     },
     // 切换数据
@@ -261,9 +261,9 @@ export default {
       },
     //店铺订单全部数据
     orderdata(){
+        const _this = this;
+        _this.$loading.show();//显示
         const url =`${myPub.URL}/merchant/Shop/order`;
-        const _this = this
-        _this.loading.show()
         var params = new URLSearchParams();
         params.append('type','0'); 
         params.append('token',localStorage.currentUser_token);;
@@ -278,24 +278,23 @@ export default {
                 location.href = '/login'
             }, 3000)
           }
-          // 状态码
-          if (response.data.status =='200') {
-            _this.$loading.hide();
-            const data = response.data.data
-            _this.datalist = data.list
-            console.log(data)
-            console.log(_this.datalist)
-          }else{
-            this.$vux.alert.show({
-              content: response.data.msg
-            })
-            setTimeout(() => {
-                this.$vux.alert.hide()
-            }, 3000)
-          }
-            
+        // 状态码
+        if (response.data.status =='200') {
+          _this.$loading.hide();//隐藏
+          const data = response.data.data
+          _this.datalist = data.list
+          console.log(response)
+        }else{
+          this.$vux.alert.show({
+            content: response.data.msg
+          })
+          setTimeout(() => {
+              this.$vux.alert.hide()
+          }, 3000)
+        }
+          
         }).catch((err) => {
-            console.log(err)
+          console.log(err)
         })
     }
   }
