@@ -30,14 +30,16 @@ export default {
     computed: {
     },
     methods: {
-        login() {
-              this.$vux.alert.show({
-                      title: '提示',
-                      content: '该功能暂未开启，敬请期待'
-                })
-                setTimeout(() => {
-                    this.$vux.alert.hide()
-                }, 3000)
+        login(openid) {
+          openid = localStorage.openid
+          location.href = 'http://im.weifenvip.com/?c=service&openid=$openid&gid=$goods_id&oid=$order'
+          // this.$vux.alert.show({
+          //         title: '提示',
+          //         content: '该功能暂未开启，敬请期待'
+          //   })
+          //   setTimeout(() => {
+          //       this.$vux.alert.hide()
+          //   }, 3000)
         },
     }
 }
