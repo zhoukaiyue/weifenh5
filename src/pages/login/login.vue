@@ -57,20 +57,7 @@ export default {
             phoneNumber: ''
         }
     },
-     watch: {
-          // 通过watch来设置空格
-          phoneNumber(newValue, oldValue) {
-          if (newValue.length > oldValue.length) { // 文本框中输入
-           if (newValue.length === 3 || newValue.length === 8) {
-           this.phoneNumber += ' '
-           }
-          } else { // 文本框中删除
-           if (newValue.length === 9 || newValue.length === 4) {
-           this.phoneNumber = this.phoneNumber.trim()
-           }
-          }
-          }
-     },
+
     created() {
     },
     deactivated () {
@@ -89,10 +76,10 @@ export default {
                 this.$vux.toast.text('请输入手机号~', 'middle')
                 return
             }
-            // if (!reg.test(this.phoneNumber)) {
-            //     this.$vux.toast.text('手机号格式不正确~', 'middle')
-            //     return
-            // }
+            if (!reg.test(this.phoneNumber)) {
+                this.$vux.toast.text('手机号格式不正确~', 'middle')
+                return
+            }
             this.time = 120
             this.disabled = true
             this.timer()
