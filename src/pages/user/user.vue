@@ -44,7 +44,7 @@
                     </div>
                     <div class="order-main">
                         <div class="item-left">
-                            <img :src="item.snap_img"></img>
+                            <img v-lazy="item.snap_img"></img>
                         </div>
                         <div class="item-middle">
                             <div>{{item.snap_name}}</div>

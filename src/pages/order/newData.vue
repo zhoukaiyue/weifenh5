@@ -318,6 +318,7 @@ export default {
     },
     order(a){
       const _this = this;
+      _this.$loading.show()
       var arr = [];
       var Data = [];
       const url =`${myPub.URL}/merchant/Shop/dataStatistics`;
@@ -335,6 +336,9 @@ export default {
                   location.href = '/login'
               }, 3000)
             }
+            // 状态码
+            if (response.data.status =='200') {
+              _this.$loading.hide();//隐藏
               const data = response.data.data
               var objdata = data.order_data_yin;
               for(var i in objdata){
@@ -342,7 +346,14 @@ export default {
                Data.push(objdata[i])
               }
                _this.yx_display(arr,Data);
-            
+            }else{
+              this.$vux.alert.show({
+                content: response.data.msg
+              })
+              setTimeout(() => {
+                  this.$vux.alert.hide()
+              }, 3000)
+            }
           }).catch((err) => {
               console.log(err)
           })

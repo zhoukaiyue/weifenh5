@@ -12,7 +12,7 @@
         <ul class="dylist">
             <li class="dylist_title"><span>店员</span><label>引客数量</label></li>
             <!--店员排名列表循环体-->
-             <li v-for="(item,index) in products" class="dylist_cont" ><span class="dylist_mc">{{item.mc}}</span><img :src="item.head_pic" alt="" class="dylist_tx"><span class="dylist_name">{{item.truename}}</span><label class="dylist_num">{{item.member_count}}</label></li>
+             <li v-for="(item,index) in products" class="dylist_cont" ><span class="dylist_mc">{{item.mc}}</span><img v-lazy="item.head_pic" alt="" class="dylist_tx"><span class="dylist_name">{{item.truename}}</span><label class="dylist_num">{{item.member_count}}</label></li>
         </ul>
     </div>
 </template>
@@ -55,7 +55,7 @@ export default {
            $('.store_users_date').show()
             _this.$loading.show();//显示
             setTimeout(function(){  //模拟请求
-                _this.$loading.hide(); //隐藏
+                _this.$loading.show(); //隐藏
                 const url =`${myPub.URL}/merchant/Shop/inviteRanking`;
                 var params = new URLSearchParams();
                 params.append('token',localStorage.currentUser_token);;
@@ -70,8 +70,20 @@ export default {
                           location.href = '/login'
                       }, 3000)
                     }
-                    const status = response.data.status
+                     // 状态码
+                    if (response.data.status =='200') {
+                      _this.$loading.hide();//隐藏
+                       const status = response.data.status
                     console.log(response)
+                    }else{
+                        this.$vux.alert.show({
+                            content: response.data.msg
+                        })
+                        setTimeout(() => {
+                            this.$vux.alert.hide()
+                        }, 3000)
+                    }
+                    
                     
                 }).catch((err) => {
                     console.log(err)
@@ -128,6 +140,7 @@ export default {
         Invite(){
             const url =`${myPub.URL}/merchant/Shop/inviteRanking`;
             const _this = this
+            _thi.$loading.show()
             const params = new URLSearchParams();
             params.append('token',localStorage.currentUser_token);;
             params.append('open_id',localStorage.openid);
@@ -141,10 +154,17 @@ export default {
                       location.href = '/login'
                   }, 3000)
                 }
-                const data = response.data.data
+                 // 状态码
+                if (response.data.status =='200') {
+                  _this.$loading.hide();//隐藏
+                  const data = response.data.data
                 _this.products = data
                 console.log(data)
-                
+                }else{
+                    this.$vux.alert.show({
+                    content: response.data.msg
+                    })
+                }
             }).catch((err) => {
                 console.log(err)
             })

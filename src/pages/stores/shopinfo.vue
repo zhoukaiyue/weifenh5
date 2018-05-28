@@ -41,6 +41,8 @@ export default {
         },
         // 更改店铺介绍
         description(){
+          const _this =this
+          _this.$loading.show()
           const url =`${myPub.URL}/merchant/Shop/editInfo`;
           const description = $(".input").val();
           console.log(description)
@@ -49,7 +51,6 @@ export default {
           params.append('open_id',localStorage.openid);
           params.append('description',description);
           axios.post(url,params).then(response => {
-            // const currentUser_token = response.data.data //获取token
             console.log(response)
             if (response.data.status =='1024') {
               this.$vux.alert.show({
@@ -58,6 +59,16 @@ export default {
               setTimeout(() => {
                   this.$vux.alert.hide()
                   location.href = '/login'
+              }, 3000)
+            }
+            if (response.data.status =='200') {
+              _this.$loading.hide();
+            }else{
+              this.$vux.alert.show({
+                content: response.data.msg
+              })
+              setTimeout(() => {
+                  this.$vux.alert.hide()
               }, 3000)
             }
           }).catch((err) => {

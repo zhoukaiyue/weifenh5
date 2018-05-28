@@ -42,7 +42,7 @@
                     <li v-for="(item,index) in datalist" @click="maketing(item.id)">
                         <h5>{{item.cate_name}}</h5>
                         <p>{{item.description}}</p>
-                        <img src="~@/assets/img/goods.png">
+                        <img v-lazy="item.img_src">
                     </li>
                     <li>
                         <h5>美妆护肤</h5>
@@ -132,6 +132,7 @@ export default {
         // 首页数据接口
         indeData(){
           const _this = this
+          _this.$loading.show()
           const url =`${myPub.URL}/merchant/Shop/index`;
           const params = new URLSearchParams();
           params.append('token',localStorage.currentUser_token);
@@ -147,10 +148,18 @@ export default {
                   this.$router.push({path: '/login'});
               }, 3000)
             }
-            const data = response.data.data
-            this.num = data
-            this.datalist = data.category_list
-            console.log(response.data.status)
+            // 状态码
+            if (response.data.status =='200') {
+              _this.$loading.hide();//隐藏
+               const data = response.data.data
+                this.num = data
+                this.datalist = data.category_list
+                console.log(response.data.status)
+                }else{
+                  this.$vux.alert.show({
+                  content: response.data.msg
+                })
+            }
           }).catch((err) => {
             console.log(err)
           })
@@ -216,7 +225,7 @@ export default {
         }
         li{min-width:100px;list-style: none;border: 1px solid #eeeeee;width: 6rem;float: left;margin-top: 1rem;padding: 0.5rem;margin-left: 1rem;
             h5{text-align: center;color: #333333}
-            p{font-size: 0.8rem;color: #999999;text-align: center;}
+            p{font-size: 0.8rem;color: #999999;text-align: center;overflow: hidden;width: 90%;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;font-weight: normal;}
             img{display: block;width: 90%;margin-left: 5%;}
             .hide{display: none;}
         }

@@ -21,7 +21,7 @@
             <ul>
                 <li class="bb t" v-for="(item,index) in datalist">
                     <div class="goods-img" v-on:click="linkToDetail(item.goods_id)">
-                        <img :src="item.img_src">
+                        <img v-lazy="item.img_src">
                         <p>{{item.recpos_name}}</p>
                         <div class="mb"><span>已售罄</span></div>
                     </div>
@@ -98,22 +98,13 @@ export default {
     // 加入营销商品
     join(id) {
         const _this =this
+        _this.$loading.show();//隐藏
         const url =`${myPub.URL}/merchant/Shop/addGoods`;
         var params = new URLSearchParams();
         params.append('token',localStorage.currentUser_token);
-        // params.append('open_id',localStorage.openid);
         params.append('open_id',localStorage.openid);
         params.append('id',id);
         axios.post(url,params).then(response => {
-            const data = response.data
-            console.log(response)
-            this.$vux.alert.show({
-                content: data.msg
-            })
-            setTimeout(() => {
-                this.$vux.alert.hide()
-                _this.Marketinggoods()
-            }, 3000)
             if (response.data.status =='1024') {
               this.$vux.alert.show({
                   content: response.data.msg
@@ -122,6 +113,23 @@ export default {
                   this.$vux.alert.hide()
                   location.href = '/login'
               }, 3000)
+            }
+            // 状态码
+            if (response.data.status =='200') {
+              _this.$loading.hide();//隐藏
+               const data = response.data
+                console.log(response)
+                this.$vux.alert.show({
+                    content: data.msg
+                })
+                setTimeout(() => {
+                    this.$vux.alert.hide()
+                    _this.Marketinggoods()
+                }, 3000)
+            }else{
+                this.$vux.alert.show({
+                content: response.data.msg
+                })
             }
         }).catch((err) => {
             console.log(err)

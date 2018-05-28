@@ -4,7 +4,7 @@
     <div class='finish_room2'>
        <div class='room_add_btn'>
            <!-- <ossFile :imgs='imgs' :message="msg"></ossFile> -->
-            <img :src="imgs" alt="" style="width:100%;height:100%;border-radius:50%;">
+            <img v-lazy="imgs" alt="" style="width:100%;height:100%;border-radius:50%;">
         </div>
     </div>
     <p class="store_tishi">（点击图像可进行更换）</p>

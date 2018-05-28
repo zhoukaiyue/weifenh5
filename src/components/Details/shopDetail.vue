@@ -36,7 +36,7 @@
                 </div>
                 <div class="country">
                     <div class="country_span">来自
-                    <img :src="product.natinal_flag" alt="">
+                    <img v-lazy="product.natinal_flag" alt="">
                     {{product.natinal_name}}日本</div>
                     <div class="country_label">本商品售价已含税，无需额外支付税费</div>
                  </div>
@@ -89,7 +89,7 @@
                 <div class="img-box">
                   <h5>{{product.shop_name}}赠福利啦~</h5>
                   <p>{{product.goods_name}}</p>
-                  <img :src="product.img_src">
+                  <img v-lazy="product.img_src">
                 </div>
                 <div @click="showHideOnBlur=false" class="qrcode_box clearfix">
                    <qrcode :value="code_url"  id="fx-qcode" type="img"></qrcode>

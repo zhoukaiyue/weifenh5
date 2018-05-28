@@ -75,10 +75,10 @@
         <!-- 商品列表 -->
         <div class="goods-list">
             <ul>
-                <li v-for="(item,index) in goodlist" v-show="show" @click='ToCommoditydetail(item.goods_id)'>
-                    <div class="bb t">
+                <li v-for="(item,index) in goodlist" v-show="show" >
+                    <div class="bb t" @click='ToCommoditydetail(item.goods_id)'> 
                         <div class="goods-img">
-                            <img :src='item.img_src'>
+                            <img v-lazy='item.img_src'>
                             <p>{{item.recpos_name}}</p>
                         </div>
                         <div class="goods clerfix"  >

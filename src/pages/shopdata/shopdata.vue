@@ -23,7 +23,7 @@
                     <h5 class="clearfix"><span>订单编号:{{item.sn}}</span><span class="fr">{{item.status_name}}</span></h5>
                     <div class="bb t">
                         <div class="goods-img" v-on:click="linkToDetail(item.id)">
-                            <img :src="item.img_src">
+                            <img v-lazy="item.img_src">
                         </div>
                         <div class="goods" >
                             <h5>{{item.goods_name}}</h5>

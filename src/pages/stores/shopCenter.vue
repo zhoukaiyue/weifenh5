@@ -92,6 +92,7 @@ export default {
         // 请求数据接口
         mcenterdata(){
           const _this = this;
+          _this.$loading.show()
           const url =`${myPub.URL}/merchant/Shop/shopCore`;
           const params = new URLSearchParams();
           params.append('token',localStorage.currentUser_token);
@@ -106,8 +107,15 @@ export default {
                   location.href = '/login'
               }, 3000)
             }
-            console.log(response.data.data)
-            _this.scdata = response.data.data;
+            if (response.data.status =='200') {
+              _this.$loading.hide();
+              console.log(response.data.data)
+              _this.scdata = response.data.data;
+            }else{
+              this.$vux.alert.show({
+              content: response.data.msg
+              })
+            }
           }).catch((err) => {
             console.log(err)
           })

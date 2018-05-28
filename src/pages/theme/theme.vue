@@ -1,7 +1,7 @@
 <template>
     <div class="theme">
         <div class="banner">
-            <img :src="banner"
+            <img v-lazy="banner"
                 alt="">
         </div>
         <products :products="themeList"></products>

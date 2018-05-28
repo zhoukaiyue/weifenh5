@@ -318,6 +318,7 @@ export default {
 	},
 	order(a){
       const _this = this;
+      _this.$loading.show()
       var arr = [];
       var Data = [];
       const url =`${myPub.URL}/merchant/Shop/dataStatistics`;
@@ -335,6 +336,9 @@ export default {
                     location.href = '/login'
                 }, 3000)
               }
+            // 状态码
+            if (response.data.status =='200') {
+              _this.$loading.hide();
               const data = response.data.data
               this.shopdata = data.member_data
               var objdata = this.shopdata.seven;
@@ -343,12 +347,21 @@ export default {
                Data.push(objdata[i])
               }
                _this.yx_display(arr,Data);
+            }else{
+              this.$vux.alert.show({
+                content: response.data.msg
+              })
+              setTimeout(() => {
+                  this.$vux.alert.hide()
+              }, 3000)
+            }
           }).catch((err) => {
               console.log(err)
           })
     },
     new(b){
       const _this = this;
+      _this.$loading.show()
       var arr = [];
       var Data = [];
       const url =`${myPub.URL}/merchant/Shop/dataStatistics`;
@@ -366,13 +379,24 @@ export default {
                     location.href = '/login'
                 }, 3000)
               }
+             //状态码
+            if (response.data.status =='200') {
+              _this.$loading.hide();
               const data = response.data.data
               var objdata = data.member_data;
               for(var i in objdata){
                arr.push(objdata[i].truename)
                Data.push(objdata[i].member_count)
               }
-               _this.yh_display(arr,Data);               
+               _this.yh_display(arr,Data);
+            }else{
+              this.$vux.alert.show({
+                content: response.data.msg
+              })
+              setTimeout(() => {
+                  this.$vux.alert.hide()
+              }, 3000)
+            }
           }).catch((err) => {
               console.log(err)
           })

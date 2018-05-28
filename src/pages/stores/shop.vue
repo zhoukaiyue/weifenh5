@@ -18,7 +18,7 @@
               <tr v-for="(item,$index) in lists" style="height:60px">
                 <td class="td1" style="padding-left:14px;box-sizing:border-box;">
                   <input type="checkbox" :value="item.id" v-model="checked" @click="currClick(item,$index)" :id='item.id'>  <label :for="item.id" class="cb-label"></label>
-                  <img :src="item.head_pic" alt="" class="oimg">&emsp;
+                  <img v-lazy="item.head_pic" alt="" class="oimg">&emsp;
                   <span>{{item.truename}}</span>
                 </td>
                 <td class="dy_td">{{item.username}}</td>

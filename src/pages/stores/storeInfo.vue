@@ -40,7 +40,7 @@
         <span class="zz_text">营业执照</span>
         <div class='finish_zhizhao'>
                <div  class='zhizhao_img'>
-                  <img :src="datas.img_src">
+                  <img v-lazy="datas.img_src">
                </div>
            </div>
       </li>
@@ -126,6 +126,7 @@ import ossFile from '../../components/oss_file'
         // 商铺数据接口
         binfo_data(){
           const _this= this;
+          _this.$loading.show()
           const url =`${myPub.URL}/merchant/Shop/shopInfo`;
           const params = new URLSearchParams();
           params.append('token',localStorage.currentUser_token);
@@ -140,20 +141,30 @@ import ossFile from '../../components/oss_file'
                   this.$router.push({path: '/login'});
               }, 3000)
             }
-            const data = response.data.data
-            const str=data.mobile;
-            const str2 = str.substr(0,3)+"****"+str.substr(7);
-            console.log(str2)
-            _this.type2=str2
-            _this.datas=data
-            _this.mobile = data.mobile;
-            _this.imgs = data.head_pic
-            console.log(data)
-            if (data.company_model == '1') {
-              _this.type = '直营分店'
-            }
-            if (data.company_model == '2') {
-              _this.type = '加盟'
+            if (response.data.status =='200') {
+               _this.$loading.hide();
+              const data = response.data.data
+              const str=data.mobile;
+              const str2 = str.substr(0,3)+"****"+str.substr(7);
+              console.log(str2)
+              _this.type2=str2
+              _this.datas=data
+              _this.mobile = data.mobile;
+              _this.imgs = data.head_pic
+              console.log(data)
+              if (data.company_model == '1') {
+                _this.type = '直营分店'
+              }
+              if (data.company_model == '2') {
+                _this.type = '加盟'
+              }
+            }else{
+              this.$vux.alert.show({
+                content: response.data.msg
+              })
+              setTimeout(() => {
+                  this.$vux.alert.hide()
+              }, 3000)
             }
           }).catch((err) => {
             console.log(err)

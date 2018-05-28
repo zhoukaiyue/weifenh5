@@ -147,6 +147,8 @@ export default {
         },
         // 店铺邀新数据
         Invitenew(){
+            const _this =this
+            _this.$loading.show()
             const url =`${myPub.URL}/merchant/Shop/inviteRanking`;
             var params = new URLSearchParams();
             params.append('token',localStorage.currentUser_token);;
@@ -161,8 +163,18 @@ export default {
                   location.href = '/login'
               }, 3000)
             }
+             if (response.data.status =='200') {
+                _this.$loading.hide();
                 const data = response.data
                 console.log(response)
+            }else{
+                  this.$vux.alert.show({
+                    content: response.data.msg
+                  })
+                  setTimeout(() => {
+                      this.$vux.alert.hide()
+                  }, 3000)
+                }
             }).catch((err) => {
                 console.log(err)
             })

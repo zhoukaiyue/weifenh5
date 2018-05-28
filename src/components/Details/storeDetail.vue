@@ -38,7 +38,7 @@
                 </div>
                 <div class="country">
                     <div class="country_span">来自
-                    <img :src="product.natinal_flag" alt="">
+                    <img v-lazy="product.natinal_flag" alt="">
                     {{product.natinal_name}}日本</div>
                     <div class="country_label">本商品售价已含税，无需额外支付税费</div>
                  </div>
@@ -91,7 +91,7 @@
                     <div class="img-box">
                       <h5>{{product.shop_name}}赠福利啦~</h5>
                       <p>{{product.goods_name}}</p>
-                      <img :src="product.img_src">
+                      <img v-lazy="product.img_src">
                     </div>
                     <div @click="showHideOnBlur=false" class="qrcode_box clearfix">
                        <qrcode value="http://weixin.qq.com/q/02k5PNp0zhdzi10000g07J"  id="fx-qcode" type="img"></qrcode>
@@ -188,6 +188,7 @@ export default {
         // 商品数据
         goods(){
             const _this = this;
+            _this.$loading.show();
             const url =`${myPub.URL}/merchant/Shop/goodsInfo`;
             const id = this.$route.query.id
             const params = new URLSearchParams();
@@ -205,7 +206,10 @@ export default {
                       location.href = '/login'
                   }, 3000)
                 }
-                const data = response.data.data
+                // 状态码
+                if (response.data.status =='200') {
+                  _this.$loading.hide();//隐藏
+                   const data = response.data.data
                 console.log(response.data.data)
                 _this.product = response.data.data;
                 _this.demo01_list =data.goods_photo
@@ -213,6 +217,11 @@ export default {
                     _this.isshow11=true
                 }
                 console.log(_this.demo01_list)
+                }else{
+                  this.$vux.alert.show({
+                      content: response.data.msg
+                  })
+                }
             }).catch((err) => {
                 console.log(err)
             })

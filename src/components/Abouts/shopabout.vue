@@ -93,18 +93,6 @@ export default {
           params.append('token',localStorage.currentUser_token);
           params.append('open_id',localStorage.openid);
           axios.post(url,params).then(response => {
-            // if (response.data.status =='1024') {
-            //   this.$vux.alert.show({
-            //       content: response.data.msg
-            //   })
-            //   setTimeout(() => {
-            //       this.$vux.alert.hide()
-            //       location.href = '/login'
-            //   }, 3000)
-            // }
-            // console.log(response.data.status)
-            // _this.scdata = response.data.data;
-
             //状态码
             const ost = response.data.status;
             // 当前状态为未登录状态 提示用户登录

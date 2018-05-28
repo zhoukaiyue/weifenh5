@@ -94,11 +94,13 @@ export default {
         // 请求数据接口
         mcenterdata(){
           const _this = this;
+          _this.$loading.show();//隐藏
           const url =`${myPub.URL}/merchant/Shop/shopCore`;
           const params = new URLSearchParams();
           params.append('token',localStorage.currentUser_token);
           params.append('open_id',localStorage.openid);
           axios.post(url,params).then(response => {
+            // 登录状态不正确
             if (response.data.status =='1024') {
               this.$vux.alert.show({
                   content: response.data.msg
@@ -108,8 +110,16 @@ export default {
                   location.href = '/login'
               }, 3000)
             }
-            console.log(response.data.status)
-            _this.scdata = response.data.data;
+            // 状态码
+            if (response.data.status =='200') {
+              _this.$loading.hide();//隐藏
+                console.log(response.data.status)
+              _this.scdata = response.data.data;
+            }else{
+              this.$vux.alert.show({
+                  content: response.data.msg
+              })
+            }
           }).catch((err) => {
             console.log(err)
           })

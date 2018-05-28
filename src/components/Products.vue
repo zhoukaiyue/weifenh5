@@ -5,7 +5,7 @@
             :key="index"
             :data-id="item.id"
             @click="linkToDetail">
-            <img :src="item.main_img_url"
+            <img v-lazy="item.main_img_url"
                 alt="image"
                 class="products-image">
             <div class="products-item-bottom">

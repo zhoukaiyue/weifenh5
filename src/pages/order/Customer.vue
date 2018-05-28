@@ -1,7 +1,7 @@
 <template>
     <div class="goods">
       <div class="title">
-        <img class="order" src="~@/assets/icon/white.png">&ensp;订单状态：<span>待收货</span>
+        <img class="order" src="~@/assets/icon/white.png">&ensp;订单状态：<span>{{datalist.status_name}}</span>
       </div>
       <div class="address">
           <img class="position" src="~@/assets/icon/position.png">
@@ -16,7 +16,7 @@
         <h5>推广店员：<span>{{datalist.first_leader_name}}</span></h5>
         <div class="clearfixss">
           <div class="Cusproductinformation_img">
-            <img :src="datalist.img_src" alt="">
+            <img v-lazy="datalist.img_src" alt="">
           </div>
           <div class="Cusproductinformation_con">
             <p class="Cusproductinformation_name">{{datalist.goods_name}}</p>
@@ -73,33 +73,39 @@ export default {
         const url =`${myPub.URL}/merchant/Shop/orderInfo`;
         const id = this.$route.query.id
         const _this = this
+         _this.$loading.show();
         var params = new URLSearchParams();
         params.append('token',localStorage.currentUser_token);
         params.append('open_id',localStorage.openid);
         params.append('id',id);
         axios.post(url,params).then(response => {
-          _this.$loading.show();
           const status = response.data.status
           console.log(response)
-          if (status == "200") {
-              setTimeout(() => {
-                _this.$loading.hide();//隐藏
-                const data =response.data.data
-                _this.datalist = data
-                _this.goodlist=data.order_list
-                console.log(_this.datalist)
-              }, 2000)
-            }
           if (response.data.status =='1024') {
             _this.$loading.hide();
-            this.$vux.alert.show({
-              content: response.data.msg
-            })
-          setTimeout(() => {
-            this.$vux.alert.hide()
-            location.href = '/login'
-          }, 3000)
-        }
+              this.$vux.alert.show({
+                content: response.data.msg
+              })
+            setTimeout(() => {
+              this.$vux.alert.hide()
+              location.href = '/login'
+            }, 3000)
+          }
+          // 状态码
+          if (response.data.status =='200') {
+              _this.$loading.hide();//隐藏
+            const data =response.data.data
+            _this.datalist = data
+            _this.goodlist=data.order_list
+            console.log(_this.datalist)
+            }else{
+              this.$vux.alert.show({
+                content: response.data.msg
+              })
+              setTimeout(() => {
+                  this.$vux.alert.hide()
+              }, 3000)
+            }
         }).catch((err) => {
             console.log(err)
         })

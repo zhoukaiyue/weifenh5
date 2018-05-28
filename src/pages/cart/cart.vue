@@ -15,7 +15,7 @@
                         </div>
                         <div class="cart-item-image"
                              @click="linkToDetail(item.id)">
-                            <img :src="item.main_img_url"
+                            <img v-lazy="item.main_img_url"
                                  alt="img">
                         </div>
                         <div class="cart-item-ctrl">

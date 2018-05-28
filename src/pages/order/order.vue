@@ -23,7 +23,7 @@
                     <h5 class="clearfix"><span>订单编号:{{item.sn}}</span><span class="fr">{{item.status_name}}</span></h5>
                     <div class="bb t">
                         <div class="goods-img" v-on:click="linkToDetail(item.id)">
-                            <img :src="item.img_src">
+                            <img v-lazy="item.img_src">
                         </div>
                         <div class="goods" >
                             <h5>{{item.goods_name}}</h5>
@@ -187,35 +187,45 @@ export default {
     public_orderdata(a){
         const _this = this;
         _this.$loading.show();//显示
-        setTimeout(function(){  //模拟请求
-              _this.$loading.hide(); //隐藏
-              const url =`${myPub.URL}/merchant/Shop/order`;
-              var params = new URLSearchParams();
-              params.append('type',a); 
-              params.append('token',localStorage.currentUser_token);;
-              params.append('open_id',localStorage.openid);
-              axios.post(url,params).then(response => {
-                if (response.data.status =='1024') {
-                  this.$vux.alert.show({
-                      content: response.data.msg
-                  })
-                  setTimeout(() => {
-                      this.$vux.alert.hide()
-                      location.href = '/login'
-                  }, 3000)
-                }
-                const data = response.data.data
-                _this.datalist = data.list
-                console.log(response)
-              }).catch((err) => {
-                console.log(err)
-              })
-        },2000);
+        const url =`${myPub.URL}/merchant/Shop/order`;
+        var params = new URLSearchParams();
+        params.append('type',a); 
+        params.append('token',localStorage.currentUser_token);;
+        params.append('open_id',localStorage.openid);
+        axios.post(url,params).then(response => {
+          if (response.data.status =='1024') {
+            this.$vux.alert.show({
+                content: response.data.msg
+            })
+            setTimeout(() => {
+                this.$vux.alert.hide()
+                location.href = '/login'
+            }, 3000)
+          }
+        // 状态码
+        if (response.data.status =='200') {
+          _this.$loading.hide();//隐藏
+          const data = response.data.data
+          _this.datalist = data.list
+          console.log(response)
+        }else{
+          this.$vux.alert.show({
+            content: response.data.msg
+          })
+          setTimeout(() => {
+              this.$vux.alert.hide()
+          }, 3000)
+        }
+          
+        }).catch((err) => {
+          console.log(err)
+        })
     },
     // 切换数据
     changeData(b){
         const url =`${myPub.URL}/merchant/Shop/order`;
         const _this = this
+        _this.$loading.show();
         var params = new URLSearchParams();
         params.append('type',b); 
         params.append('token',localStorage.currentUser_token);;
@@ -230,10 +240,21 @@ export default {
                   location.href = '/login'
               }, 3000)
             }
-            const data = response.data.data
-            _this.datalist = data.list
-            console.log(data)
-            console.log(_this.datalist)
+            // 状态码
+            if (response.data.status =='200') {
+              _this.$loading.hide();
+              const data = response.data.data
+              _this.datalist = data.list
+              console.log(data)
+              console.log(_this.datalist)
+            }else{
+              this.$vux.alert.show({
+                content: response.data.msg
+              })
+              setTimeout(() => {
+                  this.$vux.alert.hide()
+              }, 3000)
+            }
         }).catch((err) => {
             console.log(err)
         })
@@ -242,24 +263,37 @@ export default {
     orderdata(){
         const url =`${myPub.URL}/merchant/Shop/order`;
         const _this = this
+        _this.loading.show()
         var params = new URLSearchParams();
         params.append('type','0'); 
         params.append('token',localStorage.currentUser_token);;
         params.append('open_id',localStorage.openid);
         axios.post(url,params).then(response => {
           if (response.data.status =='1024') {
-              this.$vux.alert.show({
-                  content: response.data.msg
-              })
-              setTimeout(() => {
-                  this.$vux.alert.hide()
-                  location.href = '/login'
-              }, 3000)
-            }
+            this.$vux.alert.show({
+                content: response.data.msg
+            })
+            setTimeout(() => {
+                this.$vux.alert.hide()
+                location.href = '/login'
+            }, 3000)
+          }
+          // 状态码
+          if (response.data.status =='200') {
+            _this.$loading.hide();
             const data = response.data.data
             _this.datalist = data.list
             console.log(data)
             console.log(_this.datalist)
+          }else{
+            this.$vux.alert.show({
+              content: response.data.msg
+            })
+            setTimeout(() => {
+                this.$vux.alert.hide()
+            }, 3000)
+          }
+            
         }).catch((err) => {
             console.log(err)
         })
