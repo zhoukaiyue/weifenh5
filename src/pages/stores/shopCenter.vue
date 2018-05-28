@@ -36,7 +36,7 @@
       </ul>
     </div>
     <p class="help_center">帮助中心</p>
-    <p class="customer_service">联系客服</p>
+    <p class="customer_service" v-on:click="customer">联系客服</p>
   </div>
 </template>
 
@@ -65,10 +65,21 @@ export default {
             this.mcenterdata()
     },
     methods: {
-        // switchCategory(index, id) {
-        //     this.currentIndex = index
-        //     this.getProduct(id)
-        // },
+        customer(){
+          const url = 'http://im.weifenvip.com/?c=service&openid=$openid&gid=$goods_id&oid=$order'
+          var params = new URLSearchParams();
+          params.append('open_id',`${openId.open_id}`);
+          axios.post(url,params).then(response => {
+            console.log(response)
+            const status = response.status
+            console.log(status)
+            if (status == "200") {
+              location.href = 'http://im.weifenvip.com/?c=service&openid=$openid&gid=$goods_id&oid=$order'
+            }
+          }).catch((err) => {
+              console.log(err)
+          })
+        },
         shop() {
             this.$router.push({ path: '/page/shop'})
         },

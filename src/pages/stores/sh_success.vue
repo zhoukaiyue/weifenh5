@@ -14,6 +14,7 @@
 import { GroupTitle, Group, Cell, XInput, Selector, PopupPicker, Datetime, XNumber, ChinaAddressData, XAddress, XTextarea, XSwitch,Panel, Radio,XButton,Box} from 'vux'
 import Vue from 'vue'
 import $ from 'jquery'
+import axios from 'axios'
 import * as myPub from '@/assets/js/public.js'
 import * as openId from '@/assets/js/opid_public.js'
 export default {
@@ -31,15 +32,19 @@ export default {
     },
     methods: {
         login(openid) {
-          openid = localStorage.openid
-          location.href = 'http://im.weifenvip.com/?c=service&openid=$openid&gid=$goods_id&oid=$order'
-          // this.$vux.alert.show({
-          //         title: '提示',
-          //         content: '该功能暂未开启，敬请期待'
-          //   })
-          //   setTimeout(() => {
-          //       this.$vux.alert.hide()
-          //   }, 3000)
+          const url = 'http://im.weifenvip.com/?c=service&openid=$openid&gid=$goods_id&oid=$order'
+          var params = new URLSearchParams();
+          params.append('open_id',`${openId.open_id}`);
+          axios.post(url,params).then(response => {
+            console.log(response)
+            const status = response.status
+            console.log(status)
+            if (status == "200") {
+              location.href = 'http://im.weifenvip.com/?c=service&openid=$openid&gid=$goods_id&oid=$order'
+            }
+          }).catch((err) => {
+              console.log(err)
+          })
         },
     }
 }

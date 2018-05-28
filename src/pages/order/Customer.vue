@@ -32,7 +32,7 @@
       <ul class="Cusproductinformation_xx">
         <li><span>商品总价</span><label>{{datalist.coupon_price}}</label></li>
         <li><span>税费</span><label>0</label></li>
-        <li><span>运费</span><label>0</label></li>
+        <li><span>运费</span><label>包邮</label></li>
         <li><span>总优惠</span><label>{{datalist.coupon_price}}</label></li>
         <li class="Cusproductinformation_total"><label>订单金额：<span>¥{{datalist.total_amount}}</span></label></li>
       </ul>
