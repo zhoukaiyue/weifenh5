@@ -14,26 +14,16 @@
         </div>
         <div class="login—prompt">成功入驻店加圈，即可开启线上引客之路</div>
         <group>
-        <x-input placeholder="请输入您的手机号"
-                 :max="11"
-                 type="tel"
-                 v-model="phoneNumber"
-                 is-type="china-mobile">
-        </x-input>
-        <x-input type="text"
-                 placeholder="请输入验证码"
-                 v-model="verifyCode"
-               >
-
-                  <x-button slot="right"
-                      type="primary"
-                      mini
-                      :text="btnText"
-                      :disabled="disabled"
-                      @click.native="sendCode" class="verification">
-                 </x-button>
-        </x-input>
         </group>
+        <div class="logo-cont">   
+            <p>
+                <input type="phone" v-model="phoneNumber" maxlength="13" placeholder="请输入您的手机号" class="input1">
+            </p>
+            <p>
+                <input type="number" v-model="verifyCode"  oninput="if(value.length>4)value=value.slice(0,4)"  placeholder="请输入验证码" class="input2"> 
+                <span  @click="sendCode" class="verification">{{btnText}}</span>
+            </p>      
+        </div>
         <div style="padding:15px;margin-top:30px;">
             <div v-on:click="login"><x-button  type="primary" class="x-button"> 登录 </x-button></div>
             <div class="registered"><span class="registered_span">没有账号？</span><label v-on:click="settlein" class="registered_label">申请入住</label></div>
@@ -53,7 +43,7 @@ export default {
     name: 'Login',
     data() {
         return {
-            btnText: '发送验证码',
+            btnText: '获取验证码',
             disabled: false,
             time: 0,
             memname: '',
@@ -64,28 +54,31 @@ export default {
             BaseUrl: '',
             JsApiData: '',
             code_num: '',
+            phoneNumber: ''
         }
     },
+     watch: {
+          // 通过watch来设置空格
+          phoneNumber(newValue, oldValue) {
+          if (newValue.length > oldValue.length) { // 文本框中输入
+           if (newValue.length === 3 || newValue.length === 8) {
+           this.phoneNumber += ' '
+           }
+          } else { // 文本框中删除
+           if (newValue.length === 9 || newValue.length === 4) {
+           this.phoneNumber = this.phoneNumber.trim()
+           }
+          }
+          }
+     },
     created() {
     },
     deactivated () {
         this.$destroy()
     },
     activated() {
-        // localStorage.removeItem('token')
-        // localStorage.removeItem('userInfo')
-        // localStorage.removeItem('cartData')
-        // this.UPDATE_USERINFO({
-        //     userInfo: null
-        // })
     },
     mounted() {
-            // console.log('这是'+`${openId.open_id}`)
-            //   // 如果发现openid为空时再次向后台请求获取openid
-            //   if(`${openId.open_id}`==undefined||`${openId.open_id}`=='undefined'){
-            //     console.log('kong')
-            //      location.reload()
-            //   }
     },
     methods: {
         ...mapMutations(['UPDATE_USERINFO']),
@@ -96,10 +89,10 @@ export default {
                 this.$vux.toast.text('请输入手机号~', 'middle')
                 return
             }
-            if (!reg.test(this.phoneNumber)) {
-                this.$vux.toast.text('手机号格式不正确~', 'middle')
-                return
-            }
+            // if (!reg.test(this.phoneNumber)) {
+            //     this.$vux.toast.text('手机号格式不正确~', 'middle')
+            //     return
+            // }
             this.time = 120
             this.disabled = true
             this.timer()
@@ -304,6 +297,50 @@ export default {
         label{
             color:#ff8134;
         }
+    }
+}
+
+/*重构样式*/
+.logo-cont{
+    width:100%;
+    height:150px;
+    /*border:1px solid red;*/
+    box-sizing:border-box;
+    padding:15px;
+    p{
+        height:53px;
+        border-bottom: 1px solid #E7E7E7;
+        box-sizing:border-box;
+        .input1{
+            font-size:1rem;
+            line-height:53px;
+            color:#cccccc;
+            height:100%;
+            width:100%;
+            border: 0px;outline:none;cursor: pointer;
+        }
+        .input2{
+            font-size:1rem;
+            line-height:53px;
+            color:#cccccc;
+            height:100%;
+            width:40%;
+            float:left;
+            border: 0px;outline:none;cursor: pointer;
+        }
+        span{
+            float:right;
+            font-size:1rem;
+            height:33px;
+            margin-top:10px;
+            line-height:33px;
+            color:#cccccc;
+            width:auto;
+            padding:0px 5px;
+            box-sizing:border-box;
+            border: 1px solid #E7E7E7;
+        }
+
     }
 }
 </style>
