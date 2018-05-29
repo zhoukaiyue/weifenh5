@@ -6,7 +6,12 @@
               <p>您的入驻申请已提交成功</p>
               <p class="x-word">24小时内市场专员将与你联系</p>
           </div>
-          <span v-on:click="login" class="button">联系客服&nbsp;&nbsp;快速审核</span>
+          <form action="http://im.weifenvip.com/?c=service" method="post">
+             <input type="hidden" name="openid" :value ='openid'>
+             <input type="hidden" name="goods_id" value =''>
+             <input type="hidden" name="oid" value = ''>
+             <input type="submit" style="cursor:pointer;outline:none" class="button" value="联系客服快速审核">
+          </form>
     </div>
 </template>
 
@@ -24,6 +29,7 @@ export default {
        show: true,
        count: '',
        timer: null,
+       openid:localStorage.openid
       }
      },
     created() {
@@ -31,21 +37,6 @@ export default {
     computed: {
     },
     methods: {
-        login(openid) {
-          const url = 'http://im.weifenvip.com/?c=service&openid=$openid&gid=$goods_id&oid=$order'
-          var params = new URLSearchParams();
-          params.append('open_id',localStorage.openid);
-          axios.post(url,params).then(response => {
-            console.log(response)
-            const status = response.status
-            console.log(status)
-            if (status == "200") {
-              location.href = 'http://im.weifenvip.com/?c=service&openid=$openid&gid=$goods_id&oid=$order'
-            }
-          }).catch((err) => {
-              console.log(err)
-          })
-        },
     }
 }
 </script>

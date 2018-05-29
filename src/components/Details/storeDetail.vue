@@ -6,8 +6,13 @@
              <swiper :list="demo01_list" v-model="demo02_index" @on-index-change="demo01_onIndexChange"></swiper>
             <div class="cart-box marketing-box">
                 <div class="product-counts">
-                    <div class="picker"></div>
-                    <span class="counts-tips">客服</span>
+                    <!-- <div class="picker"></div> -->
+                    <form action="http://im.weifenvip.com/?c=service" method="post" class="form_kf">
+                         <input type="hidden" name="openid" :value ='openid'>
+                         <input type="hidden" name="goods_id" :value ='goodsid'>
+                         <input type="hidden" name="oid" value = ''>
+                         <input type="submit" style="cursor:pointer;outline:none"  class="counts-tips" value="客服">
+                    </form>
                 </div>
                 <div class="add-cart-btn "  v-on:click="Joinmaketing" v-if="!isshow11">
                     <span class="add-cart">立即加入营销列表</span>
@@ -152,7 +157,9 @@ export default {
             couponlist:'',
             demo01_list: '',
             demo02_index: 1,
-            isshow11:false
+            isshow11:false,
+            openid:localStorage.openid,
+            goodsid:''
         }
     },
     deactivated () {
@@ -216,6 +223,8 @@ export default {
                     const data = response.data.data
                     console.log(response.data.data)
                     _this.product = response.data.data;
+                    _this.goodsid=response.data.data.country_id;
+
                     _this.demo01_list =data.goods_photo
                 if (data.limit_status == '1') {
                     _this.isshow11=true
@@ -422,10 +431,26 @@ export default {
     /*border:1px solid red;
     */
 }
+.form_kf{
+
+        height: 100%;
+        position: absolute;
+        top: 0;
+        width: 30%;
+        border:0;
+        background: transparent;
+}
 .counts-tips {
+    background:url(~@/assets/icon/kefu.png) no-repeat
+                        center 2px;
+    background-size: 25px 28px;
     display:block;
-    height:40%;
+    height:100%;
+    width:100%;
     font-size:1rem;
+    line-height:80px;
+    border:0;
+        /*background: transparent;*/
 }
 }.add-cart-btn {
     height:100%;

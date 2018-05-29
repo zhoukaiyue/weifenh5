@@ -83,7 +83,7 @@ export default {
             this.time = 120
             this.disabled = true
             this.timer()
-             // 获取验证
+            //获取验证
               const url =`${myPub.URL}/merchant/Sendcodes/sms`;
               var params = new URLSearchParams();
               params.append('mobile',this.phoneNumber);
