@@ -70,7 +70,7 @@ Vue.use(WechatAuth , {
             localStorage.setItem('openid',openid);
             console.log('这是openid'+`${openId.open_id}`)
             console.log('这是本地存储openid'+localStorage.openid)
-            next('/page/home')
+            next('/login')
       }).catch((err) => {
           axios.post(url,params).then(response => {
             console.log('向后台传输code2')
@@ -79,7 +79,7 @@ Vue.use(WechatAuth , {
             console.log('获取到openid')
             console.log(localStorage.openid)
             console.log(`${openId.open_id}`)
-            next('/page/home')
+            next('/home')
 
       })
     })
