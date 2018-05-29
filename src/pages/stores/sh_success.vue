@@ -10,7 +10,11 @@
              <input type="hidden" name="openid" :value ='openid'>
              <input type="hidden" name="goods_id" value =''>
              <input type="hidden" name="oid" value = ''>
+<<<<<<< HEAD
              <input type="submit" style="cursor:pointer;" class="button" value="联系客服快速审核">
+=======
+             <input type="submit" style="cursor:pointer;outline:none" class="button" value="联系客服快速审核">
+>>>>>>> 203e0f4a136431b004ee58785d37dd2875574e5e
           </form>
     </div>
 </template>

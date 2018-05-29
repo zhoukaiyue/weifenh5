@@ -36,7 +36,13 @@
       </ul>
     </div>
     <p class="help_center">帮助中心</p>
-    <p class="customer_service">联系客服</p>
+    <form action="http://im.weifenvip.com/?c=service" method="post">
+             <input type="hidden" name="openid" :value ='openid'>
+             <input type="hidden" name="goods_id" value =''>
+             <input type="hidden" name="oid" value = ''>
+             <input type="submit" style="cursor:pointer;outline:none" class="customer_service" value="联系客服">
+    </form>
+   <!--  <p class="customer_service">联系客服</p> -->
   </div>
 </template>
 
@@ -49,7 +55,8 @@ export default {
     name: 'shop_center',
     data(){
 　　　　　　return {
-            scdata:{}
+            scdata:{},
+            openid:localStorage.openid
 　　　　　　}
 　　　　},
     created() {
@@ -397,7 +404,8 @@ export default {
        padding:0px 20px;
        box-sizing:border-box;
        font-weight:600;
-    }
+
+    }.customer_service{border:0;outline:none;}
     .jiantou{
       display:inline-block;
       width: 6px;

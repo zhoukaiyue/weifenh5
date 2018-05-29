@@ -12,17 +12,17 @@
             </ul>
         </div>
         <!-- 没有订单 -->
-        <div class="ordernone">
+        <div class="ordernone"  v-if="is_show6">
             <img src="~@/assets/icon/order.png">
             <p>店铺还没有相关的订单~</p>
         </div>
         <!-- 添加商品列表 -->
-        <div class="goods-list">
+        <div class="goods-list" v-if="is_show7">
             <ul>
-                <li v-for="(item,index) in datalist">
+                <li v-for="(item,index) in datalist" v-on:click="linkToDetail(item.id)">
                     <h5 class="clearfix"><span>订单编号:{{item.sn}}</span><span class="fr">{{item.status_name}}</span></h5>
                     <div class="bb t">
-                        <div class="goods-img" v-on:click="linkToDetail(item.id)">
+                        <div class="goods-img" >
                             <img v-lazy="item.img_src">
                         </div>
                         <div class="goods" >
@@ -61,6 +61,8 @@ export default {
         is_show2: false,
         is_show3: false,
         is_show4: false,
+        is_show6: false,
+        is_show7: true,
         datalist:'',
         state:'',
     }
@@ -188,12 +190,18 @@ export default {
                   location.href = '/login'
               }, 3000)
             }
+            if (response.data.status =='1053') {
+              _this.is_show6=true
+              _this.is_show7=false
+            }
             // token失效
             if (response.data.status =='1004') {
               _this.getData()
             }
             // 状态码
             if (response.data.status =='200') {
+              _this.is_show6=false
+              _this.is_show7=true
               _this.$loading.hide();
               const data = response.data.data
               _this.datalist = data.list
@@ -230,12 +238,18 @@ export default {
                   location.href = '/login'
               }, 3000)
             }
+          if (response.data.status =='1053') {
+              _this.is_show6=true
+              _this.is_show7=false
+            }
             // token失效
             if (response.data.status =='1004') {
               _this.getData()
             }
             // 状态码
             if (response.data.status =='200') {
+              _this.is_show7=true
+              _this.is_show6=false
               _this.$loading.hide();
               const data = response.data.data
               _this.datalist = data.list
@@ -273,12 +287,18 @@ export default {
                 location.href = '/login'
             }, 3000)
           }
+          if (response.data.status =='1053') {
+              _this.is_show6=true
+              _this.is_show7=false
+            }
           // token失效
             if (response.data.status =='1004') {
               _this.getData()
             }
         // 状态码
         if (response.data.status =='200') {
+          _this.is_show6=false
+          _this.is_show7=true
           _this.$loading.hide();//隐藏
           const data = response.data.data
           _this.datalist = data.list
@@ -334,7 +354,7 @@ export default {
                 }
             }
         }
-        .ordernone{;display:none;background: #ffffff;margin-top: 1rem;text-align: center;color:#333;img{width: 7rem;margin-top: 4rem;}p{margin-top: 0.5rem;}}
+        .ordernone{background: #ffffff;margin-top: 1rem;text-align: center;color:#333;img{width: 7rem;margin-top: 4rem;}p{margin-top: 0.5rem;}}
 /*添加商品列表*/
 .goods-list{
     .t{padding: 1.5rem 1rem 1rem 1.5rem;}

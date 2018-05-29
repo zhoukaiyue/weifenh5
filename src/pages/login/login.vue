@@ -80,7 +80,6 @@ export default {
                 this.$vux.toast.text('手机号格式不正确~', 'middle')
                 return
             }
-             // 获取验证
               const url =`${myPub.URL}/merchant/Sendcodes/sms`;
               var params = new URLSearchParams();
               params.append('mobile',this.phoneNumber);
