@@ -95,21 +95,19 @@ export default {
                 params.append('session_id',localStorage.sessionid);
              }
               axios.post(url,params).then(response => {
-                  // const currentUser_token = response.data.data //获取token
-                    console.log(response)
-                    alert(response.data.code)
-                    const sessionid = response.data.sessionid
-                    console.log(sessionid)
-                    localStorage.setItem('sessionid',sessionid);
-                    let smsCode = response.data.data.verifCode
-                    this.smsCode = smsCode
+                if (response.data.status == '1008') {
                     this.$vux.alert.show({
-                        title: '验证码',
-                        content: `验证码已发送,【${smsCode}】,10分钟有效`
+                        content: `手机号不存在，请立即申请`
                     })
                     setTimeout(() => {
                         this.$vux.alert.hide()
                     }, 3000)
+                }
+                console.log(response)
+                alert(response.data.code)
+                const sessionid = response.data.sessionid
+                console.log(sessionid)
+                localStorage.setItem('sessionid',sessionid);
               }).catch((err) => {
                 console.log(err)
               })

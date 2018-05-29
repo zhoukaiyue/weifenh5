@@ -75,7 +75,7 @@ export default {
               const mobile =this.$route.query.mobile
               params.append('mobile',mobile); 
               params.append('token',localStorage.currentUser_token);
-              params.append('type','111');
+              params.append('type','2');
               if (localStorage.sessionid) {
                 params.append('session_id',localStorage.sessionid);
               }else{}

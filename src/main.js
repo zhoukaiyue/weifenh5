@@ -80,7 +80,6 @@ Vue.use(WechatAuth , {
             console.log(localStorage.openid)
             console.log(`${openId.open_id}`)
             next('/page/home')
-
       })
     })
   }

@@ -85,11 +85,11 @@ export default {
             this.disabled = true
             this.timer()
              // 获取验证
-                const url =`${myPub.URL}/merchant/Sendcodes/sms`;
+              const url =`${myPub.URL}/merchant/Sendcodes/sms`;
               var params = new URLSearchParams();
               params.append('mobile',this.phoneNumber); 
               params.append('token',localStorage.currentUser_token);
-              params.append('type','1');
+              params.append('type','2');
               if (localStorage.sessionid) {
                 params.append('session_id',localStorage.sessionid);
               }else{}

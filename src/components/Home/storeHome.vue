@@ -141,7 +141,7 @@ export default {
             _this.$loading.hide();
             console.log('1')
             if (response.data.status =='1024') {
-
+                 _this.$loading.hide();
                  _this.$vux.alert.show({
                  content: response.data.msg
               })

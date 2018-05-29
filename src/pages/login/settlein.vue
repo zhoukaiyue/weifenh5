@@ -311,11 +311,12 @@ function getFileUrl(obj) {
     input{
       float:right;
       width:70%;
-      height:54px;
+      height:40px;
       font-size:1rem;
-      line-height:54px;
+      line-height:40px;
       color:#333333;
       border: 0px;outline:none;cursor: pointer;
+      margin-top: 8px;
     }
   }
 }

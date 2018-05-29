@@ -11,22 +11,26 @@
         <div class="middle">
           <table>
             <tr class="middle_title">
-                <td class="td1">店员姓名</td>
+                <td class="td1"></td>
+                <td>店员姓名</td>
                 <td>手机号码</td>
                 <td>添加时间</td>
               </tr>
               <tr v-for="(item,$index) in lists" style="height:60px">
-                <td class="td1" style="padding-left:14px;box-sizing:border-box;">
-                  <input type="checkbox" :value="item.id" v-model="checked" @click="currClick(item,$index)" :id='item.id'>  <label :for="item.id" class="cb-label"></label>
-                  <img v-lazy="item.head_pic" alt="" class="oimg">&emsp;
-                  <span>{{item.truename}}</span>
+                <td class="td1" style="box-sizing:border-box;">
+                  <input type="checkbox" :value="item.id" v-model="checked" @click="currClick(item,$index)" :id='item.id'>
+                  <label :for="item.id" class="cb-label"></label>
                 </td>
+                <td>
+                  
+                  <img v-lazy="item.head_pic" alt="" class="oimg">&emsp;
+                  <span>{{item.truename}}</span></td>
                 <td class="dy_td">{{item.username}}</td>
                 <td class="dy_td">{{item.create_time.split(" ")[0]}}</td>
               </tr>
         </table>
         <div class="del_btn">
-        <input type="checkbox" v-model="checkAll" id="quan"><label for="quan" class="cb-label"></label>全选&nbsp;&nbsp;共有店员人 <div class="del_dy" @click="del_dy">删除店员</div></div>
+        <input type="checkbox" v-model="checkAll" id="quan"><label for="quan" class="cb-label"></label>全选&nbsp;&nbsp;共有店员{{shop.count}}人 <div class="del_dy" @click="del_dy">删除店员</div></div>
         </div>
   </div>
 </template>
@@ -43,9 +47,10 @@ export default {
     data(){
 　　　　　　return {
             show:true,
-              checked:[],
+                checked:[],
                 totalPrice:[],
-                lists :[]
+                lists :[],
+                shop:''
 　　　　　　}
 　　　　},
     deactivated () {
@@ -106,6 +111,7 @@ export default {
           params.append('token',localStorage.currentUser_token);
           params.append('open_id',localStorage.openid);
           axios.post(url,params).then(response => {
+            console.log(response)
             _this.$loading.hide()
             if (response.data.status =='1024') {
               this.$vux.alert.show({
@@ -121,13 +127,12 @@ export default {
               _this.getData()
             }
             if (response.data.status == "200") {
-                _this.lists = response.data.data;
-                    
+                _this.lists = response.data.data.list;
+                _this.shop = response.data.data
             }else{
                _this.$loading.hide();//隐藏
                _this.lists = [];
             }
-    
           }).catch((err) => {
             console.log(err)
           })
@@ -243,14 +248,14 @@ export default {
           color:#333333;
           letter-spacing:0;
           text-align:center;
-          height:50px;
-          line-height:50px;
+          height:3rem;
+          line-height:3rem;
           td{
             width:27%;
             color: #777777
           }
           .td1{
-            width:46%;
+            width:12%;
             font-family:PingFangSC-Semibold;
             font-size:1rem;
             color:#333333;
@@ -281,6 +286,7 @@ table{
     width:30px;
     height:30px;
     vertical-align: top;
+    border-radius: 50%;
   }
   span{
 
@@ -315,8 +321,8 @@ input[type="checkbox"]{
 }
 
 .cb-label{
-  height: 30px;
-  width: 30px;
+  height: 20px;
+  width: 20px;
   background:#fc5738;
   border:0.2px ;
   border-radius: 50%;
@@ -350,8 +356,8 @@ input[type="checkbox"]{
     transition: opacity ease 0.5s;
   }
   &::before{
-   top: 20.2px;
-    left: 13.2px;
+   top: 18px;
+    left: 9.6px;
    -moz-transform: rotate(-135deg);
     -ms-transform: rotate(-135deg);
     -o-transform: rotate(-135deg);
@@ -359,8 +365,8 @@ input[type="checkbox"]{
     transform: rotate(-135deg);
   }
   &::after {
-    top: 13px;
-    left: 6px;
+    top: 10px;
+    left: 2px;
     -moz-transform: rotate(-45deg);
     -ms-transform: rotate(-45deg);
     -o-transform: rotate(-45deg);
