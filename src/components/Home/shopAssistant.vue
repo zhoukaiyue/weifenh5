@@ -1,9 +1,11 @@
 <template>
     <div class="home">
+
         <!-- banner-->
         <div class="index_banner">
             <img src="~@/assets/img/banner.png" alt="image">
         </div>
+
         <!-- 当前累计客户量 -->
         <div class="customer_quantity">
             <p class="customer_quantity_title">我的累计客户量</p>
@@ -51,7 +53,6 @@
         </div>
 
         <div style="height:16px;width:100%;background-color: #f8f7f7;"></div>
-
         <!-- 分享二维码弹窗样式 -->
         <div class="code_box" v-if="show_code">
             <div class="code_bg"></div>
@@ -73,8 +74,6 @@ import products from '@/components/Products'
 import * as myPub from '@/assets/js/public.js'
 import * as openId from '@/assets/js/opid_public.js'
 import axios from 'axios'
-const bannerId = 1
-const themeIds = '1,2,3'
 export default {
     name: 'Home',
     data() {
@@ -91,13 +90,13 @@ export default {
         this.$destroy()
     },
     methods: {
-        // 显示二维码分享
+        //显示二维码分享
         showcode(){
             this.show_code=true;
         },
-        // 关闭二维码分享
+        //关闭二维码分享
         hidecode(){
-             this.show_code=false;
+            this.show_code=false;
         },
 
         //跳转到对应商品详情
@@ -110,9 +109,9 @@ export default {
         dyinvite(){
             this.$router.push({ path: '/page/shopdyinvite' })
         },
-        // 首页数据接口
+        //首页数据接口
         indeData(){
-          const _this = this
+          const _this = this;
           const url =`${myPub.URL}/merchant/Clerk/index`;
           const params = new URLSearchParams();
           params.append('token',localStorage.currentUser_token);

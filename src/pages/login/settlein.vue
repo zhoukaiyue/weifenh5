@@ -8,9 +8,9 @@
       <input title="负责人" v-model="contact" placeholder="请输入负责人名字" class="contact"></input>
       <input title="联系电话" type="number" placeholder="请输入负责人电话" v-model="mobile" class="mobile"></input> -->
     <div class="oinputs">
-      <p><span>店铺名称</span><input  v-model="shopname" placeholder="请输入店铺名称"></input></p>
-      <p><span>负责人</span><input v-model="contact" placeholder="请输入负责人名字"></input></p>
-      <p><span>联系电话</span><input type="number" placeholder="请输入负责人电话" v-model="mobile"></input></p>
+      <p><span>店铺名称&nbsp;<label style="color:#F54321;">*</label></span><input  v-model="shopname" placeholder="请输入店铺名称"></input></p>
+      <p><span>负责人&nbsp;<label  style="color:#F54321;">*</label></span><input v-model="contact" placeholder="请输入负责人名字"></input></p>
+      <p><span>联系电话&nbsp;<label  style="color:#F54321;">*</label></span><input type="number" placeholder="请输入负责人电话" v-model="mobile"></input></p>
     </div>
       <!--  营业执照 -->
     <div class="wrapper license">
@@ -99,16 +99,16 @@ function getFileUrl(obj) {
               }, 3000)
                 return false;
             }
-            if(sessionStorage.getItem('bulicense_url')==null||sessionStorage.getItem('bulicense_url')==undefined||sessionStorage.getItem('bulicense_url')==""){
-              this.$vux.alert.show({
-                      title: '操作失败',
-                      content: '营业执照不能为空'
-                  })
-              setTimeout(() => {
-                      this.$vux.alert.hide()
-              }, 3000)
-                return false;
-            }
+            // if(sessionStorage.getItem('bulicense_url')==null||sessionStorage.getItem('bulicense_url')==undefined||sessionStorage.getItem('bulicense_url')==""){
+            //   this.$vux.alert.show({
+            //           title: '操作失败',
+            //           content: '营业执照不能为空'
+            //       })
+            //   setTimeout(() => {
+            //           this.$vux.alert.hide()
+            //   }, 3000)
+            //     return false;
+            // }
             console.log('提交')
             const url =`${myPub.URL}/merchant/Shop/apply`;
             var params = new URLSearchParams();
@@ -121,7 +121,7 @@ function getFileUrl(obj) {
             axios.post(url,params).then(response => {
               // token失效
               if (response.data.status =='1004') {
-                _this.getData()
+                 _this.getData()
               }
               if (response.data.status =='200') {
                   this.$router.push({ path: '/page/sh_success'})

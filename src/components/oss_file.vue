@@ -71,7 +71,7 @@
                             if(self.message=='store'){
                                 console.log('store111')
                                  // 文件名称
-                                var imgurl =localStorage.openid+'1';
+                                var imgurl =localStorage.openid+n1;
                                 console.log(imgurl)
                                 file.name=imgurl+'.png'
                                 //将营业执照图片地址存储起来 localStorage.openid
@@ -85,9 +85,9 @@
                             }
                             if(self.message=='set'){
                                  // 文件名称
-                                var imgurl =localStorage.openid;
+                                var imgurl =localStorage.openid+n1;
                                 console.log(imgurl)
-                                file.name = imgurl+n1+'.png'
+                                file.name = imgurl+'.png'
                                 //将营业执照图片地址存储起来 localStorage.openid
                                 console.log(yyyyMMdd+'/'+file.name)
                                 var bulicense_url='user/'+yyyyMMdd+'/'+file.name;
@@ -98,10 +98,10 @@
                             }
                             if(self.message=='shop_min'){
                                 console.log('上传店员图像')
-                                 // 文件名称
-                                var imgurl =localStorage.openid;
+                                 //文件名称
+                                var imgurl =localStorage.openid+n1;
                                 console.log(imgurl)
-                                file.name = imgurl+n1+n1+'.png'
+                                file.name = imgurl+'.png'
                                 //将营业执照图片地址存储起来 localStorage.openid
                                 console.log(yyyyMMdd+'/'+file.name)
                                 var bulicense_url='shop/'+yyyyMMdd+'/'+file.name;
@@ -152,9 +152,8 @@
                     setTimeout(function(){  //模拟请求
                           _this.$loading.hide(); //隐藏
                           sessionStorage.setItem('store_imgurl',null);
-
                     },2000)
-                    // location.reload()
+                    // location.reload()1
                   }).catch((err) => {
                     console.log(err)
                   })

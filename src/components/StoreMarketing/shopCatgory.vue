@@ -1,5 +1,6 @@
 <template>
     <div class="goods">
+        
         <!-- 中间数据 -->
         <div class="middle">
             <ul>
@@ -9,6 +10,7 @@
                 </li>
             </ul>
         </div>
+
         <!-- 商品数据查询 -->
         <div class="nav-list">
             <ul>
@@ -295,7 +297,6 @@ export default {
             $(".click2").removeClass('select');
             $(".click1").addClass('select')
             _this.$loading.show();//显示
-            setTimeout(function(){  //模拟请求
                   _this.$loading.hide(); //隐藏
                   _this.choosed1=true;
             	  _this.choosed2=false;
@@ -313,7 +314,6 @@ export default {
                 }).catch((err) => {
                     console.log(err)
                 })
-            },2000);
     　　　　},
         //店铺营销数据
         storemaketing(){
