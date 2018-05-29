@@ -194,6 +194,7 @@ export default {
         params.append('token',localStorage.currentUser_token);;
         params.append('open_id',localStorage.openid);
         axios.post(url,params).then(response => {
+          _this.$loading.hide()
           if (response.data.status =='1024') {
               this.$vux.alert.show({
                   content: response.data.msg
@@ -202,6 +203,10 @@ export default {
                   this.$vux.alert.hide()
                   location.href = '/login'
               }, 3000)
+            }
+            // token失效
+            if (response.data.status =='1004') {
+              _this.getData()
             }
             // 状态码
             if (response.data.status =='200') {
@@ -231,6 +236,7 @@ export default {
         params.append('token',localStorage.currentUser_token);;
         params.append('open_id',localStorage.openid);
         axios.post(url,params).then(response => {
+          _this.$loading.hide()
           if (response.data.status =='1024') {
               this.$vux.alert.show({
                   content: response.data.msg
@@ -239,6 +245,10 @@ export default {
                   this.$vux.alert.hide()
                   location.href = '/login'
               }, 3000)
+            }
+            // token失效
+            if (response.data.status =='1004') {
+              _this.getData()
             }
             // 状态码
             if (response.data.status =='200') {
@@ -269,6 +279,7 @@ export default {
         params.append('token',localStorage.currentUser_token);;
         params.append('open_id',localStorage.openid);
         axios.post(url,params).then(response => {
+          _this.$loading.hide()
           if (response.data.status =='1024') {
             this.$vux.alert.show({
                 content: response.data.msg
@@ -278,6 +289,10 @@ export default {
                 location.href = '/login'
             }, 3000)
           }
+          // token失效
+            if (response.data.status =='1004') {
+              _this.getData()
+            }
         // 状态码
         if (response.data.status =='200') {
           _this.$loading.hide();//隐藏

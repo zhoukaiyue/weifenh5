@@ -119,15 +119,21 @@ function getFileUrl(obj) {
             params.append('mobile',this.mobile);
             params.append('img_src',sessionStorage.getItem('bulicense_url'));
             axios.post(url,params).then(response => {
-                  this.$vux.alert.show({
-                      title: '提交成功',
-                      content: response.data.msg
-                  })
-                  setTimeout(() => {
-                  this.$vux.alert.hide()
+              // token失效
+              if (response.data.status =='1004') {
+                _this.getData()
+              }
+              if (response.data.status =='200') {
                   this.$router.push({ path: '/page/sh_success'})
                   sessionStorage.setItem('bulicense_url',null);
-                  }, 3000)
+              }else{
+                this.$vux.alert.show({
+                  content: response.data.msg
+                })
+                setTimeout(() => {
+                  this.$vux.alert.hide()
+                }, 3000)
+              }              
             }).catch((err) => {
               console.log(err)
             })

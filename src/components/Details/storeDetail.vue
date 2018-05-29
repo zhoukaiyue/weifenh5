@@ -197,6 +197,7 @@ export default {
             // params.append('open_id',localStorage.openid);
             params.append('id',id);
             axios.post(url,params).then(response => {
+                _this.$loading.hide()
                 if (response.data.status =='1024') {
                   this.$vux.alert.show({
                       content: response.data.msg
@@ -206,13 +207,16 @@ export default {
                       location.href = '/login'
                   }, 3000)
                 }
+                // token失效
+                if (response.data.status =='1004') {
+                  _this.getData()
+                }
                 // 状态码
                 if (response.data.status =='200') {
-                  _this.$loading.hide();//隐藏
-                   const data = response.data.data
-                console.log(response.data.data)
-                _this.product = response.data.data;
-                _this.demo01_list =data.goods_photo
+                    const data = response.data.data
+                    console.log(response.data.data)
+                    _this.product = response.data.data;
+                    _this.demo01_list =data.goods_photo
                 if (data.limit_status == '1') {
                     _this.isshow11=true
                 }

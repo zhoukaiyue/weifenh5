@@ -21,6 +21,12 @@ export default{
           const currentUser_token = response.data.data //获取token
           console.log(currentUser_token)
           localStorage.setItem('currentUser_token',currentUser_token);//本地存储token
+          this.$vux.alert.show({
+                content: 'token获取成功，请重新操作'
+            })
+            setTimeout(() => {
+                this.$vux.alert.hide()
+            }, 3000)
         }).catch((err) => {
           console.log(err)
         })

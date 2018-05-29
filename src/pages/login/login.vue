@@ -134,8 +134,6 @@ export default {
               var params = new URLSearchParams();
               params.append('mobile',this.phoneNumber);
               params.append('token',localStorage.currentUser_token);
-              // params.append('open_id',`${openId.open_id}`);
-              // console.log(`${openId.open_id}`)
               params.append('open_id',localStorage.openid);
               params.append('code',this.verifyCode);
               if(localStorage.sessionid){
@@ -147,6 +145,10 @@ export default {
                 const status = response.data.status;
                 const identity =  response.data.type;
                 console.log(status)
+                // token失效
+                if (response.data.status =='1004') {
+                  _this.getData()
+                }
                 if (status == "200") {
                     //登陆成功存储登录状态
                     localStorage.setItem('login_static','true');

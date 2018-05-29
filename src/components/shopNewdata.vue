@@ -118,6 +118,7 @@ export default {
           params.append('open_id',localStorage.openid);
           params.append('type',a);
           axios.post(url,params).then(response => {
+            _this.$loading.hide()
             if (response.data.status =='1024') {
                 this.$vux.alert.show({
                 content: response.data.msg
@@ -127,8 +128,11 @@ export default {
                 location.href = '/login'
               }, 3000)
             }
+            // token失效
+            if (response.data.status =='1004') {
+              _this.getData()
+            }
             if (response.data.status == "200") {
-                _this.$loading.hide(); //隐藏
                 const data = response.data.data
                 this.shopdata = data.member_data;
                 console.log(this.shopdata)

@@ -180,7 +180,7 @@ export default {
 	// 请求数据
 	order(a){
       const _this = this;
-      this.$loading.show();
+      _this.$loading.show();
       var arr = [];
       var Data = [];
       const url =`${myPub.URL}/merchant/Shop/dataStatistics`;
@@ -189,18 +189,22 @@ export default {
       params.append('open_id',localStorage.openid);
       params.append('type',a);
       axios.post(url,params).then(response => {
+      	_this.$loading.hide()
       	if (response.data.status =='1024') {
-              this.$vux.alert.show({
-                  content: response.data.msg
-              })
-              setTimeout(() => {
-                  this.$vux.alert.hide()
-                  location.href = '/login'
-              }, 3000)
-            }
-             // 状态码
+          this.$vux.alert.show({
+              content: response.data.msg
+          })
+          setTimeout(() => {
+          	 this.$vux.alert.hide()
+             location.href = '/login'
+          }, 3000)
+        }
+        // token失效
+        if (response.data.status =='1004') {
+          _this.getData()
+        }
+        // 状态码
         if (response.data.status =='200') {
-          	_this.$loading.hide();//隐藏
             const data = response.data.data
           	this.shopdata = data.order_data
           	var objdata = this.shopdata;

@@ -91,6 +91,8 @@ export default {
         },
         // 修改手机号
         changephone(){
+            const _this = this
+            _this.$loading.show()
             const url =`${myPub.URL}/merchant/Shop/checkShopKeeper`;
               const mobile =this.$route.query.mobile
               const params = new URLSearchParams();
@@ -100,6 +102,7 @@ export default {
               params.append('open_id',localStorage.openid);
               params.append('session_id',localStorage.sessionid);
               axios.post(url,params).then(response => {
+                _this.$loading.show()
                 if (response.data.status =='1024') {
                   this.$vux.alert.show({
                       content: response.data.msg
@@ -109,10 +112,14 @@ export default {
                       location.href = '/login'
                   }, 3000)
                 }
-                const status = response.data.status
-                console.log(status)
+                // token失效
+                if (response.data.status =='1004') {
+                  _this.getData()
+                }
                 if (status == "200") {
                     const check_shop = response.data.data
+                    const status = response.data.status
+                    console.log(status)
                     console.log(response)
                     this.$router.push({ path: 'phone',query:{check_shop: check_shop}})
                 }else{

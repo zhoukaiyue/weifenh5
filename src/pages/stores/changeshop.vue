@@ -37,6 +37,8 @@ export default {
         },
         //更改店长信息
         store(){
+          const _this =this
+          _this.$loading.show()
           const url =`${myPub.URL}/merchant/Shop/editInfo`;
           var params = new URLSearchParams();
           params.append('token',localStorage.currentUser_token);
@@ -44,6 +46,7 @@ export default {
           params.append('mobile',this.mobile);
           params.append('open_id',localStorage.openid);
           axios.post(url,params).then(response => {
+            _this.$loading.hide()
             if (response.data.status =='1024') {
               this.$vux.alert.show({
                   content: response.data.msg
@@ -53,8 +56,23 @@ export default {
                   location.href = '/login'
               }, 3000)
             }
-            console.log(response)
-            next('/page/shopsuccess')
+            // token失效
+              if (response.data.status =='1004') {
+                _this.getData()
+              }
+              if (status == "200") {
+                console.log(response)
+                next('/page/shopsuccess')
+              }else{
+                this.$vux.alert.show({
+                    title: '操作失败',
+                    content: response.data.msg
+                })
+                setTimeout(() => {
+                    this.$vux.alert.hide()
+                }, 3000)
+              }
+            
           }).catch((err) => {
             console.log(err)
           })
