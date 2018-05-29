@@ -190,12 +190,6 @@ function getFileUrl(obj) {
     top:0;
     left:0;
     border:1px solid #e7e7e7;
-   /* width: 200px;
-    height: 200px;
-    opacity: 0;
-    position: absolute;
-    top: 0;
-    left: 0;*/
 }
 #imgId{
      width:100%!important;
