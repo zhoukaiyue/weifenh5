@@ -166,6 +166,7 @@ export default {
                 })
             }
           }).catch((err) => {
+             _this.$loading.hide();
             console.log(err)
           })
         },

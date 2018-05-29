@@ -85,6 +85,7 @@ export default {
                         {
                             name:'销售量',
                             type:'line',
+                            symbolSize:2,
                             stack: '销量',
                             itemStyle : { 
                               normal: {

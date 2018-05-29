@@ -104,7 +104,7 @@
                     </div>
                     <div class="bottom">
                         <ul class="bottom_operating">
-                            <li>
+                            <li @click="Todetail(item.goods_id)">
                                 <p>
                                     <img src="~@/assets/icon/categroy-yl.png">
                                 </p>
@@ -201,6 +201,9 @@ export default {
         //进入商品营销详情
         ToCommoditydetail(id) {
             this.$router.push({ path: '/page/storearmketingdetails', query: { id: id } })
+        },
+        Todetail(id) {
+            this.$router.push({ path: '/page/detail', query: { id: id } })
         },
         // 订单量
         salesVolume2:function(){

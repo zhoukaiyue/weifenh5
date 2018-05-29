@@ -80,9 +80,6 @@ export default {
                 this.$vux.toast.text('手机号格式不正确~', 'middle')
                 return
             }
-            this.time = 120
-            this.disabled = true
-            this.timer()
              // 获取验证
               const url =`${myPub.URL}/merchant/Sendcodes/sms`;
               var params = new URLSearchParams();
@@ -103,16 +100,27 @@ export default {
                         this.$vux.alert.hide()
                     }, 3000)
                 }
-                console.log(response)
-                alert(response.data.code)
-                const sessionid = response.data.sessionid
-                console.log(sessionid)
-                localStorage.setItem('sessionid',sessionid);
+                if (response.data.status == '200') {
+                    console.log(response)
+                    alert(response.data.code)
+                    const sessionid = response.data.sessionid
+                    console.log(sessionid)
+                    localStorage.setItem('sessionid',sessionid);
+                    this.time = 120
+                    this.disabled = true
+                    this.timer()
+                }else{
+                    this.$vux.alert.show({
+                        content: response.data.msg
+                    })
+                    setTimeout(() => {
+                        this.$vux.alert.hide()
+                    }, 3000)
+                }
               }).catch((err) => {
                 console.log(err)
               })
         },
-
         timer() {
             if (this.time > 0) {
                 this.time--

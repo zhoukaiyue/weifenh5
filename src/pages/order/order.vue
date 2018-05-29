@@ -32,7 +32,7 @@
                         </div>
                     </div>
                     <ul class="list">
-                        <li class="clearfix"><span class="fl">买家:{{item.sername}}</span> <span class="fr">实付:<b>{{item.order_amount}}</b></span></li>
+                        <li class="clearfix"><span class="fl">买家:{{item.truename}}</span> <span class="fr">实付:<b>{{item.order_amount}}</b></span></li>
                         <li class="clearfix"><span class="fl">推广店长:{{item.second_leader_name}}</span> <span class="fr">推广店员:{{item.first_leader_name}}</span></li>
                     </ul>
                 </li>
@@ -140,11 +140,7 @@ export default {
         this.is_show1=false
         this.is_show3=false
         this.is_show4=false
-        _this.$loading.show();//显示
-        setTimeout(function(){  //模拟请求
-              _this.$loading.hide(); //隐藏
-              _this.changeData(1)
-        },2000);
+         _this.changeData(1)
     },
     // 已完成
     salesVolume3:function(){
@@ -153,11 +149,7 @@ export default {
         this.is_show1=false
         this.is_show3=true
         this.is_show4=false
-        _this.$loading.show();//显示
-        setTimeout(function(){  //模拟请求
-              _this.$loading.hide(); //隐藏
-              _this.changeData(2)
-        },2000);
+         _this.changeData(2)
     },
     //已取消
     salesVolume4:function(){
@@ -166,11 +158,7 @@ export default {
         this.is_show1=false
         this.is_show3=false
         this.is_show4=true
-        _this.$loading.show();//显示
-        setTimeout(function(){  //模拟请求
-              _this.$loading.hide(); //隐藏
-              _this.changeData(3)
-        },2000);
+         _this.changeData(3)
     },
     // 全部
     salesVolume1:function(){
@@ -179,11 +167,7 @@ export default {
         this.is_show1=true
         this.is_show3=false
         this.is_show4=false
-        _this.$loading.show();//显示
-        setTimeout(function(){  //模拟请求
-              _this.$loading.hide(); //隐藏
-              _this.changeData(0)
-        },2000);
+         _this.changeData(0)
     },
     public_orderdata(a){
         const url =`${myPub.URL}/merchant/Shop/order`;

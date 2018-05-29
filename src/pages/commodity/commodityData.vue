@@ -15,7 +15,7 @@
 		<div class="data_display">
 
 		    <div class="yx_display">
-		    	<p class="yx_display_title">营销商品访问量/销售量<span>查看更多&ensp;<img src="~@/assets/icon/goods-left.png"></span></p>
+		    	<p class="yx_display_title">营销商品访问量/销售量></p>
 		    	<ul class="yx_display_tab">
 			    	<li class="oli frist" v-bind:class='{ li_select: is_show1}' v-on:click="salesVolume1()">7日</li>
 			    	<li class="oli" v-bind:class='{ li_select: is_show2}' v-on:click="salesVolume2()">30日</li>
@@ -28,7 +28,7 @@
 		    </div>
 
 		     <div class="yh_display">
-		    	<p class="yh_display_title">营销商品销量对比图<span>查看更多&ensp;<img src="~@/assets/icon/goods-left.png"></span></p>
+		    	<p class="yh_display_title">营销商品销量对比图</p>
 		    	<ul class="yh_display_tab">
 			    	<li class="oli frist" v-bind:class='{ li_select: is_show4}' v-on:click="salesVolume4()">7日</li>
 			    	<li class="oli" v-bind:class='{ li_select: is_show5}' v-on:click="salesVolume5()">30日</li>
@@ -129,6 +129,7 @@ export default {
                         {
                             name:'访问量',
                             type:'line',
+                            symbolSize:2,
                             stack: '销量',
                             itemStyle : {
                               normal: {
@@ -145,6 +146,7 @@ export default {
                         {
                             name:'销售量',
                             type:'line',
+                            symbolSize:2,
                             stack: '销量',
                             itemStyle : {
                               normal: {

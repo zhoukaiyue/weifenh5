@@ -49,7 +49,7 @@ export default {
                     },
                     grid: {
                         width:'100%',
-                        left: '-6%',
+                        left: '-10%',
                         right: '10%',
                         bottom: '10%',
                         containLabel: true
@@ -92,6 +92,7 @@ export default {
                         {
                             name:'订单销售额',
                             type:'line',
+                            symbolSize:2,
                             stack: '销量',
                             itemStyle : { 
                               normal: {

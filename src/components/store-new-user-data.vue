@@ -59,7 +59,7 @@ export default {
                           lineStyle: {
                               type: 'solid',
                               color: '#ffffff',//左边线的颜色
-                              width:'2'//坐标线的宽度
+                              width:'1'//坐标线的宽度
                             }
                         },
                         axisLabel: {
@@ -79,7 +79,7 @@ export default {
                         lineStyle: {
                               type: 'solid',
                               color: 'transparent',//左边线的颜色
-                              width:'2'//坐标线的宽度
+                              width:'1'//坐标线的宽度
                           }
                       },
                         }
@@ -88,6 +88,7 @@ export default {
                         {
                             name:'访问量',
                             type:'line',
+                            symbolSize:2,
                             stack: '销量',
                             itemStyle : { 
                               normal: {

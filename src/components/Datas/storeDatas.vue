@@ -175,7 +175,7 @@ export default {
         const _this = this;
         this.is_show5=false
         this.is_show6=true
-        _this.isshow8=false
+        _this.isshow8=true
 	},
 	// 请求数据
 	order(a){

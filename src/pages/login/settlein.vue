@@ -8,9 +8,9 @@
       <input title="负责人" v-model="contact" placeholder="请输入负责人名字" class="contact"></input>
       <input title="联系电话" type="number" placeholder="请输入负责人电话" v-model="mobile" class="mobile"></input> -->
     <div class="oinputs">
-      <p><span>店铺名称</span><input  v-model="shopname" placeholder="请输入店铺名称"></input></p>
-      <p><span>负责人</span><input v-model="contact" placeholder="请输入负责人名字"></input></p>
-      <p><span>联系电话</span><input type="number" placeholder="请输入负责人电话" v-model="mobile"></input></p>
+      <p><span>店铺名称&nbsp;<label style="color:#F54321;">*</label></span><input  v-model="shopname" placeholder="请输入店铺名称"></input></p>
+      <p><span>负责人&nbsp;<label  style="color:#F54321;">*</label></span><input v-model="contact" placeholder="请输入负责人名字"></input></p>
+      <p><span>联系电话&nbsp;<label  style="color:#F54321;">*</label></span><input type="number" placeholder="请输入负责人电话" v-model="mobile"></input></p>
     </div>
       <!--  营业执照 -->
     <div class="wrapper license">
@@ -69,7 +69,10 @@ function getFileUrl(obj) {
         //提交信息到后台
         submit(){
           console.log('11')
+          const _this=this;
+           _this.$loading.show()
             if(this.shopname==""){
+              _this.$loading.hide()
               this.$vux.alert.show({
                       title: '操作失败',
                       content: '店铺名称不能为空'
@@ -80,6 +83,7 @@ function getFileUrl(obj) {
               return false;
             }
             if(this.contact==""){
+               _this.$loading.hide()
               this.$vux.alert.show({
                       title: '操作失败',
                       content: '店铺负责人不能为空'
@@ -90,6 +94,7 @@ function getFileUrl(obj) {
                 return false;
             }
             if(this.mobile==""){
+               _this.$loading.hide()
               this.$vux.alert.show({
                       title: '操作失败',
                       content: '联系电话不能为空'
@@ -99,16 +104,16 @@ function getFileUrl(obj) {
               }, 3000)
                 return false;
             }
-            if(sessionStorage.getItem('bulicense_url')==null||sessionStorage.getItem('bulicense_url')==undefined||sessionStorage.getItem('bulicense_url')==""){
-              this.$vux.alert.show({
-                      title: '操作失败',
-                      content: '营业执照不能为空'
-                  })
-              setTimeout(() => {
-                      this.$vux.alert.hide()
-              }, 3000)
-                return false;
-            }
+            // if(sessionStorage.getItem('bulicense_url')==null||sessionStorage.getItem('bulicense_url')==undefined||sessionStorage.getItem('bulicense_url')==""){
+            //   this.$vux.alert.show({
+            //           title: '操作失败',
+            //           content: '营业执照不能为空'
+            //       })
+            //   setTimeout(() => {
+            //           this.$vux.alert.hide()
+            //   }, 3000)
+            //     return false;
+            // }
             console.log('提交')
             const url =`${myPub.URL}/merchant/Shop/apply`;
             var params = new URLSearchParams();
@@ -119,9 +124,10 @@ function getFileUrl(obj) {
             params.append('mobile',this.mobile);
             params.append('img_src',sessionStorage.getItem('bulicense_url'));
             axios.post(url,params).then(response => {
+            _this.$loading.hide()
               // token失效
               if (response.data.status =='1004') {
-                _this.getData()
+                 _this.getData()
               }
               if (response.data.status =='200') {
                   this.$router.push({ path: '/page/sh_success'})
@@ -133,8 +139,9 @@ function getFileUrl(obj) {
                 setTimeout(() => {
                   this.$vux.alert.hide()
                 }, 3000)
-              }              
+              }
             }).catch((err) => {
+               _this.$loading.hide()
               console.log(err)
             })
           }
@@ -198,7 +205,6 @@ function getFileUrl(obj) {
     border:1px solid #e7e7e7;
 }
 #imgId{
-     width:100%!important;
     height:100%!important;
     position:absolute;
     top:0;

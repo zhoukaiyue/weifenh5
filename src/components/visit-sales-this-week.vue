@@ -23,28 +23,28 @@ export default {
                let echarts = require('echarts/lib/echarts');
                let mainChart = echarts.init(myChart);
                 var option = {
-                    title: {
-                        text: '本周访问量/销售量',
-                        left:'center',
-                        textStyle:{
-                          //文字颜色
-                          color:'#ffffff',
-                          //字体风格,'normal','italic','oblique'
-                          fontStyle:'normal',
-                          //字体粗细 'normal','bold','bolder','lighter',100 | 200 | 300 | 400...
-                          fontWeight:'bold',
-                          //字体系列
-                          fontFamily:'sans-serif',
-                          //字体大小
-                  　　　　 fontSize:12
-                      }
-                    },
+                  //   title: {
+                  //       text: '店铺新增用户数据',
+                  //       left:'center',
+                  //       textStyle:{
+                  //         //文字颜色
+                  //         color:'#ffffff',
+                  //         //字体风格,'normal','italic','oblique'
+                  //         fontStyle:'normal',
+                  //         //字体粗细 'normal','bold','bolder','lighter',100 | 200 | 300 | 400...
+                  //         fontWeight:'bold',
+                  //         //字体系列
+                  //         fontFamily:'sans-serif',
+                  //         //字体大小
+                  // 　　　　 fontSize:12
+                  //     }
+                  //   },
                     tooltip : {
                        // trigger: 'item'
                     },
                     grid: {
-                        width:'100%',
-                        left: '-6%',
+                        width:'95%',
+                        left: '-4%',
                         right: '10%',
                         bottom: '10%',
                         containLabel: true
@@ -53,7 +53,7 @@ export default {
                         {
                             type : 'category',
                             boundaryGap : false,
-                            data : ['1日', '2日', '3日', '4日', '5日', '6日', '7日'],
+                            data :['商品', '商品', '商品', '商品', '商品', '商品', '商品'],
                              axisLine: {
                           lineStyle: {
                               type: 'solid',
@@ -84,39 +84,23 @@ export default {
                         }
                     ],
                     series : [
-                        // {
-                        //     name:'访问量',
-                        //     type:'line',
-                        //     stack: '销量',
-                        //     areaStyle: {color: ['rgba(250,250,250,0.1)','rgba(200,200,200,0.1)']},
-                        //     itemStyle : { 
-                        //       normal: {
-                        //         label : {show: true,color:'#ffffff'},
-                        //         lineStyle : {
-                        //             width : 0.5,
-                        //             color : '#ffffff'
-                        //         },
-                        //       }
-                        //     },
-                        //     data:[1270, 6382, 2091, 1034, 6382, 2091, 1034],
-                        //     color:"#ffffff"
-                        // },
                         {
-                            name:'销售量',
+                            name:'访问量',
                             type:'line',
+                            symbolSize:2,
                             stack: '销量',
-                            itemStyle : { 
+                            itemStyle : {
                               normal: {
-                                label : {show: true,color:'#f7ff50'},
-                                lineStyle : {
-                                    width : 0.5,
-                                    color : '#f7ff50'
+                              label : {show: true},
+                              lineStyle : {
+                                  width : 0.5,
+                                  color : '#f7ff50'
                                 },
                               }
                             },
-                            areaStyle: {color: ['rgba(250,250,250,0.1)','rgba(200,200,200,0.1)']},
-                            data:[2270, 3456, 5432, 3423, 12, 291, 134],
-                            color:"#f7ff50"
+                            data:[2270, 3456, 5432, 3423, 632, 291, 134],
+                            color:"#ffffff",
+                            areaStyle: {color: ['rgba(250,250,250,0.1)','rgba(200,200,200,0.1)']}
                         }
                     ]
                 };
@@ -131,7 +115,7 @@ export default {
           params.append('open_id',localStorage.openid);
           params.append('type',a);
           axios.post(url,params).then(response => {
-            _this.$loading.hide(s)
+            _this.$loading.hide()
             if (response.data.status =='1024') {
                 this.$vux.alert.show({
                 content: response.data.msg
@@ -167,13 +151,14 @@ export default {
   },
 
   mounted(){
+    this.yx_display()
   },
   deactivated () {
         this.$destroy()
-    },
-   created() {
-        this.order('5')
-    },
+  },
+ created() {
+      this.order('5')
+  },
 }
 </script>
 <style scoped lang="less">
