@@ -12,7 +12,7 @@
           </li>
         </ul>
       <div class="shop_info_right">
-          <img src="https://ws1.sinaimg.cn/large/663d3650gy1fq6824ur1dj20ia0pydlm.jpg" alt="" class="shop_logo">
+          <img :src="scdata.shop_info.head_pic" alt="" class="shop_logo">
           <span class="info_modification" @click="edit">编辑店铺信息</span>
       </div>
     </div>
@@ -113,7 +113,7 @@ export default {
             // 状态码
             if (response.data.status =='200') {
               _this.$loading.hide();//隐藏
-                console.log(response.data.status)
+                console.log(response)
               _this.scdata = response.data.data;
             }else{
               this.$vux.alert.show({
@@ -136,7 +136,7 @@ export default {
       width:100%;
       height:220px;
       background-color:#ffffff;
-      padding:25px 20px 5px 20px;
+      padding:1rem 0.8rem 0.8rem 1rem;
       box-sizing:border-box;
       .shop_info_left{
           float:left;
@@ -188,13 +188,24 @@ export default {
             flex-direction: row;
             flex-wrap: nowrap;
             justify-content:space-between;
+            .passenger_traffic_box:after{
+                position: absolute;
+                top: 20%;
+                right: 0;
+                content: "";
+                display:inline-block;
+                width: 1px;
+                height: 40px;
+                background: #eeeeee;
+              }
             .passenger_traffic_box{
-              border-left:1px solid #eeeeee;
+              padding: 0 0.5rem;
               flex-grow: 1;
-              /*width:33.33%;*/
+              position: relative;
               span{
                 display:block;
                 width:100%;
+                text-align: center;
                 font-family:PingFangSC-Semibold;
                 font-size:1.2rem;
                 line-height:2rem;
@@ -202,11 +213,12 @@ export default {
                 letter-spacing:0;
                 text-align:center;
               }
+              
               label{
                   display:block;
                   width:100%;
                   font-family:PingFangSC-Regular;
-                  font-size:0.8rem;
+                  font-size:0.7rem;
                   line-height:2rem;
                   color:#777777;
                   letter-spacing:0;
@@ -228,7 +240,7 @@ export default {
           .info_modification{
             display: block;
             font-family:PingFangSC-Regular;
-            font-size:0.9rem;
+            font-size:0.8rem;
             color:#f54321;
             letter-spacing:0;
             text-align:center;
@@ -249,11 +261,11 @@ export default {
         padding:0px 20px;
         box-sizing:border-box;
         font-family:PingFangSC-Semibold;
-        font-size:1rem;
+        font-size:0.9rem;
         color:#333333;
         letter-spacing:0;
         text-align:left;
-        font-weight:500;
+        font-weight:600;
         border-bottom:1px solid #f9f8f8;
         line-height:50px;
       }
@@ -301,11 +313,11 @@ export default {
         padding:0px 20px;
         box-sizing:border-box;
         font-family:PingFangSC-Semibold;
-        font-size:1rem;
+        font-size:0.9rem;
         color:#333333;
         letter-spacing:0;
         text-align:left;
-        font-weight:500;
+        font-weight:600;
         border-bottom:1px solid #f9f8f8;
         line-height:45px;
         label{
@@ -369,7 +381,7 @@ export default {
       height:50px;
       line-height:50px;
       font-family:PingFangSC-Semibold;
-      font-size:1rem;
+      font-size:0.9rem;
       color:#333333;
       letter-spacing:0;
       text-align:left;
@@ -377,7 +389,7 @@ export default {
        margin-top:10px;
        padding:0px 20px;
        box-sizing:border-box;
-       font-weight:500;
+       font-weight:600;
     }
     .jiantou{
       display:inline-block;

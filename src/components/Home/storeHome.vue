@@ -209,8 +209,8 @@ export default {
             width:100%;
         }
         .title{
-            font-size: 0.9rem;
-            .Notes{padding: 0.1rem 0.6rem;background: #f54321;color: #fff;line-height: 1.5rem;text-align: center;border-radius: 66px;font-size: 0.5rem;font-weight: normal;margin-left: 0.5rem;}
+            font-size: 1rem;
+            .Notes{padding: 0.1rem 0.6rem;background: #f54321;color: #fff;line-height: 1.5rem;text-align: center;border-radius: 66px;font-size: 0.75rem;font-weight: normal;margin-left: 0.5rem;}
             .see{font-size:0.8rem;float:right;font-weight:normal;color:#999999;img{width: 0.6rem;position: relative;top: 0.3rem;}}
         }
         ul{
@@ -237,7 +237,7 @@ export default {
         background: #fff;
         height: 12rem;
         .title{
-            font-size: 0.9rem;
+            font-size: 1rem;
             span{font-size: 0.8rem;color: #999999;font-weight: normal;}
             .see{font-size:0.8rem;float:right;font-weight:normal;color:#999999;img{width: 0.6rem;position: relative;top: 0.3rem;}}
         }

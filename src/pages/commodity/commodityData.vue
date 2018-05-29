@@ -130,7 +130,15 @@ export default {
                             name:'访问量',
                             type:'line',
                             stack: '销量',
-                            itemStyle : { normal: {label : {show: true,color:'#ffffff'}}},
+                            itemStyle : {
+                              normal: {
+                              label : {show: true,color:'#ffffff'},
+                              lineStyle : {
+                                  width : 0.5,
+                                  color : '#ffffff'
+                                },
+                              }
+                            },
                             data:[1270, 6382, 2091, 1034, 6382, 2091, 1034],
                             color:"#ffffff"
                         },
@@ -138,7 +146,15 @@ export default {
                             name:'销售量',
                             type:'line',
                             stack: '销量',
-                            itemStyle : { normal: {label : {show: true,color:'#f7ff50'}}},
+                            itemStyle : {
+                              normal: {
+                              label : {show: true,color:'#ffffff'},
+                              lineStyle : {
+                                  width : 0.5,
+                                  color : '#f7ff50'
+                                },
+                              }
+                            },
                             data:[2270, 3456, 5432, 3423, 12, 291, 134],
                             color:"#f7ff50"
                         }

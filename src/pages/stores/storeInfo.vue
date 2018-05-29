@@ -378,12 +378,11 @@ import ossFile from '../../components/oss_file'
   position:absolute;
   top:0;
   left:0;
-  /*border:1px solid #000;
-  */
-        border-radius:50%;
+  border-radius:50%;
   padding-top:5px;
   padding-bottom:5px;
   box-sizing:border-box;
+  overflow: hidden;
 }
 .room_add_btn input {
   position:absolute;

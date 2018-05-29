@@ -77,7 +77,7 @@ export default {
         this.is_show2=false
         this.is_show1=false
         this.is_show3=false
-        this.is_show4=true
+        this.is_show4=false
     }
  },
  deactivated () {

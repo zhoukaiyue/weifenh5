@@ -1,6 +1,6 @@
 <template>
 	<div class="commodityData">
-		<p class="title">店铺订单<span @click="order">查看更多&ensp;<img src="~@/assets/icon/goods-left.png"></span></p>
+		<p class="title">店铺订单<span @click="torder(0)">查看更多&ensp;<img src="~@/assets/icon/goods-left.png"></span></p>
 		<ul class="commodityData_title">
 			  <li class="processing" @click="torder(0)"><span class="processing_img"></span><label>全部</label><span class="circular">{{shopdata.all_count}}</span></li>
 		      <li class="carryout" @click="torder(1)"><span class="carryout_img"></span><label>进行中</label><span class="circular">{{shopdata.count_ing}}</span></li>
@@ -140,66 +140,42 @@ export default {
         const _this = this;
         this.is_show1=true
         this.is_show2=false
-        _this.$loading.show();//显示
-	    setTimeout(function(){  //模拟请求
-	          _this.$loading.hide(); //隐藏
-	           _this.isshow=false
-	    },2000);
+        _this.isshow=false
 	},
 	// 员工邀新数据
     salesVolume2:function(){
         const _this = this;
         this.is_show2=true
         this.is_show1=false
-        _this.$loading.show();//显示
-	    setTimeout(function(){  //模拟请求
-	          _this.$loading.hide(); //隐藏
-	          _this.isshow=true
-	    },2000);
+        _this.isshow=true
 	},
 	// 本周访问量/销售量
 	salesVolume3:function(){
         const _this = this;
         this.is_show3=true
         this.is_show4=false
-        _this.$loading.show();//显示
-	    setTimeout(function(){  //模拟请求
-	          _this.$loading.hide(); //隐藏
-	          _this.isshow7=false
-	    },2000);
+         _this.isshow7=false
 	},
 	//本周商品对比图
 	salesVolume4:function(){
         const _this = this;
         this.is_show3=false
         this.is_show4=true
-        _this.$loading.show();//显示
-	    setTimeout(function(){  //模拟请求
-	          _this.$loading.hide(); //隐藏
-	         _this.isshow7=true
-	    },2000);
+        _this.isshow7=true
 	},
 	// 7月订单销售额
 	salesVolume5:function(){
         const _this = this;
         this.is_show5=true
         this.is_show6=false
-        _this.$loading.show();//显示
-	    setTimeout(function(){  //模拟请求
-	          _this.$loading.hide(); //隐藏
-	          _this.isshow8=false
-	    },2000);
+        _this.isshow8=false
 	},
 	// 7月用户消费额
 	salesVolume6:function(){
         const _this = this;
         this.is_show5=false
         this.is_show6=true
-        _this.$loading.show();//显示
-	    setTimeout(function(){  //模拟请求
-	          _this.$loading.hide(); //隐藏
-	         _this.isshow8=true
-	    },2000);
+        _this.isshow8=false
 	},
 	// 请求数据
 	order(a){
@@ -224,14 +200,14 @@ export default {
             }
              // 状态码
         if (response.data.status =='200') {
-          _this.$loading.hide();//隐藏
+          	_this.$loading.hide();//隐藏
             const data = response.data.data
-          this.shopdata = data.order_data
-          var objdata = this.shopdata;
-          console.log(objdata)
+          	this.shopdata = data.order_data
+          	var objdata = this.shopdata;
+          	console.log(objdata)
         }else{
-          this.$vux.alert.show({
-              content: response.data.msg
+          	this.$vux.alert.show({
+              ontent: response.data.msg
           })
         }
       }).catch((err) => {
@@ -462,13 +438,13 @@ export default {
 	 		width:90%;
 	 		margin:10px auto;
 	 		height:215px;
-	 		background:-webkit-gradient(linear, 0% 20%, 8% 100%,from(#e84f57), to(#eb8139));
+	 		background:-webkit-gradient(linear, 0% 20%, 8% 100%,from(#F94F5B), to(#FF853B));
 	 	}
 	 	.yhcharts{
 	 		width:90%;
 	 		margin:10px auto;
 	 		height:215px;
-	 		background:-webkit-gradient(linear, 0% 20%, 8% 100%,from(#e84f57), to(#eb8139));
+	 		background:-webkit-gradient(linear, 0% 20%, 8% 100%,from(#F94F5B), to(#FF853B));
 	 	}
 	}
 	/*6/7/8plus*/

@@ -81,7 +81,15 @@ export default {
                         "name":"销量",
                         "type":"bar",
                         "data":b,
-                        itemStyle : { normal: {label : {show: true,color:'#ffffff',position:'top'}}},
+                        itemStyle : { 
+                            normal: {
+                              label : {show: true,color:'#ffffff'},
+                              lineStyle : {
+                                  width : 0.5,
+                                  color : '#ffffff'
+                              },
+                            }
+                          },
                          barWidth : 10,//柱图宽度
                                                  color: function(params) {
                             // build a color map as your need.
@@ -99,6 +107,7 @@ export default {
     // 接口数据
     order(a){
       const _this = this;
+      _this.$loading.show()
       var arr = [];
       var Data = [];
       const url =`${myPub.URL}/merchant/Shop/dataStatistics`;
@@ -107,14 +116,34 @@ export default {
           params.append('open_id',localStorage.openid);
           params.append('type',a);
           axios.post(url,params).then(response => {
-              const data = response.data.data
-              var objdata = data.member_data  
-              for (var i = 0; i < objdata.length; i++) {
-                arr.push(objdata[i].truename)
-                Data.push(objdata[i].member_count)
-              }
-               _this.yh_display(arr,Data);
-
+            if (response.data.status =='1024') {
+                this.$vux.alert.show({
+                content: response.data.msg
+            })
+            setTimeout(() => {
+                this.$vux.alert.hide()
+                location.href = '/login'
+              }, 3000)
+            }
+            if (response.data.status == "200") {
+                _this.$loading.hide(); //隐藏
+                const data = response.data.data
+                var objdata = data.member_data  
+                for (var i = 0; i < objdata.length; i++) {
+                  arr.push(objdata[i].truename)
+                  Data.push(objdata[i].member_count)
+                }
+                 _this.yh_display(arr,Data);
+            }else{
+                 _this.$loading.hide();//隐藏
+                this.$vux.alert.show({
+                    title: '操作失败',
+                    content: response.data.msg
+                })
+                setTimeout(() => {
+                    this.$vux.alert.hide()
+                }, 3000)
+              }                   
           }).catch((err) => {
               console.log(err)
           })

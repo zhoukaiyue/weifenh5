@@ -163,7 +163,7 @@ export default {
                   location.href = '/login'
               }, 3000)
             }
-             if (response.data.status =='200') {
+            if (response.data.status =='200') {
                 _this.$loading.hide();
                 const data = response.data
                 console.log(response)

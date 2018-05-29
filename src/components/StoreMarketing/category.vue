@@ -302,6 +302,7 @@ export default {
         //tab选择切换时的方法封装
         public_tab(a,b,c,d,e,f,g,h){
             const _this=this;
+            _this.$loading.show();//出现
             const url =`${myPub.URL}/merchant/Shop/shopMarketing`;
             var params = new URLSearchParams();
             params.append('token',localStorage.currentUser_token);
@@ -316,17 +317,14 @@ export default {
             params.append('page',g);
             params.append('size',h);
             axios.post(url,params).then(response => {
-            _this.$loading.show();//出现
             console.log(response)
             const status = response.data.status
             console.log(response.data.status)
-                if (status == "200") {
-                setTimeout(() => {
-                    _this.$loading.hide();//隐藏
-                    const data =response.data.data
-                    _this.datalist = data
-                    _this.goodlist=data.list
-                }, 2000)
+            if (status == "200") {
+                _this.$loading.hide();//隐藏
+                const data =response.data.data
+                _this.datalist = data
+                _this.goodlist=data.list
             }else{
                  _this.$loading.hide();//隐藏
                 this.$vux.alert.show({
@@ -358,92 +356,122 @@ export default {
             $(".click1").removeClass('select');
             $(".click2").addClass('select')
             _this.$loading.show();//显示
-            setTimeout(function(){  //模拟请求
-                  _this.$loading.hide(); //隐藏
-                  _this.choosed1=false;
-            	  _this.choosed2=true;
-                const url =`${myPub.URL}/merchant/Shop/shopMarketing`;
-                var params = new URLSearchParams();
-                params.append('token',localStorage.currentUser_token);
-                 params.append('open_id',localStorage.openid);
-                params.append('type','2');
-                axios.post(url,params).then(response => {
-                    if (response.data.status =='1024') {
-                  this.$vux.alert.show({
-                      content: response.data.msg
-                  })
-                  setTimeout(() => {
-                      this.$vux.alert.hide()
-                      location.href = '/login'
-                  }, 3000)
-                }
-                    const data =response.data.data
+              _this.choosed1=false;
+        	  _this.choosed2=true;
+            const url =`${myPub.URL}/merchant/Shop/shopMarketing`;
+            var params = new URLSearchParams();
+            params.append('token',localStorage.currentUser_token);
+             params.append('open_id',localStorage.openid);
+            params.append('type','2');
+            axios.post(url,params).then(response => {
+            if (response.data.status =='1024') {
+                this.$vux.alert.show({
+                  content: response.data.msg
+              })
+              setTimeout(() => {
+                  this.$vux.alert.hide()
+                  location.href = '/login'
+              }, 3000)
+            }
+            if (response.data.status == "200") {
+                _this.$loading.hide(); //隐藏
+                const data =response.data.data
                 _this.datalist = data
                 _this.goodlist=data.list
-                    console.log(data)
-                }).catch((err) => {
-                    console.log(err)
+                console.log(data)
+            }else{
+                 _this.$loading.hide();//隐藏
+                this.$vux.alert.show({
+                    title: '操作失败',
+                    content: response.data.msg
                 })
-            },2000);
-    　　　　},
+                setTimeout(() => {
+                    this.$vux.alert.hide()
+                }, 3000)
+            }
+            }).catch((err) => {
+                console.log(err)
+            })
+    　　　},
         // 营销中
         selectStyle1 () {
             const _this = this;
             $(".click2").removeClass('select');
             $(".click1").addClass('select')
             _this.$loading.show();//显示
-            setTimeout(function(){  //模拟请求
-                  _this.$loading.hide(); //隐藏
-                  _this.choosed1=true;
-            	  _this.choosed2=false;
-                  const url =`${myPub.URL}/merchant/Shop/shopMarketing`;
-                var params = new URLSearchParams();
-                params.append('token',localStorage.currentUser_token);
-                // params.append('open_id',localStorage.openid);
-                params.append('open_id',localStorage.openid);
-                params.append('type','1');
-                axios.post(url,params).then(response => {
-                    if (response.data.status =='1024') {
-                  this.$vux.alert.show({
-                      content: response.data.msg
-                  })
-                  setTimeout(() => {
-                      this.$vux.alert.hide()
-                      location.href = '/login'
-                  }, 3000)
-                }
-                    const data =response.data.data
-                    _this.datalist = data
-                    _this.goodlist=data.list
-                    console.log(data)
-                }).catch((err) => {
-                    console.log(err)
-                })
-            },2000);
-    　　　　},
-        //店铺营销数据
-        storemaketing(){
+             _this.choosed1=true;
+        	 _this.choosed2=false;
             const url =`${myPub.URL}/merchant/Shop/shopMarketing`;
-            const _this =this
             var params = new URLSearchParams();
             params.append('token',localStorage.currentUser_token);
             // params.append('open_id',localStorage.openid);
             params.append('open_id',localStorage.openid);
             params.append('type','1');
             axios.post(url,params).then(response => {
-                if (response.data.status =='1024') {
-                  this.$vux.alert.show({
-                      content: response.data.msg
-                  })
-                  setTimeout(() => {
-                      this.$vux.alert.hide()
-                      location.href = '/login'
-                  }, 3000)
-                }
+            if (response.data.status =='1024') {
+                    this.$vux.alert.show({
+                    content: response.data.msg
+                })
+                setTimeout(() => {
+                    this.$vux.alert.hide()
+                    location.href = '/login'
+                }, 3000)
+            }
+            if (response.data.status == "200") {
+                _this.$loading.hide(); //隐藏
                 const data =response.data.data
                 _this.datalist = data
                 _this.goodlist=data.list
                 console.log(data)
+            }else{
+                 _this.$loading.hide();//隐藏
+                this.$vux.alert.show({
+                    title: '操作失败',
+                    content: response.data.msg
+                })
+                setTimeout(() => {
+                    this.$vux.alert.hide()
+                }, 3000)
+            }
+            }).catch((err) => {
+                console.log(err)
+            })
+    　　　　},
+        //店铺营销数据
+        storemaketing(){
+            const url =`${myPub.URL}/merchant/Shop/shopMarketing`;
+            const _this =this
+            _this.$loading.show();//显示
+            var params = new URLSearchParams();
+            params.append('token',localStorage.currentUser_token);
+            params.append('open_id',localStorage.openid);
+            params.append('type','1');
+            axios.post(url,params).then(response => {
+            if (response.data.status =='1024') {
+                    this.$vux.alert.show({
+                    content: response.data.msg
+                })
+                setTimeout(() => {
+                    this.$vux.alert.hide()
+                    location.href = '/login'
+                  }, 3000)
+                }
+            if (response.data.status == "200") {
+                _this.$loading.hide(); //隐藏
+                const data =response.data.data
+                _this.datalist = data
+                _this.goodlist=data.list
+                console.log(data)
+            }else{
+                 _this.$loading.hide();//隐藏
+                this.$vux.alert.show({
+                    title: '操作失败',
+                    content: response.data.msg
+                })
+                setTimeout(() => {
+                    this.$vux.alert.hide()
+                }, 3000)
+            }
             }).catch((err) => {
                 console.log(err)
             })
@@ -456,7 +484,6 @@ export default {
             this.$loading.show();//显示
             const params = new URLSearchParams();
             params.append('token',localStorage.currentUser_token);
-            // params.append('open_id',localStorage.openid);
             params.append('open_id',localStorage.openid);
             params.append('type',a);
             params.append('id',id);
@@ -475,7 +502,7 @@ export default {
                     _this.$loading.hide(); 
                     this.$vux.alert.show({
                         
-                        content: data.msg
+                        content: response.data.msg
                     })
                     setTimeout(() => {
                         this.$vux.alert.hide()

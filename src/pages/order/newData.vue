@@ -151,7 +151,15 @@ export default {
                             name:'访问量',
                             type:'line',
                             stack: '销量',
-                            itemStyle : { normal: {label : {show: true,color:'#ffffff'}}},
+                            itemStyle : {
+                              normal: {
+                              label : {show: true},
+                              lineStyle : {
+                                  width : 0.5,
+                                  color : '#ffffff'
+                                },
+                              }
+                            },
                             data:b,
                             color:"#ffffff"
                         }
@@ -236,7 +244,15 @@ export default {
                             name:'访问量',
                             type:'line',
                             stack: '销量',
-                            itemStyle : { normal: {label : {show: true,color:'#F7FF50'}}},
+                            itemStyle : {
+                              normal: {
+                              label : {show: true},
+                              lineStyle : {
+                                  width : 0.5,
+                                  color : '#f7ff50'
+                                },
+                              }
+                            },
                             data:b,
                             color:"#ffffff"
                         }

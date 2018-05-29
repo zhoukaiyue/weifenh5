@@ -93,7 +93,15 @@ export default {
                             name:'订单销售额',
                             type:'line',
                             stack: '销量',
-                            itemStyle : { normal: {label : {show: true,color:'#ffffff'}}},
+                            itemStyle : { 
+                              normal: {
+                                label : {show: true,color:'#ffffff'},
+                                lineStyle : {
+                                    width : 0.5,
+                                    color : '#ffffff'
+                                },
+                              }
+                            },
                             data:b,
                             color:"#ffffff"
                         }
@@ -103,6 +111,7 @@ export default {
     },
     order(a){
       const _this = this;
+      _this.$loading.show()
       var arr = [];
       var Data = [];
       const url =`${myPub.URL}/merchant/Clerk/orderData`;
@@ -112,16 +121,36 @@ export default {
           params.append('type',a);
           axios.post(url,params).then(response => {
             console.log(response)
-              const data = response.data.data
-              console.log(data)
-              this.shopdata = data;
-              var objdata = this.shopdata;
-              for(var i in objdata){
-                 arr.push(i)
-                 Data.push(objdata[i])
-              }
-               _this.dd_data(arr,Data);
-
+            if (response.data.status =='1024') {
+                    this.$vux.alert.show({
+                    content: response.data.msg
+                })
+                setTimeout(() => {
+                    this.$vux.alert.hide()
+                    location.href = '/login'
+                  }, 3000)
+                }
+            if (response.data.status == "200") {
+                _this.$loading.hide(); //隐藏
+                const data = response.data.data
+                console.log(data)
+                this.shopdata = data;
+                var objdata = this.shopdata;
+                for(var i in objdata){
+                   arr.push(i)
+                   Data.push(objdata[i])
+                }
+                 _this.dd_data(arr,Data);
+            }else{
+                 _this.$loading.hide();//隐藏
+                this.$vux.alert.show({
+                    title: '操作失败',
+                    content: response.data.msg
+                })
+                setTimeout(() => {
+                    this.$vux.alert.hide()
+                }, 3000)
+            }              
           }).catch((err) => {
               console.log(err)
           })

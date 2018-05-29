@@ -145,7 +145,15 @@ export default {
                             name:'访问量',
                             type:'line',
                             stack: '销量',
-                            itemStyle : { normal: {label : {show: true,color:'#ffffff'}}},
+                            itemStyle : {
+                              normal: {
+                              label : {show: true,color:'#ffffff'},
+                              lineStyle : {
+                                  width : 0.5,
+                                  color : '#ffffff'
+                                },
+                              }
+                            },
                             data:b,
                             color:"#ffffff"
                         }
@@ -223,7 +231,15 @@ export default {
                         "name":"销量",
                         "type":"bar",
                         "data":b,
-                        itemStyle : { normal: {label : {show: true,color:'#ffffff',position:'top'}}},
+                        itemStyle : {
+                            normal: {
+                            label : {show: true,color:'#ffffff'},
+                            lineStyle : {
+                                width : 0.5,
+                                color : '#ffffff'
+                            },
+                          }
+                        },
                          barWidth : 10,//柱图宽度
                                                  color: function(params) {
                             // build a color map as your need.

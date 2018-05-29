@@ -29,61 +29,68 @@ export default {
              var option = null;
              var option={
              title: {
-                      text: '员工邀新数据',
-                      left:'center',
-                      textStyle:{
-                        //文字颜色
-                        color:'#ffffff',
-                        //字体风格,'normal','italic','oblique'
-                        fontStyle:'normal',
-                        //字体粗细 'normal','bold','bolder','lighter',100 | 200 | 300 | 400...
-                        fontWeight:'bold',
-                        //字体系列
-                        fontFamily:'sans-serif',
-                        //字体大小
-                　　　　 fontSize:12
-                    }
-                  },
+                text: '员工邀新数据',
+                left:'center',
+                textStyle:{
+                  //文字颜色
+                  color:'#ffffff',
+                  //字体风格,'normal','italic','oblique'
+                  fontStyle:'normal',
+                  //字体粗细 'normal','bold','bolder','lighter',100 | 200 | 300 | 400...
+                  fontWeight:'bold',
+                  //字体系列
+                  fontFamily:'sans-serif',
+                  //字体大小
+          　　　　 fontSize:12
+              }
+            },
                 tooltip:{
                     show:true
                 },
                 xAxis : [{
-                        type : 'category',
-                       data:a,
-                       axisLine: {
-                                lineStyle: {
-                                    type: 'solid',
-                                    color: '#ffffff',//左边线的颜色
-                                    }
-                        },
-                        axisLabel:{
-                             textStyle:{
-                                 color:"#ffffff"
-                             },
-                              interval:0,
-                                    rotate:0
-                         }
+                  type : 'category',
+                 data:a,
+                 axisLine: {
+                  lineStyle: {
+                      type: 'solid',
+                      color: '#ffffff',//左边线的颜色
+                      }
+                  },
+                  axisLabel:{
+                       textStyle:{
+                           color:"#ffffff"
+                       },
+                        interval:0,
+                        rotate:0
+                   }
                 }],
                 yAxis : [
                 {
-                           type: 'value',
-                            axisLine: {
-                            lineStyle: {
-                                    type: 'solid',
-                                    color: 'transparent',//左边线的颜色
-                                    width:'2'//坐标线的宽度
-                                }
-                            },
+                   type: 'value',
+                    axisLine: {
+                    lineStyle: {
+                            type: 'solid',
+                            color: 'transparent',//左边线的颜色
+                            width:'1'//坐标线的宽度
                         }
+                    },
+                }
                 ],
                 series : [
                     {
                         "name":"",
                         "type":"bar",
                         "data":b,
-                        itemStyle : { normal: {label : {show: true,color:'#ffffff',position:'top'}}},
-                         barWidth : 10,//柱图宽度
-                                                 color: function(params) {
+                        itemStyle : { 
+                            normal: {
+                              label : {show: true,color:'#ffffff'},
+                              lineStyle : {
+                                  width : 0.5,
+                                  color : '#ffffff'
+                              },
+                            }
+                          },
+                          color: function(params) {
                             // build a color map as your need.
                             var colorList = [
                               '#ffffff'
@@ -99,30 +106,47 @@ export default {
     // 接口数据
     order(a){
       const _this = this;
+      _this.$loading.show()
       var arr = [];
       var Data = [];
       const url =`${myPub.URL}/merchant/Clerk/dataStatistics`;
-          var params = new URLSearchParams();
-          params.append('token',localStorage.currentUser_token);;
-          params.append('open_id',localStorage.openid);
-          params.append('type',a);
-          axios.post(url,params).then(response => {
-              const data = response.data.data
-              var objdata = data.member_data 
-              console.log(objdata)
-              for(var i in objdata){
-                 arr.push(i)
-                 Data.push(objdata[i])
-              }
-              // for (var i = 0; i < objdata.length; i++) {
-              //   arr.push(objdata[i].truename)
-              //   Data.push(objdata[i].member_count)
-              // }
-                _this.yh_display(arr,Data);
-
-          }).catch((err) => {
-              console.log(err)
-          })
+        var params = new URLSearchParams();
+        params.append('token',localStorage.currentUser_token);;
+        params.append('open_id',localStorage.openid);
+        params.append('type',a);
+        axios.post(url,params).then(response => {
+        if (response.data.status =='1024') {
+                this.$vux.alert.show({
+                content: response.data.msg
+            })
+            setTimeout(() => {
+                this.$vux.alert.hide()
+                location.href = '/login'
+              }, 3000)
+            }
+        if (response.data.status == "200") {
+            _this.$loading.hide(); //隐藏
+            const data = response.data.data
+            var objdata = data.member_data 
+            console.log(objdata)
+            for(var i in objdata){
+               arr.push(i)
+               Data.push(objdata[i])
+            }
+              _this.yh_display(arr,Data);
+        }else{
+             _this.$loading.hide();//隐藏
+            this.$vux.alert.show({
+                title: '操作失败',
+                content: response.data.msg
+            })
+            setTimeout(() => {
+                this.$vux.alert.hide()
+            }, 3000)
+          }                            
+      }).catch((err) => {
+          console.log(err)
+      })
     }
   },
 
