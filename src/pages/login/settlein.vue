@@ -69,7 +69,10 @@ function getFileUrl(obj) {
         //提交信息到后台
         submit(){
           console.log('11')
+          const _this=this;
+           _this.$loading.show()
             if(this.shopname==""){
+              _this.$loading.hide()
               this.$vux.alert.show({
                       title: '操作失败',
                       content: '店铺名称不能为空'
@@ -80,6 +83,7 @@ function getFileUrl(obj) {
               return false;
             }
             if(this.contact==""){
+               _this.$loading.hide()
               this.$vux.alert.show({
                       title: '操作失败',
                       content: '店铺负责人不能为空'
@@ -90,6 +94,7 @@ function getFileUrl(obj) {
                 return false;
             }
             if(this.mobile==""){
+               _this.$loading.hide()
               this.$vux.alert.show({
                       title: '操作失败',
                       content: '联系电话不能为空'
@@ -119,6 +124,7 @@ function getFileUrl(obj) {
             params.append('mobile',this.mobile);
             params.append('img_src',sessionStorage.getItem('bulicense_url'));
             axios.post(url,params).then(response => {
+              _this.$loading.hide()
               // token失效
               if (response.data.status =='1004') {
                  _this.getData()
@@ -135,6 +141,7 @@ function getFileUrl(obj) {
                 }, 3000)
               }              
             }).catch((err) => {
+               _this.$loading.hide()
               console.log(err)
             })
           }
