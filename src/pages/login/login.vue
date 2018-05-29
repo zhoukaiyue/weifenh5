@@ -128,6 +128,7 @@ export default {
         },
         login(){
              const _this=this;
+             //令牌过期  _this.getData();
               _this.$loading.show();//显示
              const url =`${myPub.URL}/merchant/Shop/login`;
               var params = new URLSearchParams();
@@ -150,7 +151,7 @@ export default {
                     //登陆成功存储登录状态
                     localStorage.setItem('login_static','true');
                     // 存储是店员or店长登录字段
-                    // response.data.type=1  店长 localStorage.Identity
+                    // response.data.type=1  店长 取值localStorage.Identity
                     localStorage.setItem('Identity',identity);
                     // 重定向到首页或者登录前的页面
                     let redirect = decodeURIComponent(

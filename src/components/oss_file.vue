@@ -65,7 +65,8 @@
                             var yyyyMMdd = curr_year + "" + curr_month +""+ curr_date;
                             // 文件夹名称
                             console.log(yyyyMMdd)
-                           var n1=Math.floor(Math.random()*10+1);
+
+                           var n1=(new Date()).valueOf();
                            console.log(self.message)
                             if(self.message=='store'){
                                 console.log('store111')
@@ -107,7 +108,7 @@
                                 console.log('存儲店员图像')
                                 sessionStorage.setItem('shopmin_url',bulicense_url);
                                 console.log(sessionStorage.getItem('shopmin_url'))
-                                self.set_upload_param(up, 'shop/'+yyyyMMdd+'/'+file.name, true);
+                                self.set_upload_param(up, 'user/'+yyyyMMdd+'/'+file.name, true);
                                 self.shop_min()
                             }
                             // self.set_upload_param(up, 'user/'+yyyyMMdd+'/'+file.name, true);

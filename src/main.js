@@ -29,7 +29,8 @@ Vue.use(Loading);
 
 import VueLazyload from 'vue-lazyload'
 
-
+import util from './assets/js/until'
+Vue.use(util);
 
 // or with options
 Vue.use(VueLazyload, {
@@ -101,7 +102,6 @@ router.beforeEach((to, from, next) => {
     } else {
         next()
     }
-
 
     if (localStorage.currentUser_token == null || localStorage.currentUser_token == undefined) {
       const url =`${myPub.URL}/merchant/Baseapi/getToken`; //获取token接口地址
