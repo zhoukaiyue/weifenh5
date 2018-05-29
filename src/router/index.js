@@ -62,7 +62,7 @@ const routes = [
         children: [
             {
                 path: '',
-                redirect: '/login'
+                redirect: '/page/home'
             },
             {
                 path: 'home',
@@ -537,7 +537,7 @@ const routes = [
     },
     { 
         path: '*', 
-        component: Login,
+        component: Home,
         requireAuth: true, 
          meta: {
             auth: true

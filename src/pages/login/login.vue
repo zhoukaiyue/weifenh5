@@ -308,20 +308,20 @@ export default {
         box-sizing:border-box;
         .input1{
             font-size:1rem;
-            line-height:53px;
+            line-height:40px;
             color:#cccccc;
-            height:100%;
             width:100%;
             border: 0px;outline:none;cursor: pointer;
+            margin-top: 10px;
         }
         .input2{
             font-size:1rem;
-            line-height:53px;
+            line-height:40px;
             color:#cccccc;
-            height:100%;
             width:40%;
             float:left;
             border: 0px;outline:none;cursor: pointer;
+            margin-top: 10px;
         }
         span{
             float:right;

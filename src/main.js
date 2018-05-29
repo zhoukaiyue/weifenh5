@@ -69,7 +69,8 @@ Vue.use(WechatAuth , {
             localStorage.setItem('openid',openid);
             console.log('这是openid'+`${openId.open_id}`)
             console.log('这是本地存储openid'+localStorage.openid)
-            next('/login')
+            alert(localStorage.openid)
+            next('/page/home')
       }).catch((err) => {
           axios.post(url,params).then(response => {
             console.log('向后台传输code2')
@@ -78,8 +79,8 @@ Vue.use(WechatAuth , {
             console.log('获取到openid')
             console.log(localStorage.openid)
             console.log(`${openId.open_id}`)
-            next('/home')
-
+            next('/page/home')
+            alert(localStorage.openid)
       })
     })
   }
@@ -111,6 +112,7 @@ router.beforeEach((to, from, next) => {
         const currentUser_token = response.data.data //获取token
         console.log(currentUser_token)
         localStorage.setItem('currentUser_token',currentUser_token);//本地存储token
+        alert(localStorage.currentUser_token)
         if (!currentUser_token) {
           const url =`${myPub.URL}/merchant/Baseapi/auth`;
           const date = new Date();

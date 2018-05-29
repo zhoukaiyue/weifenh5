@@ -191,6 +191,7 @@ export default {
               }, 3000)
             }
             if (response.data.status =='1053') {
+              this.$vux.alert.hide()
               _this.is_show6=true
               _this.is_show7=false
             }
@@ -288,6 +289,7 @@ export default {
             }, 3000)
           }
           if (response.data.status =='1053') {
+              this.$vux.alert.hide()
               _this.is_show6=true
               _this.is_show7=false
             }

@@ -276,7 +276,7 @@ export default {
         this.is_show1=true
         this.is_show3=false
         this.$vux.alert.show({
-            content: "敬请期待"
+            content: "暂无数据"
         })
         setTimeout(() => {
             this.$vux.alert.hide()
@@ -289,7 +289,7 @@ export default {
         this.is_show1=true
         this.is_show3=false
         this.$vux.alert.show({
-            content: "敬请期待"
+            content: "暂无数据"
         })
         setTimeout(() => {
             this.$vux.alert.hide()
@@ -312,7 +312,7 @@ export default {
         this.is_show5=false
         this.is_show6=false
         this.$vux.alert.show({
-            content: "敬请期待"
+            content: "暂无数据"
         })
         setTimeout(() => {
             this.$vux.alert.hide()
@@ -325,7 +325,7 @@ export default {
         this.is_show5=false
         this.is_show6=false
         this.$vux.alert.show({
-            content: "敬请期待"
+            content: "暂无数据"
         })
         setTimeout(() => {
             this.$vux.alert.hide()
