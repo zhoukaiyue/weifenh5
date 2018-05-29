@@ -122,6 +122,8 @@ export default {
             }
         },
         phone(){
+            const _this=this
+            _this.$loading.show()
             const url =`${myPub.URL}/merchant/Shop/editShopKeeper`;
             const check_shop = this.$route.query.check_shop
               var params = new URLSearchParams();
@@ -132,6 +134,7 @@ export default {
               params.append('open_id',localStorage.openid);
               params.append('session_id',localStorage.sessionid);
               axios.post(url,params).then(response => {
+                _this.$loading.hide()
                 if (response.data.status =='1024') {
                   this.$vux.alert.show({
                       content: response.data.msg
@@ -140,6 +143,10 @@ export default {
                       this.$vux.alert.hide()
                       location.href = '/login'
                   }, 3000)
+                }
+                // token失效
+                if (response.data.status =='1004') {
+                  _this.getData()
                 }
                 const status = response.data.status
                 if (status == "200") {

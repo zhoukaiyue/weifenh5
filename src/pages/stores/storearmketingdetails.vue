@@ -127,6 +127,10 @@ export default {
                 }, 2000)
 
             }
+            // token失效
+            if (response.data.status =='1004') {
+              _this.getData()
+            }
             //当前状态为登录状态 一切正常进行
             if(ost==200||ost=='200'){
                 const data =response.data.data

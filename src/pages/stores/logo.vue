@@ -44,14 +44,16 @@ export default {
         },
         // 更改品牌名称
         brand_name(){
+          const _this =this
+          _this.$loading.show()
           const url =`${myPub.URL}/merchant/Shop/editInfo`;
           const brand_name = $(".input").val();
-          // console.log(brand_name)
           var params = new URLSearchParams();
           params.append('token',localStorage.currentUser_token);
           params.append('open_id',localStorage.openid);
           params.append('brand_name',brand_name);
           axios.post(url,params).then(response => {
+            _this.$loading.hide()
           if (response.data.status =='1024') {
               this.$vux.alert.show({
                   content: response.data.msg
@@ -61,22 +63,26 @@ export default {
                   location.href = '/login'
               }, 3000)
             }
+            // token失效
+            if (response.data.status =='1004') {
+              _this.getData()
+            }
           const status = response.data.status
          if (status == "200") {
-               this.$router.push({ path: '/page/storeInfo', query: { num:  brand_name},meta:{keepAlive: true}})
-            }else{
-                this.$vux.alert.show({
-                    title: '操作失败',
-                    content: response.data.msg
-                })
-                setTimeout(() => {
-                    this.$vux.alert.hide()
-                }, 3000)
-            }
-          }).catch((err) => {
-              console.log(err)
-          })
-        },
+             this.$router.push({ path: '/page/storeInfo', query: { num:  brand_name},meta:{keepAlive: true}})
+          }else{
+              this.$vux.alert.show({
+                  title: '操作失败',
+                  content: response.data.msg
+              })
+              setTimeout(() => {
+                  this.$vux.alert.hide()
+              }, 3000)
+          }
+        }).catch((err) => {
+            console.log(err)
+        })
+      },
     }
 }
 </script>

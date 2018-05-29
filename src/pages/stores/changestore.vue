@@ -58,6 +58,7 @@ export default {
           params.append('mobile',this.mobile);
           params.append('open_id',localStorage.openid);
           axios.post(url,params).then(response => {
+            _this.$loading.hide()
             if (response.data.status =='1024') {
               this.$vux.alert.show({
                   content: response.data.msg
@@ -70,12 +71,15 @@ export default {
             console.log(response)
             const status = response.data.status
             console.log(status)
+            // token失效
+            if (response.data.status =='1004') {
+              _this.getData()
+            }
             if (status == "200") {
                 setTimeout(() => {
                     _this.$loading.hide();//隐藏
                    this.$router.push({ path: '/page/storesuccess'})
                 }, 2000)
-                // this.$router.push({ path: 'page/shopCenter'})
             }else{
                  _this.$loading.hide();//隐藏
                   this.$vux.alert.show({
