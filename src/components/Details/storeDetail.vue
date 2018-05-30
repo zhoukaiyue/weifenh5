@@ -44,7 +44,7 @@
                 <div class="country">
                     <div class="country_span">来自
                     <img v-lazy="product.natinal_flag" alt="">
-                    {{product.natinal_name}}日本</div>
+                    {{product.natinal_name}}</div>
                     <div class="country_label">本商品售价已含税，无需额外支付税费</div>
                  </div>
             </div>
@@ -73,7 +73,7 @@
           </popup>
         </div>
 
-        <div class="detail-bottom" style="margin-bottom:55px;">
+        <div class="detail-bottom">
             <tab :line-width=2
                  active-color='#f54321'
                  v-model="index">
@@ -84,12 +84,12 @@
                           :key="index">{{item}}</tab-item>
             </tab>
             <swiper v-model="index"
-                    height="auto"
-                    :show-dots="false">
-                <swiper-item 
-                             :key="index">
-                    <div class="tab-swiper vux-center"> <div v-html='product.goods_desc'></div></div>
-                </swiper-item>
+                height="auto"
+                :show-dots="false">
+            <swiper-item 
+                         :key="index">
+                <div class="tab-swiper vux-center" style="z-index: 0;"> <div v-html='product.goods_desc'></div></div>
+            </swiper-item>
 
                 <div v-transfer-dom>
                   <x-dialog v-model="showHideOnBlur" class="dialog-demo" hide-on-blur>
@@ -408,7 +408,7 @@ export default {
     position:fixed;
     bottom:0;
     left:0;
-    z-index:1000000;
+    z-index:2000000;
     display:flex;
     align-items:center;
     .product-counts {
@@ -432,7 +432,6 @@ export default {
     */
 }
 .form_kf{
-
         height: 100%;
         position: absolute;
         top: 0;

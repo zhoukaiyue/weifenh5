@@ -2,7 +2,7 @@
     <div class="logo">
     <!-- 顶部数据 -->
           <h5>修改负责人</h5>
-          <input class="input" placeholder="修改负责人名字" />
+          <input class="input" :placeholder="user" />
           <span class="button" v-on:click="people">保存</span>
     </div>
 </template>
@@ -22,7 +22,8 @@ export default {
 　　　　　　　　items: [
 　　　　　　　　　　{select:'营销中（29)'},
 　　　　　　　　　　{select:'已下架（39)'},
-　　　　　　　　]
+　　　　　　　　],
+              user:this.$route.query.user
 　　　　　　}
 　　　　},
     created() {

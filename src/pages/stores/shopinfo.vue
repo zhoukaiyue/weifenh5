@@ -2,7 +2,7 @@
     <div class="logo">
     <!-- 顶部数据 -->
           <h5>店铺介绍</h5>
-          <textarea class="input"></textarea>  
+          <textarea class="input" :placeholder="contact"></textarea>  
           <span class="button" v-on:click="description">保存</span>
     </div>
 </template>
@@ -19,6 +19,7 @@ export default {
     data(){
 　　　　　　return {
 　　　　　　　　active: false,
+               contact:this.$route.query.contact
 　　　　　　}
 　　　　},
     created() {
@@ -68,6 +69,7 @@ export default {
             }
             if (response.data.status =='200') {
               _this.$loading.hide();
+              this.$router.push({ path: '/page/storeInfo'})
             }else{
               this.$vux.alert.show({
                 content: response.data.msg

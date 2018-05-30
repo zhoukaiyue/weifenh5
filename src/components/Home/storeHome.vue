@@ -60,13 +60,13 @@
         <div class="recent-products">
             <h5 class="title">店铺排行 <span>附近店家人气排行</span><!--  <span class="see">查看全部&emsp;<img src="~@/assets/icon/goods-left.png"></span> --></h5>
             <ul>
-                <li>
-                    <img src="~@/assets/img/goods.png">
-                    <img class="icon" src="~@/assets/icon/one.png">
-                    <h5>美妆护肤</h5>
-                    <p>月引客1538<img src="~@/assets/icon/hot.png"><img src="~@/assets/icon/hot.png"></p>
+                <li v-for="(item,index) in shoplist" class="">
+                    <img v-lazy="item.head_pic">
+                    <span :class="item.index">{{index+1}}</span>
+                    <h5>{{item.name}}</h5>
+                    <p>月引客{{item.fans_count}}<img v-if="isshow4" class="img1" src="~@/assets/icon/hot.png"><img class="img2" v-if="isshow5" src="~@/assets/icon/hot.png"></p>
                 </li>
-                 <li>
+                <!--  <li>
                     <img src="~@/assets/img/goods.png">
                     <img class="icon" src="~@/assets/icon/two.png">
                     <h5>美妆护肤</h5>
@@ -77,7 +77,7 @@
                     <img class="icon" src="~@/assets/icon/three.png">
                     <h5>美妆护肤</h5>
                     <p>月引客158<img src="~@/assets/icon/hot.png"></p>
-                </li>
+                </li> -->
             </ul>
         </div>
     </div>
@@ -85,6 +85,7 @@
 
 <script>
 import { Swiper, SwiperItem,ButtonTab, ButtonTabItem, Divider,Toast } from 'vux'
+import $ from 'jquery'
 import products from '@/components/Products'
 import * as myPub from '@/assets/js/public.js'
 import * as openId from '@/assets/js/opid_public.js'
@@ -99,7 +100,13 @@ export default {
             themeList: [],
             recentList: [],
             datalist:[],
-            num:''
+            num:'',
+            shoplist:[],
+            isshow1:false,
+            isshow2:false,
+            isshow3:false,
+            isshow4:false,
+            isshow5:false
         }
     },
     created() {
@@ -139,7 +146,7 @@ export default {
           params.append('open_id',localStorage.openid);
           axios.post(url,params).then(response => {
             _this.$loading.hide();
-            console.log('1')
+            console.log(response)
             if (response.data.status =='1024') {
                  _this.$loading.hide();
                  _this.$vux.alert.show({
@@ -159,7 +166,8 @@ export default {
                const data = response.data.data
                 this.num = data
                 this.datalist = data.category_list
-                console.log(response.data.status)
+                this.shoplist = data.shop_list
+                console.log(this.shoplist)
                 }else{
                   this.$vux.alert.show({
                   content: response.data.msg
@@ -238,10 +246,10 @@ export default {
         li:first-child{margin-left: 0;}
     }
     .recent-products {overflow: hidden;
-        padding: 17px 15px 25px 15px;
-        margin: 10px 0px;
+        padding: 17px 15px 0px 15px;
+        margin-top: 10px;
         background: #fff;
-        height: 12rem;
+        height: 13rem;
         .title{
             font-size: 1rem;
             span{font-size: 0.8rem;color: #999999;font-weight: normal;}
@@ -262,7 +270,9 @@ export default {
             p{font-size: 0.7rem;color: #f54321;text-align: center;img{width: 0.8rem;display: inline-block;}}
             img{display: block;width: 90%;margin-left: 5%;}
             .hide{display: none;}
-            .icon{position: absolute;width: 1rem;top: 0.3rem;left: 0;}
+            .icon1{position: absolute;width: 1rem;height:2rem;top: 0.3rem;left: 0;background: url(~@/assets/icon/one.png);display: inline-block;background-size: 100%;background-repeat: no-repeat;}
+            .icon2{position: absolute;width: 1rem;height:2rem;top: 0.3rem;left: 0;background: url(~@/assets/icon/two.png);display: inline-block;background-size: 100%;background-repeat: no-repeat;}
+            .icon3{position: absolute;width: 1rem;height:2rem;top: 0.3rem;left: 0;background: url(~@/assets/icon/three.png);display: inline-block;background-size: 100%;background-repeat: no-repeat;}
         }
         li:first-child{margin-left: 0;}
     }

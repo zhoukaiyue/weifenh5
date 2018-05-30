@@ -659,6 +659,7 @@ export default {
         background: -moz-linear-gradient(#ff795e, #ff7f40);
         /* Firefox 3.6 - 15 */
         background: linear-gradient(#ff795e, #ff7f40);
+        margin-bottom:10px;
         /* 标准的语法 */
         li {
             display: inline-block;
@@ -668,11 +669,10 @@ export default {
             margin-bottom: 20px;
             p {
                 color: #ffffff;
-                font-size:0.8rem;
+                font-size:0.9rem;
                 line-height: 25px;
             }
         }
-        margin-bottom:10px;
         .f16 {
             font-family:PingFangSC-Semibold;
             font-size:1rem!important;
@@ -689,7 +689,7 @@ export default {
         }
         .f18, .f19, .f20 {
             font-family:PingFangSC-Regular;
-            font-size:0.8rem;
+            font-size:0.9rem;
             color:#ffffff;
             letter-spacing:0;
             text-align:center;
@@ -703,40 +703,40 @@ export default {
         background: -moz-linear-gradient(#ff795e, #ff7f40);
         /* Firefox 3.6 - 15 */
         background: linear-gradient(#ff795e, #ff7f40);
+        margin-bottom:10px;
         /* 标准的语法 */
         li {
             display: inline-block;
             width: 32%;
             text-align: center;
             margin-top: 30px;
-            margin-bottom: 20px;
+            margin-bottom:20px;
             p {
                 color: #ffffff;
-                font-size:0.8rem;
+                font-size:0.9rem;
                 line-height: 25px;
             }
-        }
-        margin-bottom:10px;
-        .f16 {
-            font-family:PingFangSC-Semibold;
-            font-size:1rem!important;
-            color:#ffffff;
-            letter-spacing:0;
-            text-align:center;
-        }
-        .f17 {
-            font-family:PingFangSC-Regular;
-            font-size:0.8rem;
-            color:#ffffff;
-            letter-spacing:0;
-            text-align:center;
-        }
-        .f18, .f19, .f20 {
-            font-family:PingFangSC-Regular;
-            font-size:0.8rem;
-            color:#ffffff;
-            letter-spacing:0;
-            text-align:center;
+            .f16_selecct{
+                font-family:PingFangSC-Semibold;
+                font-size:1rem!important;
+                color:#ffffff;
+                letter-spacing:0;
+                text-align:center;
+            }
+            .f17_selecct{
+                font-family:PingFangSC-Regular;
+                font-size:0.8rem;
+                color:#ffffff;
+                letter-spacing:0;
+                text-align:center;
+            }
+            .f18_selecct, .f19_selecct, .f20_selecct {
+                font-family:PingFangSC-Regular;
+                font-size:0.9rem;
+                color:#ffffff;
+                letter-spacing:0;
+                text-align:center;
+            }
         }
     }
     /*中间样式*/
