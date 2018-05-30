@@ -1,31 +1,16 @@
 <template>
     <div id="app">
-        <div v-transfer-dom>
-            <loading v-model="isLoading"></loading>
-        </div>
-        <keep-alive>
-            <router-view  v-if="$route.meta.keepAlive"></router-view>
-        </keep-alive>
         <router-view  v-if="!$route.meta.keepAlive"></router-view>
     </div>
 </template>
 
 <script>
-import { Loading, TransferDom } from 'vux'
 import { mapState } from 'vuex'
 export default {
     name: 'app',
-    directives: {
-        TransferDom
-    },
     computed: {
-        ...mapState({
-            isLoading: state => state.isLoading
-        })
     },
     components: {
-        Loading,
-        TransferDom
     }
 }
 </script>
@@ -38,13 +23,13 @@ html,
 body {
     height: 100%;
     width: 100%;
-    overflow-x: hidden;
+    overflow: auto;
 }
 #vux_view_box_body{
     padding-top:0 !important;
 }
 #app {
-    height: 100%;
+    height: auto;
 }
 .vux-slider .vux-icon-dot {
     width: 8px !important;

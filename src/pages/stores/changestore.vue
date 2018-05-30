@@ -76,10 +76,8 @@ export default {
               _this.getData()
             }
             if (status == "200") {
-                setTimeout(() => {
-                    _this.$loading.hide();//隐藏
-                   this.$router.push({ path: '/page/storesuccess'})
-                }, 2000)
+                _this.$loading.hide();//隐藏
+               this.$router.push({ path: '/page/storesuccess'})
             }else{
                  _this.$loading.hide();//隐藏
                   this.$vux.alert.show({

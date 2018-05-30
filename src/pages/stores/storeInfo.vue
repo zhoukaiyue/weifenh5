@@ -33,7 +33,7 @@
         <span class="fl">修改手机号</span><span class="fr"><input type="text" class="mobile"  v-model="type2"/>&emsp;<img src="~@/assets/icon/goods-left.png"></span>
       </li>
       <li class="clearfix" v-on:click="shopinfo(datas.description)">
-        <span class="fl">店铺介绍</span><span class="fr"><b>{{datas.description}}</b>&emsp;<img src="~@/assets/icon/goods-left.png"></span>
+        <span class="fl">店铺介绍</span><span class="fr"><b class="shop">{{datas.description}}</b>&emsp;<img src="~@/assets/icon/goods-left.png"></span>
       </li>
       <!-- 营业执照 -->
       <li class="zz_box clearfix">
@@ -232,29 +232,7 @@ import ossFile from '../../components/oss_file'
   }
 </script>
 <style type="text/css">
-.container{
-    width:150px!important;
-    height:150px!important;
-    position:relative;
-        border-radius: 50%;
-}
-#selectfiles{
-    width:150px!important;
-    height:150px!important;
-    opacity:0;
-    position:absolute;
-    top:0;
-    left:0;
-        border-radius: 50%;
-}
-#imgId{
-    width:150px!important;
-    height:150px!important;
-    position:absolute;
-    top:0;
-    left:0;
-        border-radius: 50%;
-}
+
 </style>
 <style scoped lang="less">
 @import '~vux/src/styles/center.less';
@@ -281,7 +259,8 @@ import ossFile from '../../components/oss_file'
   padding: 0;margin-top: 1rem;
   li{list-style: none;padding:0.5rem;border-bottom: 1px solid #dddddd;font-size:0.9rem;.fr{color: #999999;width: 70%;text-align: right;line-height: 1.2rem;font-size: 0.8rem;position:relative;
     img{position: absolute;width: 0.6rem;top: 0.2rem;}
-    b{font-weight: normal;display: inline-block;width: 80%;display: none;}
+    b{font-weight: normal;display: inline-block;width: 80%;}
+    .shop{display: none;}
     .mobile{border: 0;text-align: right;color: #999999}
     }
   }

@@ -2,7 +2,7 @@
     <div class="logo">
     <!-- 顶部数据 -->
           <h5>品牌名称</h5>
-          <input class="input" :placeholder='name' />
+          <p class="input" ><input :placeholder='name' /></p>
           <span class="button" v-on:click="brand_name">保存</span>
     </div>
 </template>
@@ -48,7 +48,7 @@ export default {
           const _this =this
           _this.$loading.show()
           const url =`${myPub.URL}/merchant/Shop/editInfo`;
-          const brand_name = $(".input").val();
+          const brand_name = $(".input input").val();
           var params = new URLSearchParams();
           params.append('token',localStorage.currentUser_token);
           params.append('open_id',localStorage.openid);
@@ -103,7 +103,9 @@ export default {
 }
 .logo{
   padding: 20px;h5{line-height: 30px;font-size: 1rem;font-weight: normal;}
-  .input{width: 96%;background: #f7f7f7;line-height: 40px;border: 0;border-radius: 4px;padding-left: 4%;margin-top:10px; }
+  .input{width: 96%;background: #f7f7f7;line-height: 40px;border: 0;border-radius: 4px;padding-left: 4%;margin-top:10px;
+      input{border:0;width: 100%;background: transparent;}
+   }
   .button{width: 100%;height: 40px;background: #fd5536;border-radius: 4px;color: #ffffff;display: inline-block;line-height: 40px;text-align: center;margin-top: 30px}
 }
 </style>

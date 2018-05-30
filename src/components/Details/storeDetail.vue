@@ -89,6 +89,7 @@
             <swiper-item 
                          :key="index">
                 <div class="tab-swiper vux-center" style="z-index: 0;"> <div v-html='product.goods_desc'></div></div>
+                <div style="height: 50px;"></div>
             </swiper-item>
 
                 <div v-transfer-dom>
@@ -593,7 +594,7 @@ s {
     background:#ffffff;
     margin-top:15px;
     .tab-swiper {
-    background-color:#ffffff;
+    background-color:red;
     height:180px;
 }
 }.sold_information {

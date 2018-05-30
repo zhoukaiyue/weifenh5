@@ -117,6 +117,7 @@ function getFileUrl(obj) {
             console.log('提交')
             const url =`${myPub.URL}/merchant/Shop/apply`;
             var params = new URLSearchParams();
+            _this.$loading.show()
             params.append('token',localStorage.currentUser_token);
             params.append('open_id',localStorage.openid);
             params.append('shopname',this.shopname);
@@ -205,7 +206,6 @@ function getFileUrl(obj) {
     border:1px solid #e7e7e7;
 }
 #imgId{
-    height:100%!important;
     position:absolute;
     top:0;
     left:0;
@@ -317,12 +317,12 @@ function getFileUrl(obj) {
     input{
       float:right;
       width:70%;
-      height:30px;
+      height:20px;
       font-size:1rem;
-      line-height:30px;
+      line-height:20px;
       color:#333333;
       border: 0px;outline:none;cursor: pointer;
-      margin-top: 12px;
+      margin-top: 18px;
     }
   }
 }
