@@ -69,7 +69,7 @@ Vue.use(WechatAuth , {
             localStorage.setItem('openid',openid);
             console.log('这是openid'+`${openId.open_id}`)
             console.log('这是本地存储openid'+localStorage.openid)
-            alert(localStorage.openid)
+            // alert(localStorage.openid)
             next('/page/home')
       }).catch((err) => {
           axios.post(url,params).then(response => {
@@ -80,14 +80,14 @@ Vue.use(WechatAuth , {
             console.log(localStorage.openid)
             console.log(`${openId.open_id}`)
             next('/page/home')
-            alert(localStorage.openid)
+            // alert(localStorage.openid)
       })
     })
   }
 })
 router.beforeEach((to, from, next) => {
 
-// localStorage.setItem('openid','oo1Fj0vuyJHl27Zlytaj3z5c925Q');
+localStorage.setItem('openid','oo1Fj0hcOBHHOfVJWV-zz-zyflE4');
     // 设置标题
     document.title = to.meta.title
     //判断登录跳转

@@ -2,10 +2,10 @@
 	<div class="commodityData">
 		<p class="title">店铺订单<span @click="torder(0)">查看更多&ensp;<img src="~@/assets/icon/goods-left.png"></span></p>
 		<ul class="commodityData_title">
-			  <li class="processing" @click="torder(0)"><span class="processing_img"></span><label>全部</label><span class="circular">{{shopdata.all_count}}</span></li>
-		      <li class="carryout" @click="torder(1)"><span class="carryout_img"></span><label>进行中</label><span class="circular">{{shopdata.count_ing}}</span></li>
-		      <li class="cancel" @click="torder(2)"><span class="cancel_img"></span><label>已完成</label><span class="circular" >{{shopdata.count_complete}}</span></li>
-		      <li class="aftersales" @click="torder(3)"><span class="aftersales_img"></span><label>已取消</label><span class="circular">{{shopdata.count_cancel}}</span></li>
+			  <li class="processing" @click="torder(0)"><span class="processing_img"></span><label>全部</label><span class="circular" v-if="isshow1">{{shopdata.all_count}}</span></li>
+		      <li class="carryout" @click="torder(1)"><span class="carryout_img"></span><label>进行中</label><span class="circular" v-if="isshow2">{{shopdata.count_ing}}</span></li>
+		      <li class="cancel" @click="torder(2)"><span class="cancel_img"></span><label>已完成</label><span class="circular" v-if="isshow3">{{shopdata.count_complete}}</span></li>
+		      <li class="aftersales" @click="torder(3)"><span class="aftersales_img"></span><label>已取消</label><span class="circular" v-if="isshow4">{{shopdata.count_cancel}}</span></li>
 		</ul>
 
 		<div class="data_display">
@@ -90,7 +90,11 @@ export default {
         // 7日订单量 和 7日交易额 组件切换条件
         isshow8: false,
         // 店铺数据
-        shopdata:{}
+        shopdata:{},
+        isshow1: false,
+        isshow2: false,
+        isshow3: false,
+        isshow4: false
     };
   },
   	created() {
@@ -189,6 +193,7 @@ export default {
       params.append('open_id',localStorage.openid);
       params.append('type',a);
       axios.post(url,params).then(response => {
+        console.log(response)
       	_this.$loading.hide()
       	if (response.data.status =='1024') {
           this.$vux.alert.show({
@@ -206,9 +211,21 @@ export default {
         // 状态码
         if (response.data.status =='200') {
             const data = response.data.data
-          	this.shopdata = data.order_data
+          	_this.shopdata = data.order_data
           	var objdata = this.shopdata;
           	console.log(objdata)
+            if (objdata.all_count!='0') {
+              _this.isshow1 = true
+            }
+            if (objdata.count_cancel!='0') {
+              _this.isshow4 = true
+            }
+            if (objdata.count_complete!='0') {
+              _this.isshow3 = true
+            }
+            if (objdata.count_ing!='0') {
+              _this.isshow2 = true
+            }
         }else{
           	this.$vux.alert.show({
               ontent: response.data.msg
@@ -358,10 +375,9 @@ export default {
 		        	text-align:center;
 		        	flex-grow:1;
 		        	font-family:PingFangSC-Regular;
-					font-size:0.7rem;
+					font-size:0.8rem;
 					color:#777777;
 					letter-spacing:0;
-					padding:0.3rem 0.5rem;
 					border:1px solid #eeeeee;
 		        }
 		        .frist{

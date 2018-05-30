@@ -21,7 +21,7 @@
             </p>
             <p>
                 <input type="number" v-model="verifyCode"  oninput="if(value.length>4)value=value.slice(0,4)"  placeholder="请输入验证码" class="input2"> 
-                <span  @click="sendCode" class="verification">{{btnText}}</span>
+                <button  @click="sendCode" class="verification" >{{btnText}}</button>
             </p>      
         </div>
         <div style="padding:15px;margin-top:30px;">
@@ -34,6 +34,7 @@
 <script>
 import { XInput, Group, XButton, Cell, Toast, base64 } from 'vux'
 import { mapMutations } from 'vuex'
+import $ from 'jquery'
 import axios from 'axios'
 import * as myPub from '@/assets/js/public.js'
 import * as openId from '@/assets/js/opid_public.js'
@@ -106,7 +107,6 @@ export default {
                     console.log(sessionid)
                     localStorage.setItem('sessionid',sessionid);
                     this.time = 120
-                    this.disabled = true
                     this.timer()
                 }else{
                     this.$vux.alert.show({
@@ -125,10 +125,13 @@ export default {
                 this.time--
                 this.btnText = this.time + 's后重新获取'
                 setTimeout(this.timer, 1000)
+                $('.verification').attr('disabled',true)
+                $('.verification').css('color',"#ccccccc")
             } else {
                 this.time = 0
                 this.btnText = '获取验证码'
-                this.disabled = false
+                $('.verification').attr('disabled',false)
+                $('.verification').css('color',"#3333333")
             }
         },
         login(){
@@ -276,10 +279,14 @@ export default {
         border-radius:2px;
     }
     .verification{
+        border:1px solid #eeeeee;
         background:#ffffff;
         height:34px;
         color:#333;
         line-height:34px;
+        margin-top: 8px;
+        float: right;
+        padding: 0 5px;
     }
     .registered{
         width:100%;
@@ -308,16 +315,16 @@ export default {
         box-sizing:border-box;
         .input1{
             font-size:1rem;
-            line-height:40px;
-            color:#cccccc;
+            line-height:30px;
+            color:#333333;
             width:100%;
             border: 0px;outline:none;cursor: pointer;
             margin-top: 10px;
         }
         .input2{
             font-size:1rem;
-            line-height:40px;
-            color:#cccccc;
+            line-height:30px;
+            color:#333333;
             width:40%;
             float:left;
             border: 0px;outline:none;cursor: pointer;

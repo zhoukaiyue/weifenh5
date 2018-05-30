@@ -224,18 +224,20 @@
     position:relative;
 }
 #selectfiles{
-    width:200px;
-    height:200px;
+    width:100%;
+    height:100%;
     opacity:0;
     position:absolute;
     top:0;
     left:0;
+    boder:0;
 }
 #imgId{
-    width:200px;
-    height:200px;
+    width:100%;
+    height:100%;
     position:absolute;
     top:0;
     left:0;
+    boder:0;
 }
 </style>

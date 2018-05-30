@@ -28,22 +28,22 @@ export default {
              let mainChart = echarts.init(myChart)// 基于准备好的dom，初始化echarts实例
              var option = null;
              var option={
-             title: {
-                      text: '员工邀新数据',
-                      left:'center',
-                      textStyle:{
-                        //文字颜色
-                        color:'#ffffff',
-                        //字体风格,'normal','italic','oblique'
-                        fontStyle:'normal',
-                        //字体粗细 'normal','bold','bolder','lighter',100 | 200 | 300 | 400...
-                        fontWeight:'bold',
-                        //字体系列
-                        fontFamily:'sans-serif',
-                        //字体大小
-                　　　　 fontSize:12
-                    }
-                  },
+             // title: {
+             //          text: '员工邀新数据',
+             //          left:'center',
+             //          textStyle:{
+             //            //文字颜色
+             //            color:'#ffffff',
+             //            //字体风格,'normal','italic','oblique'
+             //            fontStyle:'normal',
+             //            //字体粗细 'normal','bold','bolder','lighter',100 | 200 | 300 | 400...
+             //            fontWeight:'bold',
+             //            //字体系列
+             //            fontFamily:'sans-serif',
+             //            //字体大小
+             //    　　　　 fontSize:12
+             //        }
+             //      },
                 tooltip:{
                     show:true
                 },

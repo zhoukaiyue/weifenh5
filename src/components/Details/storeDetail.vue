@@ -121,7 +121,7 @@ import $ from 'jquery'
 import * as myPub from '@/assets/js/public.js'
 import * as openId from '@/assets/js/opid_public.js'
 
-const tabList = () => ['图文详情', '商品解答']
+const tabList = () => ['图文详情']
 const baseList = [{
   img: 'https://ww1.sinaimg.cn/large/663d3650gy1fq66vvsr72j20p00gogo2.jpg',
 }, {
@@ -442,12 +442,13 @@ export default {
 }
 .counts-tips {
     background:url(~@/assets/icon/kefu.png) no-repeat center 2px;
-    background-size: 25px 23px;
+    background-size: 26px 23px;
     display:block;
     height:100%;
     width:100%;
-    font-size:1rem;
+    font-size:0.8rem;
     line-height:80px;
+    margin-top: 5px;
     border:0;
         /*background: transparent;*/
 }

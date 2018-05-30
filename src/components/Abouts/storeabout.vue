@@ -12,7 +12,17 @@
           </li>
         </ul>
       <div class="shop_info_right">
-          <img :src="scdata.shop_info.head_pic" alt="" class="shop_logo">
+        <div class='finish_room2 shop_logo'>
+           <div class='room_add_btn'>
+               <ossFile :imgs='imgs' :message="msg"></ossFile>
+             <!--  <div class="room_opacity"></div>
+              <div id="img-change2">
+                <div class="img-changeImg"></div>
+                <p class="img-changeText">更换店铺图像</p>
+              </div> -->
+            </div>
+        </div>
+          <!-- <img :src="scdata.shop_info.head_pic" alt="" class="shop_logo"> -->
           <span class="info_modification" @click="edit">编辑店铺信息</span>
       </div>
     </div>
@@ -51,12 +61,23 @@ import { Swiper, SwiperItem,ButtonTab, ButtonTabItem, Divider, Toast } from 'vux
 import axios from 'axios'
 import * as myPub from '@/assets/js/public.js'
 import * as openId from '@/assets/js/opid_public.js'
+import ossFile from '../../components/oss_file'
 export default {
+  components: {
+      Swiper, 
+      SwiperItem,
+      ButtonTab, 
+      ButtonTabItem, 
+      Divider, 
+      Toast,
+      ossFile
+    },
     name: 'shop_center',
     data(){
 　　　　　　return {
             scdata:{},
-            openid:localStorage.openid
+            openid:localStorage.openid,
+            msg:'store'
 　　　　　　}
 　　　　},
     created() {
@@ -146,6 +167,7 @@ export default {
 .shop_center{
     background-color:#f9f8f8;
     padding-bottom:20px;
+    .container{width: 100px;height: 100px;border-radius: 50%;}
     .mainInfo{
       width:100%;
       height:220px;

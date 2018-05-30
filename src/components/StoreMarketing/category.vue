@@ -8,7 +8,7 @@
                     <p :class="{f16: choosed1, f16_selecct: choosed2}">{{datalist.marketing_data.visit_count}}</p>
                     <p :class="{f17: choosed1, f17_selecct: choosed2}">今日 <span>
                     <img src="~@/assets/icon/ys.png" v-if="choosed1" class="img_cate">
-                    <img src="~@/assets/icon/xs.png" v-if="choosed2" class="img_cate">
+                    <img src="~@/assets/icon/ys.png" v-if="choosed2" class="img_cate">
                     </span>  <span :class="{f18: choosed1, f18_selecct: choosed2}">{{datalist.marketing_data.visit_count}}</span>
                     </p>
                 </li>
@@ -16,8 +16,8 @@
                     <p>订单量(单)</p>
                     <p :class="{f16: choosed1, f16_selecct: choosed2}">{{datalist.marketing_data.order_count}}</p>
                     <p :class="{f17: choosed1, f17_selecct: choosed2}">今日 <span>
-                    <img src="~@/assets/icon/yx.png" v-if="choosed1" class="img_cate">
-                    <img src="~@/assets/icon/xx.png" v-if="choosed2" class="img_cate">
+                    <img src="~@/assets/icon/ys.png" v-if="choosed1" class="img_cate">
+                    <img src="~@/assets/icon/ys.png" v-if="choosed2" class="img_cate">
                     </span>  <span :class="{f19: choosed1, f19_selecct: choosed2}">{{datalist.marketing_data.order_now_count}}</span>
                     </p>
                 </li>
@@ -25,8 +25,8 @@
                     <p>销售量(件)</p>
                     <p :class="{f16: choosed1, f16_selecct: choosed2}">{{datalist.marketing_data.order_goods_count}}</p>
                     <p :class="{f17: choosed1, f17_selecct: choosed2}">今日 <span>
-                    <img src="~@/assets/icon/yx.png" v-if="choosed1" class="img_cate">
-                    <img src="~@/assets/icon/xx.png" v-if="choosed2" class="img_cate">
+                    <img src="~@/assets/icon/ys.png" v-if="choosed1" class="img_cate">
+                    <img src="~@/assets/icon/ys.png" v-if="choosed2" class="img_cate">
                     </span>  <span :class="{f20: choosed1, f20_selecct: choosed2}">{{datalist.marketing_data.order_now_goods_count}}</span>
                     </p>
                 </li>
@@ -83,7 +83,7 @@
                         </div>
                         <div class="goods clerfix"  >
                              <h5>{{item.goods_name}}<span class="goodsId">{{item.goods_id}}</span></h5>
-                            <p><span class="price">￥{{item.shop_price}}</span> <span class="y-charge">引客价</span> <span class="charge">￥{{item.market_price}}</span>
+                            <p><span class="price">￥{{item.shop_price}}</span> <span class="y-charge">券后价</span> <span class="charge">￥{{item.market_price}}</span>
                                 <a href="javascript:">
                                    <img src="~@/assets/icon/goods-left.png">
                                 </a>
@@ -644,7 +644,7 @@ export default {
     float: right;
 }
 .bb {
-    border-bottom: 1px solid #dddddd;
+    border-bottom: 1px solid #f0f0f0;
 }
 .img_cate {
     vertical-align: text-bottom;
@@ -696,12 +696,13 @@ export default {
         }
     }
     .top_selecct {
-        background-color: #ffffff;
-        background-color: #ffffff;
-        background-color: #ffffff;
+        background: -webkit-linear-gradient(#ff795e, #ff7f40);
         /* Safari 5.1 - 6.0 */
+        background: -o-linear-gradient(#ff795e, #ff7f40);
         /*red Opera 11.1 - 12.0 */
+        background: -moz-linear-gradient(#ff795e, #ff7f40);
         /* Firefox 3.6 - 15 */
+        background: linear-gradient(#ff795e, #ff7f40);
         /* 标准的语法 */
         li {
             display: inline-block;
@@ -710,37 +711,32 @@ export default {
             margin-top: 30px;
             margin-bottom: 20px;
             p {
-                color: #000000;
+                color: #ffffff;
                 font-size:0.8rem;
                 line-height: 25px;
             }
         }
         margin-bottom:10px;
-        .f16_selecct {
+        .f16 {
             font-family:PingFangSC-Semibold;
             font-size:1rem!important;
-            color:#f54321;
+            color:#ffffff;
             letter-spacing:0;
             text-align:center;
         }
-        .f17_selecct {
+        .f17 {
             font-family:PingFangSC-Regular;
             font-size:0.8rem;
-            color:#999999;
+            color:#ffffff;
             letter-spacing:0;
             text-align:center;
         }
-        .f18_selecct, .f19_selecct, .f20_selecct {
+        .f18, .f19, .f20 {
             font-family:PingFangSC-Regular;
             font-size:0.8rem;
+            color:#ffffff;
             letter-spacing:0;
             text-align:center;
-        }
-        .f18_selecct {
-            color:#f54321;
-        }
-        .f19_selecct, .f20_selecct {
-            color:#0bac27;
         }
     }
     /*中间样式*/
@@ -863,7 +859,7 @@ export default {
                     width: 100%;
                     top: 50%;
                     height: 1px;
-                    background: #dddddd;
+                    background: #999999;
                     left: 0;
                 }
                 .list {
@@ -894,18 +890,19 @@ export default {
                 white-space: nowrap;
                 justify-content:space-between;
                 li {
-                    padding:14px 0;
-                    img {
-                        width:19px;
-                        height:19px;
-                    }
                     width:25%;
                     font-family:PingFangSC-Regular;
                     font-size:0.8rem;
                     color:#777777;
                     letter-spacing:0;
                     text-align:center;
+                    padding:14px 0;
+                    margin-top: 0;
+                    img {
+                        height:19px;
+                    }
                 }
+                .select{p{color: #f54321}}
             }
         }
         /*添加商品*/
@@ -913,7 +910,7 @@ export default {
     /*添加商品*/
     .add-goods {
         position: fixed;
-        top: 75%;
+        top: 42%;
         right: 1rem;
         width: 4.2rem;
         height:4.2rem;
@@ -926,7 +923,8 @@ export default {
         }
         p {
             color: #ffffff;
-            font-size: 0.5rem;
+            font-size: 0.75rem;
+            line-height: 10px;
         }
     }
 }

@@ -24,22 +24,22 @@ export default {
                let echarts = require('echarts/lib/echarts');
                let mainChart = echarts.init(Chart);
                 var option = {
-                    title: {
-                        text: '我的新增用户数据',
-                        left:'center',
-                        textStyle:{
-                          //文字颜色
-                          color:'#ffffff',
-                          //字体风格,'normal','italic','oblique'
-                          fontStyle:'normal',
-                          //字体粗细 'normal','bold','bolder','lighter',100 | 200 | 300 | 400...
-                          fontWeight:'bold',
-                          //字体系列
-                          fontFamily:'sans-serif',
-                          //字体大小
-                  　　　　 fontSize:12
-                      }
-                    },
+                  //   title: {
+                  //       text: '我的新增用户数据',
+                  //       left:'center',
+                  //       textStyle:{
+                  //         //文字颜色
+                  //         color:'#ffffff',
+                  //         //字体风格,'normal','italic','oblique'
+                  //         fontStyle:'normal',
+                  //         //字体粗细 'normal','bold','bolder','lighter',100 | 200 | 300 | 400...
+                  //         fontWeight:'bold',
+                  //         //字体系列
+                  //         fontFamily:'sans-serif',
+                  //         //字体大小
+                  // 　　　　 fontSize:12
+                  //     }
+                  //   },
                     tooltip : {
                        // trigger: 'item'
                     },
