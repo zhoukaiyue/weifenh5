@@ -412,7 +412,7 @@ export default {
     display:flex;
     align-items:center;
     .product-counts {
-    width:30%;
+    width:20%;
     height:100%;
     background-color:#ffffff;
     font-family:PingFangSC-Regular;
@@ -435,7 +435,7 @@ export default {
         height: 100%;
         position: absolute;
         top: 0;
-        width: 30%;
+        width: 20%;
         border:0;
         background: transparent;
 }
