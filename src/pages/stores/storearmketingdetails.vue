@@ -10,7 +10,7 @@
             <p class="productinformation_name">{{datalist.goods_name}}</p>
             <p class="productinformation_price"><span>￥{{datalist.shop_price}}</span><label>券后价:</label><b>￥{{datalist.markte_price}}<i></i></b></p>
             <p class="productinformation_xl"><span>销量:{{datalist.ogm}}</span><label>成交订单:{{datalist.order_count}}</label></p>
-            <p class="productinformation_stock"><span>库存:{{datalist.goods_stock}}</span><label>下架时间:{{datalist.create_time.split(" ")[0]}}</label></p>
+            <p class="productinformation_stock"><span>库存:{{datalist.goods_stock}}</span><label>上架时间:{{datalist.create_time.split(" ")[0]}}</label></p>
           </div>
         </div>
 
@@ -111,6 +111,7 @@ export default {
         params.append('type','0');
         params.append('id',id);
         axios.post(url,params).then(response => {
+          console.log(response)
                 _this.$loading.hide();//隐藏
             const status = response.data.status
             //状态码
@@ -125,7 +126,6 @@ export default {
                     this.$vux.alert.hide()
                     location.href = '/login'
                 }, 2000)
-
             }
             // token失效
             if (response.data.status =='1004') {

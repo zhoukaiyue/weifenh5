@@ -24,22 +24,22 @@ export default {
                let echarts = require('echarts/lib/echarts');
                let mainChart = echarts.init(Chart);
                 var option = {
-                    title: {
-                        text: '我的新增用户数据',
-                        left:'center',
-                        textStyle:{
-                          //文字颜色
-                          color:'#ffffff',
-                          //字体风格,'normal','italic','oblique'
-                          fontStyle:'normal',
-                          //字体粗细 'normal','bold','bolder','lighter',100 | 200 | 300 | 400...
-                          fontWeight:'bold',
-                          //字体系列
-                          fontFamily:'sans-serif',
-                          //字体大小
-                  　　　　 fontSize:12
-                      }
-                    },
+                  //   title: {
+                  //       text: '我的新增用户数据',
+                  //       left:'center',
+                  //       textStyle:{
+                  //         //文字颜色
+                  //         color:'#ffffff',
+                  //         //字体风格,'normal','italic','oblique'
+                  //         fontStyle:'normal',
+                  //         //字体粗细 'normal','bold','bolder','lighter',100 | 200 | 300 | 400...
+                  //         fontWeight:'bold',
+                  //         //字体系列
+                  //         fontFamily:'sans-serif',
+                  //         //字体大小
+                  // 　　　　 fontSize:12
+                  //     }
+                  //   },
                     tooltip : {
                        // trigger: 'item'
                     },
@@ -55,11 +55,10 @@ export default {
                             type : 'category',
                             boundaryGap : false,
                             data :a,
-                             axisLine: {
-                          lineStyle: {
-                              type: 'solid',
-                              color: '#ffffff',//左边线的颜色
-                              width:'1'//坐标线的宽度
+                            axisLine: {
+                            lineStyle: {
+                              width : 0.5,
+                              color : '#ffffff'
                             }
                         },
                         axisLabel: {
@@ -68,14 +67,14 @@ export default {
                             }
                         },
                         axisTick:{
-                      show:false/*隐藏刻度*/
-                  }
+                            show:false/*隐藏刻度*/
+                        }
                       }
                     ],
                     yAxis : [
                         {
                        type: 'value',
-                  axisLine: {
+                        axisLine: {
                         lineStyle: {
                               type: 'solid',
                               color: 'transparent',//左边线的颜色
@@ -88,11 +87,11 @@ export default {
                         {
                             name:'访问量',
                             type:'line',
-                            symbolSize:2,
+                            symbolSize:3,
                             stack: '销量',
                             itemStyle : { 
                               normal: {
-                                label : {show: true,color:'#ffffff'},
+                                label : {show: true},
                                 lineStyle : {
                                     width : 0.5,
                                     color : '#ffffff'

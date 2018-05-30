@@ -70,7 +70,7 @@ const routes = [
                 meta: {
                      title: '首页',
                      keepAlive: false,// 不需要被缓存
-                     auth: true,// 如果此路由需要微信授权请设置为true,默认为false
+                     //auth: true,// 如果此路由需要微信授权请设置为true,默认为false
                      requireAuth: true
                 },
                 component: Home
@@ -532,6 +532,7 @@ const routes = [
         name: 'user',
         meta: {
             title: '我的',
+            auth: false
             // requireAuth: true // 添加该字段，表示进入这个路由是需要登录的
         },
         component: User
@@ -539,9 +540,11 @@ const routes = [
     { 
         path: '*', 
         component: Home,
-        meta: {
-             auth: true// 如果此路由需要微信授权请设置为true,默认为false 
-           }
+        requireAuth: true, 
+         meta: {
+            title:'首页',
+            //auth: true
+        }
      }
 ]
 

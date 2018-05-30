@@ -317,12 +317,12 @@ function getFileUrl(obj) {
     input{
       float:right;
       width:70%;
-      height:40px;
+      height:30px;
       font-size:1rem;
-      line-height:40px;
+      line-height:30px;
       color:#333333;
       border: 0px;outline:none;cursor: pointer;
-      margin-top: 8px;
+      margin-top: 12px;
     }
   }
 }

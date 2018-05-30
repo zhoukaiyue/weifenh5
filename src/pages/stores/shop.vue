@@ -24,7 +24,7 @@
                 <td>
                   
                   <img v-lazy="item.head_pic" alt="" class="oimg">&emsp;
-                  <span>{{item.truename}}</span></td>
+                  <span class="name">{{item.truename}}</span></td>
                 <td class="dy_td">{{item.username}}</td>
                 <td class="dy_td">{{item.create_time.split(" ")[0]}}</td>
               </tr>
@@ -252,7 +252,8 @@ export default {
           line-height:3rem;
           td{
             width:27%;
-            color: #777777
+            color: #777777;
+            
           }
           .td1{
             width:12%;
@@ -273,11 +274,12 @@ table{
   padding-bottom: 50px;
   .dy_td{
     font-family:PingFangSC-Regular;
-    font-size:0.9rem;
+    font-size:0.8rem;
     color:#777777;
     letter-spacing:0;
     text-align:center;
   }
+  .name{font-size: 0.9rem;float: left;position: relative;top: 0.3rem;left: 0.6rem;}
   .cb-label{
     margin-left:14px;
     vertical-align: middle;
@@ -287,6 +289,8 @@ table{
     height:30px;
     vertical-align: top;
     border-radius: 50%;
+    display: inline-block;
+    float: left;
   }
   span{
 
@@ -301,6 +305,8 @@ table{
   padding-left:14px;
   box-sizing:border-box;
   bottom:0;
+  z-index: 1111;
+  border-top: 1px solid #f0f0f0;
   .del_dy{
     float:right;
     width:30%;
@@ -321,6 +327,8 @@ input[type="checkbox"]{
 }
 
 .cb-label{
+  position: relative;
+  bottom: 0.1rem;
   height: 20px;
   width: 20px;
   background:#fc5738;

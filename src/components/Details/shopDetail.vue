@@ -66,7 +66,7 @@
           </popup>
         </div>
 
-        <div class="detail-bottom">
+        <div class="detail-bottom" style="margin-bottom:0px;">
             <tab :line-width=2
                  active-color='#f54321'
                  v-model="index">
@@ -116,12 +116,14 @@ import * as openId from '@/assets/js/opid_public.js'
 
 const tabList = () => ['图文详情', '商品解答']
 const baseList = [{
-  img: 'https://ww1.sinaimg.cn/large/663d3650gy1fq66vvsr72j20p00gogo2.jpg',
-}, {
-  img: 'https://ww1.sinaimg.cn/large/663d3650gy1fq66vw1k2wj20p00goq7n.jpg',
-}, {
-  img: 'https://static.vux.li/demo/5.jpg', // 404
-  fallbackImg: 'https://ww1.sinaimg.cn/large/663d3650gy1fq66vw50iwj20ff0aaaci.jpg'
+      img: 'https://ww1.sinaimg.cn/large/663d3650gy1fq66vvsr72j20p00gogo2.jpg',
+    },
+    {
+      img: 'https://ww1.sinaimg.cn/large/663d3650gy1fq66vw1k2wj20p00goq7n.jpg',
+    },
+    {
+      img: 'https://static.vux.li/demo/5.jpg', // 404
+      fallbackImg: 'https://ww1.sinaimg.cn/large/663d3650gy1fq66vw50iwj20ff0aaaci.jpg'
 }]
 export default {
     name: 'detail',
@@ -150,7 +152,7 @@ export default {
             couponlist:'',
             demo01_list: '',
             demo02_index: 1,
-            // 二维码链接地址
+            //二维码链接地址
             code_url:''
         }
     },
@@ -309,16 +311,7 @@ export default {
     }
 }
 </script>
-<style type="text/css">
-    .vux-no-group-title{position: relative;}
-    .weui-cell__ft input{opacity: 0;position: relative;z-index:1;left:0.5rem;}
-    .weui-dialog{background: #ffffff;}
-    .weui-cells:before{border:0!important}
-    .weui-cells:after{border:0!important}
-    .weui-cell_switch .weui-cell__ft{width: 100%;}
-    .weui-switch, .weui-switch-cp__box{width: 100%!important}
-    .weui-cells{background-color:transparent!important;}
-</style>
+
 <style scoped lang="less">
 @import '~vux/src/styles/center.less';
 @import '~vux/src/styles/close.less';
@@ -341,7 +334,7 @@ export default {
     background:#ffffff;
     .fixed-cart-box {
     position:fixed;
-    z-index:10;
+    z-index:100000000;
     top:71px;
     right:0.6rem;
     width:40px;
@@ -562,6 +555,7 @@ s {
     .tab-swiper {
     background-color:#ffffff;
     height:180px;
+    margin-bottom:0px!important;
 }
 }.sold_information {
     width:100%;

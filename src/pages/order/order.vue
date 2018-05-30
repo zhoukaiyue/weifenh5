@@ -190,11 +190,6 @@ export default {
                   location.href = '/login'
               }, 3000)
             }
-            if (response.data.status =='1053') {
-              this.$vux.alert.hide()
-              _this.is_show6=true
-              _this.is_show7=false
-            }
             // token失效
             if (response.data.status =='1004') {
               _this.getData()
@@ -208,12 +203,17 @@ export default {
               _this.datalist = data.list
               console.log(_this.datalist)
             }else{
-              this.$vux.alert.show({
-                content: response.data.msg
-              })
-              setTimeout(() => {
-                  this.$vux.alert.hide()
-              }, 3000)
+              if (response.data.status =='1053') {
+                _this.is_show6=true
+                _this.is_show7=false
+              }else{
+                  this.$vux.alert.show({
+                  content: response.data.msg
+                })
+                setTimeout(() => {
+                    this.$vux.alert.hide()
+                }, 3000)
+              }
             }
         }).catch((err) => {
             console.log(err)
@@ -239,10 +239,6 @@ export default {
                   location.href = '/login'
               }, 3000)
             }
-          if (response.data.status =='1053') {
-              _this.is_show6=true
-              _this.is_show7=false
-            }
             // token失效
             if (response.data.status =='1004') {
               _this.getData()
@@ -257,12 +253,17 @@ export default {
               console.log(data)
               console.log(_this.datalist)
             }else{
-              this.$vux.alert.show({
-                content: response.data.msg
-              })
-              setTimeout(() => {
-                  this.$vux.alert.hide()
-              }, 3000)
+              if (response.data.status =='1053') {
+                _this.is_show6=true
+                _this.is_show7=false
+              }else{
+                  this.$vux.alert.show({
+                  content: response.data.msg
+                })
+                setTimeout(() => {
+                    this.$vux.alert.hide()
+                }, 3000)
+              }
             }
         }).catch((err) => {
             console.log(err)
@@ -288,11 +289,6 @@ export default {
                 location.href = '/login'
             }, 3000)
           }
-          if (response.data.status =='1053') {
-              this.$vux.alert.hide()
-              _this.is_show6=true
-              _this.is_show7=false
-            }
           // token失效
             if (response.data.status =='1004') {
               _this.getData()
@@ -306,12 +302,17 @@ export default {
           _this.datalist = data.list
           console.log(response)
         }else{
-          this.$vux.alert.show({
-            content: response.data.msg
-          })
-          setTimeout(() => {
-              this.$vux.alert.hide()
-          }, 3000)
+          if (response.data.status =='1053') {
+            _this.is_show6=true
+            _this.is_show7=false
+          }else{
+              this.$vux.alert.show({
+              content: response.data.msg
+            })
+            setTimeout(() => {
+                this.$vux.alert.hide()
+            }, 3000)
+          }
         }
           
         }).catch((err) => {

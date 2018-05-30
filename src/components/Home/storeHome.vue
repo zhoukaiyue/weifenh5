@@ -58,7 +58,7 @@
             </div>
         </div>
         <div class="recent-products">
-            <h5 class="title">店铺排行 <span>附近店家人气排行</span> <span class="see">查看全部&emsp;<img src="~@/assets/icon/goods-left.png"></span></h5>
+            <h5 class="title">店铺排行 <span>附近店家人气排行</span><!--  <span class="see">查看全部&emsp;<img src="~@/assets/icon/goods-left.png"></span> --></h5>
             <ul>
                 <li>
                     <img src="~@/assets/img/goods.png">

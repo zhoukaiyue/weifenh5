@@ -2,20 +2,20 @@
   <div id='storeInfo'>
     <!--  店铺logo -->
     <div class='finish_room2'>
-       <div class='room_add_btn'>
+       <!-- <div class='room_add_btn'>
            <ossFile :imgs='imgs' :message="msg"></ossFile>
-         <!--  <div class="room_opacity"></div>
+          <div class="room_opacity"></div>
           <div id="img-change2">
             <div class="img-changeImg"></div>
             <p class="img-changeText">更换店铺图像</p>
-          </div> -->
-        </div>
+          </div>
+        </div> -->
+        <img :src="datas.head_pic" alt="" class="shop_logo">
     </div>
-    <p class="store_tishi">（点击图像可进行更换）</p>
     <p class="store_name">{{datas.name}}</p>
     <ul class="store-list">
       <li class="clearfix">
-        <span class="fl">店铺名称</span><span class="fr"><b>{{datas.name}}</b>&emsp;<img src="~@/assets/icon/goods-left.png"></span>
+        <span class="fl">店铺名称</span><span class="fr"><b>{{datas.name}}</b>&emsp;<img style="opacity: 0;" src="~@/assets/icon/goods-left.png"></span>
       </li>
       <li class="clearfix" v-on:click="logo">
         <span class="fl">品牌名称</span><span class="fr"><b>{{datas.brand_name}}</b>&emsp;<img src="~@/assets/icon/goods-left.png"></span>
@@ -24,7 +24,7 @@
         <span class="fl">公司模式</span><span class="fr"><input type="text" class="mobile" v-model="type"/>&emsp;<img src="~@/assets/icon/goods-left.png"></span>
       </li>
       <li class="clearfix">
-        <span class="fl">店铺地址</span><span class="fr"><b>{{datas.address}}</b>&emsp;</span>
+        <span class="fl">店铺地址</span><span class="fr"><b>{{datas.address}}</b>&emsp;<img style="opacity: 0;" src="~@/assets/icon/goods-left.png"></span>
       </li>
       <li class="clearfix" v-on:click="people">
         <span class="fl">负责人</span><span class="fr"><b>{{datas.contact}}</b>&emsp;<img src="~@/assets/icon/goods-left.png"></span>
@@ -353,8 +353,9 @@ import ossFile from '../../components/oss_file'
 }
 /*上传店铺logo样式*/
 .finish_room2 {
-  width:150px;
-  height:150px;
+  text-align: center;
+  width:100px;
+  height:100px;
   box-sizing:border-box;
   padding-top:2.5px;
   padding-bottom:2.5px;
@@ -450,7 +451,7 @@ import ossFile from '../../components/oss_file'
   padding:10px 15px;
 }
 .finish_zhizhao {
-  float:right;
+  float:left;
   width:58%;
   height:100px;
   box-sizing:border-box;

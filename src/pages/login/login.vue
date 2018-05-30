@@ -21,7 +21,7 @@
             </p>
             <p>
                 <input type="number" v-model="verifyCode"  oninput="if(value.length>4)value=value.slice(0,4)"  placeholder="请输入验证码" class="input2"> 
-                <span  @click="sendCode" class="verification">{{btnText}}</span>
+                <button  @click="sendCode" class="verification" >{{btnText}}</button>
             </p>      
         </div>
         <div style="padding:15px;margin-top:30px;">
@@ -34,6 +34,7 @@
 <script>
 import { XInput, Group, XButton, Cell, Toast, base64 } from 'vux'
 import { mapMutations } from 'vuex'
+import $ from 'jquery'
 import axios from 'axios'
 import * as myPub from '@/assets/js/public.js'
 import * as openId from '@/assets/js/opid_public.js'
@@ -81,7 +82,7 @@ export default {
 
     created() {
             if(localStorage.openid == undefined){
-                this.GetCode()
+                this.$router.push({ path: '/user'})
                // alert('重新授权')
                // window.location.href='https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxb7146031bd5bbc93&redirect_uri=http%3A%2F%2Fdist.weifenvip.com%2Flogin&response_type=code&scope=snsapi_userinfo&&state=STATE#wechat_redirect'
 
@@ -96,49 +97,6 @@ export default {
     },
     methods: {
         ...mapMutations(['UPDATE_USERINFO']),
-
-            //拼接获取code的地址
-            ReturnGetCodeUrl(){
-                return this.BaseUrl + "appid=" + this.GetCodes.AppId + "&redirect_uri="
-                    + this.GetCodes.GetCodes + "&response_type="
-                    + this.GetCodes.Response_type + "&scope=" + this.GetCodes.Scope + "&state="
-                    + this.GetCodes.State + this.GetCodes.Wechat_Redirect
-            },
-
-            //获取地址栏code参数
-            GetQueryString(name){
-                console.log(name)
-                var url = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
-                var newUrl = window.location.search.substr(1).match(url);
-                if (newUrl != null) {
-                    return unescape(newUrl[2]);
-                } else {
-                    return false;
-                }
-            },
-
-            //获取code
-            GetCode(){
-                //如果有code参数，那么GetOpenId获取openid
-                if (this.GetQueryString("code")) {
-                    alert("有code")
-                    
-                    localStorage.setItem('openid',this.GetQueryString("code"));
-                //没有那么重定向去获取
-                } else {
-                    console.log("没有code")
-                    /**
-                     * 具体参考微信获取code文档 ：http://mp.weixin.qq.com/wiki/17/c0f37d5704f0b64713d5d2c37b468d75.html
-                     * 官方接口：
-                     * https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=REDIRECT_URI&response_type=code&scope=SCOPE&state=STATE#wechat_redirect
-                     */
-                    //重定向去微信来获取code
-                    window.location.href = this.ReturnGetCodeUrl()
-                     // localStorage.setItem('openid',this.GetQueryString("code"));
-                }
-            },
-
-
 
         sendCode() {
             console.log('点击验证码触发')
@@ -177,7 +135,6 @@ export default {
                     console.log(sessionid)
                     localStorage.setItem('sessionid',sessionid);
                     this.time = 120
-                    this.disabled = true
                     this.timer()
                 }else{
                     this.$vux.alert.show({
@@ -196,10 +153,13 @@ export default {
                 this.time--
                 this.btnText = this.time + 's后重新获取'
                 setTimeout(this.timer, 1000)
+                $('.verification').attr('disabled',true)
+                $('.verification').css('color',"#ccccccc")
             } else {
                 this.time = 0
                 this.btnText = '获取验证码'
-                this.disabled = false
+                $('.verification').attr('disabled',false)
+                $('.verification').css('color',"#3333333")
             }
         },
         login(){
@@ -347,10 +307,14 @@ export default {
         border-radius:2px;
     }
     .verification{
+        border:1px solid #eeeeee;
         background:#ffffff;
         height:34px;
         color:#333;
         line-height:34px;
+        margin-top: 8px;
+        float: right;
+        padding: 0 5px;
     }
     .registered{
         width:100%;
@@ -379,16 +343,16 @@ export default {
         box-sizing:border-box;
         .input1{
             font-size:1rem;
-            line-height:40px;
-            color:#cccccc;
+            line-height:30px;
+            color:#333333;
             width:100%;
             border: 0px;outline:none;cursor: pointer;
             margin-top: 10px;
         }
         .input2{
             font-size:1rem;
-            line-height:40px;
-            color:#cccccc;
+            line-height:30px;
+            color:#333333;
             width:40%;
             float:left;
             border: 0px;outline:none;cursor: pointer;
