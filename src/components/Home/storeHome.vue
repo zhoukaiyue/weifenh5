@@ -62,7 +62,10 @@
             <ul>
                 <li v-for="(item,index) in shoplist" class="">
                     <img v-lazy="item.head_pic">
-                    <span :class="item.index">{{index+1}}</span>
+                    <img :src="src_img" alt="" v-if="isshow1">
+                    <img :src="src_img" alt="" v-if="isshow2">
+                    <img :src="src_img" alt="" v-if="isshow3">
+                    <span>{{index+1}}</span>
                     <h5>{{item.name}}</h5>
                     <p>月引客{{item.fans_count}}<img v-if="isshow4" class="img1" src="~@/assets/icon/hot.png"><img class="img2" v-if="isshow5" src="~@/assets/icon/hot.png"></p>
                 </li>
@@ -106,7 +109,9 @@ export default {
             isshow2:false,
             isshow3:false,
             isshow4:false,
-            isshow5:false
+            isshow5:false,
+            is_imgshow:false,
+            src_img:''
         }
     },
     created() {
@@ -146,7 +151,7 @@ export default {
           params.append('open_id',localStorage.openid);
           axios.post(url,params).then(response => {
             _this.$loading.hide();
-            console.log(response)
+                console.log(response)
             if (response.data.status =='1024') {
                  _this.$loading.hide();
                  _this.$vux.alert.show({
@@ -164,11 +169,11 @@ export default {
             // 状态码
             if (response.data.status =='200') {
                const data = response.data.data
-                this.num = data
-                this.datalist = data.category_list
-                this.shoplist = data.shop_list
-                console.log(this.shoplist)
-                }else{
+                _this.num = data
+                _this.datalist = data.category_list
+                _this.shoplist = data.shop_list
+                console.log(_this.shoplist.sort)
+                                }else{
                   this.$vux.alert.show({
                   content: response.data.msg
                 })
