@@ -19,8 +19,8 @@
         <!-- 添加商品列表 -->
         <div class="goods-list">
             <ul>
-                <li class="bb t" v-for="(item,index) in datalist" v-on:click="linkToDetail(item.id)">
-                    <div class="goods-img" >
+                <li class="bb t" v-for="(item,index) in datalist" >
+                    <div class="goods-img" v-on:click="linkToDetail(item.id)">
                         <img v-lazy="item.img_src">
                         <p>{{item.recpos_name}}</p>
                         <div class="mb"><span>已售罄</span></div>

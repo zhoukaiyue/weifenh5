@@ -77,7 +77,8 @@ export default {
 　　　　　　return {
             scdata:{},
             openid:localStorage.openid,
-            msg:'store'
+            msg:'store',
+            imgs:'../../assets/img/storelogo.png'
 　　　　　　}
 　　　　},
     created() {
@@ -426,8 +427,8 @@ export default {
        padding:0px 20px;
        box-sizing:border-box;
        font-weight:600;
-
-    }.customer_service{border:0;outline:none;}
+      border-radius: 0;
+    }.customer_service{border:0;outline:none;background: #ffffff!important}
     .jiantou{
       display:inline-block;
       width: 6px;

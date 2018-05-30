@@ -2,7 +2,7 @@
     <div class="logo">
     <!-- 顶部数据 -->
           <h5>品牌名称</h5>
-          <input class="input" placeholder="修改品牌名称" />
+          <input class="input" :placeholder='name' />
           <span class="button" v-on:click="brand_name">保存</span>
     </div>
 </template>
@@ -19,6 +19,7 @@ export default {
     data(){
 　　　　　　return {
 　　　　　　　　active: false,
+              name:this.$route.query.brand_name
 　　　　　　}
 　　　　},
     created() {

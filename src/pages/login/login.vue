@@ -154,7 +154,7 @@ export default {
                 this.btnText = this.time + 's后重新获取'
                 setTimeout(this.timer, 1000)
                 $('.verification').attr('disabled',true)
-                $('.verification').css('color',"#ccccccc")
+                $('.verification').css('color',"#ddd")
             } else {
                 this.time = 0
                 this.btnText = '获取验证码'

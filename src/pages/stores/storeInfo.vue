@@ -17,7 +17,7 @@
       <li class="clearfix">
         <span class="fl">店铺名称</span><span class="fr"><b>{{datas.name}}</b>&emsp;<img style="opacity: 0;" src="~@/assets/icon/goods-left.png"></span>
       </li>
-      <li class="clearfix" v-on:click="logo">
+      <li class="clearfix" v-on:click="logo(datas.brand_name)">
         <span class="fl">品牌名称</span><span class="fr"><b>{{datas.brand_name}}</b>&emsp;<img src="~@/assets/icon/goods-left.png"></span>
       </li>
       <li class="clearfix" v-on:click="shop">
@@ -26,13 +26,13 @@
       <li class="clearfix">
         <span class="fl">店铺地址</span><span class="fr"><b>{{datas.address}}</b>&emsp;<img style="opacity: 0;" src="~@/assets/icon/goods-left.png"></span>
       </li>
-      <li class="clearfix" v-on:click="people">
+      <li class="clearfix" v-on:click="people(datas.contact)">
         <span class="fl">负责人</span><span class="fr"><b>{{datas.contact}}</b>&emsp;<img src="~@/assets/icon/goods-left.png"></span>
       </li>
       <li class="clearfix" :data1='datas.mobile'  @click='changephone(datas.mobile)'>
         <span class="fl">修改手机号</span><span class="fr"><input type="text" class="mobile"  v-model="type2"/>&emsp;<img src="~@/assets/icon/goods-left.png"></span>
       </li>
-      <li class="clearfix" v-on:click="shopinfo">
+      <li class="clearfix" v-on:click="shopinfo(datas.description)">
         <span class="fl">店铺介绍</span><span class="fr"><b>{{datas.description}}</b>&emsp;<img src="~@/assets/icon/goods-left.png"></span>
       </li>
       <!-- 营业执照 -->
@@ -102,18 +102,18 @@ import ossFile from '../../components/oss_file'
         this.$destroy()
     },
     methods:{
-        logo() {
-            this.$router.push({ path: '/page/logo'})
+        logo(brand_name) {
+            this.$router.push({ path: '/page/logo',query: {brand_name:brand_name}})
         },
-        shopinfo() {
-            this.$router.push({ path: '/page/shopinfo'})
+        shopinfo(contact) {
+            this.$router.push({ path: '/page/shopinfo',query: {contact:contact}})
         },
         changephone(a) {
           console.log(a)
            this.$router.push({ path: '/page/changephone',query: {mobile:a}})
         },
-        people() {
-            this.$router.push({ path: '/page/people'})
+        people(user) {
+            this.$router.push({ path: '/page/people',query: {user:user}})
         },
         shop() {
             $(".shop").show()
@@ -281,7 +281,7 @@ import ossFile from '../../components/oss_file'
   padding: 0;margin-top: 1rem;
   li{list-style: none;padding:0.5rem;border-bottom: 1px solid #dddddd;font-size:0.9rem;.fr{color: #999999;width: 70%;text-align: right;line-height: 1.2rem;font-size: 0.8rem;position:relative;
     img{position: absolute;width: 0.6rem;top: 0.2rem;}
-    b{font-weight: normal;display: inline-block;width: 80%;}
+    b{font-weight: normal;display: inline-block;width: 80%;display: none;}
     .mobile{border: 0;text-align: right;color: #999999}
     }
   }
@@ -360,10 +360,9 @@ import ossFile from '../../components/oss_file'
   padding-top:2.5px;
   padding-bottom:2.5px;
   border-radius:50%;
-  /* border:1px solid red;
-  */
-     position:relative;
+  position:relative;
   margin:auto;
+  img{width: 100%;border-radius: 50%;}
 }
 .finish_room2>.room_img {
   width:140px;
