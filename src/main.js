@@ -41,6 +41,7 @@ Vue.use(VueLazyload, {
   listenEvents: [ 'scroll' ]
 })
 
+// // 微信授权插件初始化
 Vue.use(WechatAuth , {
   router, // 路由实例对象
   appid: 'wxb7146031bd5bbc93', // 您的微信appid
@@ -69,8 +70,7 @@ Vue.use(WechatAuth , {
             localStorage.setItem('openid',openid);
             console.log('这是openid'+`${openId.open_id}`)
             console.log('这是本地存储openid'+localStorage.openid)
-            alert(localStorage.openid)
-            next('/page/home')
+            next('/login')
       }).catch((err) => {
           axios.post(url,params).then(response => {
             console.log('向后台传输code2')
@@ -79,14 +79,13 @@ Vue.use(WechatAuth , {
             console.log('获取到openid')
             console.log(localStorage.openid)
             console.log(`${openId.open_id}`)
-            next('/page/home')
-            alert(localStorage.openid)
+            next('/home')
+
       })
     })
   }
 })
 router.beforeEach((to, from, next) => {
-
 // localStorage.setItem('openid','oo1Fj0vuyJHl27Zlytaj3z5c925Q');
     // 设置标题
     document.title = to.meta.title
@@ -96,7 +95,7 @@ router.beforeEach((to, from, next) => {
             next()
         } else {
             next({
-                path: '/login',
+                path: '/home',
                 query: { redirect: to.fullPath }
             })
         }
@@ -112,7 +111,6 @@ router.beforeEach((to, from, next) => {
         const currentUser_token = response.data.data //获取token
         console.log(currentUser_token)
         localStorage.setItem('currentUser_token',currentUser_token);//本地存储token
-        alert(localStorage.currentUser_token)
         if (!currentUser_token) {
           const url =`${myPub.URL}/merchant/Baseapi/auth`;
           const date = new Date();

@@ -54,11 +54,38 @@ export default {
             BaseUrl: '',
             JsApiData: '',
             code_num: '',
-            phoneNumber: ''
+            phoneNumber: '',
+
+            BaseUrl: "https://open.weixin.qq.com/connect/oauth2/authorize?",
+            JsApiData:"",
+
+            GetCodes:{
+                //公众号的唯一标识
+                AppId:"wxb7146031bd5bbc93",
+                //授权后重定向的回调链接地址(填当前页)
+                GetCodes:"http%3A%2F%2Fdist.weifenvip.com%2Fuser",
+                //返回类型，请填写code
+                Response_type: "code",
+                //应用授权作用域，snsapi_base （不弹出授权页面，直接跳转，只能获取用户openid）
+                Scope: "snsapi_base",
+                //重定向后会带上state参数，开发者可以填写a-zA-Z0-9的参数值，最多128字节
+                State:"STATE",
+                //必须带此参数
+                Wechat_Redirect:"#wechat_redirect"
+            }
+
+
+
         }
     },
 
     created() {
+            if(localStorage.openid == undefined){
+                this.GetCode()
+               // alert('重新授权')
+               // window.location.href='https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxb7146031bd5bbc93&redirect_uri=http%3A%2F%2Fdist.weifenvip.com%2Flogin&response_type=code&scope=snsapi_userinfo&&state=STATE#wechat_redirect'
+
+            }
     },
     deactivated () {
         this.$destroy()
@@ -69,6 +96,50 @@ export default {
     },
     methods: {
         ...mapMutations(['UPDATE_USERINFO']),
+
+            //拼接获取code的地址
+            ReturnGetCodeUrl(){
+                return this.BaseUrl + "appid=" + this.GetCodes.AppId + "&redirect_uri="
+                    + this.GetCodes.GetCodes + "&response_type="
+                    + this.GetCodes.Response_type + "&scope=" + this.GetCodes.Scope + "&state="
+                    + this.GetCodes.State + this.GetCodes.Wechat_Redirect
+            },
+
+            //获取地址栏code参数
+            GetQueryString(name){
+                console.log(name)
+                var url = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+                var newUrl = window.location.search.substr(1).match(url);
+                if (newUrl != null) {
+                    return unescape(newUrl[2]);
+                } else {
+                    return false;
+                }
+            },
+
+            //获取code
+            GetCode(){
+                //如果有code参数，那么GetOpenId获取openid
+                if (this.GetQueryString("code")) {
+                    alert("有code")
+                    
+                    localStorage.setItem('openid',this.GetQueryString("code"));
+                //没有那么重定向去获取
+                } else {
+                    console.log("没有code")
+                    /**
+                     * 具体参考微信获取code文档 ：http://mp.weixin.qq.com/wiki/17/c0f37d5704f0b64713d5d2c37b468d75.html
+                     * 官方接口：
+                     * https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=REDIRECT_URI&response_type=code&scope=SCOPE&state=STATE#wechat_redirect
+                     */
+                    //重定向去微信来获取code
+                    window.location.href = this.ReturnGetCodeUrl()
+                     // localStorage.setItem('openid',this.GetQueryString("code"));
+                }
+            },
+
+
+
         sendCode() {
             console.log('点击验证码触发')
             const reg = /^1[34578]\d{9}$/ // 手机号正则校验

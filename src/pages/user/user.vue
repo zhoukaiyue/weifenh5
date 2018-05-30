@@ -1,103 +1,25 @@
 <template>
     <div class="user">
-        <div class="user-header">
-            <img class="avatar"
-                 :src="userInfo.avatarUrl"
-                 alt="">
-            <span class="nickname">{{userInfo.mobile}}</span>
-        </div>
-        <div class="user-address"
-             @click="editAddress()">
-            <div class="address-info"
-                 v-if="this.userInfo.addressInfo">
-                <h5 class="address-title">地址管理
-                    <i class="icon-arrow"></i>
-                </h5>
-                <div class="address-main">
-                    <div class="text-row">
-                        {{userInfo.addressInfo.name}}
-                    </div>
-                    <div class="text-row">
-                        {{userInfo.addressInfo.mobile}}
-                    </div>
-                    <div class="text-row">
-                        {{totalDetail}}
-                    </div>
-                </div>
-            </div>
-            <div class="add-new-address"
-                 v-else>
-                <i class="icon-add">+</i>
-                <span>添加地址</span>
-            </div>
-        </div>
-        <div class="user-order">
-            <h5 class="order-title">我的订单</h5>
-            <div class="order-list"
-                 v-if="userInfo.orderInfo.length>0">
-                <div class="order-item"
-                     v-for="(item,index) in userInfo.orderInfo"
-                     :key="index">
-                    <div class="order-header">
-                        订单编号:
-                        <span class="order-no">{{item.order_no}}</span>
-                    </div>
-                    <div class="order-main">
-                        <div class="item-left">
-                            <img v-lazy="item.snap_img"></img>
-                        </div>
-                        <div class="item-middle">
-                            <div>{{item.snap_name}}</div>
-                            <div>{{item.total_count}}件商品</div>
-                        </div>
-                        <div class="item-right">
-                            <p class="order-status-txt unpay"
-                               v-if="item.status==1">待付款</p>
-                            <p class="order-status-txt payed"
-                               v-else-if="item.status==2">已付款</p>
-                            <p class="order-status-txt done"
-                               v-else-if="item.status==3">已发货</p>
-                        </div>
-                    </div>
-                    <div class="order-footer"
-                         v-if="item.status==1">
-                        <span>实付:{{item.total_price | formatMoney}}</span>
-                        <button class="pay">付款</button>
-                    </div>
-                </div>
-            </div>
-            <div class="no-data"
-                 v-else>
-                您还没有订单哦~
-            </div>
-        </div>
     </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 export default {
     name: 'user',
     data() {
         return {}
     },
+    cresad(){
+        console.log('截取到code')
+    },
     computed: {
-        ...mapGetters(['userInfo']),
-        totalDetail() {
-            return this.userInfo.addressInfo.cityVal + ' ' + this.userInfo.addressInfo.detail
-        }
+
     },
     mounted() {},
     methods: {
-        editAddress() {
-            this.$router.push({ path: '/page/address' })
-        }
+
     },
-    filters: {
-        formatMoney(value) {
-            return '￥' + value
-        }
-    }
+
 }
 </script>
 

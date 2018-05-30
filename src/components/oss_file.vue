@@ -20,7 +20,7 @@
                         "expiration": "2020-01-01T12:00:00.000Z", //设置该Policy的失效时间，超过这个失效时间之后，就没有办法通过这个policy上传文件了
                         "conditions": [
                             ["content-length-range", 0, 1048576000000] // 设置上传文件的大小限制
-                            // ["content-length-range", 0, 1048576000] // 设置上传文件的大小限制
+                            //["content-length-range", 0, 1048576000] // 设置上传文件的大小限制
                         ]
                     },
                     signature: '',
@@ -75,9 +75,9 @@
                                 console.log(imgurl)
                                 file.name=imgurl+'.png'
                                 //将营业执照图片地址存储起来 localStorage.openid
-                                console.log(yyyyMMdd+'/'+file.name)
+                                // console.log(yyyyMMdd+'/'+file.name)
                                 var bulicense_url1='user/'+yyyyMMdd+'/'+file.name;
-                                console.log('存儲商鋪圖像')
+                                console.log('存儲商鋪圖像'+bulicense_url1)
                                 sessionStorage.setItem('store_imgurl',bulicense_url1);
                                 self.set_upload_param(up, 'user/'+yyyyMMdd+'/'+file.name, true);
                                 self.photo()
@@ -91,7 +91,7 @@
                                 //将营业执照图片地址存储起来 localStorage.openid
                                 console.log(yyyyMMdd+'/'+file.name)
                                 var bulicense_url='user/'+yyyyMMdd+'/'+file.name;
-                                console.log('存儲營業執照')
+                                console.log('存儲營業執照'+bulicense_url)
                                 sessionStorage.setItem('bulicense_url',bulicense_url);
                                 console.log(sessionStorage.getItem('bulicense_url'))
                                 self.set_upload_param(up, 'user/'+yyyyMMdd+'/'+file.name, true);

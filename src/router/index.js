@@ -11,11 +11,11 @@ const Category = r => require.ensure([], () => r(require('@/pages/category/categ
 const addGoods = r => require.ensure([], () => r(require('@/pages/category/addGoods')), 'addGoods')
 const Detail = r => require.ensure([], () => r(require('@/pages/detail/detail')), 'detail')
 const Ceshi = r => require.ensure([], () => r(require('@/pages/detail/ceshi')), 'ceshi')
-// const Cart = r => require.ensure([], () => r(require('@/pages/cart/cart')), 'cart')
+//const Cart = r => require.ensure([], () => r(require('@/pages/cart/cart')), 'cart')
 const Order = r => require.ensure([], () => r(require('@/pages/order/order')), 'order')
 const OrderData = r => require.ensure([], () => r(require('@/pages/order/orderData')), 'orderData')
 const Address = r => require.ensure([], () => r(require('@/pages/address/address')), 'address')
-// const User = r => require.ensure([], () => r(require('@/pages/user/user')), 'user')
+const User = r => require.ensure([], () => r(require('@/pages/user/user')), 'user')
 const About = r => require.ensure([], () => r(require('@/pages/about/about')), 'about')
 const StoreInfo = r => require.ensure([], () => r(require('@/pages/stores/storeInfo')), 'storeInfo')
 const ShopCenter = r => require.ensure([], () => r(require('@/pages/stores/shopCenter')), 'shopCenter')
@@ -232,15 +232,7 @@ const routes = [
                 },
                 component: Shoporderdata
             },
-            // {
-            //     path: 'user',
-            //     name: 'user',
-            //     meta: {
-            //         title: '我的',
-            //         // requireAuth: true // 添加该字段，表示进入这个路由是需要登录的
-            //     },
-            //     component: User
-            // },
+
             {
                 path: 'about',
                 name: 'about',
@@ -522,7 +514,7 @@ const routes = [
         meta: {
             title: '商家登录',
              keepAlive: false, // 不需要被缓存
-             auth: true// 如果此路由需要微信授权请设置为true,默认为false 
+             //auth: true// 如果此路由需要微信授权请设置为true,默认为false 
            }
     },
 
@@ -535,13 +527,21 @@ const routes = [
              keepAlive: false // 不需要被缓存
         }
     },
+    {
+        path: '/user',
+        name: 'user',
+        meta: {
+            title: '我的',
+            // requireAuth: true // 添加该字段，表示进入这个路由是需要登录的
+        },
+        component: User
+    },
     { 
         path: '*', 
         component: Home,
-        requireAuth: true, 
-         meta: {
-            auth: true
-        }
+        meta: {
+             auth: true// 如果此路由需要微信授权请设置为true,默认为false 
+           }
      }
 ]
 
@@ -552,9 +552,6 @@ const router = new Router({
 
 
 // router.afterEach(function(to) {
-//     setTimeout(() => {
-//         store.commit('UPDATE_LOADING', false)
-//     }, 300)
 // })
 
 export default router
