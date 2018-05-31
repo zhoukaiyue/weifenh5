@@ -6,7 +6,7 @@
                       body-padding-top="46px"
                       :body-padding-bottom="isPaddingBottom">
                 <keep-alive>
-                    <router-view class="router-view" />
+                    <router-view class="router-view" style="height:100%;"/>
                 </keep-alive>
                 <tabbar slot="bottom"
                         style="position:fixed"
@@ -78,7 +78,7 @@ export default {
             if(/detail|ceshi|storeer|store_users|addgoods|storeInfo|shop|order|commodityData|logo|people|changephone|changestore|sh_success|storesuccess|addGoods|dyinvite|Customer|storearmketingdetails|shop_mine|phone|shopdata|shop_storeinfo/.test(this.$route.path)) {
                 return true
             }
-               return false 
+               return false
         },
         isPaddingBottom() {
             // if (/detail|theme|order|address|about/.test(this.$route.path)) {

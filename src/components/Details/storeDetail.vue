@@ -1,32 +1,8 @@
 <template>
     <div class="detail page">
-        <div class="detail-main"
-             v-if="product">
+        <div class="detail-main" v-if="product">
             <!-- 购物车漂浮按钮 -->
-             <swiper :list="demo01_list" v-model="demo02_index" @on-index-change="demo01_onIndexChange"></swiper>
-            <div class="cart-box marketing-box">
-                <div class="product-counts">
-                    <!-- <div class="picker"></div> -->
-                    <form action="http://im.weifenvip.com/?c=service" method="post" class="form_kf">
-                         <input type="hidden" name="openid" :value ='openid'>
-                         <input type="hidden" name="goods_id" :value ='goodsid'>
-                         <input type="hidden" name="oid" value = ''>
-                         <input type="submit" style="cursor:pointer;outline:none"  class="counts-tips" value="客服">
-                    </form>
-                </div>
-                <div class="add-cart-btn "  v-on:click="Joinmaketing" v-if="!isshow11">
-                    <span class="add-cart">立即加入营销列表</span>
-                </div>
-                <div class="add-cart-btn "  v-if="isshow11" v-on:click="code">
-                    <span class="add-cart">立即生成二维码</span>
-
-                <!-- 生成并分享二维码 -->
-                <group id="fenxiang">
-                  <x-switch v-model="showHideOnBlur" title="" id="fenxiang_btn"></x-switch>
-                </group>
-                </div>
-            </div>
-
+            <swiper :list="demo01_list" v-model="demo02_index" @on-index-change="demo01_onIndexChange"></swiper>
             <div class="product-info-box">
                 <div class="price">
                     <span class="coupon_price">券后价</span>￥{{product.markte_price}} <s>￥{{product.shop_price}}</s>
@@ -42,84 +18,85 @@
                 </div>
                 <div class="country">
                     <div class="country_span">来自
-                    <img v-lazy="product.natinal_flag" alt="">
-                    {{product.natinal_name}}</div>
+                        <img v-lazy="product.natinal_flag" alt="">{{product.natinal_name}}
+                    </div>
                     <div class="country_label">本商品售价已含税，无需额外支付税费</div>
-                 </div>
+                </div>
             </div>
         </div>
-
         <!-- 领取优惠券部分 -->
         <group class="bgf">
-          <x-switch title="领券" v-model="show13" id="title——lq"></x-switch>
-          <img class="img" src="~@/assets/icon/goods-left.png">
+            <x-switch title="领券" v-model="show13" id="title——lq"></x-switch>
+            <img class="img" src="~@/assets/icon/goods-left.png">
         </group>
         <div v-transfer-dom>
-          <popup v-model="show13" position="bottom" max-height="50%">
-            <group>
-              <cell v-for="i in couponlist" >
-                <div id="use_information">
-                <p class="price_box"><span class="com_price">￥{{i.a}}</span><span class="com_range">{{i.b}}</span></p>
-                <p class="com_limit">{{i.c}}</p>
-                <p class="com_time">{{i.d}}</p>
+            <popup v-model="show13" position="bottom" max-height="50%">
+                <group>
+                    <cell v-for="i in couponlist" >
+                        <div id="use_information">
+                            <p class="price_box"><span class="com_price">￥{{i.a}}</span><span class="com_range">{{i.b}}</span></p>
+                            <p class="com_limit">{{i.c}}</p>
+                            <p class="com_time">{{i.d}}</p>
+                        </div>
+                        <button class="com_btn">立即使用</button>
+                    </cell>
+                </group>
+                <div style="padding: 15px;">
+                    <x-button @click.native="show13 = false" plain type="primary"> 关闭 </x-button>
                 </div>
-                <button class="com_btn">立即使用</button>
-              </cell>
-            </group>
-            <div style="padding: 15px;">
-              <x-button @click.native="show13 = false" plain type="primary"> 关闭 </x-button>
-            </div>
-          </popup>
+            </popup>
         </div>
-
         <div class="detail-bottom">
-           <!--  <tab :line-width=2
-                 active-color='#f54321'
-                 v-model="index">
-                <tab-item class="vux-center"
-                          :selected="selectd === item"
-                          v-for="(item, index) in list"
-                          @click="selectd = item"
-                          :key="index">{{item}}</tab-item>
-            </tab>
-            <swiper v-model="index"
-                height="auto"
-                :show-dots="false">
-            <swiper-item 
-                         :key="index">
-                <div class="tab-swiper vux-center" style="z-index: 0;"> <div v-html='product.goods_desc'></div></div>
-                <div style="height: 50px;"></div>
-            </swiper-item> -->
             <!-- 商品详情 -->
             <div class="tuwen"></div>
             <div class="tuwen_con">
                 <p>图文</p>
-                <div class="descBox" v-html="product.goods_desc"></div>
+                <div class="descBox" v-html="product.goods_desc" style="min-height:300px;"></div>
             </div>
-                <div v-transfer-dom>
-                  <x-dialog v-model="showHideOnBlur" class="dialog-demo" hide-on-blur>
-                    <div class="img-box">
-                      <h5>{{product.shop_name}}赠福利啦~</h5>
-                      <p>{{product.goods_name}}</p>
-                      <img v-lazy="product.img_src">
-                    </div>
-                    <div @click="showHideOnBlur=false" class="qrcode_box clearfix">
-                       <qrcode value="http://weixin.qq.com/q/02k5PNp0zhdzi10000g07J"  id="fx-qcode" type="img"></qrcode>
-                       <div class="code_right">
-                           <span class="shoprce">RMB {{product.markte_price}}</span>
-                           <p class="maketprice">市场价 {{product.shop_price}}</p>
-                           <p>长按二维码识别详情</p>
-                       </div>
-                    </div>
-                  </x-dialog>
+            <div v-transfer-dom>
+              <x-dialog v-model="showHideOnBlur" class="dialog-demo" hide-on-blur>
+                <div class="img-box">
+                  <h5>{{product.shop_name}}赠福利啦~</h5>
+                  <p>{{product.goods_name}}</p>
+                  <img v-lazy="product.img_src">
                 </div>
-            </swiper>
+                <div @click="showHideOnBlur=false" class="qrcode_box clearfix">
+                   <qrcode value="http://weixin.qq.com/q/02k5PNp0zhdzi10000g07J"  id="fx-qcode" type="img"></qrcode>
+                   <div class="code_right">
+                       <span class="shoprce">RMB {{product.markte_price}}</span>
+                       <p class="maketprice">市场价 {{product.shop_price}}</p>
+                       <p>长按二维码识别详情</p>
+                   </div>
+                </div>
+              </x-dialog>
+            </div>
+        </div>
+        <!-- 底部营销列表 -->
+        <div class="cart-box marketing-box">
+            <div class="product-counts">
+                <form action="http://im.weifenvip.com/?c=service" method="post" class="form_kf">
+                    <input type="hidden" name="openid" :value ='openid'>
+                    <input type="hidden" name="goods_id" :value ='goodsid'>
+                    <input type="hidden" name="oid" value = ''>
+                    <input type="submit" style="cursor:pointer;outline:none"  class="counts-tips" value="客服">
+                </form>
+            </div>
+            <div class="add-cart-btn "  v-on:click="Joinmaketing" v-if="!isshow11">
+                <span class="add-cart">立即加入营销列表</span>
+            </div>
+            <div class="add-cart-btn "  v-if="isshow11" v-on:click="code">
+                <span class="add-cart">立即生成二维码</span>
+                <!-- 生成并分享二维码 -->
+                <group id="fenxiang">
+                    <x-switch v-model="showHideOnBlur" title="" id="fenxiang_btn"></x-switch>
+                </group>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
-import { PopupPicker, Tab, TabItem, Swiper, SwiperItem,Qrcode, GroupTitle,  Divider,XDialog, Popup, Group, Cell, XButton, XSwitch, Toast, XAddress, ChinaAddressData,TransferDomDirective as TransferDom } from 'vux'
+import { PopupPicker, Tabbar, TabbarItem,ViewBox,Actionsheet, Tab, TabItem, Swiper, SwiperItem,Qrcode, GroupTitle,  Divider,XDialog, Popup, Group, Cell, XButton, XSwitch, Toast, XAddress, ChinaAddressData,TransferDomDirective as TransferDom } from 'vux'
 import { mapState, mapMutations, mapGetters } from 'vuex'
 import axios from 'axios'
 import $ from 'jquery'
@@ -332,7 +309,12 @@ export default {
         Toast,
         XAddress,
         XButton,
-        GroupTitle
+        GroupTitle,
+                Tabbar,
+        TabbarItem,
+        ViewBox,
+        Actionsheet,
+        TransferDom
     }
 }
 </script>
@@ -360,7 +342,10 @@ export default {
 .clearfix{
     zoom:1;
 }
-.bgf{background-color: #ffffff}
+.bgf{background-color: #ffffff;padding-top: constant(safe-area-inset-top) ;        
+    padding-left: constant(safe-area-inset-left);                
+    padding-right: constant(safe-area-inset-right);            
+    padding-bottom: constant(safe-area-inset-bottom); }
     .detail {
     background-color:#f9f9f9;
     .img{position: absolute;top:0.9rem;right: 1.2rem;width: 0.7rem;}
@@ -928,5 +913,72 @@ s {
         }
 
     }
+}
+
+
+.cart-box {
+    height:55px;
+    width:100%;
+    border-top:1px solid #dddddd;
+    background-color:#ffffff;
+    color:#ffffff;
+    position:fixed;
+    left:0;
+    z-index:500;
+    display:flex;
+    align-items:center;
+    bottom:0;
+    .product-counts {
+    width:20%;
+    height:100%;
+    background-color:#ffffff;
+    font-family:PingFangSC-Regular;
+    font-size:0.8rem;
+    color:#666666;
+    letter-spacing:0;
+    text-align:center;
+    box-sizing:border-box;
+    .picker {
+    width:35%;
+    height:40%;
+    background:url(~@/assets/icon/kefu.png) no-repeat
+                        right center;
+    background-size:100% 100%;
+    margin:5px auto 2px auto;
+    /*border:1px solid red;
+    */
+}
+}}.add-cart-btn {
+    height:100%;
+    line-height:55px;
+    font-family:PingFangSC-Regular;
+    font-size:1.2rem;
+    color:#ffffff;
+    letter-spacing:0;
+    text-align:center;
+    position:relative;
+    background: #f54321;
+    flex:1;
+    &:active {
+    color:#ffffff;
+}}.form_kf{
+        height: 100%;
+        position: absolute;
+        top: 0;
+        width: 20%;
+        border:0;
+        background: transparent;
+}
+.counts-tips {
+    background:url(~@/assets/icon/kefu.png) no-repeat center 2px;
+    background-size: 26px 23px;
+    display:block;
+    height:100%;
+    width:100%;
+    font-size:0.8rem;
+    line-height:80px;
+    margin-top: 5px;
+    border:0;
+        /*background: transparent;*/
 }
 </style>

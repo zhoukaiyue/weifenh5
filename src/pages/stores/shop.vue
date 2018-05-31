@@ -22,7 +22,6 @@
                   <label :for="item.id" class="cb-label"></label>
                 </td>
                 <td>
-                  
                   <img v-lazy="item.head_pic" alt="" class="oimg">&emsp;
                   <span class="name">{{item.truename}}</span></td>
                 <td class="dy_td">{{item.username}}</td>
@@ -239,8 +238,9 @@ export default {
       p{font-size: 0.8rem;color: #999999;}}
   }
   .middle {
-      background-color:#fff;
-      margin-top:10px;
+      background-color:transparent;
+      margin-top:10px;min-height:700px;
+      table{background: #ffffff;}
       td{height: 50px;line-height: 50px;border-bottom: 1px solid #eeeeee;text-align: center;}
       .middle_title{
           width:100%;
@@ -298,14 +298,14 @@ table{
 }
 .del_btn{
   width:100%;
-  height:55px;
+  height:50px;
   background-color:#fff;
   line-height:50px;
   position: fixed;
   padding-left:14px;
-  bottom:0;
-  z-index: 1111;
+  z-index:5000;
   border-top: 1px solid #f0f0f0;
+  bottom:0px;
   .del_dy{
     float:right;
     width:30%;

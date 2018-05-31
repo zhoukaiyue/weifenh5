@@ -42,17 +42,7 @@
                     <li v-for="(item,index) in datalist" @click="maketing(item.id)">
                         <h5>{{item.cate_name}}</h5>
                         <p>{{item.description}}</p>
-                        <img v-lazy="item.img_src">
-                    </li>
-                    <li>
-                        <h5>美妆护肤</h5>
-                        <p>适用20-35客户</p>
-                        <img src="~@/assets/img/goods.png">
-                    </li>
-                    <li>
-                        <h5>美妆护肤</h5>
-                        <p>适用20-35客户</p>
-                        <img src="~@/assets/img/goods.png">
+                        <img v-lazy="item.cate_img">
                     </li>
                 </ul>
             </div>
