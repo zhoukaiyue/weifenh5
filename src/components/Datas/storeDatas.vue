@@ -32,6 +32,20 @@
 		      <!-- 本周访问量/销售量数据-->
 		      <visitsalesNewdata  v-if="!isshow7"></visitsalesNewdata>
 		      <weeksalescomparisonNewdata  v-if="isshow7"></weeksalescomparisonNewdata>
+          <div class="goodlist">
+            <ul>
+              <li>商品</li>
+              <li>商品</li>
+              <li>商品</li>
+              <li>商品</li>
+            </ul>
+            <ul>
+              <li>商品</li>
+              <li>商品</li>
+              <li>商品</li>
+              <li>商品</li>
+            </ul>
+          </div>
 		    </div>
 		     <div class="yh_display">
 		    	<p class="yh_display_title">订单数据<span v-on:click="newData">查看更多&ensp;<img src="~@/assets/icon/goods-left.png"></span></p>
@@ -375,6 +389,7 @@ export default {
 		        	text-align:center;
 		        	flex-grow:1;
 		        	font-family:PingFangSC-Regular;
+              padding: 0.3rem 0;
 					font-size:0.8rem;
 					color:#777777;
 					letter-spacing:0;
@@ -393,6 +408,11 @@ export default {
 		        	color: #f54321;
 		        }
 	 		}
+      .goodlist{
+        width: 90%;
+        margin-left: 5%;
+        ul{width: 40%;display: inline-block;margin-left: 5%;}
+      }
 	 	}
 	 	.yh_display{
 	 		margin-top:10px;
@@ -434,7 +454,7 @@ export default {
 		        	text-align:center;
 		        	flex-grow:1;
 		        	font-family:PingFangSC-Regular;
-					font-size:0.7rem;
+					font-size:0.8rem;
 					color:#777777;
 					letter-spacing:0;
 					padding:0.3rem 0.5rem;

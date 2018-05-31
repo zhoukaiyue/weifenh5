@@ -86,7 +86,7 @@ export default {
                     //     }
                     // },
                     grid: {
-                        left: '-8%',
+                        left: '0',
                         right: '10%',
                         bottom: '10%',
                         containLabel: true
@@ -125,11 +125,16 @@ export default {
                                 width:0.5//刻度线的宽度
                             }
                           },
+                          axisLabel: {
+                            textStyle: {
+                                color: '#ffffff',//坐标值得具体的颜色
+                            }
+                        },
 					        axisLine: {
 		                    lineStyle: {
 			                        type: 'solid',
-			                        color: 'transparent',//左边线的颜色
-			                        width:'2'//坐标线的宽度
+			                        color: '#ffffff',//左边线的颜色
+			                        width:0.5//坐标线的宽度
 			                    }
 			                },
                         }
@@ -142,7 +147,7 @@ export default {
                             stack: '销量',
                             itemStyle : {
                               normal: {
-                              label : {show: true,color:'#ffffff'},
+                              label : {show: false,color:'#ffffff'},
                               lineStyle : {
                                   width : 0.5,
                                   color : '#ffffff'
@@ -151,23 +156,6 @@ export default {
                             },
                             data:[1270, 6382, 2091, 1034, 6382, 2091, 1034],
                             color:"#ffffff"
-                        },
-                        {
-                            name:'销售量',
-                            type:'line',
-                            symbolSize:2,
-                            stack: '销量',
-                            itemStyle : {
-                              normal: {
-                              label : {show: true,color:'#ffffff'},
-                              lineStyle : {
-                                  width : 0.5,
-                                  color : '#f7ff50'
-                                },
-                              }
-                            },
-                            data:[2270, 3456, 5432, 3423, 12, 291, 134],
-                            color:"#f7ff50"
                         }
                     ]
                 };
@@ -189,6 +177,12 @@ export default {
 		        tooltip:{
 		            show:true
 		        },
+		        grid: {
+                        left: '0',
+                        right: '10%',
+                        bottom: '10%',
+                        containLabel: true
+                    },
 		        xAxis : [{
 		                type : 'category',
 		               data:['商品', '商品', '商品', '商品', '商品', '商品', '商品'],
@@ -218,11 +212,16 @@ export default {
                                 width:0.5//刻度线的宽度
                             }
                           },
+                          axisLabel: {
+                            textStyle: {
+                                color: '#ffffff',//坐标值得具体的颜色
+                            }
+                        },
 					        axisLine: {
 		                    lineStyle: {
 			                        type: 'solid',
-			                        color: 'transparent',//左边线的颜色
-			                        width:'2'//坐标线的宽度
+			                        color: '#ffffff',//左边线的颜色
+			                        width:0.5//坐标线的宽度
 			                    }
 			                },
                         }
@@ -232,8 +231,8 @@ export default {
 		                "name":"销量",
 		                "type":"bar",
 		                "data":[2270, 3456, 5432, 3423, 632, 291, 134],
-		                itemStyle : { normal: {label : {show: true,color:'#ffffff',position:'top'}}},
-		                 barWidth : 10,//柱图宽度
+		                itemStyle : { normal: {label : {show:false,color:'#ffffff',position:'top'}}},
+		                 barWidth : 15,//柱图宽度
 		                                         color: function(params) {
                             // build a color map as your need.
                             var colorList = [

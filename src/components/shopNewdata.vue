@@ -43,13 +43,6 @@ export default {
                     tooltip : {
                        // trigger: 'item'
                     },
-                    grid: {
-                        width:'95%',
-                        left: '-2%',
-                        right: '10%',
-                        bottom: '10%',
-                        containLabel: true
-                    },
                     xAxis : [
                         {
                             type : 'category',
@@ -84,11 +77,16 @@ export default {
                                 width:0.5//刻度线的宽度
                             }
                           },
+                          axisLabel: {
+                            textStyle: {
+                                color: '#ffffff',//坐标值得具体的颜色
+                            }
+                        },
                   axisLine: {
                         lineStyle: {
                               type: 'solid',
-                              color: 'transparent',//左边线的颜色
-                              width:'0.5'//坐标线的宽度
+                              color: '#ffffff',//左边线的颜色
+                              width:0.5//坐标线的宽度
                           }
                       },
                         }
@@ -100,7 +98,7 @@ export default {
                             stack: '新增用户量',
                             itemStyle : { 
                               normal: {
-                                label : {show: true,color:'#ffffff'},
+                                label : {show: false,color:'#ffffff'},
                                 lineStyle : {
                                     width : 0.5,
                                     color : '#ffffff'

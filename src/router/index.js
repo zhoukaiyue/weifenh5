@@ -42,6 +42,7 @@ const ShopnewData = r => require.ensure([], () => r(require('@/pages/shopdata/sh
 const data = r => require.ensure([], () => r(require('@/pages/order/data')), 'data')
 const Shopdata = r => require.ensure([], () => r(require('@/pages/shopdata/shopdata')), 'shopdata')
 const sh_success = r => require.ensure([], () => r(require('@/pages/stores/sh_success')), 'sh_success')
+const sh_going = r => require.ensure([], () => r(require('@/pages/stores/sh_going')), 'sh_going')
 const Customer = r => require.ensure([], () => r(require('@/pages/order/Customer')), 'Customer')
 const Storearmketingdetails = r => require.ensure([], () => r(require('@/pages/stores/storearmketingdetails')), 'storearmketingdetails')
 const Shopmine = r => require.ensure([], () => r(require('@/pages/shop/shop_mine')), 'shop_mine')
@@ -152,6 +153,15 @@ const routes = [
                     keepAlive: false // 不需要被缓存
                 },
                 component: sh_success
+            },
+            {
+                path: 'sh_going',
+                name: 'sh_going',
+                meta: {
+                    title: '审核中',
+                    keepAlive: false // 不需要被缓存
+                },
+                component: sh_going
             },
             {
                 path: 'dyinvite',

@@ -61,11 +61,45 @@ function getFileUrl(obj) {
     deactivated () {
         this.$destroy()
     },
+    created() {
+     this.setting()
+    },
     methods: {
         login(){
           this.$router.push({ path: '/login'})
         },
-
+        // 验证申请状态
+        setting(){
+          const _this =this
+          const url =`${myPub.URL}/merchant/Shop/applyInfo`;
+          var params = new URLSearchParams();
+          _this.$loading.show()
+          params.append('token',localStorage.currentUser_token);
+          params.append('open_id',localStorage.openid);
+          axios.post(url,params).then(response => {
+            console.log(response)
+          _this.$loading.hide()
+            // token失效
+            // if (response.data.status =='1004') {
+            //    _this.getData()
+            // }
+            // if (response.data.status =='200') {
+            //     this.$router.push({ path: '/page/sh_going'})
+            //     sessionStorage.setItem('bulicense_url',null);
+            // }else{
+            //   this.$vux.alert.show({
+            //     content: response.data.msg
+            //   })
+            //   setTimeout(() => {
+            //     this.$vux.alert.hide()
+            //   }, 3000)
+            // }
+          }).catch((err) => {
+             _this.$loading.hide()
+            console.log(err)
+          })
+        },
+            
         //提交信息到后台
         submit(){
           console.log('11')

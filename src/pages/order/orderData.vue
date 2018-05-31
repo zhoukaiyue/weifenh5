@@ -99,13 +99,6 @@ export default {
                     tooltip : {
                        // trigger: 'item'
                     },
-                    grid: {
-                        width:'95%',
-                        left: '-2%',
-                        right: '10%',
-                        bottom: '10%',
-                        containLabel: true
-                    },
                     xAxis : [
                         {
                             type : 'category',
@@ -140,11 +133,16 @@ export default {
                                 width:0.5//刻度线的宽度
                             }
                           },
-                  axisLine: {
+                          axisLabel: {
+                            textStyle: {
+                                color: '#ffffff',//坐标值得具体的颜色
+                            }
+                        },
+                      axisLine: {
                         lineStyle: {
                               type: 'solid',
-                              color: 'transparent',//左边线的颜色
-                              width:'1'//坐标线的宽度
+                              color: '#ffffff',//左边线的颜色
+                              width:0.5//坐标线的宽度
                           }
                       },
                         }
@@ -156,7 +154,7 @@ export default {
                             stack: '销量',
                             itemStyle : {
                               normal: {
-                              label : {show: true,color:'#ffffff'},
+                              label : {show: false,color:'#ffffff'},
                               lineStyle : {
                                   width : 0.5,
                                   color : '#ffffff'
@@ -224,7 +222,7 @@ export default {
                          }
                 }],
                 yAxis : [
-                {
+                          {
                            type: 'value',
                            splitLine:{                 //坐标轴在 grid 区域中的分隔线。
                               show:true,              //是否显示分隔线。默认数值轴显示，类目轴不显示。
@@ -235,11 +233,16 @@ export default {
                                 width:0.5//刻度线的宽度
                             }
                           },
+                          axisLabel: {
+                            textStyle: {
+                                color: '#ffffff',//坐标值得具体的颜色
+                            }
+                          },
                             axisLine: {
                             lineStyle: {
                                     type: 'solid',
-                                    color: 'transparent',//左边线的颜色
-                                    width:'1'//坐标线的宽度
+                                    color: '#ffffff',//左边线的颜色
+                                    width:0.5//坐标线的宽度
                                 }
                             },
                         }
@@ -251,7 +254,7 @@ export default {
                         "data":b,
                         itemStyle : {
                             normal: {
-                            label : {show: true,color:'#ffffff'},
+                            label : {show: false,color:'#ffffff'},
                             lineStyle : {
                                 width : 0.5,
                                 color : '#ffffff'

@@ -76,11 +76,16 @@ export default {
                                 width:0.5//刻度线的宽度
                             }
                           },
+                          axisLabel: {
+                            textStyle: {
+                                color: '#ffffff',//坐标值得具体的颜色
+                            }
+                        },
                             axisLine: {
                             lineStyle: {
                                     type: 'solid',
-                                    color: 'transparent',//左边线的颜色
-                                    width:'2'//坐标线的宽度
+                                    color: '#ffffff',//左边线的颜色
+                                    width:0.5//坐标线的宽度
                                 }
                             },
                         }
@@ -92,14 +97,14 @@ export default {
                         "data":b,
                         itemStyle : { 
                             normal: {
-                              label : {show: true,color:'#ffffff'},
+                              label : {show: false,color:'#ffffff'},
                               lineStyle : {
                                   width : 0.5,
                                   color : '#ffffff'
                               },
                             }
                           },
-                         barWidth : 10,//柱图宽度
+                         barWidth : 15,//柱图宽度
                                                  color: function(params) {
                             // build a color map as your need.
                             var colorList = [

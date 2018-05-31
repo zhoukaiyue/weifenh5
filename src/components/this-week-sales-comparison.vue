@@ -47,6 +47,13 @@ export default {
                 tooltip:{
                     show:true
                 },
+                grid: {
+                        width:'95%',
+                        left: '0%',
+                        right: '10%',
+                        bottom: '10%',
+                        containLabel: true
+                    },
                 xAxis : [{
                         type : 'category',
                        data:['商品', '商品', '商品', '商品', '商品', '商品', '商品'],
@@ -76,11 +83,16 @@ export default {
                                 width:0.5//刻度线的宽度
                             }
                           },
+                          axisLabel: {
+                            textStyle: {
+                                color: '#ffffff',//坐标值得具体的颜色
+                            }
+                        },
                             axisLine: {
                             lineStyle: {
                                     type: 'solid',
-                                    color: 'transparent',//左边线的颜色
-                                    width:'2'//坐标线的宽度
+                                    color: '#ffffff',//左边线的颜色
+                                    width:0.5//坐标线的宽度
                                 }
                             },
                         }
@@ -93,14 +105,14 @@ export default {
                         areaStyle: {color: ['rgba(250,250,250,0.1)','rgba(200,200,200,0.1)']},
                         itemStyle : { 
                               normal: {
-                                label : {show: true,color:'#ffffff'},
+                                label : {show: false,color:'#ffffff'},
                                 lineStyle : {
                                     width : 0.5,
                                     color : '#ffffff'
                                 },
                               }
                             },
-                         barWidth : 10,//柱图宽度
+                         barWidth : 15,//柱图宽度
                                                  color: function(params) {
                             // build a color map as your need.
                             var colorList = [

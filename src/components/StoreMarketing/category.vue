@@ -110,7 +110,7 @@
                                 </p>
                                 <p>商品预览</p>
                             </li>
-                            <li>
+                            <li @click='ToCommoditydetail(item.goods_id)'>
                                 <p>
                                     <img src="~@/assets/icon/categroy-yx.png">
                                 </p>
@@ -128,16 +128,28 @@
                                 </p>
                                 <p>商品下架</p>
                             </li>
-                            <li class="select" v-if="choosed1">
+                            <li class="select" v-if="choosed1" v-on:click="showcode(item.goods_id)">
                                 <p>
                                     <img src="~@/assets/icon/categroy-tg.png">
                                 </p>
                                 <p>营销推广</p>
+                                <div style="height:16px;width:100%;background-color: #f8f7f7;"></div>
                             </li>
                         </ul>
                     </div>
                 </li>
             </ul>
+        </div>
+        <!-- 分享二维码弹窗样式 -->
+        <div class="code_box" v-if="show_code">
+            <div class="code_bg"></div>
+            <div class="code_title">长按保存图片,分享让客户购买商品哦~</div> 
+            <!-- 商品图片-->
+            <div class="code_com">
+                <img src="">
+            </div>
+            <!--关闭按钮-->
+            <div class="code_close" @click="hidecode()"></div>
         </div>
         <!-- 添加商品 -->
         <div class="add-goods" v-on:click="linktoDetail">
@@ -148,12 +160,13 @@
 </template>
 
 <script>
+import { PopupPicker, Tabbar, TabbarItem,ViewBox,Actionsheet, Tab, TabItem, Swiper, SwiperItem,Qrcode, GroupTitle,  Divider,XDialog, Popup, Group,XInput, base64, Cell, XButton, XSwitch, Toast, XAddress, ChinaAddressData,TransferDomDirective as TransferDom } from 'vux'
+import { mapState, mapMutations, mapGetters } from 'vuex'
 import Vue from 'vue'
 import axios from 'axios'
 import * as myPub from '@/assets/js/public.js'
 import * as openId from '@/assets/js/opid_public.js'
 import $ from 'jquery'
-import { XInput, Group, XButton, Cell, Toast, base64 } from 'vux'
 export default {
     name: 'category',
     data(){
@@ -173,7 +186,8 @@ export default {
             goodlist:'',
             show:true,
             is_flag:true,
-            is_flag1:true
+            is_flag1:true,
+            show_code:false
 　　　　 }
 　　},
     created() {
@@ -204,6 +218,38 @@ export default {
         },
         Todetail(id) {
             this.$router.push({ path: '/page/detail', query: { id: id } })
+        },
+        //显示二维码分享
+        showcode(id){
+            this.show_code=true;
+            const _this = this;
+            const url =`${myPub.URL}/merchant/Shop/goodsShareQr` 
+            const params = new URLSearchParams();
+            params.append('token',localStorage.currentUser_token);
+            params.append('open_id',localStorage.openid);
+            params.append('id',id);
+            axios.post(url,params).then(response => {
+                const data = response.data
+                if (data.status == '200') {
+                    console.log(data)
+                    $(".code_com img").attr('src',data.img_src)
+                }
+                if (response.data.status =='1024') {
+                  this.$vux.alert.show({
+                      content: response.data.msg
+                  })
+                  setTimeout(() => {
+                      this.$vux.alert.hide()
+                      location.href = '/login'
+                  }, 3000)
+                }
+            }).catch((err) => {
+                console.log(err)
+            })
+        },
+        //关闭二维码分享
+        hidecode(){
+            this.show_code=false;
         },
         // 订单量
         salesVolume2:function(){
@@ -526,10 +572,39 @@ export default {
                 console.log(err)
             })
         }
+    },
+    components: {
+        PopupPicker,
+        Tab,
+        TabItem,
+        Swiper,
+        SwiperItem,
+        Qrcode,
+        Divider,
+        XDialog,
+        Popup,
+        Group,
+        XSwitch,
+        Popup,
+        Group,
+        Cell,
+        XSwitch,
+        Toast,
+        XAddress,
+        XButton,
+        GroupTitle,
+        Tabbar,
+        TabbarItem,
+        ViewBox,
+        Actionsheet,
+        TransferDom
     }
 }
 </script>
-
+<style type="text/css">
+    .weui-cells{opacity:0 }
+    .weui-switch{height: 42px!important;right: 15px;}
+</style>
 <style scoped lang="less">
 .category {
     height: 100%;
@@ -753,6 +828,7 @@ export default {
                 color: #373737;
             }
         }
+        .select{position: relative;}
         .select span {
             color: #f64a29;
             border-bottom: 2px solid #f64a29;
@@ -898,8 +974,9 @@ export default {
                     text-align:center;
                     padding:14px 0;
                     margin-top: 0;
+                    position: relative;
                     img {
-                        height:19px;
+                        width:19px;
                     }
                 }
                 .select{p{color: #f54321}}
@@ -928,4 +1005,49 @@ export default {
         }
     }
 }
+    /*分享二维码组建样式*/
+    .code_box{width:100;height:100%;
+        .code_bg{
+            width:100%;
+            height:100%;
+            position: fixed;
+            top:0;
+            background:#000000;
+            opacity:0.5;
+            z-index:10000000;
+        }
+        .code_title{
+            width:100%;
+            height:35px;
+            position: fixed;
+            top:0;
+            background:#F54321;
+            z-index:100000001; 
+            font-size:1rem;    
+            color:#ffffff; 
+            line-height:35px; 
+            text-align:center;
+        }
+        .code_com{
+            width:80%;
+            height:70%;
+            background:#ffffff;
+            position: fixed;
+            top:10%;
+            left:10%;
+            z-index:100000001;
+        }
+        .code_close{
+            width:40px;
+            height:40px;
+            position: fixed;
+            z-index:100000001;
+            bottom:10%;
+            left:50%;
+            margin-left:-20px;
+            background:url(~@/assets/icon/close_code.png) no-repeat
+                        right center;
+              background-size:100% 100%;
+        }
+    }
 </style>

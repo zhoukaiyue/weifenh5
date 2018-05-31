@@ -44,7 +44,7 @@ export default {
                     },
                     grid: {
                         width:'95%',
-                        left: '-4%',
+                        left: '0%',
                         right: '10%',
                         bottom: '10%',
                         containLabel: true
@@ -58,7 +58,7 @@ export default {
                           lineStyle: {
                               type: 'solid',
                               color: '#ffffff',//左边线的颜色
-                              width:'2'//坐标线的宽度
+                              width:0.5//坐标线的宽度
                             }
                         },
                         axisLabel: {
@@ -83,11 +83,16 @@ export default {
                                 width:0.5//刻度线的宽度
                             }
                           },
+                          axisLabel: {
+                            textStyle: {
+                                color: '#ffffff',//坐标值得具体的颜色
+                            }
+                        },
                         axisLine: {
                         lineStyle: {
                               type: 'solid',
-                              color: 'transparent',//左边线的颜色
-                              width:'2'//坐标线的宽度
+                              color: '#ffffff',//左边线的颜色
+                              width:0.5//坐标线的宽度
                           }
                       },
                         }
@@ -100,7 +105,7 @@ export default {
                             stack: '销量',
                             itemStyle : {
                               normal: {
-                              label : {show: true},
+                              label : {show: false},
                               lineStyle : {
                                   width : 0.5,
                                   color : '#f7ff50'

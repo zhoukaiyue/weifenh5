@@ -76,11 +76,16 @@ export default {
                                 width:0.5//刻度线的宽度
                             }
                           },
+                          axisLabel: {
+                            textStyle: {
+                                color: '#ffffff',//坐标值得具体的颜色
+                            }
+                        },
                     axisLine: {
                     lineStyle: {
                             type: 'solid',
                             color: 'transparent',//左边线的颜色
-                            width:'1'//坐标线的宽度
+                            width:0.5//坐标线的宽度
                         }
                     },
                 }
@@ -92,7 +97,7 @@ export default {
                         "data":b,
                         itemStyle : { 
                             normal: {
-                              label : {show: true,color:'#ffffff'},
+                              label : {show: false,color:'#ffffff'},
                               lineStyle : {
                                   width : 0.5,
                                   color : '#ffffff'
