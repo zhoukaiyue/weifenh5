@@ -311,10 +311,12 @@ export default {
         background:#ffffff;
         height:34px;
         color:#333;
+        font-size:0.9rem;
         line-height:34px;
         margin-top: 8px;
         float: right;
         padding: 0 5px;
+        color:#333333;
     }
     .registered{
         width:100%;
@@ -342,7 +344,7 @@ export default {
         border-bottom: 1px solid #E7E7E7;
         box-sizing:border-box;
         .input1{
-            font-size:1rem;
+            font-size:0.9rem;
             line-height:30px;
             color:#333333;
             width:100%;
@@ -350,7 +352,7 @@ export default {
             margin-top: 10px;
         }
         .input2{
-            font-size:1rem;
+            font-size:0.9rem;
             line-height:30px;
             color:#333333;
             width:40%;

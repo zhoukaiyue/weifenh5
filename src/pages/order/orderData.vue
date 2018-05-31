@@ -115,7 +115,7 @@ export default {
                           lineStyle: {
                               type: 'solid',
                               color: '#ffffff',//左边线的颜色
-                              width:'2'//坐标线的宽度
+                              width:1//坐标线的宽度
                             }
                         },
                         axisLabel: {
@@ -131,11 +131,20 @@ export default {
                     yAxis : [
                         {
                        type: 'value',
+                       splitLine:{                 //坐标轴在 grid 区域中的分隔线。
+                              show:true,              //是否显示分隔线。默认数值轴显示，类目轴不显示。
+                              interval:'auto',
+                              lineStyle:{
+                                type: 'dotted',
+                                color: '#eeeeee',//刻度线颜色
+                                width:0.5//刻度线的宽度
+                            }
+                          },
                   axisLine: {
                         lineStyle: {
                               type: 'solid',
                               color: 'transparent',//左边线的颜色
-                              width:'2'//坐标线的宽度
+                              width:'1'//坐标线的宽度
                           }
                       },
                         }
@@ -217,11 +226,20 @@ export default {
                 yAxis : [
                 {
                            type: 'value',
+                           splitLine:{                 //坐标轴在 grid 区域中的分隔线。
+                              show:true,              //是否显示分隔线。默认数值轴显示，类目轴不显示。
+                              interval:'auto',
+                              lineStyle:{
+                                type: 'dotted',
+                                color: '#eeeeee',//刻度线颜色
+                                width:0.5//刻度线的宽度
+                            }
+                          },
                             axisLine: {
                             lineStyle: {
                                     type: 'solid',
                                     color: 'transparent',//左边线的颜色
-                                    width:'2'//坐标线的宽度
+                                    width:'1'//坐标线的宽度
                                 }
                             },
                         }

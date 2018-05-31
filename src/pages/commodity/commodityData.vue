@@ -19,7 +19,7 @@
 		    	<ul class="yx_display_tab">
 			    	<li class="oli frist" v-bind:class='{ li_select: is_show1}' v-on:click="salesVolume1()">7日</li>
 			    	<li class="oli" v-bind:class='{ li_select: is_show2}' v-on:click="salesVolume2()">30日</li>
-			    	<li class="oli last" v-bind:class='{ li_select: is_show3}' v-on:click="salesVolume3()">年度</li>
+			    	<!-- <li class="oli last" v-bind:class='{ li_select: is_show3}' v-on:click="salesVolume3()">年度</li> -->
 		    	</ul>
 		      <p class="yx_display_ftitle">访问量( 单位：元 )/销售量( 单位：件 )</p>
 	          <div class="charts" >
@@ -32,7 +32,7 @@
 		    	<ul class="yh_display_tab">
 			    	<li class="oli frist" v-bind:class='{ li_select: is_show4}' v-on:click="salesVolume4()">7日</li>
 			    	<li class="oli" v-bind:class='{ li_select: is_show5}' v-on:click="salesVolume5()">30日</li>
-			    	<li class="oli last" v-bind:class='{ li_select: is_show6}' v-on:click="salesVolume6()">年度</li>
+			    	<!-- <li class="oli last" v-bind:class='{ li_select: is_show6}' v-on:click="salesVolume6()">年度</li> -->
 		    	</ul>
 		      <p class="yh_display_ftitle">销售金额( 单位：元 )</p>
 	          <div class="yhcharts" >
@@ -100,7 +100,7 @@ export default {
 			                    lineStyle: {
 			                        type: 'solid',
 			                        color: '#ffffff',//左边线的颜色
-			                        width:'2'//坐标线的宽度
+			                        width:1//坐标线的宽度
 				                    }
 				                },
 				                axisLabel: {
@@ -116,6 +116,15 @@ export default {
                     yAxis : [
                         {
 		                   type: 'value',
+		                   splitLine:{                 //坐标轴在 grid 区域中的分隔线。
+                              show:true,              //是否显示分隔线。默认数值轴显示，类目轴不显示。
+                              interval:'auto',
+                              lineStyle:{
+                                type: 'dotted',
+                                color: '#eeeeee',//刻度线颜色
+                                width:0.5//刻度线的宽度
+                            }
+                          },
 					        axisLine: {
 		                    lineStyle: {
 			                        type: 'solid',
@@ -200,6 +209,15 @@ export default {
 		        yAxis : [
 		        {
 		                   type: 'value',
+		                   splitLine:{                 //坐标轴在 grid 区域中的分隔线。
+                              show:true,              //是否显示分隔线。默认数值轴显示，类目轴不显示。
+                              interval:'auto',
+                              lineStyle:{
+                                type: 'dotted',
+                                color: '#eeeeee',//刻度线颜色
+                                width:0.5//刻度线的宽度
+                            }
+                          },
 					        axisLine: {
 		                    lineStyle: {
 			                        type: 'solid',

@@ -380,6 +380,7 @@ export default {
        box-sizing:border-box;
        font-weight:500;
     }
+    
     .jiantou{
       display:inline-block;
       width: 6px;

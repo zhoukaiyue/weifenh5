@@ -70,7 +70,7 @@ const routes = [
                 meta: {
                      title: '首页',
                      keepAlive: false,// 不需要被缓存
-                     //auth: true,// 如果此路由需要微信授权请设置为true,默认为false
+                     // auth: true,// 如果此路由需要微信授权请设置为true,默认为false
                      requireAuth: true
                 },
                 component: Home
@@ -514,7 +514,7 @@ const routes = [
         meta: {
             title: '商家登录',
              keepAlive: false, // 不需要被缓存
-             //auth: true// 如果此路由需要微信授权请设置为true,默认为false 
+             // auth: true// 如果此路由需要微信授权请设置为true,默认为false 
            }
     },
 
@@ -543,7 +543,7 @@ const routes = [
         requireAuth: true, 
          meta: {
             title:'首页',
-            //auth: true
+            // auth: true
         }
      }
 ]

@@ -140,7 +140,7 @@ export default {
         Invite(){
             const url =`${myPub.URL}/merchant/Shop/inviteRanking`;
             const _this = this
-            _thi.$loading.show()
+            _this.$loading.show()
             const params = new URLSearchParams();
             params.append('token',localStorage.currentUser_token);;
             params.append('open_id',localStorage.openid);

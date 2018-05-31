@@ -83,7 +83,7 @@ export default {
                               show:true,              //是否显示分隔线。默认数值轴显示，类目轴不显示。
                               interval:'auto',
                               lineStyle:{
-                                type: 'solid',
+                                type: 'dotted',
                                 color: '#eeeeee',//刻度线颜色
                                 width:0.5//刻度线的宽度
                             }

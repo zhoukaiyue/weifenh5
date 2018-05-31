@@ -5,18 +5,19 @@ import App from './App'
 import router from './router'
 import store from './store'
 import http from './common/js/http'
+
 import {hex_sha1} from './assets/js/sha1.js'
 import * as myPub from './assets/js/public.js'
 import * as openId from './assets/js/opid_public.js'
 
-// vux 引入组件
+// // vux 引入组件
 import { AlertPlugin, ToastPlugin } from 'vux'
 import WechatAuth from 'vue-wechat-auth'
 import axios from 'axios'
 import echarts from 'echarts'
 Vue.use(AlertPlugin)
 Vue.use(ToastPlugin)
-// axios封装
+// // axios封装
 Vue.use(http)
 Vue.config.productionTip = false
 // 解决点击延迟
@@ -32,7 +33,7 @@ import VueLazyload from 'vue-lazyload'
 import util from './assets/js/until'
 Vue.use(util);
 
-// or with options
+// // or with options
 Vue.use(VueLazyload, {
   preLoad: 1.3,
   error: 'http://www.pingminjie.cn/error.jpg',
@@ -86,7 +87,7 @@ Vue.use(WechatAuth , {
 })
 
 router.beforeEach((to, from, next) => {
-localStorage.setItem('openid','oo1Fj0vuyJHl27Zlytaj3z5c925Q');
+// localStorage.setItem('openid','oo1Fj0vuyJHl27Zlytaj3z5c925Q');
     // 设置标题
     document.title = to.meta.title
     //判断登录跳转
@@ -140,7 +141,7 @@ localStorage.setItem('openid','oo1Fj0vuyJHl27Zlytaj3z5c925Q');
 new Vue({
     el: '#app',
     router,
-    store,
+    // store,
     template: '<App/>',
     components: { App }
 })

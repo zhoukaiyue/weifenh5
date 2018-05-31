@@ -13,9 +13,9 @@
         </ul>
       <div class="shop_info_right">
         <div class='finish_room2 shop_logo'>
-           <div class='room_add_btn'>
+           <div class='room_add_btn' >
                <ossFile :imgs='imgs' :message="msg"></ossFile>
-             <!--  <div class="room_opacity"></div>
+              <!--  <div class="room_opacity"></div>
               <div id="img-change2">
                 <div class="img-changeImg"></div>
                 <p class="img-changeText">更换店铺图像</p>
@@ -36,23 +36,20 @@
       <li class="aftersales"  @click="torder3(3)"><span class="aftersales_img"></span><label>已取消</label></li>
     </ul>
   </div>
-
-
-    <div class="store_management">
-      <p class="store_managementtext">店铺管理</p>
-      <ul class="store_managementul">
-        <li><img src="~@/assets/icon/xinxi.png"><span class="store_managementli_span">店长信息管理</span><label  class="store_managementli_label">&nbsp;暂未开放<!-- <span class="jiantou"></span> --></label></li>
-        <li v-on:click="shop"><img src="~@/assets/icon/xixi.png"><span class="store_managementli_span">店员管理</span><label  class="store_managementli_label">{{scdata.clerk_count}}人&nbsp;<span class="jiantou"></span></label></li>
-      </ul>
-    </div>
-    <p class="help_center">帮助中心</p>
-    <form action="http://im.weifenvip.com/?c=service" method="post">
-             <input type="hidden" name="openid" :value ='openid'>
-             <input type="hidden" name="goods_id" value =''>
-             <input type="hidden" name="oid" value = ''>
-             <input type="submit" style="cursor:pointer;outline:none" class="customer_service" value="联系客服">
-    </form>
-   <!--  <p class="customer_service">联系客服</p> -->
+  <div class="store_management">
+    <p class="store_managementtext">店铺管理</p>
+    <ul class="store_managementul">
+      <!-- <li><img src="~@/assets/icon/xinxi.png"><span class="store_managementli_span">店长信息管理</span><label  class="store_managementli_label">&nbsp;暂未开放<span class="jiantou"></span></label></li> -->
+      <li v-on:click="shop"><img src="~@/assets/icon/xixi.png"><span class="store_managementli_span">店员管理</span><label  class="store_managementli_label">{{scdata.clerk_count}}人&nbsp;<span class="jiantou"></span></label></li>
+    </ul>
+  </div>
+  <p class="help_center">帮助中心</p>
+  <form action="http://im.weifenvip.com/?c=service" method="post">
+    <input type="hidden" name="openid" :value ='openid'>
+    <input type="hidden" name="goods_id" value =''>
+    <input type="hidden" name="oid" value = ''>
+    <input type="submit" style="cursor:pointer;outline:none" class="customer_service" value="联系客服">
+  </form>
   </div>
 </template>
 
@@ -78,7 +75,8 @@ export default {
             scdata:{},
             openid:localStorage.openid,
             msg:'store',
-            imgs:'../../assets/img/storelogo.png'
+            imgs:'https://weifenshops.oss-cn-shanghai.aliyuncs.com/user/20180530/oo1Fj0hcOBHHOfVJWV-zz-zyflE41527678245786.png',
+            isshow:true
 　　　　　　}
 　　　　},
     created() {
@@ -115,10 +113,17 @@ export default {
          // this.$router.push({ path: '/page/order',query:{id:id}})
          this.$router.push({path: '/page/order', query:{id: id}});
         },
-          torder3(id){
+        torder3(id){
           console.log(id)
          // this.$router.push({ path: '/page/order',query:{id:id}})
          this.$router.push({path: '/page/order', query:{id: id}});
+        },
+        // 判断imgs变化
+        imgchange(){
+          const image = 'https://weifenshops.oss-cn-shanghai.aliyuncs.com/user/20180530/oo1Fj0hcOBHHOfVJWV-zz-zyflE41527671191376.png'
+          if (this.imgs!=image) {
+            this.isshow =false
+          }
         },
         // 请求数据接口
         mcenterdata(){
@@ -168,7 +173,7 @@ export default {
 .shop_center{
     background-color:#f9f8f8;
     padding-bottom:20px;
-    .container{width: 100px;height: 100px;border-radius: 50%;}
+    .container{width: 100px!important;height: 100px!important;border-radius: 50%;margin-left: 10px;}
     .mainInfo{
       width:100%;
       height:220px;
@@ -272,7 +277,8 @@ export default {
           .shop_logo{
             width:95px;
             height:95px;
-            border-radius:100%;
+            border-radius:100%;position: relative;
+            span{position: absolute;color: #ffffff;top: 40%;z-index: 0;display: inline-block;width: 100%;text-align: center;left: 10px;}
           }
           .info_modification{
             display: block;
@@ -288,7 +294,6 @@ export default {
     }
     .store_management{
       width:100%;
-      height:150px;
       background-color:#ffffff;
       margin-top:10px;
       /*border:1px solid red;*/
@@ -428,7 +433,9 @@ export default {
        box-sizing:border-box;
        font-weight:600;
       border-radius: 0;
-    }.customer_service{border:0;outline:none;background: #ffffff!important}
+    }
+    .customer_service{-webkit-appearance : none ;border-radius: 0;-webkit-tap-highlight-color:transparent;
+  outline:none;border:0;}
     .jiantou{
       display:inline-block;
       width: 6px;

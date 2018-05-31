@@ -59,28 +59,16 @@
         </div>
         <div class="recent-products">
             <h5 class="title">店铺排行 <span>附近店家人气排行</span><!--  <span class="see">查看全部&emsp;<img src="~@/assets/icon/goods-left.png"></span> --></h5>
-            <ul>
-                <li v-for="(item,index) in shoplist" class="">
-                    <img v-lazy="item.head_pic">
-                    <img :src="src_img" alt="" v-if="isshow1">
-                    <img :src="src_img" alt="" v-if="isshow2">
-                    <img :src="src_img" alt="" v-if="isshow3">
-                    <span>{{index+1}}</span>
+            <ul class="oul">
+                <li v-for="(item,index) in shoplist" class="oli">
+                     <input type="text" name="cloose" style="opacity:0;" :value="item">
+                    <span class="ospan" :class="[{select: index == 0},{select1: index == 1},{select2: index == 2}]">{{index+1}}</span>
+                    <img v-lazy='item.head_pic' alt="">
                     <h5>{{item.name}}</h5>
-                    <p>月引客{{item.fans_count}}<img v-if="isshow4" class="img1" src="~@/assets/icon/hot.png"><img class="img2" v-if="isshow5" src="~@/assets/icon/hot.png"></p>
+                    <p>月引客{{item.fans_count}}
+                        <span :class="[{select11: index == 0},{select22: index == 1},{select33: index == 2}]"></span>
+                    </p>
                 </li>
-                <!--  <li>
-                    <img src="~@/assets/img/goods.png">
-                    <img class="icon" src="~@/assets/icon/two.png">
-                    <h5>美妆护肤</h5>
-                    <p>月引客158<img src="~@/assets/icon/hot.png"></p>
-                </li>
-                <li>
-                    <img src="~@/assets/img/goods.png">
-                    <img class="icon" src="~@/assets/icon/three.png">
-                    <h5>美妆护肤</h5>
-                    <p>月引客158<img src="~@/assets/icon/hot.png"></p>
-                </li> -->
             </ul>
         </div>
     </div>
@@ -245,7 +233,7 @@ export default {
         li{min-width:100px;list-style: none;border: 1px solid #eeeeee;width: 6rem;float: left;margin-top: 1rem;padding: 0.5rem;margin-left: 1rem;
             h5{text-align: center;color: #333333}
             p{font-size: 0.8rem;color: #999999;text-align: center;overflow: hidden;width: 90%;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;font-weight: normal;height: 1.3rem;}
-            img{display: block;width: 90%;margin-left: 5%;}
+            img{display: block;width:75px;height:68px;margin:0 auto;}
             .hide{display: none;}
         }
         li:first-child{margin-left: 0;}
@@ -393,4 +381,40 @@ export default {
         }
     }
 }
+.oul{
+    .oli{                font-size:1rem;
+                color:#333333;
+        .ospan{
+                width:16px;
+                height:21px;
+                /*border:1px solid red;*/
+                line-height:24px;
+                position: absolute;
+                top: 0;
+                left:5px;
+                transform:rotate(4deg);
+                font-family:PingFangSC-Semibold;
+
+                letter-spacing:0;
+                text-align:center;
+        } 
+        img{
+            width:50px;
+            height:60px;
+            margin:0 auto;
+        }       
+    }
+}
+
+.select{
+    background: url(~@/assets/icon/one.png);display: inline-block;background-size: 100%;
+color:#fff;font-size:0.8rem;color:transparent;}
+.select1{background: url(~@/assets/icon/two.png);display: inline-block;background-size: 100%;color:#fff;font-size:0.8rem;color:transparent;}
+.select2{background: url(~@/assets/icon/three.png);display: inline-block;background-size: 100%;color:#fff;font-size:0.8rem;color:transparent;}
+.select11{
+    display:inline-block;width:25px;height:13px;
+    background: url(~@/assets/icon/hot.png);display: inline-block;background-size: 50%;
+color:#fff;font-size:0.8rem;}
+.select22,.select33{display:inline-block;width:13px;height:13px;
+    background: url(~@/assets/icon/hot.png);display: inline-block;background-size: 100%;}
 </style>

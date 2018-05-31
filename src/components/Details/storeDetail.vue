@@ -21,7 +21,6 @@
                     <span class="add-cart">立即生成二维码</span>
 
                 <!-- 生成并分享二维码 -->
-                <span id="fenxiang_falsebtn"></span>
                 <group id="fenxiang">
                   <x-switch v-model="showHideOnBlur" title="" id="fenxiang_btn"></x-switch>
                 </group>
@@ -74,7 +73,7 @@
         </div>
 
         <div class="detail-bottom">
-            <tab :line-width=2
+           <!--  <tab :line-width=2
                  active-color='#f54321'
                  v-model="index">
                 <tab-item class="vux-center"
@@ -89,8 +88,14 @@
             <swiper-item 
                          :key="index">
                 <div class="tab-swiper vux-center" style="z-index: 0;"> <div v-html='product.goods_desc'></div></div>
-            </swiper-item>
-
+                <div style="height: 50px;"></div>
+            </swiper-item> -->
+            <!-- 商品详情 -->
+            <div class="tuwen"></div>
+            <div class="tuwen_con">
+                <p>图文</p>
+                <div class="descBox" v-html="product.goods_desc"></div>
+            </div>
                 <div v-transfer-dom>
                   <x-dialog v-model="showHideOnBlur" class="dialog-demo" hide-on-blur>
                     <div class="img-box">
@@ -182,6 +187,9 @@ export default {
     created() {
         this.goods()
     },
+    updated() {
+        $('.descBox').find('img').css('width', '100%');
+     },
     activated() {
     },
     methods: {
@@ -400,13 +408,13 @@ export default {
     vertical-align:top;
 }
 }.cart-box {
-    height:3.5rem;
+    height:55px;
     width:100%;
     border-top:1px solid #dddddd;
     background-color:#ffffff;
     color:#ffffff;
     position:fixed;
-    bottom:0;
+    bottom:-2px;
     left:0;
     z-index:2000000;
     display:flex;
@@ -591,11 +599,6 @@ s {
 }
 }}}}.detail-bottom {
     background:#ffffff;
-    margin-top:15px;
-    .tab-swiper {
-    background-color:#ffffff;
-    height:180px;
-}
 }.sold_information {
     width:100%;
     height:17px;
@@ -884,7 +887,7 @@ s {
 }
 /*针对iPhone X底部footer做适配*/
 @media only screen and (device-width: 375px) and (device-height:812px) and (-webkit-device-pixel-ratio:3) {
-    .detail .detail-main .cart-box{padding-bottom: 32px;}
+    .cart-box{padding-bottom:34px;}
 }
 
 .qrcode_box{
@@ -896,5 +899,34 @@ s {
     letter-spacing:0;
     text-align:center;
     color:#333333;
+
+}
+
+.tuwen{
+    width:100%;
+    height:40px;
+    background:url(~@/assets/img/bg_tw.png) no-repeat;
+    background-size:cover;
+}
+.tuwen_con{
+    p{
+        width:100%;
+        height:46px;
+        border-bottom:1px solid #F54321;
+        font-size:1rem;
+        line-height:46px;
+        text-align:center;
+        color:#F54321;
+    }
+    #div{
+        width:100%;
+        height:auto;
+        p{
+         img{
+            width:100%;
+        }           
+        }
+
+    }
 }
 </style>

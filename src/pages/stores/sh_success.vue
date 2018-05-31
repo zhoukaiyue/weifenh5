@@ -2,7 +2,7 @@
     <div class="sh_success">
     <!-- 顶部数据 -->
           <div class="ts">
-              < img src="~@/assets/icon/pro.png">
+            <img src="~@/assets/icon/pro.png">
               <p>您的入驻申请已提交成功</p >
               <p class="x-word">24小时内市场专员将与你联系</p >
           </div>
@@ -64,6 +64,6 @@ export default {
     img{width: 5rem;};
     .x-word{margin-top: 10px;font-size: 0.9rem;color: #999999}
   }
-  .button{width: 50%;height: 40px;border:1px solid #fd5536;border-radius: 4px;color: #fd5536;display: block;line-height: 40px;text-align: center;margin-top: 30px;margin-left: 25%;}
+  .button{width: 50%;height: 40px;border:1px solid #fd5536;border-radius: 4px;color: #fd5536;display: block;line-height: 40px;text-align: center;margin-top: 30px;margin-left: 25%;background: #ffffff}
 }
 </style>

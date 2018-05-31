@@ -16,7 +16,7 @@
                 <td>手机号码</td>
                 <td>添加时间</td>
               </tr>
-              <tr v-for="(item,$index) in lists" style="height:60px">
+              <tr v-for="(item,$index) in lists">
                 <td class="td1" style="box-sizing:border-box;">
                   <input type="checkbox" :value="item.id" v-model="checked" @click="currClick(item,$index)" :id='item.id'>
                   <label :for="item.id" class="cb-label"></label>
@@ -241,6 +241,7 @@ export default {
   .middle {
       background-color:#fff;
       margin-top:10px;
+      td{height: 50px;line-height: 50px;border-bottom: 1px solid #eeeeee;text-align: center;}
       .middle_title{
           width:100%;
           font-family:PingFangSC-Semibold;
@@ -250,10 +251,10 @@ export default {
           text-align:center;
           height:3rem;
           line-height:3rem;
+
           td{
-            width:27%;
+            padding: 0 0.7rem;
             color: #777777;
-            
           }
           .td1{
             width:12%;
@@ -279,31 +280,29 @@ table{
     letter-spacing:0;
     text-align:center;
   }
-  .name{font-size: 0.9rem;float: left;position: relative;top: 0.3rem;left: 0.6rem;}
+  .name{font-size: 0.9rem;float: left;position: relative;left: 0.8rem;}
   .cb-label{
     margin-left:14px;
     vertical-align: middle;
   }
   .oimg{
-    width:30px;
-    height:30px;
+    width:40px;
+    height:40px;
     vertical-align: top;
     border-radius: 50%;
     display: inline-block;
     float: left;
-  }
-  span{
-
+    position: relative;
+    top: 0.3rem;
   }
 }
 .del_btn{
   width:100%;
-  height:50px;
+  height:55px;
   background-color:#fff;
   line-height:50px;
   position: fixed;
   padding-left:14px;
-  box-sizing:border-box;
   bottom:0;
   z-index: 1111;
   border-top: 1px solid #f0f0f0;
@@ -319,7 +318,11 @@ table{
   }
 }
 
-
+@media only screen and (device-width: 375px) and (device-height:812px) and (-webkit-device-pixel-ratio:3) {
+    .del_btn{
+        padding-bottom:34px;
+    }
+}
 
 /*多选框的样式*/
 input[type="checkbox"]{
@@ -331,7 +334,6 @@ input[type="checkbox"]{
   bottom: 0.1rem;
   height: 20px;
   width: 20px;
-  background:#fc5738;
   border:0.2px ;
   border-radius: 50%;
   position: relative;
@@ -344,43 +346,8 @@ input[type="checkbox"]{
     vertical-align: middle;
   cursor: pointer;
   margin-right:5px;
-  &::before,&::after{
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-    position: absolute;
-    height: 0;
-    width: 20px * 0.2;
-    background: #fff;
-    display: inline-block;
-    -moz-transform-origin: left top;
-    -ms-transform-origin: left top;
-    -o-transform-origin: left top;
-    -webkit-transform-origin: left top;
-    transform-origin: left top;
-    content: '';
-    -webkit-transition: opacity ease 0.5s;
-    -moz-transition: opacity ease 0.5s;
-    transition: opacity ease 0.5s;
-  }
-  &::before{
-   top: 18px;
-    left: 9.6px;
-   -moz-transform: rotate(-135deg);
-    -ms-transform: rotate(-135deg);
-    -o-transform: rotate(-135deg);
-    -webkit-transform: rotate(-135deg);
-    transform: rotate(-135deg);
-  }
-  &::after {
-    top: 10px;
-    left: 2px;
-    -moz-transform: rotate(-45deg);
-    -ms-transform: rotate(-45deg);
-    -o-transform: rotate(-45deg);
-    -webkit-transform: rotate(-45deg);
-    transform: rotate(-45deg);
-  }
+  border:1px solid #dddddd;
+  background: #ffffff;
 }
 input[type=checkbox]:checked + .cb-label,
 .cb-label.checked{
@@ -388,22 +355,18 @@ input[type=checkbox]:checked + .cb-label,
   background: rgb(101,141,181)g;
   border-color:rgb(101,141,181)g;
   &::after{
-    border-color:#fff;
-    height: 20px * .35;
-    -moz-animation: dothabottomcheck .4s/2 ease 0s forwards;
-    -o-animation: dothabottomcheck .4s/2 ease 0s forwards;
-    -webkit-animation: dothabottomcheck .4s/2 ease 0s forwards;
-    animation: dothabottomcheck .4s/2 ease 0s forwards;
+    content: "";
+   display: inline-block;
+   width: 19px;
+   height: 19px;
+    background: url(~@/assets/icon/circle@selected.png);
+   top: -1px;
+   left: 0;
+   border-radius: 50%;
+   background-size: 100%;
+   position: absolute;
   }
 
-  &::before{
-    border-color:#fff;
-    height: 20px * 1;
-    -moz-animation: dothatopcheck .4s ease 0s forwards;
-    -o-animation: dothatopcheck .4s ease 0s forwards;
-    -webkit-animation: dothatopcheck .4s ease 0s forwards;
-    animation: dothatopcheck .4s ease 0s forwards;
-  }
 
 }
 @-moz-keyframes dothabottomcheck{
