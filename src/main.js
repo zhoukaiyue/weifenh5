@@ -49,6 +49,7 @@ Vue.use(WechatAuth , {
   responseType: 'code',  // 返回类型，请填写code
   scope: 'snsapi_userinfo', // 应用授权作用域，snsapi_base （不弹出授权页面，直接跳转，只能获取用户openid），snsapi_userinfo （弹出授权页面，可通过openid拿到昵称、性别、所在地。并且，即使在未关注的情况下，只要用户授权，也能获取其信息）
   getCodeCallback (code, next) {
+    alert('进行微信授权')
     console.log("此时拿到code")
   	// alert(code)
     localStorage.setItem('code',code);
@@ -69,7 +70,7 @@ Vue.use(WechatAuth , {
             console.log('获取到openid')
             const openid = response.data.openid
             localStorage.setItem('openid',openid);
-            console.log('这是openid'+`${openId.open_id}`)
+            console.log('这是openid'+localStorage.openid)
             console.log('这是本地存储openid'+localStorage.openid)
             next('/page/home')
       }).catch((err) => {

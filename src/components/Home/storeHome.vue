@@ -144,6 +144,11 @@ export default {
             if (response.data.status =='1004') {
               _this.getData()
             }
+            // // openid失效
+            // if (response.data.status =='1015') {
+            //     console.log('openid失效')
+            //   _this.getopenid()
+            // }
             // 状态码
             if (response.data.status =='200') {
                const data = response.data.data

@@ -32,26 +32,17 @@
 		      <!-- 本周访问量/销售量数据-->
 		      <visitsalesNewdata  v-if="!isshow7"></visitsalesNewdata>
 		      <weeksalescomparisonNewdata  v-if="isshow7"></weeksalescomparisonNewdata>
-          <div class="goodlist">
+          <div class="goodlist" v-if="isshow7">
             <ul>
-              <li>商品</li>
-              <li>商品</li>
-              <li>商品</li>
-              <li>商品</li>
-            </ul>
-            <ul>
-              <li>商品</li>
-              <li>商品</li>
-              <li>商品</li>
-              <li>商品</li>
+              <li v-for="(item,index) in goodlist">{{item.goods_name}}</li>
             </ul>
           </div>
 		    </div>
 		     <div class="yh_display">
 		    	<p class="yh_display_title">订单数据<span v-on:click="newData">查看更多&ensp;<img src="~@/assets/icon/goods-left.png"></span></p>
 		    	<ul class="yh_display_tab">
-			    	<li class="oli frist" v-bind:class='{ li_select: is_show5}' v-on:click="salesVolume5()">7日订单量</li>
-			    	<li class="oli last" v-bind:class='{ li_select: is_show6}' v-on:click="salesVolume6()">7日交易额</li>
+			    	<li class="oli frist" v-bind:class='{ li_select: is_show5}' v-on:click="salesVolume5()">7日订单销售额</li>
+			    	<li class="oli last" v-bind:class='{ li_select: is_show6}' v-on:click="salesVolume6()">7日用户消费额</li>
 		    	</ul>
 		      <p class="yh_display_ftitle">销售金额( 单位：元 )</p>
 		      <!-- 7日订单量 -->
@@ -108,7 +99,8 @@ export default {
         isshow1: false,
         isshow2: false,
         isshow3: false,
-        isshow4: false
+        isshow4: false,
+        goodlist:[],
     };
   },
   	created() {
@@ -180,6 +172,8 @@ export default {
         this.is_show3=false
         this.is_show4=true
         _this.isshow7=true
+        _this.order('2')
+          
 	},
 	// 7月订单销售额
 	salesVolume5:function(){
@@ -226,8 +220,9 @@ export default {
         if (response.data.status =='200') {
             const data = response.data.data
           	_this.shopdata = data.order_data
+            _this.goodlist =data.goods_data
           	var objdata = this.shopdata;
-          	console.log(objdata)
+          	console.log(_this.goodlist)
             if (objdata.all_count!='0') {
               _this.isshow1 = true
             }
@@ -411,7 +406,7 @@ export default {
       .goodlist{
         width: 90%;
         margin-left: 5%;
-        ul{width: 40%;display: inline-block;margin-left: 5%;}
+        ul{li{width: 40%;display: inline-block;margin-left: 5%;list-style-type: disc;}}
       }
 	 	}
 	 	.yh_display{

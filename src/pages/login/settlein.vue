@@ -77,23 +77,38 @@ function getFileUrl(obj) {
           params.append('token',localStorage.currentUser_token);
           params.append('open_id',localStorage.openid);
           axios.post(url,params).then(response => {
-            console.log(response)
+            const data = response.data.data
+            console.log(response.data.data)
           _this.$loading.hide()
             // token失效
-            // if (response.data.status =='1004') {
-            //    _this.getData()
-            // }
-            // if (response.data.status =='200') {
-            //     this.$router.push({ path: '/page/sh_going'})
-            //     sessionStorage.setItem('bulicense_url',null);
-            // }else{
-            //   this.$vux.alert.show({
-            //     content: response.data.msg
-            //   })
-            //   setTimeout(() => {
-            //     this.$vux.alert.hide()
-            //   }, 3000)
-            // }
+            if (response.data.status =='1004') {
+               _this.getData()
+            }
+            if (response.data.status =='200') {
+                if (data.type == '1') {
+                  this.$vux.alert.show({
+                        content: '申请已通过，请重新登陆或继续申请'
+                    })
+                    setTimeout(() => {
+                        this.$vux.alert.hide()
+                    }, 3000)
+                }
+                if (data.type == '2') {
+                  this.$router.push({ path: '/page/sh_going'})
+                  sessionStorage.setItem('bulicense_url',null);
+                }
+                if (data.type == '3') {
+                  this.$vux.alert.show({
+                        content: data.admin_note
+                    })
+                    setTimeout(() => {
+                        this.$vux.alert.hide()
+                    }, 3000)
+                }
+                if (data.type == '4') {
+                  console.log('正常')
+                }
+            }
           }).catch((err) => {
              _this.$loading.hide()
             console.log(err)

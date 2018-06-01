@@ -83,7 +83,7 @@
                         </div>
                         <div class="goods clerfix"  >
                              <h5>{{item.goods_name}}<span class="goodsId">{{item.goods_id}}</span></h5>
-                            <p><span class="price">￥{{item.shop_price}}</span> <span class="y-charge">券后价</span> <span class="charge">￥{{item.market_price}}</span>
+                            <p><span class="price">￥{{item.shop_price}}</span> <span class="y-charge">券后价</span> <span class="charge">￥{{item.markte_price}}</span>
                                 <a href="javascript:">
                                    <img src="~@/assets/icon/goods-left.png">
                                 </a>
@@ -133,7 +133,7 @@
                                     <img src="~@/assets/icon/categroy-tg.png">
                                 </p>
                                 <p>营销推广</p>
-                                <div style="height:16px;width:100%;background-color: #f8f7f7;"></div>
+                                <!-- <div style="height:16px;width:100%;background-color: #f8f7f7;"></div> -->
                             </li>
                         </ul>
                     </div>
@@ -222,6 +222,7 @@ export default {
         //显示二维码分享
         showcode(id){
             this.show_code=true;
+            $('body').css('overflow','hidden')
             const _this = this;
             const url =`${myPub.URL}/merchant/Shop/goodsShareQr` 
             const params = new URLSearchParams();
@@ -232,7 +233,7 @@ export default {
                 const data = response.data
                 if (data.status == '200') {
                     console.log(data)
-                    $(".code_com img").attr('src',data.img_src)
+                    $(".code_com img").attr('src',data.promotion_src)
                 }
                 if (response.data.status =='1024') {
                   this.$vux.alert.show({
@@ -250,6 +251,7 @@ export default {
         //关闭二维码分享
         hidecode(){
             this.show_code=false;
+            $('body').css('overflow','auto')
         },
         // 订单量
         salesVolume2:function(){
@@ -1006,7 +1008,7 @@ export default {
     }
 }
     /*分享二维码组建样式*/
-    .code_box{width:100;height:100%;
+    .code_box{width:100;height:100%;text-align: center;
         .code_bg{
             width:100%;
             height:100%;
@@ -1014,7 +1016,7 @@ export default {
             top:0;
             background:#000000;
             opacity:0.5;
-            z-index:10000000;
+            z-index:10000000000;
         }
         .code_title{
             width:100%;
@@ -1022,10 +1024,10 @@ export default {
             position: fixed;
             top:0;
             background:#F54321;
-            z-index:100000001; 
-            font-size:1rem;    
-            color:#ffffff; 
-            line-height:35px; 
+            z-index:100000000001;
+            font-size:1rem;
+            color:#ffffff;
+            line-height:35px;
             text-align:center;
         }
         .code_com{
@@ -1035,17 +1037,18 @@ export default {
             position: fixed;
             top:10%;
             left:10%;
-            z-index:100000001;
+            z-index:100000000001;
+            img{width: 100%;}
         }
         .code_close{
-            width:40px;
-            height:40px;
+            width:20px;
+            height:20px;
             position: fixed;
-            z-index:100000001;
-            bottom:10%;
-            left:50%;
+            z-index:100000000001;
+            top:12%;
+            right:12%;
             margin-left:-20px;
-            background:url(~@/assets/icon/close_code.png) no-repeat
+            background:url(~@/assets/icon/close.png) no-repeat
                         right center;
               background-size:100% 100%;
         }

@@ -75,7 +75,7 @@ export default {
             }
         },
         isShowTabbar() {
-            if(/detail|ceshi|storeer|store_users|addgoods|storeInfo|shop|order|commodityData|logo|people|changephone|changestore|sh_success|storesuccess|addGoods|dyinvite|Customer|storearmketingdetails|shop_mine|phone|shopdata|shop_storeinfo/.test(this.$route.path)) {
+            if(/detail|ceshi|storeer|store_users|addgoods|storeInfo|shop|order|commodityData|logo|people|changephone|changestore|sh_success|storesuccess|addGoods|dyinvite|Customer|storearmketingdetails|shop_mine|phone|shopdata|shop_storeinfo|sh_going/.test(this.$route.path)) {
                 return true
             }
                return false

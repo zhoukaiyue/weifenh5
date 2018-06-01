@@ -15,14 +15,14 @@
         <div class="login—prompt">成功入驻店加圈，即可开启线上引客之路</div>
         <group>
         </group>
-        <div class="logo-cont">   
+        <div class="logo-cont">
             <p>
                 <input type="phone" v-model="phoneNumber" maxlength="13" placeholder="请输入您的手机号" class="input1">
             </p>
             <p>
-                <input type="number" v-model="verifyCode"  oninput="if(value.length>4)value=value.slice(0,4)"  placeholder="请输入验证码" class="input2"> 
+                <input type="number" v-model="verifyCode"  oninput="if(value.length>4)value=value.slice(0,4)"  placeholder="请输入验证码" class="input2">
                 <button  @click="sendCode" class="verification" >{{btnText}}</button>
-            </p>      
+            </p>
         </div>
         <div style="padding:15px;margin-top:30px;">
             <div v-on:click="login"><x-button  type="primary" class="x-button"> 登录 </x-button></div>
@@ -56,7 +56,6 @@ export default {
             JsApiData: '',
             code_num: '',
             phoneNumber: '',
-
             BaseUrl: "https://open.weixin.qq.com/connect/oauth2/authorize?",
             JsApiData:"",
 
@@ -75,18 +74,10 @@ export default {
                 Wechat_Redirect:"#wechat_redirect"
             }
 
-
-
         }
     },
 
     created() {
-            if(localStorage.openid == undefined){
-                this.$router.push({ path: '/user'})
-               // alert('重新授权')
-               // window.location.href='https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxb7146031bd5bbc93&redirect_uri=http%3A%2F%2Fdist.weifenvip.com%2Flogin&response_type=code&scope=snsapi_userinfo&&state=STATE#wechat_redirect'
-
-            }
     },
     deactivated () {
         this.$destroy()
@@ -97,7 +88,6 @@ export default {
     },
     methods: {
         ...mapMutations(['UPDATE_USERINFO']),
-
         sendCode() {
             console.log('点击验证码触发')
             const reg = /^1[34578]\d{9}$/ // 手机号正则校验
@@ -164,6 +154,7 @@ export default {
         },
         login(){
              const _this=this;
+             alert(localStorage.openid)
              //令牌过期  _this.getData();
               _this.$loading.show();//显示
              const url =`${myPub.URL}/merchant/Shop/login`;
@@ -345,20 +336,20 @@ export default {
         box-sizing:border-box;
         .input1{
             font-size:0.9rem;
-            line-height:30px;
+            line-height:20px;
             color:#333333;
             width:100%;
             border: 0px;outline:none;cursor: pointer;
-            margin-top: 10px;
+            margin-top: 15px;
         }
         .input2{
             font-size:0.9rem;
-            line-height:30px;
+            line-height:20px;
             color:#333333;
             width:40%;
             float:left;
             border: 0px;outline:none;cursor: pointer;
-            margin-top: 10px;
+            margin-top: 15px;
         }
         span{
             float:right;

@@ -17,7 +17,7 @@ export default {
   },
   methods:{
     //本周商品销量对比图
-    zx_display(){
+    zx_display(a,b){
             let echarts = require('echarts/lib/echarts')
             let chartBox=document.getElementsByClassName('yhcharts')[0]
             let myChart=document.getElementById('zxChart')
@@ -47,16 +47,9 @@ export default {
                 tooltip:{
                     show:true
                 },
-                grid: {
-                        width:'95%',
-                        left: '0%',
-                        right: '10%',
-                        bottom: '10%',
-                        containLabel: true
-                    },
                 xAxis : [{
                         type : 'category',
-                       data:['商品', '商品', '商品', '商品', '商品', '商品', '商品'],
+                       data:b,
                        axisLine: {
                                 lineStyle: {
                                     type: 'solid',
@@ -101,7 +94,7 @@ export default {
                     {
                         "name":"销量",
                         "type":"bar",
-                        "data":[2270, 3456, 5432, 3423, 632, 291, 134],
+                        "data":a,
                         areaStyle: {color: ['rgba(250,250,250,0.1)','rgba(200,200,200,0.1)']},
                         itemStyle : { 
                               normal: {
@@ -127,8 +120,10 @@ export default {
             mainChart.setOption(option);
     },
     order(a){
-      const _this = this
+      const _this = this;
       _this.$loading.show()
+      var arr = [];
+      var Data = [];
       const url =`${myPub.URL}/merchant/Shop/dataStatistics`;
           var params = new URLSearchParams();
           params.append('token',localStorage.currentUser_token);;
@@ -136,7 +131,7 @@ export default {
           params.append('type',a);
           axios.post(url,params).then(response => {
             _this.$loading.hide()
-            if (response.data.status =='1024') {
+          if (response.data.status =='1024') {
                 this.$vux.alert.show({
                 content: response.data.msg
             })
@@ -150,21 +145,26 @@ export default {
               _this.getData()
             }
             if (response.data.status == "200") {
+                _this.$loading.hide(); //隐藏
                 const data = response.data.data
-                  console.log(data)
-                  this.shopdata = data.member_data
-                  console.log(this.shopdata)
-                }else{
-                     _this.$loading.hide();//隐藏
-                    this.$vux.alert.show({
+                _this.shopdata = data.goods_data
+                var objdata = _this.shopdata;
+                console.log(_this.shopdata)
+                for(var i in objdata){
+                 arr.push(objdata[i].goods_num)
+                 Data.push(objdata[i].goods_name)
+                }
+                 _this.zx_display(arr,Data);
+            }else{
+                 _this.$loading.hide();//隐藏
+                this.$vux.alert.show({
                     title: '操作失败',
                     content: response.data.msg
                 })
                 setTimeout(() => {
                     this.$vux.alert.hide()
                 }, 3000)
-              }
-              
+              }              
           }).catch((err) => {
               console.log(err)
           })

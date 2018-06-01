@@ -357,7 +357,7 @@ export default {
                 }
             }
         }
-        .ordernone{background: #ffffff;margin-top: 1rem;text-align: center;color:#333;img{width: 7rem;margin-top: 4rem;}p{margin-top: 0.5rem;}}
+        .ordernone{background: #ffffff;margin-top: 1rem;text-align: center;color:#333;height:100%;img{width: 7rem;margin-top: 4rem;}p{margin-top: 0.5rem;}}
 /*添加商品列表*/
 .goods-list{
     .t{padding: 1.5rem 1rem 1rem 1.5rem;}

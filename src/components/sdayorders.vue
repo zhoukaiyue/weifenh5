@@ -47,6 +47,13 @@ export default {
                     tooltip : {
                        // trigger: 'item'
                     },
+                    grid: {
+                        width:'95%',
+                        left: '-0%',
+                        right: '10%',
+                        bottom: '10%',
+                        containLabel: true
+                    },
                     xAxis : [
                         {
                             type : 'category',
@@ -98,21 +105,22 @@ export default {
                     ],
                     series : [
                         {
-                            name:'订单销售额',
+                            name:'访问量',
                             type:'line',
                             symbolSize:2,
                             stack: '销量',
-                            itemStyle : { 
+                            itemStyle : {
                               normal: {
-                                label : {show: false,color:'#ffffff'},
-                                lineStyle : {
-                                    width : 0.5,
-                                    color : '#ffffff'
+                              label : {show: false},
+                              lineStyle : {
+                                  width : 0.5,
+                                  color : '#ffffff'
                                 },
                               }
                             },
                             data:b,
-                            color:"#ffffff"
+                            color:"#ffffff",
+                            areaStyle: {color: ['rgba(250,250,250,0.1)','rgba(200,200,200,0.1)']}
                         }
                     ]
                 };

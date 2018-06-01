@@ -3,7 +3,7 @@
     <div class="mainInfo">
         <ul class="shop_info_left">
           <li class="shop_name">{{scdata.shop_info.name}}</li>
-          <li class="storeManager">{{scdata.shop_info.brand_name}}&nbsp;&nbsp;<span class="storesanager_right">店长，欢迎您!</span></li>
+          <li class="storeManager">{{scdata.shop_info.contact}}&nbsp;&nbsp;<span class="storesanager_right">店长，欢迎您!</span></li>
           <li class="join_time">{{scdata.shop_info.create_time}}&nbsp;加入</li>
           <li class="passenger_traffic">
             <div  class="passenger_traffic_box" style="border:0;"><span>{{scdata.clerk_count}}</span><label>总引客量</label></div>
@@ -37,7 +37,6 @@
     </ul>
   </div>
   <div class="store_management">
-    <p class="store_managementtext">店铺管理</p>
     <ul class="store_managementul">
       <!-- <li><img src="~@/assets/icon/xinxi.png"><span class="store_managementli_span">店长信息管理</span><label  class="store_managementli_label">&nbsp;暂未开放<span class="jiantou"></span></label></li> -->
       <li v-on:click="shop"><img src="~@/assets/icon/xixi.png"><span class="store_managementli_span">店员管理</span><label  class="store_managementli_label">{{scdata.clerk_count}}人&nbsp;<span class="jiantou"></span></label></li>
@@ -61,15 +60,14 @@ import * as openId from '@/assets/js/opid_public.js'
 import ossFile from '../../components/oss_file'
 export default {
   components: {
-      Swiper, 
+      Swiper,
       SwiperItem,
-      ButtonTab, 
-      ButtonTabItem, 
-      Divider, 
+      ButtonTab,
+      ButtonTabItem,
+      Divider,
       Toast,
       ossFile
     },
-    name: 'shop_center',
     data(){
 　　　　　　return {
             scdata:{},
@@ -80,13 +78,12 @@ export default {
 　　　　　　}
 　　　　},
     created() {
-
+      //数据请求接口
+      this.mcenterdata()
     },
     computed: {
     },
     mounted(){
-            //数据请求接口
-            this.mcenterdata()
     },
     methods: {
        shop() {
@@ -187,9 +184,13 @@ export default {
           height:100%;
           .shop_name{
             font-family:PingFangSC-Semibold;
-            font-size:1.2rem;
+            font-size:1.5rem;
             color:#333333;
             letter-spacing:0;
+            height: 2.5rem;
+            overflow: hidden;
+            text-overflow:ellipsis;
+            white-space: nowrap;
           }
           .storeManager{
             font-family:PingFangSC-Semibold;
@@ -319,6 +320,7 @@ export default {
           box-sizing:border-box;
           border-bottom:1px solid #f9f8f8;
           line-height:50px;
+          font-size: 0.9rem;
           img{width: 1.3rem;height:1.3rem;vertical-align: middle;margin-right:5px;}
           /*.store_dianzhang{
               background:url(~@/assets/icon/xinxi.png) no-repeat
@@ -332,13 +334,16 @@ export default {
           }*/
           span,label{
             font-family:PingFangSC-Regular;
-            font-size:0.8rem;
+            font-size:0.9rem;
             color:#333333;
             letter-spacing:0;
             text-align:center;
+            font-weight: 600;
           }
           label{
             float:right;
+            font-size: 0.8rem;
+            font-weight: normal;  
           }
         }
       }
@@ -435,7 +440,7 @@ export default {
       border-radius: 0;
     }
     .customer_service{-webkit-appearance : none ;border-radius: 0;-webkit-tap-highlight-color:transparent;
-  outline:none;border:0;}
+  outline:none;border:0;margin-top:0px;border-top: 1px solid #eeeeee;}
     .jiantou{
       display:inline-block;
       width: 6px;

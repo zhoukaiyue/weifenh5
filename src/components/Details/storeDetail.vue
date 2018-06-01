@@ -81,7 +81,7 @@
                     <input type="submit" style="cursor:pointer;outline:none"  class="counts-tips" value="客服">
                 </form>
             </div>
-            <div class="add-cart-btn "  v-on:click="Joinmaketing" v-if="!isshow11">
+            <div class="add-cart-btn "  v-on:click="Joinmaketing()" v-if="!isshow11">
                 <span class="add-cart">立即加入营销列表</span>
             </div>
             <div class="add-cart-btn "  v-if="isshow11" v-on:click="code">
@@ -417,7 +417,7 @@ export default {
     .picker {
     width:35%;
     height:40%;
-    background:url(~@/assets/icon/kefu.png) no-repeat
+    background:url(~@/assets/icon/shop.png) no-repeat
                         right center;
     background-size:100% 100%;
     margin:5px auto 2px auto;
@@ -433,7 +433,7 @@ export default {
         background: transparent;
 }
 .counts-tips {
-    background:url(~@/assets/icon/kefu.png) no-repeat center 2px;
+    background:url(~@/assets/icon/shop.png) no-repeat center 2px;
     background-size: 26px 23px;
     display:block;
     height:100%;
@@ -498,7 +498,7 @@ export default {
 }&.country {
     width:100%;
     padding:0px 17px;
-    font-size:0.6rem;
+    font-size:0.8rem;
     color:#999999;
     letter-spacing:0;
     text-align:left;
@@ -970,7 +970,7 @@ s {
         background: transparent;
 }
 .counts-tips {
-    background:url(~@/assets/icon/kefu.png) no-repeat center 2px;
+    background:url(~@/assets/icon/shop.png) no-repeat center 2px;
     background-size: 26px 23px;
     display:block;
     height:100%;

@@ -278,7 +278,7 @@ export default {
         color:#777777;
         span{
           display:inline-block;
-          width:20%;
+          width:30%;
           margin-right:1rem;
         }
       } 
@@ -289,7 +289,7 @@ export default {
         color:#777777;
         span{
           display:inline-block;
-          width:20%;
+          width:30%;
           margin-right:1rem;
         }
       }

@@ -12,9 +12,14 @@
                     适合人群<img class="sx" src="~@/assets/icon/sx.png">
                 </li>
             </ul>
-            <group title="" class="list">
-              <radio :options="radio001" @on-change="change" :selected-label-style="{color: '#f54321'}"></radio>
-            </group>
+            <!-- <group title="" class="list">
+              <radio :options="radio001" @on-change="change" :selected-label-style="{color: '#f54321'}">1111</radio>
+            </group> -->
+            <div class="list">
+                <ul>
+                    <li v-for="item in radio001" @click="fit2(item.id)">{{item.rec_name}}<span>{{item.id}}</span></li>
+                </ul>
+            </div>
         </div>
         <!-- 添加商品列表 -->
         <div class="goods-list">
@@ -27,7 +32,7 @@
                     </div>
                     <div class="goods" >
                         <h5>{{item.goods_name}}</h5>
-                        <p><span class="price">￥{{item.shop_price}}</span>&ensp;<span class="y-charge">引客价</span>&ensp;<span class="charge">￥{{item.markte_price}}</span><a href="javascript:"><img src="~@/assets/icon/goods-left.png"></a></p>
+                        <p><span class="price">￥{{item.shop_price}}</span>&ensp;<span class="y-charge">券后价</span>&ensp;<span class="charge">￥{{item.markte_price}}</span><a href="javascript:"><img src="~@/assets/icon/goods-left.png"></a></p>
                         <ul class="list">
                             <li>销量 <span>{{item.ogm}}</span></li>
                             <li>库存 <span>{{item.goods_stock}}</span></li>
@@ -59,14 +64,19 @@ export default {
   },
   data () {
     return {
-      radio001: [ '适合20-30岁群体', '适合30-40岁群体' , '适合40-50岁群体', '适合50-60岁群体'],
+        radio001:{},
         show:true,
         is_show1: true,
         is_show2: false,
         is_show3: false,
         is_show4: false,
+        is_show5: false,
+        is_show6: false,
+        is_show7: false,
+        is_show8: false,
         datalist:'',
-        is_flag:true,　　　　　　
+        is_flag:true,　
+        datas:true
     }
   },
  created() {
@@ -99,11 +109,12 @@ export default {
     join(id) {
         const _this =this
         _this.$loading.show();//隐藏
-        const url =`${myPub.URL}/merchant/Shop/addGoods`;
+        const url =`${myPub.URL}/merchant/Shop/goodsUpDown`;
         var params = new URLSearchParams();
         params.append('token',localStorage.currentUser_token);
         params.append('open_id',localStorage.openid);
         params.append('id',id);
+        params.append('type','1');
         axios.post(url,params).then(response => {
             _this.$loading.hide();//隐藏
             if (response.data.status =='1024') {
@@ -169,7 +180,19 @@ export default {
         this.is_show4=true
         $(".nav-list .list").show()
         $(".bg").show ()
+    },
+    fit2(id){
+        const _this = this;
+        this.is_show2=false
+        this.is_show1=false
+        this.is_show3=false
+        this.is_show4=true
         $(".nav-list").css("z-index",100);
+        _this.Marketinggoods('type',id)
+         setTimeout(() => {
+            $(".nav-list .list").hide()
+            $(".bg").hide ()
+        }, 1000)
     },
     // 价格
     price(){
@@ -224,6 +247,7 @@ export default {
             params.append('size',b);
         }
         axios.post(url,params).then(response => {
+            console.log(response)
             if (response.data.status =='1024') {
               this.$vux.alert.show({
                   content: response.data.msg
@@ -236,8 +260,9 @@ export default {
             const status = response.data;
             if (status.status == "200") {
                  _this.datalist = status.data
+                 console.log(status.data)
+                 _this.radio001=status.data.type_list
                 _this.$loading.hide();//隐藏
-
             }else{
                  _this.$loading.hide();//隐藏
                 this.$vux.alert.show({
@@ -288,7 +313,9 @@ export default {
                     a{position: absolute;margin-left: 10px;img{width: 0.6rem;}}
                     .t{top: 1.3rem;};.d{bottom: 1.4rem;}.sx{width: 0.9rem;position: relative;top: 0.2rem;left: 0.2rem}
                 }
-                .list{position: absolute;width: 100%;z-index: 2;color: #999999;font-size: 10.8rem;display: none;z-index: 111;background: #ffffff;}
+                .list{position: absolute;width: 100%;z-index: 2;color: #999999;font-size: 10.8rem;display:none;z-index: 111;background: #ffffff;
+                    li{width: 100%;padding: 0.8rem;display: block;text-align: left;border-top: 1px solid #eeeeee;span{opacity: 0;}}
+                }
             }
         }
 /*添加商品列表*/

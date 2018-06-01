@@ -64,6 +64,6 @@ export default {
     img{width: 5rem;};
     .x-word{margin-top: 10px;font-size: 0.9rem;color: #999999}
   }
-  .button{width: 50%;height: 40px;border:1px solid #fd5536;border-radius: 4px;color: #fd5536;display: block;line-height: 40px;text-align: center;margin-top: 30px;margin-left: 25%;background: #ffffff}
+  .button{width: 50%;height: 40px;border:1px solid #fd5536;border-radius: 4px;color: #fd5536;display: block;line-height: 40px;text-align: center;margin-top: 30px;margin-left: 25%;background: #ffffff;-webkit-appearance : none ;border-radius: 0;}
 }
 </style>

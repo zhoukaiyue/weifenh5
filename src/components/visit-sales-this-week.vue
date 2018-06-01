@@ -18,7 +18,7 @@ export default {
   },
   methods:{
   //这是本周商品访问量/销售量趋势图
-  yx_display(){
+  yx_display(a,b){
        var chart = document.getElementById("myChart");
                let echarts = require('echarts/lib/echarts');
                let mainChart = echarts.init(myChart);
@@ -53,7 +53,7 @@ export default {
                         {
                             type : 'category',
                             boundaryGap : false,
-                            data :['商品', '商品', '商品', '商品', '商品', '商品', '商品'],
+                            data :a,
                              axisLine: {
                           lineStyle: {
                               type: 'solid',
@@ -112,7 +112,7 @@ export default {
                                 },
                               }
                             },
-                            data:[2270, 3456, 5432, 3423, 632, 291, 134],
+                            data:b,
                             color:"#ffffff",
                             areaStyle: {color: ['rgba(250,250,250,0.1)','rgba(200,200,200,0.1)']}
                         }
@@ -121,8 +121,10 @@ export default {
                 mainChart.setOption(option);
     },
     order(a){
-      const _this=this
+      const _this = this;
       _this.$loading.show()
+      var arr = [];
+      var Data = [];
       const url =`${myPub.URL}/merchant/Shop/dataStatistics`;
           var params = new URLSearchParams();
           params.append('token',localStorage.currentUser_token);;
@@ -130,7 +132,7 @@ export default {
           params.append('type',a);
           axios.post(url,params).then(response => {
             _this.$loading.hide()
-            if (response.data.status =='1024') {
+          if (response.data.status =='1024') {
                 this.$vux.alert.show({
                 content: response.data.msg
             })
@@ -144,24 +146,29 @@ export default {
               _this.getData()
             }
             if (response.data.status == "200") {
+                _this.$loading.hide(); //隐藏
                 const data = response.data.data
-                console.log(response)
-                this.yx_display()
-              }else{
-                   _this.$loading.hide();//隐藏
-                  this.$vux.alert.show({
-                  title: '操作失败',
-                  content: response.data.msg
-              })
-              setTimeout(() => {
-                  this.$vux.alert.hide()
-              }, 3000)
-            }
-              
+                this.shopdata = data.goods_data
+                var objdata = this.shopdata;
+                for(var i in objdata){
+                 arr.push(i)
+                 Data.push(objdata[i])
+                }
+                 _this.yx_display(arr,Data);
+            }else{
+                 _this.$loading.hide();//隐藏
+                this.$vux.alert.show({
+                    title: '操作失败',
+                    content: response.data.msg
+                })
+                setTimeout(() => {
+                    this.$vux.alert.hide()
+                }, 3000)
+              }              
           }).catch((err) => {
               console.log(err)
           })
-    }
+    }  
   },
 
   mounted(){
