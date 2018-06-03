@@ -1,5 +1,5 @@
    <template>
-    <div class="login">
+    <div class="login" style="background:#fff;">
         <div class="logo-wrap">
            <div class="logo_box">
                 <div class='logo_imgbox'>
@@ -168,6 +168,7 @@ export default {
              }else{
              }
               axios.post(url,params).then(response => {
+                _this.$loading.hide();//隐藏
                 console.log(response)
                 const status = response.data.status;
                 const identity =  response.data.type;
@@ -182,6 +183,23 @@ export default {
                     // 存储是店员or店长登录字段
                     // response.data.type=1  店长 取值localStorage.Identity
                     localStorage.setItem('Identity',identity);
+                    if(response.data.type==1){
+                        this.$vux.alert.show({
+                            content: "**店长欢迎你"
+                        })
+                        setTimeout(() => {
+                            this.$vux.alert.hide()
+                            // location.reload()
+                        }, 2000)
+                    }else{
+                      this.$vux.alert.show({
+                            content: "**店员欢迎你"
+                        })
+                        setTimeout(() => {
+                            this.$vux.alert.hide()
+                            // location.reload()
+                        }, 3000)
+                    }
                     // 重定向到首页或者登录前的页面
                     let redirect = decodeURIComponent(
                         this.$route.query.redirect || '/'
@@ -366,4 +384,6 @@ export default {
 
     }
 }
+
+input{background:transparent;}
 </style>

@@ -2,7 +2,7 @@
 	<div class="orderData">
 		<ul class="orderData_title">
 			<li>
-				<span>店铺总用户(人)</span></br><label></label>
+				<span>营销总用户(人)</span></br><label></label>
 			</li>
 			<li class="bl">
 				<span>今日新增用户(人)</span></br><label></label>
@@ -12,7 +12,7 @@
 		<div class="data_display">
 
 		    <div class="yx_display">
-		    	<p class="yx_display_title">店铺新增用户数据<!-- <span v-on:click="store_users">查看更多&ensp;<img src="ss"></span> --></p>
+		    	<p class="yx_display_title">我的新增用户数据<!-- <span v-on:click="store_users">查看更多&ensp;<img src="ss"></span> --></p>
 		    	<ul class="yx_display_tab">
 			    	<li class="oli first" v-bind:class='{ li_select: is_show1}' v-on:click="salesVolume1()">7日</li>
 			    	<li class="oli" v-bind:class='{ li_select: is_show2}' v-on:click="salesVolume2()">30日</li>
@@ -25,9 +25,10 @@
 		    </div>
 
 		     <div class="yh_display">
-		    	<p class="yh_display_title">店员邀新数据<!-- <span v-on:click="dyinvite">查看更多&ensp;<img src="~@/assets/icon/goods-left.png"></span> --></p>
+		    	<p class="yh_display_title">我的邀新数据排行<!-- <span v-on:click="dyinvite">查看更多&ensp;<img src="~@/assets/icon/goods-left.png"></span> --></p>
 		    	<ul class="yh_display_tab">
-			    	<li class="oli first" v-bind:class='{ li_select: is_show4}' v-on:click="salesVolume4()">7日</li>
+			    	<li class="oli first" v-bind:class='{ li_select: is_show7}' v-on:click="salesVolume7()">今日</li>
+            <li class="oli first" v-bind:class='{ li_select: is_show4}' v-on:click="salesVolume4()">7日</li>
 			    	<li class="oli" v-bind:class='{ li_select: is_show5}' v-on:click="salesVolume5()">30日</li>
 			    	<!-- <li class="oli last" v-bind:class='{ li_select: is_show6}' v-on:click="salesVolume6()">年度</li> -->
 		    	</ul>
@@ -54,14 +55,15 @@ export default {
     	is_show1:true,
     	is_show2:false,
     	is_show3:false,
-    	is_show4:true,
+    	is_show4:false,
     	is_show5:false,
-    	is_show6:false
+      is_show6:false,
+    	is_show7:true
     };
   },
   created() {
-        this.order('4')
-        this.new('1')
+        this.order('1')
+        this.new('3')
     },
   deactivated () {
         this.$destroy()
@@ -99,13 +101,10 @@ export default {
                     tooltip : {
                        // trigger: 'item'
                     },
-                    grid: {
-                        width:'95%',
-                        left: '-2%',
-                        right: '10%',
-                        bottom: '10%',
-                        containLabel: true
-                    },
+                   grid: {
+                      left: 35,
+                      right:35
+                  },
                     xAxis : [
                         {
                             type : 'category',
@@ -134,7 +133,7 @@ export default {
                   axisLine: {
                         lineStyle: {
                               type: 'solid',
-                              color: 'transparent',//左边线的颜色
+                              color: '#ffffff',//左边线的颜色
                               width:'2'//坐标线的宽度
                           }
                       },
@@ -189,6 +188,10 @@ export default {
                 tooltip:{
                     show:true
                 },
+                   grid: {
+                      left: 35,
+                      right:35
+                  },
                 xAxis : [{
                         type : 'category',
                        data:a,
@@ -212,7 +215,7 @@ export default {
                             axisLine: {
                             lineStyle: {
                                     type: 'solid',
-                                    color: 'transparent',//左边线的颜色
+                                    color: '#ffffff',//左边线的颜色
                                     width:'2'//坐标线的宽度
                                 }
                             },
@@ -260,20 +263,7 @@ export default {
         this.is_show1=true
         this.is_show3=false
         this.$vux.alert.show({
-            content: "敬请期待"
-        })
-        setTimeout(() => {
-            this.$vux.alert.hide()
-            // location.reload()
-        }, 3000)
-	},
-	salesVolume3:function(){
-        const _this = this;
-       this.is_show2=false
-        this.is_show1=true
-        this.is_show3=false
-        this.$vux.alert.show({
-            content: "敬请期待"
+            content: "暂无数据"
         })
         setTimeout(() => {
             this.$vux.alert.hide()
@@ -282,45 +272,36 @@ export default {
 	},
   salesVolume4:function(){
         const _this = this;
+        _this.new('4')
         this.is_show4=true
         this.is_show5=false
-        this.is_show6=false
-        _this.$loading.show();//显示
-	    setTimeout(function(){  //模拟请求
-	          _this.$loading.hide(); //隐藏
-	    },2000);
+        this.is_show7=false
 	},
 	salesVolume5:function(){
         const _this = this;
-        this.is_show4=true
-        this.is_show5=false
-        this.is_show6=false
+        this.is_show5=true
+        this.is_show4=false
+        this.is_show7=false
         this.$vux.alert.show({
-            content: "敬请期待"
+            content: "暂无数据"
         })
         setTimeout(() => {
             this.$vux.alert.hide()
             // location.reload()
         }, 3000)
 	},
-	salesVolume6:function(){
+  salesVolume7(){
         const _this = this;
-        this.is_show4=true
+         _this.new('3')
+        this.is_show7=true
         this.is_show5=false
-        this.is_show6=false
-        this.$vux.alert.show({
-            content: "敬请期待"
-        })
-        setTimeout(() => {
-            this.$vux.alert.hide()
-            // location.reload()
-        }, 3000)
-	},
+        this.is_show4=false
+  },
 	order(a){
       const _this = this;
       var arr = [];
       var Data = [];
-      const url =`${myPub.URL}/merchant/Clerk/dataStatistics`;
+      const url =`${myPub.URL}/merchant/Clerk/staffData`;
           var params = new URLSearchParams();
           params.append('token',localStorage.currentUser_token);;
           params.append('open_id',localStorage.openid);
@@ -336,7 +317,8 @@ export default {
                 }, 3000)
               }
               const data = response.data.data
-              this.shopdata = data.order_data_yin
+              console.log(data)
+              this.shopdata = data.member_data
               var objdata = this.shopdata;
               for(var i in objdata){
                arr.push(i)
@@ -351,7 +333,7 @@ export default {
       const _this = this;
       var arr = [];
       var Data = [];
-      const url =`${myPub.URL}/merchant/Clerk/dataStatistics`;
+      const url =`${myPub.URL}/merchant/Clerk/staffData`;
           var params = new URLSearchParams();
           params.append('token',localStorage.currentUser_token);;
           params.append('open_id',localStorage.openid);
@@ -370,8 +352,8 @@ export default {
               console.log(data)
               var objdata = data.member_data;
               for(var i in objdata){
-               arr.push(i)
-               Data.push(objdata[i])
+               arr.push(objdata[i].truename)
+               Data.push(objdata[i].member_count)
               }
                _this.yh_display(arr,Data);               
           }).catch((err) => {

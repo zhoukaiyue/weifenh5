@@ -4,7 +4,7 @@
             <ul class="nav-list">
                 <li  v-bind:class="{ select: is_show1}" @click="price">价格
                     <a href="javascript:" class="t"><img src="~@/assets/icon/goods-down.png"></a>
-                    <a href="javascript:" class="d"><img src="~@/assets/icon/goods-up.png"></a>
+                    <a href="javascript:" class="d"><img src="~@/assets/icon/goods-up-select.png"></a>
                 </li>
                 <li v-bind:class="{ select: is_show2}" @click="salesVolume">销量<span></span></li>
                 <li v-bind:class="{ select: is_show3}" @click="Stock">库存<span></span></li>
@@ -12,12 +12,9 @@
                     适合人群<img class="sx" src="~@/assets/icon/sx.png">
                 </li>
             </ul>
-            <!-- <group title="" class="list">
-              <radio :options="radio001" @on-change="change" :selected-label-style="{color: '#f54321'}">1111</radio>
-            </group> -->
-            <div class="list">
+            <div class="list"  v-if="isshow_bg">
                 <ul>
-                    <li v-for="item in radio001" @click="fit2(item.id)">{{item.rec_name}}<span>{{item.id}}</span></li>
+                    <li v-for="(item,index) in radio001" @click="fit2(item,index)" v-bind:class="{'on':flag==index}">{{item.rec_name}}<span>{{item.id}}</span></li>
                 </ul>
             </div>
         </div>
@@ -47,7 +44,7 @@
                 </li>
             </ul>
         </div>
-        <div class="bg"></div>
+        <div class="bg" v-if="isshow_bg"></div>
     </div>
 </template>
 <script>
@@ -76,7 +73,9 @@ export default {
         is_show8: false,
         datalist:'',
         is_flag:true,　
-        datas:true
+        datas:true,
+        flag:0,
+        isshow_bg:false
     }
   },
  created() {
@@ -97,8 +96,6 @@ export default {
     change (value, label) {
         const _this = this;
         console.log('change:', value)
-        $(".nav-list .list").hide();
-        $(".bg").hide()
         // 适合人群请求
          _this.Marketinggoods('type',value)
     },
@@ -135,12 +132,13 @@ export default {
               
                const data = response.data
                 console.log(response)
+                _this.Marketinggoods()
                 this.$vux.alert.show({
                     content: data.msg
                 })
                 setTimeout(() => {
                     this.$vux.alert.hide()
-                    _this.Marketinggoods()
+                    
                 }, 3000)
             }else{
                 this.$vux.alert.show({
@@ -158,6 +156,7 @@ export default {
         this.is_show1=false
         this.is_show3=false
         this.is_show4=false
+        this.isshow_bg=false
         // 根据销量请求
          _this.Marketinggoods('sales_volume',1)
     },
@@ -168,6 +167,7 @@ export default {
         this.is_show1=false
         this.is_show3=true
         this.is_show4=false
+        this.isshow_bg=false
         // 根据库存请求
          _this.Marketinggoods('stock',1)
     },
@@ -178,21 +178,19 @@ export default {
         this.is_show1=false
         this.is_show3=false
         this.is_show4=true
-        $(".nav-list .list").show()
-        $(".bg").show ()
+        this.isshow_bg=true
+
     },
-    fit2(id){
+    fit2(item,index){
+        console.log(item.id)
         const _this = this;
         this.is_show2=false
         this.is_show1=false
         this.is_show3=false
         this.is_show4=true
-        $(".nav-list").css("z-index",100);
-        _this.Marketinggoods('type',id)
-         setTimeout(() => {
-            $(".nav-list .list").hide()
-            $(".bg").hide ()
-        }, 1000)
+         this.flag=index;
+         this.isshow_bg=false
+        this.Marketinggoods('type',item.id)
     },
     // 价格
     price(){
@@ -247,6 +245,7 @@ export default {
             params.append('size',b);
         }
         axios.post(url,params).then(response => {
+            _this.$loading.hide();//隐藏
             console.log(response)
             if (response.data.status =='1024') {
               this.$vux.alert.show({
@@ -262,9 +261,8 @@ export default {
                  _this.datalist = status.data
                  console.log(status.data)
                  _this.radio001=status.data.type_list
-                _this.$loading.hide();//隐藏
+                
             }else{
-                 _this.$loading.hide();//隐藏
                 this.$vux.alert.show({
                     content: response.data.msg
                 })
@@ -275,6 +273,7 @@ export default {
             console.log(response)
             console.log(status)
         }).catch((err) => {
+            _this.$loading.hide();//隐藏
             console.log(err)
         })
     }
@@ -306,16 +305,17 @@ export default {
 /*商品数据查询*/
 .goods {
         background: #f1f1f1;
-        .bg{position: absolute;width: 100%;height: 100%;background: rgba(0,0,0,.5);z-index: 11;left: 0;top: 0;display: none;}
-        .nav-list{background: #ffffff;position: relative;
+        .bg{position: absolute;width: 100%;height: 100%;background: rgba(0,0,0,.5);z-index: 11;left: 0;top:55px;}
+        .nav-list{background: #ffffff;position: relative;height:55px;
                 .select{color: #f64a29;}
-                li{width: 23%;display: inline-block;text-align: center;padding: 1rem 0;position: relative;font-size: 0.9rem;
+                li{width: 23%;display: inline-block;text-align: center;padding: 1rem 0;position: relative;font-size: 0.9rem;box-sizing: border-box;
                     a{position: absolute;margin-left: 10px;img{width: 0.6rem;}}
                     .t{top: 1.3rem;};.d{bottom: 1.4rem;}.sx{width: 0.9rem;position: relative;top: 0.2rem;left: 0.2rem}
                 }
-                .list{position: absolute;width: 100%;z-index: 2;color: #999999;font-size: 10.8rem;display:none;z-index: 111;background: #ffffff;
+                .list{position: absolute;width: 100%;z-index: 2;color: #999999;font-size: 10.8rem;z-index: 111;background: #ffffff;
                     li{width: 100%;padding: 0.8rem;display: block;text-align: left;border-top: 1px solid #eeeeee;span{opacity: 0;}}
                 }
+
             }
         }
 /*添加商品列表*/
@@ -349,5 +349,5 @@ export default {
     }
     .sq{.addgood{background: #dddddd;color: #ffffff;text-align: center;}.mb{display: block;}}
 }
-
+.on{ color: red; }
 </style>

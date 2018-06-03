@@ -1,6 +1,5 @@
 <template>
     <div class="goods">
-        
         <!-- 中间数据 -->
         <div class="middle">
             <ul>
@@ -19,7 +18,7 @@
                         <img src="~@/assets/icon/goods-down.png">
                     </a>
                     <a href="javascript:" class="d">
-                        <img src="~@/assets/icon/goods-up.png">
+                        <img src="~@/assets/icon/goods-up-select.png">
                     </a>
                 </li>
                 <li v-bind:class="{ select: is_show11}" @click="salesVolume11()" v-if="choosed2">销量
@@ -27,7 +26,7 @@
                         <img src="~@/assets/icon/goods-down.png">
                     </a>
                     <a href="javascript:" class="d">
-                        <img src="~@/assets/icon/goods-up.png">
+                        <img src="~@/assets/icon/goods-up-select.png">
                     </a>
                 </li>
                 <li v-bind:class="{ select: is_show2}" @click="salesVolume2()"  v-if="choosed1">订单量<span></span>
@@ -42,35 +41,40 @@
                 <li v-bind:class="{ select: is_show44}" @click="salesVolume44()" v-if="choosed2">添加时间</li>
             </ul>
         </div>
+        
         <div style="height:16px;width:100%;background-color: #f8f7f7;"></div>
         <!-- 商品列表 category-goods.png-->
         <div class="goods-list">
-            <ul class="goods-list-box">
+            <ul class="goods-list-box" v-if="!isshowlist">
                 <li v-for="(item,index) in goodlist" v-show="show" class="goods-list-li">
                     <div @click="linkToDetail(item.goods_id)">
                         <div class="goods-img"><img v-lazy="item.img_src"></div>
                         <div class="goods-tc">{{item.recpos_name}}</div>
-                        <div class="goods-name">精美亚飞女儿香水精美亚飞女儿香水精美亚飞女儿香水精美亚飞女儿香水</div>
+                        <div class="goods-name">{{item.goods_name}}</div>
                     </div>
-                    <div class="goods-price"><span>¥385.00</span><label @click="showcode()">生成二维码</label></div>
+                    <div class="goods-price"><span>¥{{item.markte_price}}</span><label @click="showcode(item.goods_id)">生成二维码</label></div>
                 </li>
             </ul>
+            <div class="goods-list-box" v-if="isshowlist">
+                
+                <p><img src="~@/assets/img/list_kong.png" alt="">暂无相关营销产品</p>
+            </div>
         </div>
-        
-        <div style="height:16px;width:100%;background-color: #f8f7f7;"></div>
 
+
+
+        <div style="height:16px;width:100%;background-color: #f8f7f7;"></div>
         <!-- 分享二维码弹窗样式 -->
         <div class="code_box" v-if="show_code">
             <div class="code_bg"></div>
             <div class="code_title">长按保存图片,分享让客户购买商品哦~</div> 
             <!-- 商品图片-->
             <div class="code_com">
-                <p></p>
+                <p><img v-lazy="qucode" alt=""></p>
             </div>
             <!--关闭按钮-->
             <div class="code_close" @click="hidecode()"></div>
         </div>
-
     </div>
 </template>
 
@@ -102,7 +106,9 @@ export default {
             show:true,
             is_flag:true,
             is_flag1:true,
-            show_code:false
+            show_code:false,
+            qucode:'',
+            isshowlist:true
 　　　　 }
 　　},
     created() {
@@ -115,9 +121,49 @@ export default {
     computed: {
     },
     methods: {
-        // 显示二维码分享
-        showcode(){
+          //显示二维码分享
+        showcode(id){
             this.show_code=true;
+            const _this = this;
+            const url =`${myPub.URL}/merchant/Clerk/goodsShareQr` 
+            const params = new URLSearchParams();
+            params.append('token',localStorage.currentUser_token);
+            params.append('open_id',localStorage.openid);
+            params.append('id',id);
+            axios.post(url,params).then(response => {
+                //状态码
+                const ost = response.data.status;
+                // 当前状态为未登录状态 提示用户登录
+                if(ost==1024||ost=='1024'){
+                   this.$vux.alert.show({
+                        title: '温馨提示',
+                        content: response.data.msg
+                    })
+                    setTimeout(() => {
+                        this.$vux.alert.hide()
+                        location.href = '/login'
+                    }, 1000)
+
+                }
+                //当前状态为登录状态 一切正常进行
+                if(ost==200||ost=='200'){
+                    //二维码图片更换
+                    const data = response.data;
+                    _this.qucode = data.promotion_src
+                }
+                //当前请求存在某些异常 页面弹出提示框提示用户异常详情
+                else{
+                   this.$vux.alert.show({
+                        title: '温馨提示',
+                        content: response.data.msg
+                    })
+                    setTimeout(() => {
+                        this.$vux.alert.hide()
+                    }, 2000)
+                }
+            }).catch((err) => {
+                console.log(err)
+            })
         },
         // 关闭二维码分享
         hidecode(){
@@ -242,26 +288,45 @@ export default {
             params.append('page',g);
             params.append('size',h);
             axios.post(url,params).then(response => {
-              console.log(response)
-            const status = response.data.status
-            console.log(status)
-            if (status == "200") {
-                setTimeout(() => {
-                    _this.$loading.hide();//隐藏
+            _this.$loading.hide();//隐藏
+                //状态码
+                const ost = response.data.status;
+                // 当前状态为未登录状态 提示用户登录
+                if(ost==1024||ost=='1024'){
+                   this.$vux.alert.show({
+                        title: '温馨提示',
+                        content: response.data.msg
+                    })
+                    setTimeout(() => {
+                        this.$vux.alert.hide()
+                        location.href = '/login'
+                    }, 1000)
+
+                }
+                //当前状态为登录状态 一切正常进行
+                if(ost==200||ost=='200'){
                     const data =response.data.data
                     _this.datalist = data
-                    _this.goodlist=data.list
-                }, 2000)
-            }else{
-                 _this.$loading.hide();//隐藏
-                this.$vux.alert.show({
-                    title: '操作失败',
-                    content: response.data.msg
-                })
-                setTimeout(() => {
-                    this.$vux.alert.hide()
-                }, 3000)
-            }
+                    const datalist = data.list;
+                    console.log(data)
+                    if(datalist.length == 0){
+                        console.log('555')
+                        _this.isshowlist = true;
+                    }else{
+                        _this.isshowlist = false;
+                        _this.goodlist=data.list
+                    }
+                }
+                //当前请求存在某些异常 页面弹出提示框提示用户异常详情
+                else{
+                   this.$vux.alert.show({
+                        title: '温馨提示',
+                        content: response.data.msg
+                    })
+                    setTimeout(() => {
+                        this.$vux.alert.hide()
+                    }, 2000)
+                }
             }).catch((err) => {
                 console.log(err)
             })
@@ -272,8 +337,7 @@ export default {
             $(".click1").removeClass('select');
             $(".click2").addClass('select')
             _this.$loading.show();//显示
-            setTimeout(function(){  //模拟请求
-                  _this.$loading.hide(); //隐藏
+                 
                   _this.choosed1=false;
             	  _this.choosed2=true;
                 const url =`${myPub.URL}/merchant/Clerk/shopMarketing`;
@@ -282,14 +346,48 @@ export default {
                  params.append('open_id',localStorage.openid);
                 params.append('type','2');
                 axios.post(url,params).then(response => {
+                 _this.$loading.hide(); //隐藏
+                 //状态码
+                const ost = response.data.status;
+                // 当前状态为未登录状态 提示用户登录
+                if(ost==1024||ost=='1024'){
+                   this.$vux.alert.show({
+                        title: '温馨提示',
+                        content: response.data.msg
+                    })
+                    setTimeout(() => {
+                        this.$vux.alert.hide()
+                        location.href = '/login'
+                    }, 1000)
+
+                }
+                //当前状态为登录状态 一切正常进行
+                if(ost==200||ost=='200'){
                     const data =response.data.data
-                _this.datalist = data
-                _this.goodlist=data.list
+                    _this.datalist = data
+                    const datalist = data.list;
                     console.log(data)
+                    if(datalist.length == 0){
+                        console.log('555')
+                        _this.isshowlist = true;
+                    }else{
+                        _this.isshowlist = false;
+                        _this.goodlist=data.list
+                    }
+                }
+                //当前请求存在某些异常 页面弹出提示框提示用户异常详情
+                else{
+                   this.$vux.alert.show({
+                        title: '温馨提示',
+                        content: response.data.msg
+                    })
+                    setTimeout(() => {
+                        this.$vux.alert.hide()
+                    }, 2000)
+                }
                 }).catch((err) => {
                     console.log(err)
                 })
-            },2000);
     　　　　},
         // 营销中
         selectStyle1 () {
@@ -297,20 +395,53 @@ export default {
             $(".click2").removeClass('select');
             $(".click1").addClass('select')
             _this.$loading.show();//显示
-                  _this.$loading.hide(); //隐藏
-                  _this.choosed1=true;
-            	  _this.choosed2=false;
-                  const url =`${myPub.URL}/merchant/Clerk/shopMarketing`;
+              _this.choosed1=true;
+        	  _this.choosed2=false;
+              const url =`${myPub.URL}/merchant/Clerk/shopMarketing`;
                 var params = new URLSearchParams();
                 params.append('token',localStorage.currentUser_token);
                 // params.append('open_id',localStorage.openid);
                 params.append('open_id',localStorage.openid);
                 params.append('type','1');
                 axios.post(url,params).then(response => {
+                _this.$loading.hide(); //隐藏
+                 //状态码
+                const ost = response.data.status;
+                // 当前状态为未登录状态 提示用户登录
+                if(ost==1024||ost=='1024'){
+                   this.$vux.alert.show({
+                        title: '温馨提示',
+                        content: response.data.msg
+                    })
+                    setTimeout(() => {
+                        this.$vux.alert.hide()
+                        location.href = '/login'
+                    }, 1000)
+
+                }
+                //当前状态为登录状态 一切正常进行
+                if(ost==200||ost=='200'){
                     const data =response.data.data
                     _this.datalist = data
-                    _this.goodlist=data.list
+                     const datalist = data.list;
                     console.log(data)
+                    if(datalist.length == 0){
+                        _this.isshowlist = true;
+                    }else{
+                        _this.isshowlist = false;
+                        _this.goodlist=data.list
+                    }
+                }
+                //当前请求存在某些异常 页面弹出提示框提示用户异常详情
+                else{
+                   this.$vux.alert.show({
+                        title: '温馨提示',
+                        content: response.data.msg
+                    })
+                    setTimeout(() => {
+                        this.$vux.alert.hide()
+                    }, 2000)
+                }
                 }).catch((err) => {
                     console.log(err)
                 })
@@ -319,52 +450,50 @@ export default {
         storemaketing(){
             const url =`${myPub.URL}/merchant/Clerk/shopMarketing`;
             const _this =this
+            _this.$loading.show();//显示
             var params = new URLSearchParams();
             params.append('token',localStorage.currentUser_token);
             // params.append('open_id',localStorage.openid);
             params.append('open_id',localStorage.openid);
             params.append('type','1');
             axios.post(url,params).then(response => {
-                const data =response.data.data
-                _this.datalist = data
-                _this.goodlist=data.list
-                console.log(data)
-            }).catch((err) => {
-                console.log(err)
-            })
-        },
-        // 商品下架 和加入营销
-        Commodityframe(a,id){
-            console.log('fangfahebingl ')
-            const url =`${myPub.URL}/merchant/Shop/goodsUpDown`;
-            const _this =this;
-            this.$loading.show();//显示
-            const params = new URLSearchParams();
-            params.append('token',localStorage.currentUser_token);
-            // params.append('open_id',localStorage.openid);
-            params.append('open_id',localStorage.openid);
-            params.append('type',a);
-            params.append('id',id);
-            axios.post(url,params).then(response => {
-                const data =response.data
-                console.log(data.status)
-                if (data.status == '200') {
-                     // location.reload()
-                     this.$loading.hide(); //隐藏
-                     if(a==1){
-                        this.selectStyle()
-                     }else{
-                        this.selectStyle1()
-                     }
-                }else{
-                    _this.$loading.hide(); 
-                    this.$vux.alert.show({
-                        
-                        content: data.msg
+                _this.$loading.hide();
+                 //状态码
+                const ost = response.data.status;
+                // 当前状态为未登录状态 提示用户登录
+                if(ost==1024||ost=='1024'){
+                   this.$vux.alert.show({
+                        title: '温馨提示',
+                        content: response.data.msg
                     })
                     setTimeout(() => {
                         this.$vux.alert.hide()
-                    }, 3000)
+                        location.href = '/login'
+                    }, 1000)
+
+                }
+                //当前状态为登录状态 一切正常进行
+                if(ost==200||ost=='200'){
+                    const data =response.data.data
+                    _this.datalist = data
+                     const datalist = data.list;
+                    console.log(data)
+                    if(datalist.length == 0){
+                        _this.isshowlist = true;
+                    }else{
+                        _this.isshowlist = false;
+                        _this.goodlist=data.list
+                    }
+                }
+                //当前请求存在某些异常 页面弹出提示框提示用户异常详情
+                else{
+                   this.$vux.alert.show({
+                        title: '温馨提示',
+                        content: response.data.msg
+                    })
+                    setTimeout(() => {
+                        this.$vux.alert.hide()
+                    }, 2000)
                 }
             }).catch((err) => {
                 console.log(err)
@@ -459,6 +588,7 @@ export default {
                     .goods-name {
                         color: #444452;
                         font-size: 12px;
+                        text-align:left;
                     }
                 }
             }
@@ -644,6 +774,7 @@ export default {
             flex-direction: row;
             flex-wrap:wrap;
             list-style:none;
+            box-sizing: border-box;
             border-left:1px solid #faf9f9;
             border-top:1px solid #faf9f9;
             background-color:#ffffff;
@@ -677,7 +808,7 @@ export default {
                     font-size:0.8rem;
                     color:rgba(0, 0, 0, 0.87);
                     line-height:1.2rem;
-                    text-align:center; 
+                    text-align:left; 
                     display:-webkit-box;
                   -webkit-line-clamp:2;
                   overflow:hidden;
@@ -710,7 +841,7 @@ export default {
         .code_bg{
             width:100%;
             height:100%;
-            position: absolute;
+            position: fixed;
             top:0;
             background:#000000;
             opacity:0.5;
@@ -736,6 +867,14 @@ export default {
             top:10%;
             left:10%;
             z-index:100000001;
+            p{
+                width:100%;
+                height:100%;
+                img{
+                    width:100%;
+                    height:100%;
+                }
+            }
         }
         .code_close{
             width:40px;
@@ -748,6 +887,26 @@ export default {
             background:url(~@/assets/icon/close_code.png) no-repeat
                         right center;
               background-size:100% 100%;
+        }
+    }
+
+    .goods-list-box{
+        width:100%;
+        min-height:500px;
+        background-color:#ffffff;
+        padding-top:1px;
+
+        p{
+            width: 100%;
+            font-size:1rem;
+            color: #373737;
+            text-align:center;
+            img{
+            display:block;
+            width:100px;
+            height:100px;
+            margin:100px auto 30px auto;
+        }
         }
     }
 </style>

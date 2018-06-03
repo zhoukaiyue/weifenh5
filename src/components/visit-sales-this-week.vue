@@ -42,13 +42,10 @@ export default {
                     tooltip : {
                        // trigger: 'item'
                     },
-                    grid: {
-                        width:'95%',
-                        left: '0%',
-                        right: '10%',
-                        bottom: '10%',
-                        containLabel: true
-                    },
+                  grid: {
+                      left: 35,
+                      right:35
+                  },
                     xAxis : [
                         {
                             type : 'category',

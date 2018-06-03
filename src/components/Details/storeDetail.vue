@@ -25,7 +25,7 @@
             </div>
         </div>
         <!-- 领取优惠券部分 -->
-        <group class="bgf">
+<!--         <group class="bgf">
             <x-switch title="领券" v-model="show13" id="title——lq"></x-switch>
             <img class="img" src="~@/assets/icon/goods-left.png">
         </group>
@@ -45,7 +45,7 @@
                     <x-button @click.native="show13 = false" plain type="primary"> 关闭 </x-button>
                 </div>
             </popup>
-        </div>
+        </div> -->
         <div class="detail-bottom">
             <!-- 商品详情 -->
             <div class="tuwen"></div>
@@ -84,13 +84,20 @@
             <div class="add-cart-btn "  v-on:click="Joinmaketing()" v-if="!isshow11">
                 <span class="add-cart">立即加入营销列表</span>
             </div>
-            <div class="add-cart-btn "  v-if="isshow11" v-on:click="code">
+            <div class="add-cart-btn "  v-if="isshow11"  v-on:click="showcode()">
                 <span class="add-cart">立即生成二维码</span>
-                <!-- 生成并分享二维码 -->
-                <group id="fenxiang">
-                    <x-switch v-model="showHideOnBlur" title="" id="fenxiang_btn"></x-switch>
-                </group>
             </div>
+        </div>
+        <!-- 分享二维码弹窗样式 -->
+        <div class="code_box" v-if="show_code">
+            <div class="code_bg"></div>
+            <div class="code_title">长按保存图片,分享让客户购买商品哦~</div> 
+            <!-- 商品图片-->
+            <div class="code_com">
+                <img v-lazy="code_images">
+            </div>
+            <!--关闭按钮-->
+            <div class="code_close" @click="hidecode()"></div>
         </div>
     </div>
 </template>
@@ -141,7 +148,9 @@ export default {
             demo02_index: 1,
             isshow11:false,
             openid:localStorage.openid,
-            goodsid:''
+            goodsid:'',
+            show_code:false,
+            code_images:''
         }
     },
     deactivated () {
@@ -176,6 +185,41 @@ export default {
         },
         demo01_onIndexChange (index) {
           this.demo01_index = index
+        },
+          //显示二维码分享
+        showcode(){
+            this.show_code=true;
+            $('body').css('overflow','hidden')
+            const id = this.$route.query.id
+            const _this = this;
+            const url =`${myPub.URL}/merchant/Shop/goodsShareQr` 
+            const params = new URLSearchParams();
+            params.append('token',localStorage.currentUser_token);
+            params.append('open_id',localStorage.openid);
+            params.append('id',id);
+            axios.post(url,params).then(response => {
+                const data = response.data
+                if (data.status == '200') {
+                    console.log(data)
+                    _this.code_images = data.promotion_src
+                }
+                if (response.data.status =='1024') {
+                  this.$vux.alert.show({
+                      content: response.data.msg
+                  })
+                  setTimeout(() => {
+                      this.$vux.alert.hide()
+                      location.href = '/login'
+                  }, 3000)
+                }
+            }).catch((err) => {
+                console.log(err)
+            })
+        },
+        //关闭二维码分享
+        hidecode(){
+            this.show_code=false;
+            $('body').css('overflow','auto')
         },
         // 商品数据
         goods(){
@@ -971,7 +1015,7 @@ s {
 }
 .counts-tips {
     background:url(~@/assets/icon/shop.png) no-repeat center 2px;
-    background-size: 26px 23px;
+    background-size: 23px 22px;
     display:block;
     height:100%;
     width:100%;
@@ -981,4 +1025,53 @@ s {
     border:0;
         /*background: transparent;*/
 }
+
+
+
+    /*分享二维码组建样式*/
+    .code_box{width:100;height:100%;text-align: center;
+        .code_bg{
+            width:100%;
+            height:100%;
+            position: fixed;
+            top:0;
+            background:#000000;
+            opacity:0.5;
+            z-index:10000000000;
+        }
+        .code_title{
+            width:100%;
+            height:35px;
+            position: fixed;
+            top:0;
+            background:#F54321;
+            z-index:100000000001;
+            font-size:1rem;
+            color:#ffffff;
+            line-height:35px;
+            text-align:center;
+        }
+        .code_com{
+            width:80%;
+            height:70%;
+            background:#ffffff;
+            position: fixed;
+            top:10%;
+            left:10%;
+            z-index:100000000001;
+            img{width: 100%;}
+        }
+        .code_close{
+            width:20px;
+            height:20px;
+            position: fixed;
+            z-index:100000000001;
+            top:12%;
+            right:12%;
+            margin-left:-20px;
+            background:url(~@/assets/icon/close.png) no-repeat
+                        right center;
+              background-size:100% 100%;
+        }
+    }
 </style>

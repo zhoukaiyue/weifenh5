@@ -2,18 +2,15 @@
 	<div class="commodityData">
 		<p class="title">我的营销订单<span @click="orderlist">查看更多&ensp;<img src="~@/assets/icon/goods-left.png"></span></p>
 		<ul class="commodityData_title">
-			<li class="processing" @click="torder(0)"><span class="processing_img"></span><label>所有订单</label><span class="circular">0</span></li>
-		    <li class="carryout" @click="torder(1)"><span class="carryout_img"></span><label>进行中</label><span class="circular">0</span></li>
-		    <li class="cancel" @click="torder(2)"><span class="cancel_img"></span><label>已完成</label><span class="circular" >0</span></li>
-		    <li class="aftersales" @click="torder(3)"><span class="aftersales_img"></span><label>已取消</label><span class="circular">0</span></li>
+			<li class="processing" @click="torder(0)"><span class="processing_img"></span><label>所有订单</label><span class="circular" v-if="shopdata.all_count>0">{{shopdata.all_count}}</span></li>
+		    <li class="carryout" @click="torder(1)"><span class="carryout_img"></span><label>进行中</label><span class="circular" v-if="shopdata.count_ing>0">{{shopdata.count_ing}}</span></li>
+		    <li class="cancel" @click="torder(2)"><span class="cancel_img"></span><label>已完成</label><span class="circular" v-if="shopdata.count_complete>0">{{shopdata.count_complete}}</span></li>
+		    <li class="aftersales" @click="torder(3)"><span class="aftersales_img"></span><label>已取消</label><span class="circular" v-if="shopdata.count_cancel>0">{{shopdata.count_cancel}}</span></li>
 		</ul>
 		<!--近七日业绩排行 -->
 		<div class="ranking">
 			<p class="ranking_title">近7日业绩排名</p>
-			<div class="ranking_cont">
-			<!--<img src="" alt="">
-				<span>NO.1</span> -->
-			</div>
+			<div class="ranking_cont"></div>
 			<p class="ranking_instructions">再接再厉，你已超过了100%的店员</p>
 		</div>
 		<div class="data_display">
@@ -29,7 +26,6 @@
               <!-- 员工邀新数据 -->
               <shopstaffNewdtata v-if="isshow"></shopstaffNewdtata>
 		    </div>
-
 		     <div class="yh_display">
 		    	<p class="yh_display_title">我的营销订单数据<span v-on:click="newData">查看更多&ensp;<img src="~@/assets/icon/goods-left.png"></span></p>
 		    	<ul class="yh_display_tab">
@@ -42,14 +38,12 @@
 		      <!-- 七日用户消费额 -->
 		      <shopsdaystradingdata v-if="isshow8"></shopsdaystradingdata>
 		    </div>
-
 		 </div>
 	</div>
 </template>
 <script>
 import shopNewdata from '@/components/shopNewdata'
 import shopstaffNewdtata from '@/components/shopstaffNewdtata'
-
 import shopsdayordersdata from '@/components/shopsdayordersdata'
 import shopsdaystradingdata from '@/components/shopsdaystradingdata'
 import { Swiper, SwiperItem,ButtonTab, ButtonTabItem, Divider,Toast} from 'vux'
@@ -61,7 +55,6 @@ export default {
   components: {
   	// 店铺新增用户数据
   	shopNewdata,
-
   	// 员工邀新业绩排行
   	shopstaffNewdtata,
   	//7日订单量
@@ -107,7 +100,6 @@ export default {
     },
     //进入订单页面
     orderlist(){
-	    console.log('12345')
 	    this.$router.push({path: '/page/shopdata'});
     },
     torder(id){
@@ -133,9 +125,9 @@ export default {
         this.is_show2=false
         _this.$loading.show();//显示
 	    setTimeout(function(){  //模拟请求
-	          _this.$loading.hide(); //隐藏
-	           _this.isshow=false
-	    },2000);
+	        _this.$loading.hide(); //隐藏
+	        _this.isshow=false
+	    },100);
 	},
 	//员工邀新数据
     salesVolume2:function(){
@@ -144,9 +136,9 @@ export default {
         this.is_show1=false
         _this.$loading.show();//显示
 	    setTimeout(function(){  //模拟请求
-	          _this.$loading.hide(); //隐藏
-	          _this.isshow=true
-	    },2000);
+	        _this.$loading.hide(); //隐藏
+	        _this.isshow=true
+	    },100);
 	},
 	//本周访问量/销售量
 	salesVolume3:function(){
@@ -155,9 +147,9 @@ export default {
         this.is_show4=false
         _this.$loading.show();//显示
 	    setTimeout(function(){  //模拟请求
-	          _this.$loading.hide(); //隐藏
-	          _this.isshow7=false
-	    },2000);
+	        _this.$loading.hide(); //隐藏
+	        _this.isshow7=false
+	    },100);
 	},
 	//本周商品对比图
 	salesVolume4:function(){
@@ -166,9 +158,9 @@ export default {
         this.is_show4=true
         _this.$loading.show();//显示
 	    setTimeout(function(){  //模拟请求
-	          _this.$loading.hide(); //隐藏
-	         _this.isshow7=true
-	    },2000);
+	        _this.$loading.hide(); //隐藏
+	        _this.isshow7=true
+	    },100);
 	},
 	//7月订单销售额
 	salesVolume5:function(){
@@ -177,9 +169,9 @@ export default {
         this.is_show6=false
         _this.$loading.show();//显示
 	    setTimeout(function(){  //模拟请求
-	          _this.$loading.hide(); //隐藏
-	          _this.isshow8=false
-	    },2000);
+	        _this.$loading.hide(); //隐藏
+	        _this.isshow8=false
+	    },100);
 	},
 	//7月用户消费额
 	salesVolume6:function(){
@@ -188,9 +180,9 @@ export default {
         this.is_show6=true
         _this.$loading.show();//显示
 	    setTimeout(function(){  //模拟请求
-	          _this.$loading.hide(); //隐藏
-	         _this.isshow8=true
-	    },2000);
+	        _this.$loading.hide(); //隐藏
+	        _this.isshow8=true
+	    },100);
 	},
 	//请求数据
 	order(a){

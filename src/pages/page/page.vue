@@ -1,12 +1,12 @@
 <template>
-    <div>
         <!-- 店家端 -->
         <div class="page-view">
-            <view-box ref="viewBox"
+            <!-- <view-box ref="viewBox"
                       body-padding-top="46px"
                       :body-padding-bottom="isPaddingBottom">
+             </view-box>-->
                 <keep-alive>
-                    <router-view class="router-view" style="height:100%;"/>
+                    <router-view class="router-view" style="height:100%;background:#ffffff;"/>
                 </keep-alive>
                 <tabbar slot="bottom"
                         style="position:fixed"
@@ -36,9 +36,7 @@
                         <span slot="label">商家中心</span>
                     </tabbar-item>
                 </tabbar>
-            </view-box>
-        </div>
-    </div>
+            </div>
 </template>
 
 <script>
@@ -75,7 +73,7 @@ export default {
             }
         },
         isShowTabbar() {
-            if(/detail|ceshi|storeer|store_users|addgoods|storeInfo|shop|order|commodityData|logo|people|changephone|changestore|sh_success|storesuccess|addGoods|dyinvite|Customer|storearmketingdetails|shop_mine|phone|shopdata|shop_storeinfo|sh_going/.test(this.$route.path)) {
+            if(/detail|ceshi|storeer|store_users|addgoods|storeInfo|shop|order|commodityData|logo|people|changephone|changestore|sh_success|storesuccess|addGoods|dyinvite|Customer|storearmketingdetails|shop_mine|phone|shopdata|shop_storeinfo|sh_going|newData/.test(this.$route.path)) {
                 return true
             }
                return false

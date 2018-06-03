@@ -2,44 +2,43 @@
 	<div class="commodityData">
 		<ul class="commodityData_title">
 			<li>
-				<span>访问量(次)</span></br><label>32908.00</label>
+				<span>访问量(次)</span></br><label></label>
 			</li>
 			<li>
-				<span>销售量(件)</span></br><label>32908.00</label>
+				<span>销售量(件)</span></br><label></label>
 			</li>
 			<li>
-				<span>销售金额(元)</span></br><label>32908.00</label>
+				<span>销售金额(元)</span></br><label></label>
 			</li>
 		</ul>
 
 		<div class="data_display">
 
 		    <div class="yx_display">
-		    	<p class="yx_display_title">营销商品访问量/销售量></p>
+		    	<p class="yx_display_title">营销商品销售量</p>
 		    	<ul class="yx_display_tab">
-			    	<li class="oli frist" v-bind:class='{ li_select: is_show1}' v-on:click="salesVolume1()">7日</li>
-			    	<li class="oli" v-bind:class='{ li_select: is_show2}' v-on:click="salesVolume2()">30日</li>
-			    	<!-- <li class="oli last" v-bind:class='{ li_select: is_show3}' v-on:click="salesVolume3()">年度</li> -->
+			    	<li class="oli" v-bind:class='{ li_select: is_show2}' v-on:click="salesVolume2()" style="border-radius: 0.3rem;">30日</li>
 		    	</ul>
-		      <p class="yx_display_ftitle">访问量( 单位：元 )/销售量( 单位：件 )</p>
-	          <div class="charts" >
-		     	<div id="myChart" style="width:100%;height:100%;"></div>
-			  </div>
+		      <p class="yx_display_ftitle">销售量( 单位：件 )</p>
+		      <TmarketingmerchandiseSales></TmarketingmerchandiseSales>
 		    </div>
 
 		     <div class="yh_display">
 		    	<p class="yh_display_title">营销商品销量对比图</p>
 		    	<ul class="yh_display_tab">
-			    	<li class="oli frist" v-bind:class='{ li_select: is_show4}' v-on:click="salesVolume4()">7日</li>
-			    	<li class="oli" v-bind:class='{ li_select: is_show5}' v-on:click="salesVolume5()">30日</li>
-			    	<!-- <li class="oli last" v-bind:class='{ li_select: is_show6}' v-on:click="salesVolume6()">年度</li> -->
+		    		<li class="oli frist" v-bind:class='{ li_select:is_show4 }' v-on:click="salesVolume4()">今日</li>
+			    	<li class="oli " v-bind:class='{ li_select:is_show5}' v-on:click="salesVolume5()">7日</li>
+			    	<li class="oli last" v-bind:class='{ li_select:is_show6}' v-on:click="salesVolume6()">30日</li>
+			    	
 		    	</ul>
 		      <p class="yh_display_ftitle">销售金额( 单位：元 )</p>
-	          <div class="yhcharts" >
-		     	 <div id="yhChart" style="width:100%;height:215px;"></div>
-			  </div>
+		      <!-- 今日销量对比图 -->
+		      <MarketingVolumecomparisonj v-if="is_show4"></MarketingVolumecomparisonj>
+		      <!-- 7日销量对比图 -->
+		      <MarketingVolumecomparisonq v-if="is_show5"></MarketingVolumecomparisonq>
+		      <!-- 30日销量对比图 -->
+		      <MarketingVolumecomparisony v-if="is_show6"></MarketingVolumecomparisony>
 		    </div>
-
 		 </div>
 	</div>
 </template>
@@ -47,14 +46,27 @@
 import { Swiper, SwiperItem,ButtonTab, ButtonTabItem, Divider, Toast} from 'vux'
 import * as myPub from '@/assets/js/public.js'
 import * as openId from '@/assets/js/opid_public.js'
+
+// 引入营销商品销售量组件图
+import TmarketingmerchandiseSales from '@/components/t-marketingMerchandiseSales'
+//引入营销商品销量对比图
+//今天
+import MarketingVolumecomparisonj from '@/components/marketingVolumecomparisonj'
+// 7日
+import MarketingVolumecomparisonq from '@/components/marketingVolumecomparisonq'
+// 30日
+import MarketingVolumecomparisony from '@/components/marketingVolumecomparisony'
 export default {
   name:'commodityData',
   components: {
+  	TmarketingmerchandiseSales,
+  	MarketingVolumecomparisonj,
+  	MarketingVolumecomparisonq,
+  	MarketingVolumecomparisony
   },
   data() {
     return {
-    	is_show1:true,
-    	is_show2:false,
+    	is_show2:true,
     	is_show3:false,
     	is_show4:true,
     	is_show5:false,
@@ -65,263 +77,31 @@ export default {
         this.$destroy()
     },
   methods:{
-  	//这是营销商品访问量/销售量趋势图
-	yx_display(){
-		   var chart = document.getElementById("myChart");
-               let echarts = require('echarts/lib/echarts');
-               let mainChart = echarts.init(myChart);
-                var option = {
-                    title: {
-                        text: ''
-                    },
-                    tooltip : {
-                       // trigger: 'item'
-                    },
-                    // legend: {
-                    //     data:['访问量','销售量']
-                    // },
-                    // toolbox: {
-                    //     feature: {
-                    //         saveAsImage: {}
-                    //     }
-                    // },
-                    grid: {
-                        left: '0',
-                        right: '10%',
-                        bottom: '10%',
-                        containLabel: true
-                    },
-                    xAxis : [
-                        {
-                            type : 'category',
-                            boundaryGap : false,
-                            data : ['1日', '2日', '3日', '4日', '5日', '6日', '7日'],
-                             axisLine: {
-			                    lineStyle: {
-			                        type: 'solid',
-			                        color: '#ffffff',//左边线的颜色
-			                        width:1//坐标线的宽度
-				                    }
-				                },
-				                axisLabel: {
-				                    textStyle: {
-				                        color: '#ffffff',//坐标值得具体的颜色
-				                    }
-				                },
-				                axisTick:{
-							        show:false/*隐藏刻度*/
-							    }
-			                }
-                    ],
-                    yAxis : [
-                        {
-		                   type: 'value',
-		                   splitLine:{                 //坐标轴在 grid 区域中的分隔线。
-                              show:true,              //是否显示分隔线。默认数值轴显示，类目轴不显示。
-                              interval:'auto',
-                              lineStyle:{
-                                type: 'dotted',
-                                color: '#eeeeee',//刻度线颜色
-                                width:0.5//刻度线的宽度
-                            }
-                          },
-                          axisLabel: {
-                            textStyle: {
-                                color: '#ffffff',//坐标值得具体的颜色
-                            }
-                        },
-					        axisLine: {
-		                    lineStyle: {
-			                        type: 'solid',
-			                        color: '#ffffff',//左边线的颜色
-			                        width:0.5//坐标线的宽度
-			                    }
-			                },
-                        }
-                    ],
-                    series : [
-                        {
-                            name:'访问量',
-                            type:'line',
-                            symbolSize:2,
-                            stack: '销量',
-                            itemStyle : {
-                              normal: {
-                              label : {show: false,color:'#ffffff'},
-                              lineStyle : {
-                                  width : 0.5,
-                                  color : '#ffffff'
-                                },
-                              }
-                            },
-                            data:[1270, 6382, 2091, 1034, 6382, 2091, 1034],
-                            color:"#ffffff"
-                        }
-                    ]
-                };
-                mainChart.setOption(option);
-  	},
-
-  	  	//这是营销订单趋势图
-	yh_display(){
-		    let echarts = require('echarts/lib/echarts')
-		    let chartBox=document.getElementsByClassName('yhcharts')[0]
-		    let myChart=document.getElementById('yhChart')
-		    function resizeCharts() {//为调整图标尺寸的方法
-		        myChart.style.width=chartBox.style.width+'px'
-		        myChart.style.height=chartBox.style.height+'px'
-		    }
-		     let mainChart = echarts.init(myChart)// 基于准备好的dom，初始化echarts实例
-		     var option = null;
-		     var option={
-		        tooltip:{
-		            show:true
-		        },
-		        grid: {
-                        left: '0',
-                        right: '10%',
-                        bottom: '10%',
-                        containLabel: true
-                    },
-		        xAxis : [{
-		                type : 'category',
-		               data:['商品', '商品', '商品', '商品', '商品', '商品', '商品'],
-		               axisLine: {
-			                    lineStyle: {
-			                        type: 'solid',
-			                        color: '#ffffff',//左边线的颜色
-				                    }
-				        },
-		                axisLabel:{
-		                     textStyle:{
-		                         color:"#ffffff"
-		                     },
-		                      interval:0,
-                                    rotate:0
-		                 }
-		        }],
-		        yAxis : [
-		        {
-		                   type: 'value',
-		                   splitLine:{                 //坐标轴在 grid 区域中的分隔线。
-                              show:true,              //是否显示分隔线。默认数值轴显示，类目轴不显示。
-                              interval:'auto',
-                              lineStyle:{
-                                type: 'dotted',
-                                color: '#eeeeee',//刻度线颜色
-                                width:0.5//刻度线的宽度
-                            }
-                          },
-                          axisLabel: {
-                            textStyle: {
-                                color: '#ffffff',//坐标值得具体的颜色
-                            }
-                        },
-					        axisLine: {
-		                    lineStyle: {
-			                        type: 'solid',
-			                        color: '#ffffff',//左边线的颜色
-			                        width:0.5//坐标线的宽度
-			                    }
-			                },
-                        }
-		        ],
-		        series : [
-		            {
-		                "name":"销量",
-		                "type":"bar",
-		                "data":[2270, 3456, 5432, 3423, 632, 291, 134],
-		                itemStyle : { normal: {label : {show:false,color:'#ffffff',position:'top'}}},
-		                 barWidth : 15,//柱图宽度
-		                                         color: function(params) {
-                            // build a color map as your need.
-                            var colorList = [
-                              '#ffffff'
-                            ];
-                            return colorList[params.dataIndex]
-                        },
-		            }
-		        ]
-
-		    };
-		    mainChart.setOption(option);
-  	},
-  	salesVolume1:function(){
-        const _this = this;
-        this.is_show1=true
-        this.is_show2=false
-        this.is_show3=false
-        _this.$loading.show();//显示
-	    setTimeout(function(){  //模拟请求
-	          _this.$loading.hide(); //隐藏
-	    },2000);
-	},
     salesVolume2:function(){
         const _this = this;
-        this.is_show2=false
-        this.is_show1=true
+        this.is_show2=true
         this.is_show3=false
-        this.$vux.alert.show({
-            content: "敬请期待"
-        })
-        setTimeout(() => {
-            this.$vux.alert.hide()
-            // location.reload()
-        }, 3000)
-	},
-	salesVolume3:function(){
-        const _this = this;
-        this.is_show2=false
-        this.is_show1=true
-        this.is_show3=false
-        this.$vux.alert.show({
-            content: "敬请期待"
-        })
-        setTimeout(() => {
-            this.$vux.alert.hide()
-            // location.reload()
-        }, 3000)
 	},
 	salesVolume4:function(){
         const _this = this;
         this.is_show4=true
         this.is_show5=false
         this.is_show6=false
-        _this.$loading.show();//显示
-	    setTimeout(function(){  //模拟请求
-	          _this.$loading.hide(); //隐藏
-	    },2000);
 	},
 	salesVolume5:function(){
         const _this = this;
-        this.is_show4=true
-        this.is_show5=false
+        this.is_show4=false
+        this.is_show5=true
         this.is_show6=false
-        this.$vux.alert.show({
-            content: "敬请期待"
-        })
-        setTimeout(() => {
-            this.$vux.alert.hide()
-            // location.reload()
-        }, 3000)
 	},
 	salesVolume6:function(){
         const _this = this;
-        this.is_show4=true
+        this.is_show6=true
         this.is_show5=false
-        this.is_show6=false
-        this.$vux.alert.show({
-            content: "敬请期待"
-        })
-        setTimeout(() => {
-            this.$vux.alert.hide()
-            // location.reload()
-        }, 3000)
+        this.is_show4=false
 	}
   },
   mounted(){
-	  	this.yx_display()
-	  	this.yh_display()
   }
 }
 </script>

@@ -2,13 +2,13 @@
     <div class="orderData">
         <ul class="orderData_title">
             <li>
-                <span>营销商品(元)</span></br><label>32908.00</label>
+                <span>营销商品(元)</span></br><label></label>
             </li>
             <li>
-                <span>用户消费(元)</span></br><label>32908.00</label>
+                <span>用户消费(元)</span></br><label></label>
             </li>
             <li>
-                <span>复购率(%)</span></br><label>32908.00</label>
+                <span>复购率(%)</span></br><label></label>
             </li>
         </ul>
 
@@ -63,8 +63,6 @@ export default {
     };
   },
   created() {
-        this.order('6')
-        this.new('3')
     },
   deactivated () {
         this.$destroy()
@@ -105,13 +103,6 @@ export default {
                     legend: {
                         data:['营销商品销售额']   
                     },
-                    grid: {
-                        width:'95%',
-                        left: '-2%',
-                        right: '10%',
-                        bottom: '10%',
-                        containLabel: true
-                    },
                     xAxis : [
                         {
                             type : 'category',
@@ -134,6 +125,10 @@ export default {
                   }
                       }
                     ],
+                  grid: {
+                      left: 35,
+                      right:35
+                  },
                     yAxis : [
                         {
                        type: 'value',
@@ -212,13 +207,6 @@ export default {
                     tooltip : {
                        // trigger: 'item'
                     },
-                    grid: {
-                        width:'95%',
-                        left: '-2%',
-                        right: '10%',
-                        bottom: '10%',
-                        containLabel: true
-                    },
                     xAxis : [
                         {
                             type : 'category',
@@ -241,6 +229,10 @@ export default {
                   }
                       }
                     ],
+                  grid: {
+                      left: 35,
+                      right:35
+                  },
                     yAxis : [
                         {
                        type: 'value',
@@ -365,7 +357,7 @@ export default {
       _this.$loading.show()
       var arr = [];
       var Data = [];
-      const url =`${myPub.URL}/merchant/Shop/dataStatistics`;
+      const url =`${myPub.URL}/merchant/Shop/orderDataStatistics`;
           var params = new URLSearchParams();
           params.append('token',localStorage.currentUser_token);;
           params.append('open_id',localStorage.openid);
@@ -389,7 +381,8 @@ export default {
             if (response.data.status =='200') {
               _this.$loading.hide();//隐藏
               const data = response.data.data
-              var objdata = data.order_data_yin;
+              var objdata = data;
+              console.log(data)
               for(var i in objdata){
                arr.push(i)
                Data.push(objdata[i])
@@ -412,12 +405,13 @@ export default {
       var arr = [];
       var Data = [];
       _this.$loading.show()
-      const url =`${myPub.URL}/merchant/Shop/dataStatistics`;
+      const url =`${myPub.URL}/merchant/Shop/orderDataStatistics`;
           var params = new URLSearchParams();
           params.append('token',localStorage.currentUser_token);;
           params.append('open_id',localStorage.openid);
           params.append('type',b);
           axios.post(url,params).then(response => {
+            console.log(response)
             _this.$loading.hide()
             if (response.data.status =='1024') {
               this.$vux.alert.show({
@@ -435,7 +429,7 @@ export default {
             // 状态码
             if (response.data.status =='200') {
               const data = response.data.data
-              var objdata = data.order_data_non;
+              var objdata = data;
               for(var i in objdata){
                arr.push(i)
                Data.push(objdata[i])
@@ -457,6 +451,8 @@ export default {
     }
   },
   mounted(){
+        this.order('3')
+        this.new('4')
   }
 }
 </script>

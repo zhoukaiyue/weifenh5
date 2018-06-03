@@ -7,7 +7,6 @@
             <!-- <li class="store_users_li" v-bind:class="{ store_users_li_active: isActive3}" @click="abc3show()">年度</li>
             <li class="store_users_li" v-bind:class="{ store_users_li_active: isActive4}" @click="abc4show()">自定义</li -->
         </ul>
-        <datepicker v-if="isshow"></datepicker>
         <p class="tjdate">数据统计日期 2018/05/10</p>
         <ul class="dylist">
             <li class="dylist_title"><span>店员</span><label>引客数量</label></li>
@@ -20,7 +19,6 @@
 <script>
 import $ from 'jquery'
 import { XInput, Group, XButton, Cell, Toast, base64 } from 'vux'
-import datepicker from '../../components/datepicker'
 import axios from 'axios'
 import * as myPub from '@/assets/js/public.js'
 import * as openId from '@/assets/js/opid_public.js'
@@ -29,7 +27,6 @@ export default {
     data() {
         return {
             products:'',
-            isshow:false,
             isActive1: true,
             isActive2: false,
             isActive3: false,
@@ -44,90 +41,60 @@ export default {
         this.$destroy()
     },
     methods: {
-     //7日
-    abc1show:function(){
-            const _this = this;
-            this.isshow=false
-           this.isActive1=true
-           this.isActive2=false
-           this.isActive3=false
-           this.isActive4=false
-           $('.store_users_date').show()
-            _this.$loading.show();//显示
-            setTimeout(function(){  //模拟请求
-                _this.$loading.hide(); //隐藏
-                const url =`${myPub.URL}/merchant/Shop/inviteRanking`;
-                var params = new URLSearchParams();
-                params.append('token',localStorage.currentUser_token);;
-                params.append('open_id',localStorage.openid);
-                axios.post(url,params).then(response => {
-                    if (response.data.status =='1024') {
-                      this.$vux.alert.show({
-                          content: response.data.msg
-                      })
-                      setTimeout(() => {
-                          this.$vux.alert.hide()
-                          location.href = '/login'
-                      }, 3000)
-                    }
-                    const status = response.data.status
-                    console.log(response)
-                    
-                }).catch((err) => {
-                    console.log(err)
-                })
-            },2000);
+        //7日
+        abc1show:function(){
+              const _this = this;
+               this.isActive1=true
+               this.isActive2=false
+               this.isActive3=false
+               this.isActive4=false
+               $('.store_users_date').show()
+                _this.$loading.show();//显示
+                setTimeout(function(){  //模拟请求
+                    _this.$loading.hide(); //隐藏
+                    const url =`${myPub.URL}/merchant/Shop/inviteRanking`;
+                    var params = new URLSearchParams();
+                    params.append('token',localStorage.currentUser_token);;
+                    params.append('open_id',localStorage.openid);
+                    axios.post(url,params).then(response => {
+                        if (response.data.status =='1024') {
+                          this.$vux.alert.show({
+                              content: response.data.msg
+                          })
+                          setTimeout(() => {
+                              this.$vux.alert.hide()
+                              location.href = '/login'
+                          }, 3000)
+                        }
+                        const status = response.data.status
+                        console.log(response)
+                        
+                    }).catch((err) => {
+                        console.log(err)
+                    })
+                },2000);
         },
         abc2show:function(){
-            const _this = this;
-            this.isshow=false
-            this.isActive2=false
-           this.isActive1=true
-           this.isActive3=false
-           this.isActive4=false
-           $('.store_users_date').show()
-           this.$vux.alert.show({
-                content: "敬请期待"
-            })
-            setTimeout(() => {
-                this.$vux.alert.hide()
-                // location.reload()
-            }, 3000)
-           // _this.$loading.show();//显示   
-           //  setTimeout(function(){  //模拟请求
-           //        _this.$loading.hide(); //隐藏
-           //  },2000);
+                const _this = this;
+                this.isActive2=false
+               this.isActive1=true
+               this.isActive3=false
+               this.isActive4=false
+               $('.store_users_date').show()
+               this.$vux.alert.show({
+                    content: "敬请期待"
+                })
+                setTimeout(() => {
+                    this.$vux.alert.hide()
+                    // location.reload()
+                }, 3000)
         },
-        // abc3show:function(){
-        //     const _this = this;
-        //     this.isshow=false
-        //    this.isActive3=true
-        //    this.isActive2=false
-        //    this.isActive1=false
-        //    this.isActive4=false
-        //    $('.store_users_date').show()
-        //    _this.$loading.show();//显示
-        //     setTimeout(function(){  //模拟请求
-        //           _this.$loading.hide(); //隐藏
-        //     },2000);
-        // },
-        // abc4show:function(){
-        //     const _this = this;
-        //     this.isshow=true
-        //    this.isActive4=true
-        //    this.isActive2=false
-        //    this.isActive3=false
-        //    this.isActive1=false
-        //    $('.store_users_date').hide()
-        //    _this.$loading.show();//显示
-        //     setTimeout(function(){  //模拟请求
-        //           _this.$loading.hide(); //隐藏
-        //     },2000);
-        // },
+
         //邀新数据
         Invite(){
             const url =`${myPub.URL}/merchant/Clerk/inviteRanking`;
             const _this = this
+            _this.$loading.show()
             const params = new URLSearchParams();
             params.append('token',localStorage.currentUser_token);;
             params.append('open_id',localStorage.openid);
@@ -165,7 +132,6 @@ export default {
     },
 
     components: {
-        datepicker
     }
 }
 </script>

@@ -2,7 +2,7 @@
     <div class="shop_mine">
         <ul class="shop_mine_box">
             <li class="shop_mine_tx"><span>图像</span>
-                <ossFile :imgs='min_tx' :message="msg" class="img"></ossFile>
+                <ossFile3 :imgs='min_tx' :message="msg" class="img"></ossFile3>
             <li class="shop_mine_nc" @click="shopname"><span>昵称</span><label>{{min_nc}}</label></li>
             <li class="shop_mine_mb" @click="shopphone(min_mb)"><span>修改手机号</span><label>{{min_mb}}</label></li>
         </ul>
@@ -14,7 +14,7 @@ import axios from 'axios'
 import * as myPub from '@/assets/js/public.js'
 import * as openId from '@/assets/js/opid_public.js'
 //引入上传图片组键
-import ossFile from '../../components/oss_file'
+import ossFile3 from '../../components/oss_file3'
 export default {
     name: 'shop_mine',
     data() {
@@ -88,7 +88,7 @@ export default {
     },
 
     components: {
-        ossFile
+        ossFile3
     },
     //页面加载后执行
     mounted(){

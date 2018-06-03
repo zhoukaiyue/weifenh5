@@ -21,7 +21,7 @@
        </div>
         <!-- 当前累计客户量 -->
         <div class="customer_quantity">
-        <p class="customer_quantity_title">当前累计客户量</p>
+        <p class="customer_quantity_title">店长，您的累计客户量</p>
         <div class="customer_quantity_cont"><span class="customer_quantity_num">{{num.member_count}}&nbsp;<b style="font-size:0.8rem;font-weight:600;">人</b></span><label class="customer_quantity_qs" v-on:click="dyinvite"><i class="customer_quantity_qsimg"></i>&nbsp;查看员工引客趋势图</label>
         </div>
         <div class="customer_quantity_box">
@@ -128,8 +128,9 @@ export default {
           params.append('token',localStorage.currentUser_token);
           params.append('open_id',localStorage.openid);
           axios.post(url,params).then(response => {
-            _this.$loading.hide();
-                console.log(response)
+          _this.$loading.hide();
+          console.log(response)
+          //账号异常跳转至登录页面
             if (response.data.status =='1024') {
                  _this.$loading.hide();
                  _this.$vux.alert.show({
@@ -155,17 +156,23 @@ export default {
                 _this.num = data
                 _this.datalist = data.category_list
                 _this.shoplist = data.shop_list
-                console.log(_this.shoplist.sort)
-                                }else{
-                  this.$vux.alert.show({
-                  content: response.data.msg
+            }
+            //当前请求存在某些异常 页面弹出提示框提示用户异常详情
+            else{
+               this.$vux.alert.show({
+                    title: '温馨提示',
+                    content: response.data.msg
                 })
+                setTimeout(() => {
+                    this.$vux.alert.hide()
+                }, 2000)
             }
           }).catch((err) => {
              _this.$loading.hide();
             console.log(err)
           })
         },
+        
         // 跳转营销商品
         maketing(id){
             this.$router.push({ path: '/page/addGoods',query: { id: id } })

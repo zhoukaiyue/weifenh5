@@ -43,6 +43,10 @@ export default {
                     tooltip : {
                        // trigger: 'item'
                     },
+                   grid: {
+                      left: 35,
+                      right:35
+                  },
                     xAxis : [
                         {
                             type : 'category',
@@ -119,7 +123,7 @@ export default {
       _this.$loading.show()
       var arr = [];
       var Data = [];
-      const url =`${myPub.URL}/merchant/Clerk/staffData`;
+      const url =`${myPub.URL}/merchant/Clerk/dataStatistics`;
           var params = new URLSearchParams();
           params.append('token',localStorage.currentUser_token);;
           params.append('open_id',localStorage.openid);

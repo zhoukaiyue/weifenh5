@@ -1,14 +1,12 @@
 <template>
     <div class="home">
-
         <!-- banner-->
         <div class="index_banner">
-            <img src="~@/assets/img/banner.png" alt="image">
+            <img src="~@/assets/img/dy-banner.png" alt="image">
         </div>
-
         <!-- 当前累计客户量 -->
         <div class="customer_quantity">
-            <p class="customer_quantity_title">我的累计客户量</p>
+            <p class="customer_quantity_title">店员，您的累计客户量</p>
             <div class="customer_quantity_cont"><span class="customer_quantity_num">&nbsp;{{access.member_count}}<b style="font-size:0.9rem;">人</b></span><label class="customer_quantity_qs" v-on:click="dyinvite"><i class="customer_quantity_qsimg"></i>&nbsp;查看同事业绩对比图</label>
             </div>
             <div class="customer_quantity_box">
@@ -22,7 +20,6 @@
                 </div>
             </div>
         </div>
-
         <!--营销商品 -->
         <div class="selected-themes">
             <h5 class="title">营销商品 <span class="Notes">实惠佳品 营销利器</span> <span class="see" v-on:click="addGoods">查看全部&emsp;<img src="~@/assets/icon/goods-left.png"></span></h5>
@@ -33,21 +30,22 @@
                             <img v-lazy="item.img_src">
                             <h5 class="commodity_name">{{item.goods_name}}</h5>                        
                         </div>
-                        <div class="comm_price"><span><img src="~@/assets/icon/rmb.png" alt="">{{item.shop_price}}</span><label @click="showcode()">生成二维码</label></div>
+                        <div class="comm_price"><span><img src="~@/assets/icon/rmb.png" alt="">{{item.shop_price}}</span><label @click="showcode(item.goods_id)">生成二维码</label></div>
                     </li>
                 </ul>
             </div>
         </div>
-
-        <!--店铺排行 -->
         <div class="recent-products">
-            <h5 class="title">店铺排行 <span>附近店家人气排行</span> <span class="see">查看全部&emsp;<img src="~@/assets/icon/goods-left.png"></span></h5>
-            <ul>
-                <li v-for="(item,index) in shop_list">
-                    <img src="~@/assets/img/goods.png">
-                    <img class="icon" src="~@/assets/icon/one.png">
+            <h5 class="title">店铺排行 <span>附近店家人气排行</span></h5>
+            <ul class="oul">
+                <li v-for="(item,index) in shop_list" class="oli">
+                     <input type="text" name="cloose" style="opacity:0;" :value="item">
+                    <span class="ospan" :class="[{select: index == 0},{select1: index == 1},{select2: index == 2}]">{{index+1}}</span>
+                    <img v-lazy='item.head_pic' alt="">
                     <h5>{{item.name}}</h5>
-                    <p>月引客{{item.fans_count}}<img src="~@/assets/icon/hot.png"><img src="~@/assets/icon/hot.png"></p>
+                    <p>月引客{{item.fans_count}}
+                        <span :class="[{select11: index == 0},{select22: index == 1},{select33: index == 2}]"></span>
+                    </p>
                 </li>
             </ul>
         </div>
@@ -59,7 +57,7 @@
             <div class="code_title">长按保存图片,分享让客户购买商品哦~</div> 
             <!-- 商品图片-->
             <div class="code_com">
-                <p></p>
+               <p><img v-lazy="qucode" alt=""></p>
             </div>
             <!--关闭按钮-->
             <div class="code_close" @click="hidecode()"></div>
@@ -81,7 +79,8 @@ export default {
             datalist:[],
             access:{},
             shop_list:[],
-            show_code:false
+            show_code:false,
+            qucode:''
         }
     },
     created() {
@@ -91,8 +90,48 @@ export default {
     },
     methods: {
         //显示二维码分享
-        showcode(){
+        showcode(id){
             this.show_code=true;
+            const _this = this;
+            const url =`${myPub.URL}/merchant/Clerk/goodsShareQr` 
+            const params = new URLSearchParams();
+            params.append('token',localStorage.currentUser_token);
+            params.append('open_id',localStorage.openid);
+            params.append('id',id);
+            axios.post(url,params).then(response => {
+                //状态码
+                const ost = response.data.status;
+                // 当前状态为未登录状态 提示用户登录
+                if(ost==1024||ost=='1024'){
+                   this.$vux.alert.show({
+                        title: '温馨提示',
+                        content: response.data.msg
+                    })
+                    setTimeout(() => {
+                        this.$vux.alert.hide()
+                        location.href = '/login'
+                    }, 1000)
+
+                }
+                //当前状态为登录状态 一切正常进行
+                if(ost==200||ost=='200'){
+                    //二维码图片更换
+                    const data = response.data;
+                    _this.qucode = data.promotion_src
+                }
+                //当前请求存在某些异常 页面弹出提示框提示用户异常详情
+                else{
+                   this.$vux.alert.show({
+                        title: '温馨提示',
+                        content: response.data.msg
+                    })
+                    setTimeout(() => {
+                        this.$vux.alert.hide()
+                    }, 2000)
+                }
+            }).catch((err) => {
+                console.log(err)
+            })
         },
         //关闭二维码分享
         hidecode(){
@@ -141,7 +180,7 @@ export default {
                 _this.access = data;
                 //店铺列表
                 _this.shop_list = data.shop_list
-                console.log(data)
+                console.log(_this.datalist)
             }
             //当前请求存在某些异常 页面弹出提示框提示用户异常详情
             else{
@@ -391,7 +430,7 @@ export default {
         .code_bg{
             width:100%;
             height:100%;
-            position: absolute;
+            position: fixed;
             top:0;
             background:#000000;
             opacity:0.5;
@@ -417,6 +456,14 @@ export default {
             top:10%;
             left:10%;
             z-index:100000001;
+            p{
+                width:100%;
+                height:100%;
+                img{
+                    width:100%;
+                    height:100%;
+                }
+            }
         }
         .code_close{
             width:40px;
@@ -432,4 +479,41 @@ export default {
         }
     }
 }
+
+
+.oul{
+    .oli{  
+         font-size:1rem;
+        color:#333333;
+        .ospan{
+                width:16px;
+                height:21px;
+                /*border:1px solid red;*/
+                line-height:24px;
+                position: absolute;
+                top: 0;
+                left:5px;
+                transform:rotate(4deg);
+                font-family:PingFangSC-Semibold;
+                letter-spacing:0;
+                text-align:center;
+        } 
+        img{
+            width:50px;
+            height:60px;
+            margin:0 auto;
+        }       
+    }
+}
+.select{
+    background: url(~@/assets/icon/one.png);display: inline-block;background-size: 100%;
+color:#fff;font-size:0.8rem;color:transparent;}
+.select1{background: url(~@/assets/icon/two.png);display: inline-block;background-size: 100%;color:#fff;font-size:0.8rem;color:transparent;}
+.select2{background: url(~@/assets/icon/three.png);display: inline-block;background-size: 100%;color:#fff;font-size:0.8rem;color:transparent;}
+.select11{
+    display:inline-block;width:25px;height:13px;
+    background: url(~@/assets/icon/hot.png);display: inline-block;background-size: 50%;
+color:#fff;font-size:0.8rem;}
+.select22,.select33{display:inline-block;width:13px;height:13px;
+    background: url(~@/assets/icon/hot.png);display: inline-block;background-size: 100%;}
 </style>

@@ -29,22 +29,25 @@ export default {
 
 html,
 body {
-    height:100%;
+    /*height:100%;*/
     width: 100%;
     padding-bottom:53px;
-    background: transparent!important;
+    
+/*    box-sizing: border-box;*/
+    /*background: transparent!important;*/
     /*padding-top: constant(safe-area-inset-top) ;
     padding-left: constant(safe-area-inset-left);
     padding-right: constant(safe-area-inset-right);
     padding-bottom: constant(safe-area-inset-bottom); */
 }
+html{padding-bottom:0px;background: #faf8f8;}
 /*针对iPhone X底部footer做适配*/
 @media only screen and (device-width: 375px) and (device-height:812px) and (-webkit-device-pixel-ratio:3) {
     .weui-tabbar{
         /*position: absolute!important;*/
         padding-bottom:34px;
     }
-    /*body{padding-bottom:87px;}*/
+    body{padding-bottom:87px;}
 }
 #vux_view_box_body{
     padding-top:0 !important;

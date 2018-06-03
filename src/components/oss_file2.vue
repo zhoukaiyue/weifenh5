@@ -1,7 +1,7 @@
 <template>
-    <div id="container" class="container">
+    <div id="container" class="container2">
       <div id="selectfiles"></div>
-      <img  v-lazy='imgs'  alt="" id='imgId'>
+      <img  v-lazy='imgs'  alt="" id='imgId1'>
     </div>
 </template>
 <script>
@@ -68,20 +68,21 @@
 
                            var n1=(new Date()).valueOf();
                            console.log(self.message)
-                            if(self.message=='store'){
-                                console.log('store111')
+                            if(self.message=='rzset'){
                                  // 文件名称
                                 var imgurl =localStorage.openid+n1;
                                 console.log(imgurl)
-                                file.name=imgurl+'.png'
+                                file.name = imgurl+'.png'
                                 //将营业执照图片地址存储起来 localStorage.openid
-                                // console.log(yyyyMMdd+'/'+file.name)
-                                var bulicense_url4='user/'+yyyyMMdd+'/'+file.name;
-                                console.log('存儲商鋪圖像'+bulicense_url4)
+                                console.log(yyyyMMdd+'/'+file.name)
+                                var bulicense_url2='user/'+yyyyMMdd+'/'+file.name;
+                                console.log('存儲營業執照'+bulicense_url2)
+                                sessionStorage.setItem('bulicense_url2',bulicense_url2);
+                                console.log(sessionStorage.getItem('bulicense_url2'))
                                 self.set_upload_param(up, 'user/'+yyyyMMdd+'/'+file.name, true);
-                                self.photo(bulicense_url4)
-
                             }
+                            // self.set_upload_param(up, 'user/'+yyyyMMdd+'/'+file.name, true);
+                            // 上传前
                         },
 
                         UploadProgress: function(up, file) {
@@ -106,23 +107,6 @@
                 self.uploader.init();
             },
             methods: {
-                // 修改商铺头像
-                photo(b){
-                console.log(b)
-                const _this = this
-                  _this.$loading.show();//显示
-                  const url =`${myPub.URL}/merchant/Shop/editInfo`;
-                  const params = new URLSearchParams();
-                  params.append('token',localStorage.currentUser_token);
-                  params.append('open_id',localStorage.openid);
-                  params.append('img_src',b);
-                  axios.post(url,params).then(response => {
-                    _this.$loading.hide(); //隐藏
-                    console.log("向后台上传商铺图像")
-                  }).catch((err) => {
-                    console.log(err)
-                  })
-                },
                 selectFile() {
                     this.set_upload_param(this.uploader, '', false);
                 },
@@ -131,7 +115,7 @@
                     me.$loading.show()
                     setTimeout(function(){
                     console.log(me.host)
-                        $('#imgId').attr('src',me.host+'/'+filename)
+                    me.imgs = me.host+'/'+filename
                          me.$loading.hide()
                     },2000);//延时3秒
 
@@ -161,10 +145,10 @@
     }
 </script>
 <style lang="less">
-.container{
-    width:95px;
-    height:95px;
-    position:relative;
+.container2{
+    width: 240px;
+    height: 125px;
+float:right;
 }
 #selectfiles{
     width:100%;
@@ -173,16 +157,17 @@
     position:absolute;
     top:0;
     left:0;
-    boder:0;
 }
-#imgId{
+#imgId1{
     width:100%;
     height:100%;
     position:absolute;
     top:0;
-    left:50%;
-    margin-left: -42.5px;
+    left:0;
     border:0;
-    border-radius: 50%;
+    -webkit-filter: blur(1px);
+    -moz-filter: blur(1px);
+    -ms-filter: blur(1px);    
+    filter: blur(1px);
 }
 </style>

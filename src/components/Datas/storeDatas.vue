@@ -25,7 +25,7 @@
 		    <div class="yx_display">
 		    	<p class="yx_display_title">营销商品数据<span v-on:click="commodityData">查看更多&ensp;<img src="~@/assets/icon/goods-left.png"></span></p>
 		    	<ul class="yx_display_tab">
-			    	<li class="oli frist" v-bind:class='{ li_select: is_show3}' v-on:click="salesVolume3">本周访问量/销售量</li>
+			    	<li class="oli frist" v-bind:class='{ li_select: is_show3}' v-on:click="salesVolume3">本周商品销售量</li>
 			    	<li class="oli last" v-bind:class='{ li_select: is_show4}' v-on:click="salesVolume4">本周商品销量对比图</li>
 		    	</ul>
 		      <p class="yx_display_ftitle">访问量( 单位：元 )/销售量( 单位：件 )</p>
@@ -44,7 +44,7 @@
 			    	<li class="oli frist" v-bind:class='{ li_select: is_show5}' v-on:click="salesVolume5()">7日订单销售额</li>
 			    	<li class="oli last" v-bind:class='{ li_select: is_show6}' v-on:click="salesVolume6()">7日用户消费额</li>
 		    	</ul>
-		      <p class="yh_display_ftitle">销售金额( 单位：元 )</p>
+		      <p class="yh_display_ftitle">销售/消费金额( 单位：元 )</p>
 		      <!-- 7日订单量 -->
 		      <sdayordersdata v-if="!isshow8"></sdayordersdata>
 		      <sdaystradingdata v-if="isshow8"></sdaystradingdata>
@@ -172,7 +172,6 @@ export default {
         this.is_show3=false
         this.is_show4=true
         _this.isshow7=true
-        _this.order('2')
           
 	},
 	// 7月订单销售额

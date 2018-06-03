@@ -3,11 +3,9 @@
     <!--  店铺logo -->
     <div class='finish_room2'>
        <div class='room_add_btn'>
-           <!-- <ossFile :imgs='imgs' :message="msg"></ossFile> -->
             <img v-lazy="imgs" alt="" style="width:100%;height:100%;border-radius:50%;">
         </div>
     </div>
-    <p class="store_tishi">（点击图像可进行更换）</p>
     <p class="store_name">{{datas.name}}</p>
     <ul class="store-list">
       <li class="clearfix">
@@ -26,15 +24,16 @@
         <span class="fl">负责人</span><span class="fr"><b>{{datas.contact}}</b></span>
       </li>
       <li class="clearfix" :data1='datas.mobile'>
-        <span class="fl">修改手机号</span><span class="fr"><input type="text" class="mobile"  v-model="type2"/></span>
+        <span class="fl">修改手机号</span><span class="fr"><input type="text" class="mobile"  v-model="type2" disabled="disabled" style="background:#fff;"/></span>
       </li>
       <li class="clearfix">
-        <span class="fl">店铺介绍</span><span class="fr"><b>{{datas.description}}</b></span>
+        <span class="fl">店铺介绍</span><span class="fr"><div class="test_box" contenteditable="true">{{datas.description}}</div></span>
       </li>
       <!-- 营业执照 -->
       <li class="zz_box clearfix">
         <span class="zz_text">营业执照</span>
-        <div class='finish_zhizhao'>
+        <div class='finish_zhizhao license_img'>
+          <img src="~@/assets/img/renzheng.png" alt="" class="oimgyy">
                <div  class='zhizhao_img'>
                   <img v-lazy="datas.img_src">
                </div>
@@ -119,48 +118,12 @@ import * as openId from '@/assets/js/opid_public.js'
             console.log(err)
           })
         },
-        // // 更改公司模式
-        // company_model(){
-        //   const url =`${myPub.URL}/merchant/Shop/editInfo`;
-        //   const company_model = $(".select").find("option:selected").val();
-        //   console.log(company_model)
-        //   const params = new URLSearchParams();
-        //   params.append('token',localStorage.currentUser_token);
-        //   params.append('open_id',localStorage.openid);
-        //   params.append('company_model',company_model);
-        //   axios.post(url,params).then(response => {
-        //     if (response.data.status =='1024') {
-        //       this.$vux.alert.show({
-        //           content: response.data.msg
-        //       })
-        //       setTimeout(() => {
-        //           this.$vux.alert.hide()
-        //           location.href = '/login'
-        //       }, 3000)
-        //     }
-        //     console.log(response.data)
-        //     $('.shop').hide()
-        //     $(".bg").hide()
-        //     const _this = this
-        //     _this.$loading.show();//显示
-        //     setTimeout(function(){  //模拟请求
-        //           _this.$loading.hide(); //隐藏
-
-        //     },2000)
-        //     location.reload()
-        //   }).catch((err) => {
-        //     console.log(err)
-        //   })
-        // },
-        // 处理手机号
-        phone(){
-        }
     },
     data () {
       return {
         value1: '西贝筱面古北店',
         imgs:'',
-        img_zhi:'https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=3410181771,3257903943&fm=58&w=121&h=140&img.PNG',
+        img_zhi:'',
         datas:{},
         type2:'',
         type:'',
@@ -204,7 +167,7 @@ import * as openId from '@/assets/js/opid_public.js'
 @import '~vux/src/styles/center.less';
   #storeInfo {
     position: relative;
-  padding:35px 21px;
+  padding:10px 21px 10px 21px;
   .weui-panel:before,.weui-panel:after {
   border:0;}
 .clearfix:after {
@@ -223,7 +186,7 @@ import * as openId from '@/assets/js/opid_public.js'
 .tr{text-align: right;}
 .store-list{
   padding: 0;margin-top: 1rem;
-  li{list-style: none;padding:0.5rem;border-bottom: 1px solid #dddddd;font-size:0.9rem;.fr{color: #999999;width: 70%;text-align: right;line-height: 1.2rem;font-size: 0.8rem;position:relative;
+  li{list-style: none;padding:0.5rem;border-bottom: 1px solid #dddddd;font-size:0.8rem;.fr{color: #999999;width: 70%;text-align: right;line-height: 1.2rem;font-size: 0.8rem;position:relative;
     img{position: absolute;width: 0.6rem;top: 0.2rem;}
     b{font-weight: normal;display: inline-block;width: 80%;}
     .mobile{border: 0;text-align: right;color: #999999}
@@ -460,5 +423,41 @@ import * as openId from '@/assets/js/opid_public.js'
   float:left;
   width:4.5em;
   margin-right:2em;
+}
+
+
+.license_img{
+  position: relative;
+  right:0;
+  z-index:0;
+  border:1px solid #eeeeee;
+}
+
+
+.oimgyy{
+  position:absolute;
+  z-index:1;
+  width:45px;
+  height:35px;
+}
+.clearfix-li{
+  height:200px;
+}
+
+
+.test_box {
+    width: 100%; 
+    min-height: 1.2rem; 
+    max-height: auto;
+    _height: 120px; 
+    margin-left: auto; 
+    margin-right: auto; 
+    outline: 0; 
+    border:0; 
+    font-size: 0.8rem; 
+    word-wrap: break-word;
+    overflow-x: hidden;
+    overflow-y: auto;
+    _overflow-y: visible;
 }
 </style>

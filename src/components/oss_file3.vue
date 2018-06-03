@@ -68,20 +68,21 @@
 
                            var n1=(new Date()).valueOf();
                            console.log(self.message)
-                            if(self.message=='store'){
-                                console.log('store111')
-                                 // 文件名称
+                            if(self.message=='shop_min'){
+                                console.log('上传店员图像')
+                                 //文件名称
                                 var imgurl =localStorage.openid+n1;
                                 console.log(imgurl)
-                                file.name=imgurl+'.png'
+                                file.name = imgurl+'.png'
                                 //将营业执照图片地址存储起来 localStorage.openid
-                                // console.log(yyyyMMdd+'/'+file.name)
+                                console.log(yyyyMMdd+'/'+file.name)
                                 var bulicense_url4='user/'+yyyyMMdd+'/'+file.name;
-                                console.log('存儲商鋪圖像'+bulicense_url4)
+                                console.log('存儲店员图像')
                                 self.set_upload_param(up, 'user/'+yyyyMMdd+'/'+file.name, true);
-                                self.photo(bulicense_url4)
-
+                                self.shop_min(bulicense_url4)
                             }
+                            // self.set_upload_param(up, 'user/'+yyyyMMdd+'/'+file.name, true);
+                            // 上传前
                         },
 
                         UploadProgress: function(up, file) {
@@ -106,19 +107,20 @@
                 self.uploader.init();
             },
             methods: {
-                // 修改商铺头像
-                photo(b){
-                console.log(b)
-                const _this = this
+                // 修改店员头像
+                shop_min(a){
+                  const _this = this
                   _this.$loading.show();//显示
-                  const url =`${myPub.URL}/merchant/Shop/editInfo`;
+                  const url =`${myPub.URL}/merchant/Clerk/editInfo`;
                   const params = new URLSearchParams();
                   params.append('token',localStorage.currentUser_token);
                   params.append('open_id',localStorage.openid);
-                  params.append('img_src',b);
+                  params.append('img_src',a);
                   axios.post(url,params).then(response => {
                     _this.$loading.hide(); //隐藏
-                    console.log("向后台上传商铺图像")
+                    console.log("向后台上传店员图像")
+                    console.log(response.data)
+                    location.reload()
                   }).catch((err) => {
                     console.log(err)
                   })
@@ -162,8 +164,8 @@
 </script>
 <style lang="less">
 .container{
-    width:95px;
-    height:95px;
+    width:50px;
+    height:50px;
     position:relative;
 }
 #selectfiles{
@@ -180,8 +182,7 @@
     height:100%;
     position:absolute;
     top:0;
-    left:50%;
-    margin-left: -42.5px;
+    left:0;
     border:0;
     border-radius: 50%;
 }

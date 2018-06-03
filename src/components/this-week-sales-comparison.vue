@@ -1,6 +1,7 @@
 <template>
       <div class="yhcharts" >
-         <div id="zxChart" style="width:100%;height:215px;"></div>
+         <div id="zxChart" style="width:100%;height:215px;"  v-if="shouw"></div>
+         <p  v-if="!shouw" style="text-align:center;color:#ffffff;line-height:2rem;">暂无数据</p>
       </div>
 </template>
 <script>
@@ -13,6 +14,7 @@ export default {
   },
   data() {
     return {
+       shouw:false
     };
   },
   methods:{
@@ -64,6 +66,10 @@ export default {
                                     rotate:0
                          }
                 }],
+                  grid: {
+                      left: 35,
+                      right:35
+                  },
                 yAxis : [
                 {
                            type: 'value',
@@ -146,15 +152,20 @@ export default {
             }
             if (response.data.status == "200") {
                 _this.$loading.hide(); //隐藏
-                const data = response.data.data
-                _this.shopdata = data.goods_data
-                var objdata = _this.shopdata;
-                console.log(_this.shopdata)
-                for(var i in objdata){
-                 arr.push(objdata[i].goods_num)
-                 Data.push(objdata[i].goods_name)
+                const data = response
+                var objdata =data.data.data.goods_data;
+                console.log(objdata)
+                if(objdata.length==0){
+                   _this.shouw = false
+                }else{
+                  console.log(objdata)
+                  for(var i in objdata){
+                   arr.push(objdata[i].goods_num)
+                   Data.push(objdata[i].goods_name)
+                  }
+                   _this.zx_display(arr,Data);            
                 }
-                 _this.zx_display(arr,Data);
+
             }else{
                  _this.$loading.hide();//隐藏
                 this.$vux.alert.show({
@@ -173,7 +184,6 @@ export default {
 
   mounted(){
       
-      this.zx_display()
   },
       created() {
         this.order('2')

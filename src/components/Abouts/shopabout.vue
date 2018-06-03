@@ -1,10 +1,10 @@
 <template>
   <div class="shop_center">
-    <div class="mainInfo">
+    <div class="mainInfo" v-if="!loading">
         <ul class="shop_info_left">
-          <li class="shop_name">{{scdata.user_info.shop_name}}</li>
-          <li class="storeManager">{{scdata.user_info.truename}}&nbsp;&nbsp;<span class="storesanager_right">店员，欢迎您!</span></li>
-          <li class="join_time">{{scdata.user_info.create_time}}&nbsp;加入</li>
+          <li class="shop_name" >{{scdata.user_info.shop_name}}</li>
+          <li class="storeManager">{{scdata.user_info.truename}}&nbsp;<span class="storesanager_right">店员，欢迎您!</span></li>
+          <li class="join_time">{{scdata.user_info.create_time.split(" ")[0]}}&nbsp;加入</li>
           <li class="passenger_traffic">
             <div  class="passenger_traffic_box" style="border:0;"><span>{{scdata.member_count}}</span><label>总引客量</label></div>
             <div  class="passenger_traffic_box"><span>{{scdata.order_day_count}}</span><label>今日订单</label></div>
@@ -12,7 +12,7 @@
           </li>
         </ul>
       <div class="shop_info_right">
-          <img src="https://ws1.sinaimg.cn/large/663d3650gy1fq6824ur1dj20ia0pydlm.jpg" alt="" class="shop_logo">
+          <img v-lazy="img_dy" class="shop_logo">
           <span class="info_modification" @click="edit">编辑我的信息</span>
       </div>
     </div>
@@ -28,7 +28,12 @@
   </div>
   <p class="store_center" @click="tostoreinfo">店铺中心</p>
   <p class="help_center">帮助中心</p>
-  <p class="customer_service">联系客服</p>
+   <form action="http://im.weifenvip.com/?c=service" method="post">
+    <input type="hidden" name="openid" :value ='openid'>
+    <input type="hidden" name="goods_id" value =''>
+    <input type="hidden" name="oid" value = ''>
+    <input type="submit" style="cursor:pointer;outline:none" class="customer_service" value="联系客服">
+  </form>
   </div>
 </template>
 
@@ -40,11 +45,14 @@ import * as openId from '@/assets/js/opid_public.js'
 export default {
     name: 'shop_center',
     data(){
-　　　　　　return {
-            scdata:{}
-　　　　　　}
-　　　　},
-    created() {
+　　　　return {
+          loading:false,
+          scdata:{},
+          img_dy:'',
+          openid:localStorage.openid,
+　　　　}
+　　},
+    created() { 
 
     },
     computed: {
@@ -88,11 +96,13 @@ export default {
         // 请求数据接口
         mcenterdata(){
           const _this = this;
+          
           const url =`${myPub.URL}/merchant/Clerk/shopCore`;
           const params = new URLSearchParams();
           params.append('token',localStorage.currentUser_token);
           params.append('open_id',localStorage.openid);
           axios.post(url,params).then(response => {
+            _this.loading = false;
             //状态码
             const ost = response.data.status;
             // 当前状态为未登录状态 提示用户登录
@@ -112,6 +122,7 @@ export default {
                 //店员信息
                 const data = response.data.data;
                 _this.scdata = data
+                _this.img_dy = data.user_info.head_pic
                 console.log(data)
             }
             //当前请求存在某些异常 页面弹出提示框提示用户异常详情
@@ -192,10 +203,24 @@ export default {
             flex-direction: row;
             flex-wrap: nowrap;
             justify-content:space-between;
+           .passenger_traffic_box:after{
+                position: absolute;
+                top: 50%;
+                right: 0;
+                content: "";
+                display: inline-block;
+                width: 1px;
+                height: 30px;
+                background: #eeeeee;
+                margin-top: -15px;
+              }
+           .passenger_traffic_box_last:after{
+                background:none;
+              }
             .passenger_traffic_box{
-              border-left:1px solid #eeeeee;
-              flex-grow: 1;
-              /*width:33.33%;*/
+              /*border-left:1px solid #eeeeee;*/
+              position: relative;
+              width:33.33%;
               span{
                 display:block;
                 width:100%;
@@ -210,7 +235,7 @@ export default {
                   display:block;
                   width:100%;
                   font-family:PingFangSC-Regular;
-                  font-size:0.8rem;
+                  font-size:0.7rem;
                   line-height:2rem;
                   color:#777777;
                   letter-spacing:0;
@@ -227,7 +252,7 @@ export default {
           .shop_logo{
             width:95px;
             height:95px;
-            border-radius:100%;
+            border-radius: 50%;
           }
           .info_modification{
             display: block;
@@ -237,7 +262,7 @@ export default {
             letter-spacing:0;
             text-align:center;
             position: relative;
-            top: 1rem;
+            top:3rem;
           }
       }
     }
@@ -313,10 +338,10 @@ export default {
         border-bottom:1px solid #f9f8f8;
         line-height:45px;
         label{
-            float:right;
+           float:right;
             font-family:PingFangSC-Regular;
             font-size:0.8rem;
-            color:#333333;
+            color:#999999;
             letter-spacing:0;
             text-align:center;
           }
@@ -340,10 +365,10 @@ export default {
           font-weight:500;
           span{
             display:block;
-            width:30px;
+            width:29px;
             height:30px;
             /*border:1px solid red;*/
-            margin:10px auto;
+            margin: 14px auto 8px auto;
           }
           .processing_img{
               background:url(~@/assets/icon/dingdanq.png) no-repeat
@@ -368,7 +393,7 @@ export default {
         }
       }
     }
-    .store_center,.help_center,.customer_service{
+    .store_center{
       width:100%;
       height:50px;
       line-height:50px;
@@ -380,10 +405,28 @@ export default {
       background-color:#ffffff;
        padding:0px 20px;
        box-sizing:border-box;
-       font-weight:500;
+       font-weight:600;
       border-bottom: 1px solid #f9f8f8;
     }
     .store_center{margin-top:10px;}
+        .help_center,.customer_service{
+      width:100%;
+      height:50px;
+      line-height:50px;
+      font-family:PingFangSC-Semibold;
+      font-size:0.9rem;
+      color:#333333;
+      letter-spacing:0;
+      text-align:left;
+      background-color:#ffffff;
+       margin-top:10px;
+       padding:0px 20px;
+       box-sizing:border-box;
+       font-weight:600;
+      border-radius: 0;
+    }
+    .customer_service{-webkit-appearance : none ;border-radius: 0;-webkit-tap-highlight-color:transparent;
+  outline:none;border:0;margin-top:0px;border-top: 1px solid #eeeeee;}
     .jiantou{
       display:inline-block;
       width: 6px;

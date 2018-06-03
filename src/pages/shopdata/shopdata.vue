@@ -11,6 +11,7 @@
                 </li>
             </ul>
         </div>
+        <div style="height:16px;width:100%;background-color: #f8f7f7;"></div>
         <!-- 没有订单 -->
         <div class="ordernone" v-if="ordernone">
             <img src="~@/assets/icon/order.png">
@@ -62,7 +63,7 @@ export default {
         is_show4: false,
         datalist:'',
         state:'',
-        ordernone:false
+        ordernone:true
     }
   },
     deactivated () {
@@ -156,41 +157,27 @@ export default {
     public_orderdata(a){
         const _this = this;
         _this.$loading.show();//显示
-        setTimeout(function(){  //模拟请求
-              _this.$loading.hide(); //隐藏
-              const url =`${myPub.URL}/merchant/Shop/order`;
+              
+              const url =`${myPub.URL}/merchant/Clerk/order`;
               var params = new URLSearchParams();
               params.append('type',a); 
               params.append('token',localStorage.currentUser_token);;
               params.append('open_id',localStorage.openid);
               axios.post(url,params).then(response => {
-                if (response.data.status =='1024') {
-                  this.$vux.alert.show({
-                      content: response.data.msg
-                  })
-                  setTimeout(() => {
-                      this.$vux.alert.hide()
-                      location.href = '/login'
-                  }, 3000)
-                }
-                const data = response.data.data
-                _this.datalist = data.list
-                console.log(response)
-              }).catch((err) => {
-                console.log(err)
-              })
-        },2000);
-    },
-    // 切换数据
-    changeData(b){
-        const url =`${myPub.URL}/merchant/Clerk/order`;
-        const _this = this
-        var params = new URLSearchParams();
-        params.append('type',b); 
-        params.append('token',localStorage.currentUser_token);;
-        params.append('open_id',localStorage.openid);
-        axios.post(url,params).then(response => {
-          console.log(response.data.status)
+              _this.$loading.hide(); //隐藏
+                // if (response.data.status =='1024') {
+                //   this.$vux.alert.show({
+                //       content: response.data.msg
+                //   })
+                //   setTimeout(() => {
+                //       this.$vux.alert.hide()
+                //       location.href = '/login'
+                //   }, 3000)
+                // }
+                // const data = response.data.data
+                // _this.datalist = data.list
+                // console.log(response)
+
             //状态码
             const ost = response.data.status;
             // 当前状态为未登录状态 提示用户登录
@@ -217,6 +204,7 @@ export default {
                     _this.ordernone=true
                     return false;
                 }else{
+                   _this.ordernone=false
                   _this.datalist = data.list
                 }
             }
@@ -231,7 +219,63 @@ export default {
                     this.$vux.alert.hide()
                 }, 2000)
             }
+              }).catch((err) => {
+                _this.$loading.hide(); //隐藏
+                console.log(err)
+              })
+    },
+    // 切换数据
+    changeData(b){
+        const url =`${myPub.URL}/merchant/Clerk/order`;
+        const _this = this
+         _this.$loading.show();//显示
+        var params = new URLSearchParams();
+        params.append('type',b); 
+        params.append('token',localStorage.currentUser_token);;
+        params.append('open_id',localStorage.openid);
+        axios.post(url,params).then(response => {
+           _this.$loading.hide();//显示
+          console.log(response.data.status)
+            //状态码
+            const ost = response.data.status;
+            // 当前状态为未登录状态 提示用户登录
+            if(ost==1024||ost=='1024'){
+               this.$vux.alert.show({
+                    title: '温馨提示',
+                    content: response.data.msg
+                })
+                setTimeout(() => {
+                    this.$vux.alert.hide()
+                    location.href = '/login'
+                }, 2000)
+
+            }
+            //当前状态为登录状态 一切正常进行
+            if(ost==200||ost=='200'){
+                //营销商品列表
+                const data = response.data.data;
+                //判断当前店铺是否有订单
+                if(data.count==0||data.count=='0'){
+                  console.log('订单列表为空')
+                    _this.ordernone=true
+                    return false;
+                }else{
+                   _this.ordernone=false
+                  _this.datalist = data.list
+                }
+            }
+            //当前请求存在某些异常 页面弹出提示框提示用户异常详情
+            else{
+               this.$vux.alert.show({
+                    title: '温馨提示',
+                    content: response.data.msg
+                })
+                setTimeout(() => {
+                    this.$vux.alert.hide()
+                }, 2000)
+            }
         }).catch((err) => {
+          _this.$loading.hide(); //隐藏
             console.log(err)
         })
       },
@@ -246,12 +290,12 @@ export default {
         params.append('token',localStorage.currentUser_token);;
         params.append('open_id',localStorage.openid);
         axios.post(url,params).then(response => {
+         _this.$loading.hide(); //隐藏
             console.log(response.data.status)
             //状态码
             const ost = response.data.status;
             // 当前状态为未登录状态 提示用户登录
             if(ost==1024||ost=='1024'){
-              _this.$loading.hide(); //隐藏
                this.$vux.alert.show({
                     title: '温馨提示',
                     content: response.data.msg
@@ -264,7 +308,7 @@ export default {
             }
             //当前状态为登录状态 一切正常进行
             if(ost==200||ost=='200'){
-              _this.$loading.hide(); //隐藏
+             
                 //营销商品列表
                 const data = response.data.data;
                 //判断当前店铺是否有订单
@@ -273,12 +317,12 @@ export default {
                     _this.ordernone=true
                     return false;
                 }else{
+                  _this.ordernone=false
                   _this.datalist = data.list
                 }
             }
             //当前请求存在某些异常 页面弹出提示框提示用户异常详情
             else{
-              _this.$loading.hide(); //隐藏
                this.$vux.alert.show({
                     title: '温馨提示',
                     content: response.data.msg
@@ -330,7 +374,7 @@ export default {
                 }
             }
         }
-        .ordernone{background: #ffffff;margin-top: 1rem;text-align: center;color:#333;img{width: 7rem;margin-top: 4rem;}p{margin-top: 0.5rem;}}
+        .ordernone{background: #ffffff;padding:2rem 0 3rem 0;text-align: center;color:#333;img{width: 7rem;margin-top: 4rem;}p{margin-top: 0.5rem;}}
 /*添加商品列表*/
 .goods-list{
     .t{padding: 1.5rem 1rem 1rem 1.5rem;}

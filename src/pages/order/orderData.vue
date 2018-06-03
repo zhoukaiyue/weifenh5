@@ -2,10 +2,10 @@
 	<div class="orderData">
 		<ul class="orderData_title">
 			<li>
-				<span>店铺总用户(人)</span></br><label>32908.00</label>
+				<span>店铺总用户(人)</span></br><label></label>
 			</li>
 			<li class="bl">
-				<span>今日新增用户(人)</span></br><label>32908.00</label>
+				<span>今日新增用户(人)</span></br><label></label>
 			</li>
 		</ul>
 
@@ -60,8 +60,6 @@ export default {
     };
   },
   created() {
-        this.order('4')
-        this.new('1')
     },
   deactivated () {
         this.$destroy()
@@ -121,6 +119,10 @@ export default {
                   }
                       }
                     ],
+                  grid: {
+                      left: 35,
+                      right:35
+                  },
                     yAxis : [
                         {
                        type: 'value',
@@ -221,6 +223,10 @@ export default {
                                     rotate:0
                          }
                 }],
+                  grid: {
+                      left: 35,
+                      right:35
+                  },
                 yAxis : [
                           {
                            type: 'value',
@@ -262,7 +268,7 @@ export default {
                           }
                         },
                          barWidth : 10,//柱图宽度
-                                                 color: function(params) {
+                            color: function(params) {
                             // build a color map as your need.
                             var colorList = [
                               '#ffffff'
@@ -283,20 +289,16 @@ export default {
     },
   	salesVolume1:function(){
         const _this = this;
-        this.is_show1=true
-        this.is_show2=false
-        this.is_show3=false
-        _this.$loading.show();//显示
-	    setTimeout(function(){  //模拟请求
-	          _this.$loading.hide(); //隐藏
-	    },2000);
+        _this.is_show1=true
+        _this.is_show2=false
+        _this.is_show3=false
 	},
     salesVolume2:function(){
         const _this = this;
-        this.is_show2=false
-        this.is_show1=true
-        this.is_show3=false
-        this.$vux.alert.show({
+        _this.is_show2=false
+        _this.is_show1=true
+        _this.is_show3=false
+        _this.$vux.alert.show({
             content: "暂无数据"
         })
         setTimeout(() => {
@@ -304,35 +306,31 @@ export default {
             // location.reload()
         }, 3000)
 	},
-	salesVolume3:function(){
-        const _this = this;
-       this.is_show2=false
-        this.is_show1=true
-        this.is_show3=false
-        this.$vux.alert.show({
-            content: "暂无数据"
-        })
-        setTimeout(() => {
-            this.$vux.alert.hide()
-            // location.reload()
-        }, 3000)
-	},
+	// salesVolume3:function(){
+ //        const _this = this;
+ //        _this.is_show2=false
+ //        _this.is_show1=true
+ //        _this.is_show3=false
+ //        _this.$vux.alert.show({
+ //            content: "暂无数据"
+ //        })
+ //        setTimeout(() => {
+ //            this.$vux.alert.hide()
+ //            // location.reload()
+ //        }, 3000)
+	// },
   salesVolume4:function(){
         const _this = this;
-        this.is_show4=true
-        this.is_show5=false
-        this.is_show6=false
-        _this.$loading.show();//显示
-	    setTimeout(function(){  //模拟请求
-	          _this.$loading.hide(); //隐藏
-	    },2000);
+        _this.is_show4=true
+        _this.is_show5=false
+        _this.is_show6=false
 	},
 	salesVolume5:function(){
         const _this = this;
-        this.is_show4=true
-        this.is_show5=false
-        this.is_show6=false
-        this.$vux.alert.show({
+        _this.is_show4=true
+        _this.is_show5=false
+        _this.is_show6=false
+        _this.$vux.alert.show({
             content: "暂无数据"
         })
         setTimeout(() => {
@@ -340,25 +338,25 @@ export default {
             // location.reload()
         }, 3000)
 	},
-	salesVolume6:function(){
-        const _this = this;
-        this.is_show4=true
-        this.is_show5=false
-        this.is_show6=false
-        this.$vux.alert.show({
-            content: "暂无数据"
-        })
-        setTimeout(() => {
-            this.$vux.alert.hide()
-            // location.reload()
-        }, 3000)
-	},
+	// salesVolume6:function(){
+ //        const _this = this;
+ //        _this.is_show4=true
+ //        _this.is_show5=false
+ //        _this.is_show6=false
+ //        _this.$vux.alert.show({
+ //            content: "暂无数据"
+ //        })
+ //        setTimeout(() => {
+ //            this.$vux.alert.hide()
+ //            // location.reload()
+ //        }, 3000)
+	// },
 	order(a){
       const _this = this;
       _this.$loading.show()
       var arr = [];
       var Data = [];
-      const url =`${myPub.URL}/merchant/Shop/dataStatistics`;
+      const url =`${myPub.URL}/merchant/Shop/shopDataStatistics`;
           var params = new URLSearchParams();
           params.append('token',localStorage.currentUser_token);;
           params.append('open_id',localStorage.openid);
@@ -382,7 +380,8 @@ export default {
             if (response.data.status =='200') {
               _this.$loading.hide();
               const data = response.data.data
-              this.shopdata = data.member_data
+              // console.log(data)
+              this.shopdata = data
               var objdata = this.shopdata.seven;
               for(var i in objdata){
                arr.push(i)
@@ -406,7 +405,7 @@ export default {
       _this.$loading.show()
       var arr = [];
       var Data = [];
-      const url =`${myPub.URL}/merchant/Shop/dataStatistics`;
+      const url =`${myPub.URL}/merchant/Shop/shopDataStatistics`;
           var params = new URLSearchParams();
           params.append('token',localStorage.currentUser_token);;
           params.append('open_id',localStorage.openid);
@@ -430,7 +429,9 @@ export default {
             if (response.data.status =='200') {
               _this.$loading.hide();
               const data = response.data.data
-              var objdata = data.member_data;
+              
+              var objdata = data;
+              console.log(objdata)
               for(var i in objdata){
                arr.push(objdata[i].truename)
                Data.push(objdata[i].member_count)
@@ -450,6 +451,8 @@ export default {
     }
   },
   mounted(){
+      this.order('1')
+      this.new('4')
   }
 }
 </script>

@@ -64,6 +64,10 @@ export default {
                         rotate:0
                    }
                 }],
+                grid: {
+                      left: 35,
+                      right:35
+                  },
                 yAxis : [
                 {
                    type: 'value',
@@ -82,9 +86,10 @@ export default {
                             }
                         },
                     axisLine: {
+                    show: true,
                     lineStyle: {
                             type: 'solid',
-                            color: 'transparent',//左边线的颜色
+                            color: '#ffffff',//左边线的颜色
                             width:0.5//坐标线的宽度
                         }
                     },

@@ -1,7 +1,7 @@
 <template>
-      <div class="charts">
-              <!-- 店铺新增用户数据 -->
-          <div id="Chart" style="width:100%;height:100%;"></div>
+      <div class="charts" >
+          <!--营销商品30日销量趋势图 -->
+          <div id="myChart" style="width:100%;height:100%;"></div>
       </div>
 </template>
 <script>
@@ -17,61 +17,81 @@ export default {
     };
   },
   methods:{
-    //店铺新增用户数据
-    order_display(a,b){
-           let chart = document.getElementById("Chart");
-           let _this=this;
+    //这是营销商品访问量/销售量趋势图
+  yx_display(a,b){
+       var chart = document.getElementById("myChart");
                let echarts = require('echarts/lib/echarts');
-               let mainChart = echarts.init(Chart);
+               let mainChart = echarts.init(myChart);
                 var option = {
-                  //   title: {
-                  //       text: '我的新增用户数据',
-                  //       left:'center',
-                  //       textStyle:{
-                  //         //文字颜色
-                  //         color:'#ffffff',
-                  //         //字体风格,'normal','italic','oblique'
-                  //         fontStyle:'normal',
-                  //         //字体粗细 'normal','bold','bolder','lighter',100 | 200 | 300 | 400...
-                  //         fontWeight:'bold',
-                  //         //字体系列
-                  //         fontFamily:'sans-serif',
-                  //         //字体大小
-                  // 　　　　 fontSize:12
-                  //     }
-                  //   },
-                    tooltip : {
-                       // trigger: 'item'
+                    title: {
+                        text: '左右滑动即可查看更多相关数据',
+                        textStyle:{
+                            //文字颜色
+                            color:'#FFFFFF',
+                            //字体风格,'normal','italic','oblique'
+                            fontStyle:'normal',
+                            //字体粗细 'normal','bold','bolder','lighter',100 | 200 | 300 | 400...
+                            fontWeight:'normal',
+                            //字体系列
+                            fontFamily:'sans-serif',
+                            //字体大小
+                    　　　　 fontSize:12
+                        }
                     },
+                    dataZoom: [  
+                       {  
+                         id: 'dataZoomX', 
+                        　show:true, //是否显示 组件。如果设置为 false，不会显示，但是数据过滤的功能还存在。 
+                        　backgroundColor:"rgba(47,69,84,0)", //组件的背景颜色 
+                           type: 'inside',  
+                           throttle:'50',  
+                           minValueSpan:4,  
+                           start: 0,  
+                           end: 15  
+                       }  
+                    ],  
+                    // tooltip : {
+                    //    // trigger: 'item'
+                    // },
+                    // legend: {
+                    //     // data:['']
+                    // },
+                    // // toolbox: {
+                    //     feature: {
+                    //         saveAsImage: {}
+                    //     }
+                    // },
+                  grid: {
+                      left: 35,
+                      right:35
+                  },
                     xAxis : [
                         {
                             type : 'category',
                             boundaryGap : false,
                             data :a,
-                            axisLine: {
-                            lineStyle: {
-                              width : 0.5,
-                              color : '#ffffff'
+                             axisLine: {
+                          lineStyle: {
+                              type: 'solid',
+                              color: '#ffffff',//左边线的颜色
+                              width:1//坐标线的宽度
                             }
                         },
                         axisLabel: {
+                          interval:0,
                             textStyle: {
                                 color: '#ffffff',//坐标值得具体的颜色
                             }
                         },
                         axisTick:{
-                            show:false/*隐藏刻度*/
-                        }
+                      show:false/*隐藏刻度*/
+                  }
                       }
                     ],
-                  grid: {
-                      left: 35,
-                      right:35
-                  },
                     yAxis : [
                         {
-                          type: 'value',
-                          splitLine:{                 //坐标轴在 grid 区域中的分隔线。
+                       type: 'value',
+                       splitLine:{                 //坐标轴在 grid 区域中的分隔线。
                               show:true,              //是否显示分隔线。默认数值轴显示，类目轴不显示。
                               interval:'auto',
                               lineStyle:{
@@ -85,33 +105,32 @@ export default {
                                 color: '#ffffff',//坐标值得具体的颜色
                             }
                         },
-                          axisLine: {
-                          lineStyle: {
+                  axisLine: {
+                        lineStyle: {
                               type: 'solid',
                               color: '#ffffff',//左边线的颜色
                               width:0.5//坐标线的宽度
                           }
-                        },
-                      }
+                      },
+                        }
                     ],
                     series : [
                         {
                             name:'访问量',
                             type:'line',
-                            symbolSize:3,
+                            symbolSize:2,
                             stack: '销量',
-                            itemStyle : { 
+                            itemStyle : {
                               normal: {
-                                label : {show: false},
-                                lineStyle : {
-                                    width : 0.5,
-                                    color : '#ffffff'
+                              label : {show: false,color:'#ffffff'},
+                              lineStyle : {
+                                  width : 0.5,
+                                  color : '#ffffff'
                                 },
                               }
                             },
                             data:b,
-                            color:"#ffffff",
-                            areaStyle: {color: ['rgba(250,250,250,0.1)','rgba(200,200,200,0.1)']}
+                            color:"#ffffff"
                         }
                     ]
                 };
@@ -123,7 +142,7 @@ export default {
       _this.$loading.show()
       var arr = [];
       var Data = [];
-      const url =`${myPub.URL}/merchant/Shop/dataStatistics`;
+      const url =`${myPub.URL}/merchant/Shop/goodsDataStatistics`;
           var params = new URLSearchParams();
           params.append('token',localStorage.currentUser_token);;
           params.append('open_id',localStorage.openid);
@@ -146,13 +165,13 @@ export default {
             if (response.data.status == "200") {
                 _this.$loading.hide(); //隐藏
                 const data = response.data.data
-                this.shopdata = data.member_data
-                var objdata = this.shopdata.seven;
+                this.shopdata = data;
+                var objdata = this.shopdata;
                 for(var i in objdata){
                  arr.push(i)
                  Data.push(objdata[i])
                 }
-                 _this.order_display(arr,Data);
+                 _this.yx_display(arr,Data);
             }else{
                  _this.$loading.hide();//隐藏
                 this.$vux.alert.show({
@@ -170,13 +189,13 @@ export default {
   },
 
   mounted(){
-      
+    this.order('1')
   },
   deactivated () {
         this.$destroy()
     },
   created() {
-        this.order('4')
+     
     },
 }
 </script>

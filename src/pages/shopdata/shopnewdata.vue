@@ -15,7 +15,7 @@
         <div class="data_display">
 
             <div class="yx_display">
-                <p class="yx_display_title">营销商品数据额统计<span></span></p>
+                <p class="yx_display_title">营销商品销售额统计<span></span></p>
                 <ul class="yx_display_tab">
                     <li class="oli first" v-bind:class='{ li_select: is_show1}' v-on:click="salesVolume1()">7日</li>
                     <li class="oli" v-bind:class='{ li_select: is_show2}' v-on:click="salesVolume2()">30日</li>
@@ -105,13 +105,10 @@ export default {
                     legend: {
                         data:['营销商品销售额']   
                     },
-                    grid: {
-                        width:'95%',
-                        left: '-2%',
-                        right: '10%',
-                        bottom: '10%',
-                        containLabel: true
-                    },
+                   grid: {
+                      left: 35,
+                      right:35
+                  },
                     xAxis : [
                         {
                             type : 'category',
@@ -140,7 +137,7 @@ export default {
                   axisLine: {
                         lineStyle: {
                               type: 'solid',
-                              color: 'transparent',//左边线的颜色
+                              color: '#ffffff',//左边线的颜色
                               width:'2'//坐标线的宽度
                           }
                       },
@@ -190,13 +187,10 @@ export default {
                     tooltip : {
                        // trigger: 'item'
                     },
-                    grid: {
-                        width:'95%',
-                        left: '-2%',
-                        right: '10%',
-                        bottom: '10%',
-                        containLabel: true
-                    },
+                   grid: {
+                      left: 35,
+                      right:35
+                  },
                     xAxis : [
                         {
                             type : 'category',
@@ -225,7 +219,7 @@ export default {
                   axisLine: {
                         lineStyle: {
                               type: 'solid',
-                              color: 'transparent',//左边线的颜色
+                              color: '#ffffff',//左边线的颜色
                               width:'2'//坐标线的宽度
                           }
                       },
@@ -260,7 +254,7 @@ export default {
         this.is_show1=true
         this.is_show3=false
         this.$vux.alert.show({
-            content: "敬请期待"
+            content: "暂无数据"
         })
         setTimeout(() => {
             this.$vux.alert.hide()
@@ -273,7 +267,7 @@ export default {
         this.is_show1=true
         this.is_show3=false
         this.$vux.alert.show({
-            content: "敬请期待"
+            content: "暂无数据"
         })
         setTimeout(() => {
             this.$vux.alert.hide()
@@ -296,7 +290,7 @@ export default {
         this.is_show5=false
         this.is_show6=false
         this.$vux.alert.show({
-            content: "敬请期待"
+            content: "暂无数据"
         })
         setTimeout(() => {
             this.$vux.alert.hide()
@@ -309,7 +303,7 @@ export default {
         this.is_show5=false
         this.is_show6=false
         this.$vux.alert.show({
-            content: "敬请期待"
+            content: "暂无数据"
         })
         setTimeout(() => {
             this.$vux.alert.hide()
@@ -352,7 +346,7 @@ export default {
       const _this = this;
       var arr = [];
       var Data = [];
-      const url =`${myPub.URL}/merchant/Clerk/dataStatistics`;
+      const url =`${myPub.URL}/merchant/Clerk/orderData`;
           var params = new URLSearchParams();
           params.append('token',localStorage.currentUser_token);;
           params.append('open_id',localStorage.openid);
@@ -367,9 +361,7 @@ export default {
                   location.href = '/login'
               }, 3000)
             }
-              const data = response
-              console.log(data)
-              var objdata = data;
+              var objdata = response.data.data;
               for(var i in objdata){
                arr.push(i)
                Data.push(objdata[i])

@@ -69,6 +69,10 @@ export default {
                   }
                       }
                     ],
+                  grid: {
+                      left: 35,
+                      right:35
+                  },
                     yAxis : [
                         {
                        type: 'value',

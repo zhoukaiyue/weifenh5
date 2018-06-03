@@ -1,26 +1,8 @@
 <template>
     <div class="detail page">
-        <div class="detail-main"
-             v-if="product">
-            <!-- 商品详情轮播图 -->
-             <swiper :list="demo01_list" v-model="demo02_index" @on-index-change="demo01_onIndexChange">
-             </swiper>
-            <div class="cart-box marketing-box">
-                <div class="product-counts">
-                    <div class="picker"></div>
-                    <span class="counts-tips">客服</span>
-                </div>
-                <div class="add-cart-btn "  v-on:click="code">
-                    <span class="add-cart">立即生成二维码</span>
-                <!-- 生成并分享二维码 -->
-                <span id="fenxiang_falsebtn"></span>
-                <group id="fenxiang">
-                  <x-switch v-model="showHideOnBlur" title="" id="fenxiang_btn"></x-switch>
-                </group>
-                </div>
-            </div>
-            
-            <!--商品详情信息 -->
+        <div class="detail-main" v-if="product">
+            <!-- 购物车漂浮按钮 -->
+            <swiper :list="demo01_list" v-model="demo02_index" @on-index-change="demo01_onIndexChange"></swiper>
             <div class="product-info-box">
                 <div class="price">
                     <span class="coupon_price">券后价</span>￥{{product.markte_price}} <s>￥{{product.shop_price}}</s>
@@ -36,94 +18,92 @@
                 </div>
                 <div class="country">
                     <div class="country_span">来自
-                    <img v-lazy="product.natinal_flag" alt="">
-                    {{product.natinal_name}}日本</div>
+                        <img v-lazy="product.natinal_flag" alt="">{{product.natinal_name}}
+                    </div>
                     <div class="country_label">本商品售价已含税，无需额外支付税费</div>
-                 </div>
+                </div>
             </div>
         </div>
-
         <!-- 领取优惠券部分 -->
-        <group class="bgf">
-          <x-switch title="领券" v-model="show13" id="title——lq"></x-switch>
-          <img class="img" src="~@/assets/icon/goods-left.png">
+     <!--    <group class="bgf">
+            <x-switch title="领券" v-model="show13" id="title——lq"></x-switch>
+            <img class="img" src="~@/assets/icon/goods-left.png">
         </group>
         <div v-transfer-dom>
-          <popup v-model="show13" position="bottom" max-height="50%">
-            <group>
-              <cell v-for="i in couponlist" >
-                <div id="use_information">
-                <p class="price_box"><span class="com_price">￥{{i.a}}</span><span class="com_range">{{i.b}}</span></p>
-                <p class="com_limit">{{i.c}}</p>
-                <p class="com_time">{{i.d}}</p>
+            <popup v-model="show13" position="bottom" max-height="50%">
+                <group>
+                    <cell v-for="i in couponlist" >
+                        <div id="use_information">
+                            <p class="price_box"><span class="com_price">￥{{i.a}}</span><span class="com_range">{{i.b}}</span></p>
+                            <p class="com_limit">{{i.c}}</p>
+                            <p class="com_time">{{i.d}}</p>
+                        </div>
+                        <button class="com_btn">立即使用</button>
+                    </cell>
+                </group>
+                <div style="padding: 15px;">
+                    <x-button @click.native="show13 = false" plain type="primary"> 关闭 </x-button>
                 </div>
-                <button class="com_btn">立即使用</button>
-              </cell>
-            </group>
-            <div style="padding: 15px;">
-              <x-button @click.native="show13 = false" plain type="primary"> 关闭 </x-button>
+            </popup>
+        </div> -->
+        <div class="detail-bottom">
+            <!-- 商品详情 -->
+            <div class="tuwen"></div>
+            <div class="tuwen_con">
+                <p>图文</p>
+                <div class="descBox" v-html="product.goods_desc" style="min-height:300px;"></div>
             </div>
-          </popup>
-        </div>
-
-        <div class="detail-bottom" style="margin-bottom:0px;">
-            <tab :line-width=2
-                 active-color='#f54321'
-                 v-model="index">
-                <tab-item class="vux-center"
-                          :selected="selectd === item"
-                          v-for="(item, index) in list"
-                          @click="selectd = item"
-                          :key="index">{{item}}
-                </tab-item>
-            </tab>
-
-            <swiper v-model="index" height="auto" :show-dots="false">
-                <swiper-item v-for="(item, index) in list"
-                             :key="index">
-                    <div class="tab-swiper vux-center">{{item}}</div>
-                </swiper-item>
-            </swiper>
             <div v-transfer-dom>
               <x-dialog v-model="showHideOnBlur" class="dialog-demo" hide-on-blur>
-                <div class="img-box">
-                  <h5>{{product.shop_name}}赠福利啦~</h5>
-                  <p>{{product.goods_name}}</p>
-                  <img v-lazy="product.img_src">
-                </div>
-                <div @click="showHideOnBlur=false" class="qrcode_box clearfix">
-                   <qrcode :value="code_url"  id="fx-qcode" type="img"></qrcode>
-                   <div class="code_right">
-                       <span class="shoprce">RMB {{product.markte_price}}</span>
-                       <p class="maketprice">市场价 {{product.shop_price}}</p>
-                       <p>长按二维码识别详情</p>
-                   </div>
-                </div>
+                    <img v-lazy="" alt="">
               </x-dialog>
             </div>
+        </div>
+        <!-- 底部营销列表 -->
+        <div class="cart-box marketing-box">
+            <div class="product-counts">
+                <form action="http://im.weifenvip.com/?c=service" method="post" class="form_kf">
+                    <input type="hidden" name="openid" :value ='openid'>
+                    <input type="hidden" name="goods_id" :value ='goodsid'>
+                    <input type="hidden" name="oid" value = ''>
+                    <input type="submit" style="cursor:pointer;outline:none"  class="counts-tips" value="客服">
+                </form>
+            </div>
+            <div class="add-cart-btn"  v-on:click="showcode()">
+                <span class="add-cart">立即生成二维码</span>
+            </div>
+        </div>
 
+        <!-- 分享二维码弹窗样式 -->
+        <div class="code_box" v-if="show_code">
+            <div class="code_bg"></div>
+            <div class="code_title">长按保存图片,分享让客户购买商品哦~</div> 
+            <!-- 商品图片-->
+            <div class="code_com">
+                <img v-lazy="code_images">
+            </div>
+            <!--关闭按钮-->
+            <div class="code_close" @click="hidecode()"></div>
         </div>
     </div>
 </template>
 
 <script>
-import { PopupPicker, Tab, TabItem, Swiper, SwiperItem,Qrcode, GroupTitle,  Divider,XDialog, Popup, Group, Cell, XButton, XSwitch, Toast, XAddress, ChinaAddressData,TransferDomDirective as TransferDom } from 'vux'
+import { PopupPicker, Tabbar, TabbarItem,ViewBox,Actionsheet, Tab, TabItem, Swiper, SwiperItem,Qrcode, GroupTitle,  Divider,XDialog, Popup, Group, Cell, XButton, XSwitch, Toast, XAddress, ChinaAddressData,TransferDomDirective as TransferDom } from 'vux'
 import { mapState, mapMutations, mapGetters } from 'vuex'
 import axios from 'axios'
 import $ from 'jquery'
 import * as myPub from '@/assets/js/public.js'
 import * as openId from '@/assets/js/opid_public.js'
 
-const tabList = () => ['图文详情', '商品解答']
+const tabList = () => ['图文详情']
 const baseList = [{
-      img: 'https://ww1.sinaimg.cn/large/663d3650gy1fq66vvsr72j20p00gogo2.jpg',
-    },
-    {
-      img: 'https://ww1.sinaimg.cn/large/663d3650gy1fq66vw1k2wj20p00goq7n.jpg',
-    },
-    {
-      img: 'https://static.vux.li/demo/5.jpg', // 404
-      fallbackImg: 'https://ww1.sinaimg.cn/large/663d3650gy1fq66vw50iwj20ff0aaaci.jpg'
+  img: 'https://ww1.sinaimg.cn/large/663d3650gy1fq66vvsr72j20p00gogo2.jpg',
+}, {
+  img: 'https://ww1.sinaimg.cn/large/663d3650gy1fq66vw1k2wj20p00goq7n.jpg',
+}, {
+  img: 'https://static.vux.li/demo/5.jpg', // 404
+  fallbackImg: 'https://ww1.sinaimg.cn/large/663d3650gy1fq66vw50iwj20ff0aaaci.jpg'
 }]
 export default {
     name: 'detail',
@@ -142,7 +122,7 @@ export default {
             isShake: false,
             value: 'https://vux.li',
             fgColor: '#000000',
-            qrcode_url: ``,
+            qrcode_url: '',
             avatar_url: ``,
             friendName: '',
             imageUrl: null,
@@ -152,8 +132,11 @@ export default {
             couponlist:'',
             demo01_list: '',
             demo02_index: 1,
-            //二维码链接地址
-            code_url:''
+            openid:localStorage.openid,
+            goodsid:'',
+            show_code:false,
+            code_images:''
+
         }
     },
     deactivated () {
@@ -167,11 +150,18 @@ export default {
         }
     },
     mounted () {
-
+        // setInterval(() => {
+        //   this.value = `http://www.pingminjie.cn?t=${Math.random()}`
+        //   this.fgColor = `#${Math.floor(Math.random() * 16777215).toString(16)}`
+        //   console.log(this.value)
+        // }, 1000)
     },
     created() {
         this.goods()
     },
+    updated() {
+        $('.descBox').find('img').css('width', '100%');
+     },
     activated() {
     },
     methods: {
@@ -182,9 +172,61 @@ export default {
         demo01_onIndexChange (index) {
           this.demo01_index = index
         },
+        // 分享二维码图片
+        showcode(){
+            this.show_code=true;
+            const _this = this;
+            const id = this.$route.query.id
+            console.log(id)
+            const url =`${myPub.URL}/merchant/Clerk/goodsShareQr` 
+            const params = new URLSearchParams();
+            params.append('token',localStorage.currentUser_token);
+            params.append('open_id',localStorage.openid);
+            params.append('id',id);
+            axios.post(url,params).then(response => {
+                //状态码
+                const ost = response.data.status;
+                // 当前状态为未登录状态 提示用户登录
+                if(ost==1024||ost=='1024'){
+                   this.$vux.alert.show({
+                        title: '温馨提示',
+                        content: response.data.msg
+                    })
+                    setTimeout(() => {
+                        this.$vux.alert.hide()
+                        location.href = '/login'
+                    }, 1000)
+
+                }
+                //当前状态为登录状态 一切正常进行
+                if(ost==200||ost=='200'){
+                    //二维码图片更换
+                    const data = response.data;
+                    _this.code_images = data.promotion_src
+                }
+                //当前请求存在某些异常 页面弹出提示框提示用户异常详情
+                else{
+                   this.$vux.alert.show({
+                        title: '温馨提示',
+                        content: response.data.msg
+                    })
+                    setTimeout(() => {
+                        this.$vux.alert.hide()
+                    }, 2000)
+                }
+            }).catch((err) => {
+                console.log(err)
+            })
+        },
+        //关闭二维码分享
+        hidecode(){
+            this.show_code=false;
+            $('body').css('overflow','auto')
+        },
         // 商品数据
         goods(){
             const _this = this;
+            _this.$loading.show();
             const url =`${myPub.URL}/merchant/Clerk/goodsInfo`;
             const id = this.$route.query.id
             const params = new URLSearchParams();
@@ -193,59 +235,7 @@ export default {
             // params.append('open_id',localStorage.openid);
             params.append('id',id);
             axios.post(url,params).then(response => {
-            //状态码
-            const ost = response.data.status;
-            // 当前状态为未登录状态 提示用户登录
-            if(ost==1024||ost=='1024'){
-               this.$vux.alert.show({
-                    title: '温馨提示',
-                    content: response.data.msg
-                })
-                setTimeout(() => {
-                    this.$vux.alert.hide()
-                    location.href = '/login'
-                }, 2000)
-
-            }
-            //当前状态为登录状态 一切正常进行
-            if(ost==200||ost=='200'){
-                //营销商品详情
-                const data = response.data.data;
-                _this.product=data;
-                //商品详情轮播图
-                _this.demo01_list=data.goods_photo;
-                console.log(data)
-            }
-            //当前请求存在某些异常 页面弹出提示框提示用户异常详情
-            else{
-               this.$vux.alert.show({
-                    title: '温馨提示',
-                    content: response.data.msg
-                })
-                setTimeout(() => {
-                    this.$vux.alert.hide()
-                }, 2000)
-            }
-            }).catch((err) => {
-                console.log(err)
-            })
-        },
-
-        // 分享二维码图片
-        code(){
-            const _this = this;
-            const url =`${myPub.URL}/merchant/Clerk/goodsShareQr` 
-            const id = this.$route.query.id
-            const params = new URLSearchParams();
-            params.append('token',localStorage.currentUser_token);
-            params.append('open_id',localStorage.openid);
-            params.append('id',id);
-            axios.post(url,params).then(response => {
-                const data = response.data
-                // if (data.status == '200') {
-                //     console.log(data)
-                //     $("#fx-qcode img").attr('src',data.img_src)
-                // }
+                _this.$loading.hide()
                 // if (response.data.status =='1024') {
                 //   this.$vux.alert.show({
                 //       content: response.data.msg
@@ -255,6 +245,28 @@ export default {
                 //       location.href = '/login'
                 //   }, 3000)
                 // }
+                // // token失效
+                // if (response.data.status =='1004') {
+                //   _this.getData()
+                // }
+                // // 状态码
+                // if (response.data.status =='200') {
+                //     const data = response.data.data
+                //     console.log(response.data.data)
+                //     _this.product = response.data.data;
+                //     _this.goodsid=response.data.data.country_id;
+
+                //     _this.demo01_list =data.goods_photo
+                // if (data.limit_status == '1') {
+                //     _this.isshow11=true
+                // }
+                // console.log(_this.demo01_list)
+                // }else{
+                //   this.$vux.alert.show({
+                //       content: response.data.msg
+                //   })
+                // }
+
                 //状态码
                 const ost = response.data.status;
                 // 当前状态为未登录状态 提示用户登录
@@ -270,8 +282,11 @@ export default {
 
                 }
                 //当前状态为登录状态 一切正常进行
-                if(ost==200||ost=='200'){
-                    _this.code_url = data.qr_str;
+                if(ost==200||ost=='200'){   
+                    _this.product = response.data.data;
+                    console.log(_this.product)
+                    _this.goodsid=response.data.data.country_id;
+                    _this.demo01_list =response.data.data.goods_photo
                 }
                 //当前请求存在某些异常 页面弹出提示框提示用户异常详情
                 else{
@@ -307,11 +322,25 @@ export default {
         Toast,
         XAddress,
         XButton,
-        GroupTitle
+        GroupTitle,
+                Tabbar,
+        TabbarItem,
+        ViewBox,
+        Actionsheet,
+        TransferDom
     }
 }
 </script>
-
+<style type="text/css">
+    .vux-no-group-title{position: relative;}
+    .weui-cell__ft input{opacity: 0;position: relative;z-index:1;left:0.5rem;}
+    .weui-dialog{background: #ffffff;}
+    .weui-cells:before{border:0!important}
+    .weui-cells:after{border:0!important}
+    .weui-cell_switch .weui-cell__ft{width: 100%;}
+    .weui-switch, .weui-switch-cp__box{width: 100%!important}
+    .weui-cells{background-color:transparent!important;}
+</style>
 <style scoped lang="less">
 @import '~vux/src/styles/center.less';
 @import '~vux/src/styles/close.less';
@@ -326,7 +355,10 @@ export default {
 .clearfix{
     zoom:1;
 }
-.bgf{background-color: #ffffff}
+.bgf{background-color: #ffffff;padding-top: constant(safe-area-inset-top) ;        
+    padding-left: constant(safe-area-inset-left);                
+    padding-right: constant(safe-area-inset-right);            
+    padding-bottom: constant(safe-area-inset-bottom); }
     .detail {
     background-color:#f9f9f9;
     .img{position: absolute;top:0.9rem;right: 1.2rem;width: 0.7rem;}
@@ -334,7 +366,7 @@ export default {
     background:#ffffff;
     .fixed-cart-box {
     position:fixed;
-    z-index:100000000;
+    z-index:10;
     top:71px;
     right:0.6rem;
     width:40px;
@@ -374,19 +406,19 @@ export default {
     vertical-align:top;
 }
 }.cart-box {
-    height:3.5rem;
+    height:55px;
     width:100%;
     border-top:1px solid #dddddd;
     background-color:#ffffff;
     color:#ffffff;
     position:fixed;
-    bottom:0;
+    bottom:-2px;
     left:0;
-    z-index:1000000;
+    z-index:2000000;
     display:flex;
     align-items:center;
     .product-counts {
-    width:30%;
+    width:20%;
     height:100%;
     background-color:#ffffff;
     font-family:PingFangSC-Regular;
@@ -396,19 +428,34 @@ export default {
     text-align:center;
     box-sizing:border-box;
     .picker {
-    width:1.5rem;
-    height:1.5rem;
-    background:url(~@/assets/icon/shop_kefu.png) no-repeat
+    width:35%;
+    height:40%;
+    background:url(~@/assets/icon/kefu.png) no-repeat
                         right center;
     background-size:100% 100%;
     margin:5px auto 2px auto;
     /*border:1px solid red;
     */
 }
+.form_kf{
+        height: 100%;
+        position: absolute;
+        top: 0;
+        width: 20%;
+        border:0;
+        background: transparent;
+}
 .counts-tips {
+    background:url(~@/assets/icon/kefu.png) no-repeat center 2px;
+    background-size: 26px 23px;
     display:block;
-    height:40%;
-    font-size:1rem;
+    height:100%;
+    width:100%;
+    font-size:0.8rem;
+    line-height:80px;
+    margin-top: 5px;
+    border:0;
+        /*background: transparent;*/
 }
 }.add-cart-btn {
     height:100%;
@@ -485,7 +532,6 @@ export default {
     vertical-align: middle;
 }
 }.country_span,.country_label {
-    font-size: 0.7rem;
     margin:0;
 }
 }&.name_box {
@@ -551,12 +597,6 @@ s {
 }
 }}}}.detail-bottom {
     background:#ffffff;
-    margin-top:15px;
-    .tab-swiper {
-    background-color:#ffffff;
-    height:180px;
-    margin-bottom:0px!important;
-}
 }.sold_information {
     width:100%;
     height:17px;
@@ -845,7 +885,7 @@ s {
 }
 /*针对iPhone X底部footer做适配*/
 @media only screen and (device-width: 375px) and (device-height:812px) and (-webkit-device-pixel-ratio:3) {
-    .detail .detail-main .cart-box{padding-bottom: 32px;}
+    .cart-box{padding-bottom:34px;}
 }
 
 .qrcode_box{
@@ -857,5 +897,150 @@ s {
     letter-spacing:0;
     text-align:center;
     color:#333333;
+
 }
+
+.tuwen{
+    width:100%;
+    height:40px;
+    background:url(~@/assets/img/bg_tw.png) no-repeat;
+    background-size:cover;
+}
+.tuwen_con{
+    p{
+        width:100%;
+        height:46px;
+        border-bottom:1px solid #F54321;
+        font-size:1rem;
+        line-height:46px;
+        text-align:center;
+        color:#F54321;
+    }
+    #div{
+        width:100%;
+        height:auto;
+        p{
+         img{
+            width:100%;
+        }           
+        }
+
+    }
+}
+
+
+.cart-box {
+    height:55px;
+    width:100%;
+    border-top:1px solid #dddddd;
+    background-color:#ffffff;
+    color:#ffffff;
+    position:fixed;
+    left:0;
+    z-index:500;
+    display:flex;
+    align-items:center;
+    bottom:0;
+    .product-counts {
+    width:20%;
+    height:100%;
+    background-color:#ffffff;
+    font-family:PingFangSC-Regular;
+    font-size:0.8rem;
+    color:#666666;
+    letter-spacing:0;
+    text-align:center;
+    box-sizing:border-box;
+    .picker {
+    width:35%;
+    height:40%;
+    background:url(~@/assets/icon/kefu.png) no-repeat
+                        right center;
+    background-size:100% 100%;
+    margin:5px auto 2px auto;
+    /*border:1px solid red;
+    */
+}
+}}.add-cart-btn {
+    height:100%;
+    line-height:55px;
+    font-family:PingFangSC-Regular;
+    font-size:1.2rem;
+    color:#ffffff;
+    letter-spacing:0;
+    text-align:center;
+    position:relative;
+    background: #f54321;
+    flex:1;
+    &:active {
+    color:#ffffff;
+}}.form_kf{
+        height: 100%;
+        position: absolute;
+        top: 0;
+        width: 20%;
+        border:0;
+        background: transparent;
+}
+.counts-tips {
+    background:url(~@/assets/icon/shop.png) no-repeat center 2px;
+    background-size: 26px 23px;
+    display:block;
+    height:100%;
+    width:100%;
+    font-size:0.8rem;
+    line-height:80px;
+    margin-top: 5px;
+    border:0;
+        /*background: transparent;*/
+}
+
+
+
+   /*分享二维码组建样式*/
+    .code_box{width:100;height:100%;text-align: center;
+        .code_bg{
+            width:100%;
+            height:100%;
+            position: fixed;
+            top:0;
+            background:#000000;
+            opacity:0.5;
+            z-index:10000000000;
+        }
+        .code_title{
+            width:100%;
+            height:35px;
+            position: fixed;
+            top:0;
+            background:#F54321;
+            z-index:100000000001;
+            font-size:1rem;
+            color:#ffffff;
+            line-height:35px;
+            text-align:center;
+        }
+        .code_com{
+            width:80%;
+            height:70%;
+            background:#ffffff;
+            position: fixed;
+            top:10%;
+            left:10%;
+            z-index:100000000001;
+            img{width: 100%;}
+        }
+        .code_close{
+            width:20px;
+            height:20px;
+            position: fixed;
+            z-index:100000000001;
+            top:12%;
+            right:12%;
+            margin-left:-20px;
+            background:url(~@/assets/icon/close.png) no-repeat
+                        right center;
+              background-size:100% 100%;
+        }
+    }
 </style>

@@ -35,9 +35,11 @@
         <!-- 中间数据 -->
         <div class="middle">
             <ul>
-                <li v-on:click="selectStyle1" class="click1 select"><span>营销中（{{datalist.now_counr}}）</span>
+                <li v-on:click="selectStyle1" class="click1 select">
+                    <span>营销中（{{datalist.now_counr}}）</span>
                 </li>
-                <li v-on:click="selectStyle" class="click2"><span>已下架（{{datalist.other_count}}）</span>
+                <li v-on:click="selectStyle" class="click2">
+                    <span>已下架（{{datalist.other_count}}）</span>
                 </li>
             </ul>
         </div>
@@ -49,7 +51,7 @@
                         <img src="~@/assets/icon/goods-down.png">
                     </a>
                     <a href="javascript:" class="d">
-                        <img src="~@/assets/icon/goods-up.png">
+                        <img src="~@/assets/icon/goods-up-select.png">
                     </a>
                 </li>
                 <li v-bind:class="{ select: is_show11}" @click="salesVolume11()" v-if="choosed2">销量
@@ -57,7 +59,7 @@
                         <img src="~@/assets/icon/goods-down.png">
                     </a>
                     <a href="javascript:" class="d">
-                        <img src="~@/assets/icon/goods-up.png">
+                       <img src="~@/assets/icon/goods-up-select.png">
                     </a>
                 </li>
                 <li v-bind:class="{ select: is_show2}" @click="salesVolume2()"  v-if="choosed1">订单量<span></span>
@@ -74,7 +76,7 @@
         </div>
         <!-- 商品列表 -->
         <div class="goods-list">
-            <ul>
+            <ul v-if="!isshowlist">
                 <li v-for="(item,index) in goodlist" v-show="show" >
                     <div class="bb t" @click='ToCommoditydetail(item.goods_id)'> 
                         <div class="goods-img">
@@ -139,6 +141,11 @@
                     </div>
                 </li>
             </ul>
+
+            <div class="goods-list-box" v-if="isshowlist">
+                <img src="~@/assets/img/list_kong.png" alt="">
+                <p>暂无相关营销产品</p>
+            </div>
         </div>
         <!-- 分享二维码弹窗样式 -->
         <div class="code_box" v-if="show_code">
@@ -146,7 +153,7 @@
             <div class="code_title">长按保存图片,分享让客户购买商品哦~</div> 
             <!-- 商品图片-->
             <div class="code_com">
-                <img src="">
+                <img v-lazy="code_images">
             </div>
             <!--关闭按钮-->
             <div class="code_close" @click="hidecode()"></div>
@@ -187,7 +194,9 @@ export default {
             show:true,
             is_flag:true,
             is_flag1:true,
-            show_code:false
+            show_code:false,
+            isshowlist:true,
+            code_images:''
 　　　　 }
 　　},
     created() {
@@ -233,7 +242,7 @@ export default {
                 const data = response.data
                 if (data.status == '200') {
                     console.log(data)
-                    $(".code_com img").attr('src',data.promotion_src)
+                    _this.code_images = data.promotion_src
                 }
                 if (response.data.status =='1024') {
                   this.$vux.alert.show({
@@ -375,7 +384,12 @@ export default {
                 _this.$loading.hide();//隐藏
                 const data =response.data.data
                 _this.datalist = data
-                _this.goodlist=data.list
+                if(data.list == undefined){
+                    _this.isshowlist = true;
+                }else{
+                    _this.isshowlist = false;
+                    _this.goodlist=data.list
+                }
             }else{
                  _this.$loading.hide();//隐藏
                 this.$vux.alert.show({
@@ -428,7 +442,12 @@ export default {
                 _this.$loading.hide(); //隐藏
                 const data =response.data.data
                 _this.datalist = data
-                _this.goodlist=data.list
+                if(data.list == undefined){
+                    _this.isshowlist = true;
+                }else{
+                    _this.isshowlist = false;
+                    _this.goodlist=data.list
+                }
                 console.log(data)
             }else{
                  _this.$loading.hide();//隐藏
@@ -472,7 +491,12 @@ export default {
                 _this.$loading.hide(); //隐藏
                 const data =response.data.data
                 _this.datalist = data
-                _this.goodlist=data.list
+                if(data.list == undefined){
+                    _this.isshowlist = true;
+                }else{
+                    _this.isshowlist = false;
+                    _this.goodlist=data.list
+                }
                 console.log(data)
             }else{
                  _this.$loading.hide();//隐藏
@@ -511,8 +535,15 @@ export default {
                 _this.$loading.hide(); //隐藏
                 const data =response.data.data
                 _this.datalist = data
-                _this.goodlist=data.list
+                console.log(data.list)
                 console.log(data)
+                if(data.list == undefined){
+                    _this.isshowlist = true;
+                }else{
+                    _this.isshowlist = false;
+                    _this.goodlist=data.list
+                }
+                
             }else{
                  _this.$loading.hide();//隐藏
                 this.$vux.alert.show({
@@ -1051,6 +1082,24 @@ export default {
             background:url(~@/assets/icon/close.png) no-repeat
                         right center;
               background-size:100% 100%;
+        }
+    }
+
+    .goods-list-box{
+        width:100%;
+        min-height:500px;
+        background-color:#ffffff;
+        padding-top:1px;
+        img{
+            display:block;
+            width:100px;
+            height:100px;
+            margin:100px auto 30px auto;
+        }
+        p{
+            font-size:1rem;
+            color: #373737;
+            text-align:center;
         }
     }
 </style>

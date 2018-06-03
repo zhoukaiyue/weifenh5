@@ -71,8 +71,8 @@ const routes = [
                 meta: {
                      title: '首页',
                      keepAlive: false,// 不需要被缓存
-                      //auth: true,// 如果此路由需要微信授权请设置为true,默认为false
-                      requireAuth: true
+                     //auth: true,// 如果此路由需要微信授权请设置为true,默认为false
+                     requireAuth: true
                 },
                 component: Home
             },
@@ -206,7 +206,7 @@ const routes = [
                 path: 'orderData',
                 name: 'orderData',
                 meta: {
-                    title: '店铺订单数据',
+                    title: '店铺用户数据',
                     requireAuth: true ,// 添加该字段，表示进入这个路由是需要登录的
                     keepAlive: false // 不需要被缓存
                 },
@@ -468,7 +468,7 @@ const routes = [
                 path: 'newData',
                 name: 'newData',
                 meta: {
-                    title: '邀新数据',
+                    title: '订单数据',
                     requireAuth: true,
                     keepAlive: false // 不需要被缓存
                 },
@@ -524,7 +524,7 @@ const routes = [
         meta: {
             title: '商家登录',
              keepAlive: false, // 不需要被缓存
-             //auth: true// 如果此路由需要微信授权请设置为true,默认为false
+             // auth: true// 如果此路由需要微信授权请设置为true,默认为false
            }
     },
 
@@ -542,7 +542,7 @@ const routes = [
         name: 'user',
         meta: {
             title: '我的',
-            auth: false
+            // auth: false
             // requireAuth: true // 添加该字段，表示进入这个路由是需要登录的
         },
         component: User
@@ -553,7 +553,7 @@ const routes = [
         requireAuth: true,
          meta: {
             title:'商家登录',
-            //auth: true
+            // auth: true
         }
      }
 ]

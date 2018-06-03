@@ -1,12 +1,9 @@
 <template>
-  <div id='accident'>
+  <div id='accident' style="background:#fff;">
     <div class="accident_title">
         <p class="list_title">{{list.title}}</p>
         <p class="list_desc" style="font-size: 0.9rem;">{{list.desc}}</p>
     </div>
-<!--       
-      <input title="负责人" v-model="contact" placeholder="请输入负责人名字" class="contact"></input>
-      <input title="联系电话" type="number" placeholder="请输入负责人电话" v-model="mobile" class="mobile"></input> -->
     <div class="oinputs">
       <p><span>店铺名称&nbsp;<label style="color:#F54321;">*</label></span><input  v-model="shopname" placeholder="请输入店铺名称"></input></p>
       <p><span>负责人&nbsp;<label  style="color:#F54321;">*</label></span><input v-model="contact" placeholder="请输入负责人名字"></input></p>
@@ -15,12 +12,12 @@
       <!--  营业执照 -->
     <div class="wrapper license">
         <p class="license-border"></p>
-       <span>营业执照</span><ossFile :imgs='license' :message="msg"></ossFile>
+       <span>营业执照<label style="color:transparent;">*</label></span><ossFile2 :imgs='license' :message="msg"></ossFile2>
     </div>
      <box gap="10px 10px">
         <div v-on:click="submit"><x-button class="apply_btn">立即申请</x-button></div>
         <x-button show-loading  style="display:none;">立即申请</x-button>
-        <div v-on:click="login" style="margin-top: 0.5rem;"><x-button class="set_login_btn" >立即登录</x-button></div>
+        <div v-on:click="login" style="margin-top: 0.5rem;"><span class="set_login_btn" style="text-align:right;">立即登录</span></div>
       </box>
   </div>
 </template>
@@ -32,7 +29,7 @@ import { GroupTitle, Group, Cell, XInput, Selector, PopupPicker, Datetime, XNumb
 import * as myPub from '@/assets/js/public.js'
 import * as openId from '@/assets/js/opid_public.js'
 //引入上传图片组键
-import ossFile from '../../components/oss_file'
+import ossFile2 from '../../components/oss_file2'
 function getFileUrl(obj) {
   let url;
   url = window.URL.createObjectURL(obj.files.item(0));
@@ -56,7 +53,7 @@ function getFileUrl(obj) {
       Radio,
       XButton,
       Box,
-     ossFile
+      ossFile2
     },
     deactivated () {
         this.$destroy()
@@ -172,7 +169,7 @@ function getFileUrl(obj) {
             params.append('shopname',this.shopname);
             params.append('contact',this.contact);
             params.append('mobile',this.mobile);
-            params.append('img_src',sessionStorage.getItem('bulicense_url'));
+            params.append('img_src',sessionStorage.getItem('bulicense_url2'));
             axios.post(url,params).then(response => {
             _this.$loading.hide()
               // token失效
@@ -181,7 +178,7 @@ function getFileUrl(obj) {
               }
               if (response.data.status =='200') {
                   this.$router.push({ path: '/page/sh_success'})
-                  sessionStorage.setItem('bulicense_url',null);
+                  sessionStorage.setItem('bulicense_url2',null);
               }else{
                 this.$vux.alert.show({
                   content: response.data.msg
@@ -208,7 +205,7 @@ function getFileUrl(obj) {
         numberValue: 0,
         imgNum:1,    //上传的照片数量，可根据实际情况自定义
         type: '1',
-        msg:'set',
+        msg:'rzset',
         //店铺名称
         shopname:'',
         // 负责人
@@ -307,7 +304,7 @@ function getFileUrl(obj) {
   border:0!important;
 }
 }.license {
-  padding:0px 10px 30px 0px;
+  padding:0px 0px 30px 0px;
   min-height:150px;
   position:relative;
   color: #333333;

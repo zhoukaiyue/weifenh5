@@ -3,27 +3,21 @@
     <div class="mainInfo">
         <ul class="shop_info_left">
           <li class="shop_name">{{scdata.shop_info.name}}</li>
-          <li class="storeManager">{{scdata.shop_info.contact}}&nbsp;&nbsp;<span class="storesanager_right">店长，欢迎您!</span></li>
-          <li class="join_time">{{scdata.shop_info.create_time}}&nbsp;加入</li>
+          <li class="storeManager">{{scdata.shop_info.contact}}&nbsp;<span class="storesanager_right">店长，欢迎您!</span></li>
+          <li class="join_time">{{scdata.shop_info.create_time.split(" ")[0]}}&nbsp;加入</li>
           <li class="passenger_traffic">
             <div  class="passenger_traffic_box" style="border:0;"><span>{{scdata.clerk_count}}</span><label>总引客量</label></div>
             <div  class="passenger_traffic_box"><span>{{scdata.member_count}}</span><label>今日订单</label></div>
-            <div  class="passenger_traffic_box"><span>{{scdata.member_now_count}}</span><label>近日引客量</label></div>
+            <div  class="passenger_traffic_box passenger_traffic_box_last"><span>{{scdata.member_now_count}}</span><label>今日引客量</label></div>
           </li>
         </ul>
       <div class="shop_info_right">
         <div class='finish_room2 shop_logo'>
            <div class='room_add_btn' >
                <ossFile :imgs='imgs' :message="msg"></ossFile>
-              <!--  <div class="room_opacity"></div>
-              <div id="img-change2">
-                <div class="img-changeImg"></div>
-                <p class="img-changeText">更换店铺图像</p>
-              </div> -->
             </div>
         </div>
-          <!-- <img :src="scdata.shop_info.head_pic" alt="" class="shop_logo"> -->
-          <span class="info_modification" @click="edit">编辑店铺信息</span>
+        <span class="info_modification" @click="edit">编辑店铺信息</span>
       </div>
     </div>
 
@@ -38,8 +32,7 @@
   </div>
   <div class="store_management">
     <ul class="store_managementul">
-      <!-- <li><img src="~@/assets/icon/xinxi.png"><span class="store_managementli_span">店长信息管理</span><label  class="store_managementli_label">&nbsp;暂未开放<span class="jiantou"></span></label></li> -->
-      <li v-on:click="shop"><img src="~@/assets/icon/xixi.png"><span class="store_managementli_span">店员管理</span><label  class="store_managementli_label">{{scdata.clerk_count}}人&nbsp;<span class="jiantou"></span></label></li>
+      <li v-on:click="shop"><span class="store_managementli_span">店员管理</span><label  class="store_managementli_label">{{scdata.clerk_count}}人&nbsp;<span class="jiantou"></span></label></li>
     </ul>
   </div>
   <p class="help_center">帮助中心</p>
@@ -74,7 +67,8 @@ export default {
             openid:localStorage.openid,
             msg:'store',
             imgs:'https://weifenshops.oss-cn-shanghai.aliyuncs.com/user/20180530/oo1Fj0hcOBHHOfVJWV-zz-zyflE41527678245786.png',
-            isshow:true
+            isshow:true,
+            times:''
 　　　　　　}
 　　　　},
     created() {
@@ -150,6 +144,7 @@ export default {
             if (response.data.status =='200') {
                 console.log(response)
               _this.scdata = response.data.data;
+              _this.imgs = response.data.data.shop_info.head_pic;
             }else{
               this.$vux.alert.show({
                   content: response.data.msg
@@ -165,15 +160,13 @@ export default {
     }
 }
 </script>
-
 <style scoped lang="less">
 .shop_center{
     background-color:#f9f8f8;
     padding-bottom:20px;
-    .container{width: 100px!important;height: 100px!important;border-radius: 50%;margin-left: 10px;}
     .mainInfo{
       width:100%;
-      height:220px;
+      height:209px;
       background-color:#ffffff;
       padding:1rem 0.8rem 0.8rem 1rem;
       box-sizing:border-box;
@@ -184,6 +177,7 @@ export default {
           height:100%;
           .shop_name{
             font-family:PingFangSC-Semibold;
+            font-weight: 600;
             font-size:1.5rem;
             color:#333333;
             letter-spacing:0;
@@ -193,7 +187,6 @@ export default {
             white-space: nowrap;
           }
           .storeManager{
-            font-family:PingFangSC-Semibold;
             margin-top:8px;
             font-size:1rem;
             color:#f54321;
@@ -208,10 +201,10 @@ export default {
             background:url(~@/assets/icon/storeManager.png) no-repeat
                         left center;
             background-size:25px;
-            padding-left:27px;
+            padding-left:35px;
             box-sizing:border-box;
             .storesanager_right{
-              font-size:0.8rem;
+              font-size:0.9rem;
               color:#333333;
             }
           }
@@ -221,7 +214,7 @@ export default {
             color:#999999;
             letter-spacing:0;
             text-align:left;
-            margin:10px 0px 20px 0px;
+            margin: 10px 0px 15px 0px;
           }
           .passenger_traffic{
             width:100%;
@@ -233,30 +226,32 @@ export default {
             justify-content:space-between;
             .passenger_traffic_box:after{
                 position: absolute;
-                top: 20%;
+                top: 50%;
                 right: 0;
                 content: "";
-                display:inline-block;
+                display: inline-block;
                 width: 1px;
-                height: 40px;
+                height: 30px;
                 background: #eeeeee;
+                margin-top: -15px;
+              }
+            .passenger_traffic_box_last:after{
+                background:none;
               }
             .passenger_traffic_box{
-              padding: 0 0.5rem;
-              flex-grow: 1;
+              width:33.33%;
               position: relative;
               span{
-                display:block;
-                width:100%;
-                text-align: center;
-                font-family:PingFangSC-Semibold;
-                font-size:1.2rem;
-                line-height:2rem;
-                color:#333333;
-                letter-spacing:0;
-                text-align:center;
+                  display:block;
+                  width:100%;
+                  text-align: center;
+                  font-family:PingFangSC-Semibold;
+                  font-size:1.2rem;
+                  line-height:2rem;
+                  color:#333333;
+                  letter-spacing:0;
+                  text-align:center;
               }
-              
               label{
                   display:block;
                   width:100%;
@@ -284,12 +279,12 @@ export default {
           .info_modification{
             display: block;
             font-family:PingFangSC-Regular;
-            font-size:0.8rem;
+            font-size:0.9rem;
             color:#f54321;
             letter-spacing:0;
             text-align:center;
             position: relative;
-            top: 1rem;
+            top: 3rem;
           }
       }
     }
@@ -304,7 +299,7 @@ export default {
         padding:0px 20px;
         box-sizing:border-box;
         font-family:PingFangSC-Semibold;
-        font-size:0.9rem;
+        font-size:15px;
         color:#333333;
         letter-spacing:0;
         text-align:left;
@@ -350,7 +345,7 @@ export default {
     }
     .store_order{
       width:100%;
-      height:135px;
+      height:128px;
       background-color:#ffffff;
       margin-top:10px;
       /*border:1px solid red;*/
@@ -371,14 +366,14 @@ export default {
             float:right;
             font-family:PingFangSC-Regular;
             font-size:0.8rem;
-            color:#333333;
+            color:#999999;
             letter-spacing:0;
             text-align:center;
           }
       }
       .store_order_status{
         width:100%;
-        height:90px;
+        height:83px;
         list-style:none;
         /*border:1px solid red;*/
         display: flex;
@@ -395,10 +390,10 @@ export default {
           font-weight:500;
           span{
             display:block;
-            width:30px;
+            width:29px;
             height:30px;
             /*border:1px solid red;*/
-            margin:10px auto;
+                margin: 14px auto 8px auto;
           }
           .processing_img{
               background:url(~@/assets/icon/dingdanq.png) no-repeat

@@ -47,6 +47,10 @@ export default {
                 tooltip:{
                     show:true
                 },
+                grid: {
+                      left: 35,
+                      right:35
+                  },
                 xAxis : [
                         {
                             type : 'category',
@@ -89,7 +93,7 @@ export default {
                   axisLine: {
                         lineStyle: {
                               type: 'solid',
-                              color: 'transparent',//左边线的颜色
+                              color: '#ffffff',//左边线的颜色
                               width:0.5//坐标线的宽度
                           }
                       },

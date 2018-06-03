@@ -2,27 +2,24 @@
   <div id='storeInfo'>
     <!--  店铺logo -->
     <div class='finish_room2'>
-       <!-- <div class='room_add_btn'>
-           <ossFile :imgs='imgs' :message="msg"></ossFile>
-          <div class="room_opacity"></div>
-          <div id="img-change2">
-            <div class="img-changeImg"></div>
-            <p class="img-changeText">更换店铺图像</p>
-          </div>
-        </div> -->
-        <img :src="datas.head_pic" alt="" class="shop_logo">
+        <img v-lazy="imgs" alt="" class="shop_logo" style="margin-top:1rem;">
     </div>
-    <p class="store_name">{{datas.name}}</p>
+    <p class="store_name" style="margin-top:1rem;font-size:1.5rem;">{{datas.name}}</p>
+
     <ul class="store-list">
+      <li class="clearfix-top">基本信息</li>
       <li class="clearfix">
-        <span class="fl">店铺名称</span><span class="fr"><b>{{datas.name}}</b>&emsp;<img style="opacity: 0;" src="~@/assets/icon/goods-left.png"></span>
+        <span class="fl">店铺名称</span><span class="fr"><b style="color:#333333;">{{datas.name}}</b>&emsp;<img style="opacity: 0;" src="~@/assets/icon/goods-left.png"></span>
       </li>
       <li class="clearfix" v-on:click="logo(datas.brand_name)">
         <span class="fl">品牌名称</span><span class="fr"><b>{{datas.brand_name}}</b>&emsp;<img src="~@/assets/icon/goods-left.png"></span>
       </li>
-      <li class="clearfix" v-on:click="shop">
+      <li class="clearfix" v-on:click="shop" style="border:none;">
         <span class="fl">公司模式</span><span class="fr"><input type="text" class="mobile" v-model="type"/>&emsp;<img src="~@/assets/icon/goods-left.png"></span>
       </li>
+    </ul>
+    <ul class="store-list">
+      <li  class="clearfix-top">店铺信息</li>
       <li class="clearfix">
         <span class="fl">店铺地址</span><span class="fr"><b>{{datas.address}}</b>&emsp;<img style="opacity: 0;" src="~@/assets/icon/goods-left.png"></span>
       </li>
@@ -33,18 +30,20 @@
         <span class="fl">修改手机号</span><span class="fr"><input type="text" class="mobile"  v-model="type2"/>&emsp;<img src="~@/assets/icon/goods-left.png"></span>
       </li>
       <li class="clearfix" v-on:click="shopinfo(datas.description)">
-        <span class="fl">店铺介绍</span><span class="fr"><b class="shop">{{datas.description}}</b>&emsp;<img src="~@/assets/icon/goods-left.png"></span>
+        <span class="fl">店铺介绍</span><span class="fr"><b class="shop1">{{datas.description}}</b>&emsp;<img src="~@/assets/icon/goods-left.png"></span>
       </li>
+
       <!-- 营业执照 -->
-      <li class="zz_box clearfix">
+      <li class="zz_box clearfix clearfix-li">
         <span class="zz_text">营业执照</span>
-        <div class='finish_zhizhao'>
-               <div  class='zhizhao_img'>
-                  <img v-lazy="datas.img_src">
-               </div>
-           </div>
+          <!--  营业执照 -->
+        <div class="wrapper license license_img">
+            <img src="~@/assets/img/renzheng.png" alt="" class="oimgyy">
+           <ossFile1 :imgs='license' :message="msg"></ossFile1>
+        </div>
       </li>
     </ul>
+
     <!-- 公司模式 -->
     <div class="shop">
       <h5>公司模式</h5>
@@ -71,7 +70,7 @@ import axios from 'axios'
 import * as myPub from '@/assets/js/public.js'
 import * as openId from '@/assets/js/opid_public.js'
 //引入上传图片组键
-import ossFile from '../../components/oss_file'
+import ossFile1 from '../../components/oss_file1'
 
   export default {
     components: {
@@ -90,7 +89,7 @@ import ossFile from '../../components/oss_file'
       Radio,
       XButton,
       Box,
-      ossFile
+      ossFile1
     },
      created() {
      console.log(this.pass1 =this.$route.query.num)
@@ -153,9 +152,10 @@ import ossFile from '../../components/oss_file'
               const str2 = str.substr(0,3)+"****"+str.substr(7);
               console.log(str2)
               _this.type2=str2
-              _this.datas=data
+              _this.datas=data;
               _this.mobile = data.mobile;
               _this.imgs = data.head_pic
+              _this.license = data.img_src
               console.log(data)
               if (data.company_model == '1') {
                 _this.type = '直营分店'
@@ -177,6 +177,8 @@ import ossFile from '../../components/oss_file'
         },
         // 更改公司模式
         company_model(){
+          const _this = this;
+           _this.$loading.show();//显示
           const url =`${myPub.URL}/merchant/Shop/editInfo`;
           const company_model = $(".select").find("option:selected").val();
           console.log(company_model)
@@ -185,6 +187,7 @@ import ossFile from '../../components/oss_file'
           params.append('open_id',localStorage.openid);
           params.append('company_model',company_model);
           axios.post(url,params).then(response => {
+         _this.$loading.hide(); //隐藏
             if (response.data.status =='1024') {
               this.$vux.alert.show({
                   content: response.data.msg
@@ -197,12 +200,6 @@ import ossFile from '../../components/oss_file'
             console.log(response.data)
             $('.shop').hide()
             $(".bg").hide()
-            const _this = this
-            _this.$loading.show();//显示
-            setTimeout(function(){  //模拟请求
-                  _this.$loading.hide(); //隐藏
-
-            },2000)
             location.reload()
           }).catch((err) => {
             console.log(err)
@@ -216,13 +213,14 @@ import ossFile from '../../components/oss_file'
       return {
         value1: '西贝筱面古北店',
         imgs:'',
-        img_zhi:'https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=3410181771,3257903943&fm=58&w=121&h=140&img.PNG',
         datas:{},
         type2:'',
         type:'',
         mobile:'',
         pass1:'',
-        msg:'store'
+        msg:'store',
+        license:'',
+        msg:'sett'
       }
     },
     //页面加载后执行
@@ -236,11 +234,11 @@ import ossFile from '../../components/oss_file'
 </style>
 <style scoped lang="less">
 @import '~vux/src/styles/center.less';
-  #storeInfo {
+#storeInfo {
     position: relative;
-  padding:35px 21px;
-  .weui-panel:before,.weui-panel:after {
-  border:0;}
+.weui-panel:before,.weui-panel:after {
+      border:0;
+    }
 .clearfix:after {
   visibility: hidden;
   display: block;
@@ -252,13 +250,23 @@ import ossFile from '../../components/oss_file'
 .clearfix{
     zoom:1;
 }
+.clearfix-top{background:#faf8f8;border-bottom:none!important;}
 .fl{float: left;}
 .fr{float: right;}
 .tr{text-align: right;}
 .store-list{
-  padding: 0;margin-top: 1rem;
-  li{list-style: none;padding:0.5rem;border-bottom: 1px solid #dddddd;font-size:0.9rem;.fr{color: #999999;width: 70%;text-align: right;line-height: 1.2rem;font-size: 0.8rem;position:relative;
-    img{position: absolute;width: 0.6rem;top: 0.2rem;}
+/*   margin-top: 1rem;*/
+  li{
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    list-style: none;
+    border-bottom: 1px solid #eeeeee;
+    font-size: 0.9rem;
+    /*height: 50px;*/
+    padding: 0px 15px;
+    line-height: 50px;
+    .fr{color: #999999;width: 70%;text-align: right;line-height:50px;font-size: 14px;position:relative;
+    img{width: 0.5rem;vertical-align: middle;}
     b{font-weight: normal;display: inline-block;width: 80%;}
     .shop{display: none;}
     .mobile{border: 0;text-align: right;color: #999999}
@@ -273,6 +281,8 @@ import ossFile from '../../components/oss_file'
   border-radius: 10px;
   padding: 1rem;
   z-index: 2;
+  left:10%;
+  margin-left:-1rem;
   h5{line-height: 30px;text-align: center;color: #333;font-weight: normal;font-size: 1rem}
   .select{
     margin-top: 20px;
@@ -318,9 +328,9 @@ import ossFile from '../../components/oss_file'
   color:#ff8134;
   letter-spacing:0;
   background:#ffffff;
-  ::after {
-  border:0!important;
-}
+    ::after {
+        border:0!important;
+    }
 }}.store_name {
   font-family:PingFangSC-Regular;
   font-size:1rem;
@@ -333,8 +343,8 @@ import ossFile from '../../components/oss_file'
 /*上传店铺logo样式*/
 .finish_room2 {
   text-align: center;
-  width:100px;
-  height:100px;
+  width:140px;
+  height:140px;
   box-sizing:border-box;
   padding-top:2.5px;
   padding-bottom:2.5px;
@@ -351,9 +361,9 @@ import ossFile from '../../components/oss_file'
   left:5px;
   border-radius:50%;
 }
-.finish_room2>.room_img>img {
-  width:140px;
-  height:140px;
+.finish_room2>img {
+  width:100%;
+  height:100%;
   border-radius:50%;
 }
 .room_add_btn {
@@ -421,7 +431,7 @@ import ossFile from '../../components/oss_file'
   text-align:center;
 }
 /*营业执照样式*/
-   .zz_box {
+.zz_box {
   width:100%;
   height:auto;
   border:0!important;
@@ -429,7 +439,7 @@ import ossFile from '../../components/oss_file'
   padding:10px 15px;
 }
 .finish_zhizhao {
-  float:left;
+  display:inline-block;
   width:58%;
   height:100px;
   box-sizing:border-box;
@@ -516,5 +526,26 @@ import ossFile from '../../components/oss_file'
   float:left;
   width:4.5em;
   margin-right:2em;
+}
+
+input{background: transparent;}
+.license_img{
+  position:absolute;
+  right:15px;
+  z-index:0;
+  margin-top:25px;
+  border:1px solid #eeeeee;
+  padding:10px;
+}
+
+
+.oimgyy{
+  position:absolute;
+  z-index:1;
+  width:45px;
+  height:35px;
+}
+.clearfix-li{
+  height:200px;
 }
 </style>

@@ -11,6 +11,7 @@
                 </li>
             </ul>
         </div>
+        <div style="height:16px;width:100%;background-color: #f8f7f7;"></div>
         <!-- 没有订单 -->
         <div class="ordernone"  v-if="is_show6">
             <img src="~@/assets/icon/order.png">
@@ -357,7 +358,8 @@ export default {
                 }
             }
         }
-        .ordernone{background: #ffffff;margin-top: 1rem;text-align: center;color:#333;height:100%;img{width: 7rem;margin-top: 4rem;}p{margin-top: 0.5rem;}}
+        .ordernone{background: #ffffff;margin-top: 1rem;text-align: center;color:#333;height:100%;
+          padding:1rem 0px 5rem 0px;margin-top:0px;img{width: 7rem;margin-top: 4rem;}p{margin-top: 0.5rem;}}
 /*添加商品列表*/
 .goods-list{
     .t{padding: 1.5rem 1rem 1rem 1.5rem;}
