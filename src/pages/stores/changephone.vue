@@ -1,21 +1,20 @@
 <template>
     <div class="login">
         <div class="login—prompt">请输入<span class="mobile"></span>收到的短信验证码</div>
-        <group>
+<!--         <group>
              <x-input class="code" type="text" 
                placeholder="请输入验证码"
                v-model="verifyCode"
 
                >
-               <x-button slot="right"
-                  type="primary"
-                  mini
-                  :text="btnText"
-                  :disabled="disabled"
-                  @click.native="sendCode" class="verification">
-             </x-button>
+            
              </x-input>
-        </group>
+        </group> -->
+        <div class="login-prompt-code">
+        <input type="text" class="code"  placeholder="请输入验证码" v-model="verifyCode"/>
+            <span @click="sendCode" class="verification1" v-if="issm">{{btnText}}</span>
+            <span  class="verification2" v-if="!issm">{{btnText}}</span>
+        </div>
         <div style="padding:15px;margin-top:30px;">
             <div v-on:click="changephone"><x-button  type="primary" class="x-button">下一步 </x-button></div>
         </div>
@@ -45,10 +44,14 @@ export default {
             BaseUrl: '',
             JsApiData: '',
             code_num: '',
+            issm:true
         }
     },
     created() {
         console.log(this.$route.query.mobile)
+    },
+        deactivated () {
+        this.$destroy()
     },
     activated() {
         // localStorage.removeItem('token')
@@ -67,7 +70,7 @@ export default {
             console.log('点击验证码触发')
             const phoneNumber = $('.login—prompt span').text()
             this.time = 120
-            this.disabled = true
+            this.issm=false;
             this.timer()
              // 获取验证
                 const url =`${myPub.URL}/merchant/Sendcodes/sms`;
@@ -102,7 +105,7 @@ export default {
               params.append('open_id',localStorage.openid);
               params.append('session_id',localStorage.sessionid);
               axios.post(url,params).then(response => {
-                _this.$loading.show()
+                _this.$loading.hide()
                 if (response.data.status =='1024') {
                   this.$vux.alert.show({
                       content: response.data.msg
@@ -116,7 +119,7 @@ export default {
                 if (response.data.status =='1004') {
                   _this.getData()
                 }
-                if (status == "200") {
+                if (response.data.status  == "200") {
                     const check_shop = response.data.data
                     const status = response.data.status
                     console.log(status)
@@ -132,6 +135,7 @@ export default {
                     }, 3000)
                 }
               }).catch((err) => {
+                 this.$vux.alert.hide()
                 console.log(err)
               })
           },
@@ -263,6 +267,42 @@ export default {
         label{
             color:#ff8134;
         }
+    }
+}
+
+.login-prompt-code{
+    width:100%;
+    height:60px;
+    padding:0px 15px;
+    input{
+        background:transparent;
+        border:1px solid #dddddd;
+        height:50%;
+        width:40%;
+    }
+    .verification1{
+        display:inline-block;
+        margin-top: 1rem;
+        width: 30%;
+        background: #ffffff;
+        height:50%;
+        line-height:30px;
+        color: #f54321;
+        border: 1px solid #f54321;
+        border-radius:1px;
+
+    }
+    .verification2{
+        display:inline-block;
+        margin-top: 1rem;
+        width: 40%;
+        background: #ffffff;
+        height:50%;
+        line-height:30px;
+        color: #f54321;
+        border: 1px solid #f54321;
+        border-radius:1px;
+
     }
 }
 </style>

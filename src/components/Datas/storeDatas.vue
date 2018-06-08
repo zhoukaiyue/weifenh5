@@ -264,7 +264,7 @@ export default {
 		font-weight:600;
 		border-bottom:1px solid #eeeeee;
 		background: #ffffff;
-		span{float: right;font-size:0.9rem;font-weight:normal;color:#999999;img{width: 0.6rem;position: relative;top: 0.2rem;}}
+		span{float: right;font-size:0.8rem;font-weight:normal;color:#999999;img{width: 0.5rem;position: relative;top: 0.2rem;}}
 	}
 	.commodityData_title{
 		background: #ffffff;
@@ -360,7 +360,7 @@ export default {
 				text-align:left;
 				font-weight:600;
 				border:1px solid #eeeeee;
-				span{float: right;font-size:0.9rem;font-weight:normal;color:#999999;img{width: 0.6rem;position: relative;top: 0.2rem;}}
+				span{float: right;font-size:0.8rem;font-weight:normal;color:#999999;img{width: 0.5rem;position: relative;top: 0.2rem;}}
 	 		}
 	 		.yx_display_ftitle{
 	 			font-family:PingFangSC-Regular;
@@ -425,7 +425,7 @@ export default {
 				text-align:left;
 				font-weight:600;
 				border:1px solid #eeeeee;
-				span{float: right;font-size:0.9rem;font-weight:normal;color:#999999;img{width: 0.6rem;position: relative;top: 0.2rem;}}
+				span{float: right;font-size:0.8rem;font-weight:normal;color:#999999;img{width: 0.5rem;position: relative;top: 0.2rem;}}
 	 		}
 	 		.yh_display_ftitle{
 	 			font-family:PingFangSC-Regular;

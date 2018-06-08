@@ -1,7 +1,7 @@
 <template>
     <div class="home">
         <!-- 临时新建进入商品详情的入口-->
-        <div class="index_banner"  @click="linkToDetail('11')">
+        <div class="index_banner">
             <img src="~@/assets/img/banner.png" alt="image">
         </div>
        <!-- tab菜单切换 -->
@@ -21,15 +21,15 @@
        </div>
         <!-- 当前累计客户量 -->
         <div class="customer_quantity">
-        <p class="customer_quantity_title">店长，您的累计客户量</p>
+        <p class="customer_quantity_title">{{num.name}}店长，您的累计客户量</p>
         <div class="customer_quantity_cont"><span class="customer_quantity_num">{{num.member_count}}&nbsp;<b style="font-size:0.8rem;font-weight:600;">人</b></span><label class="customer_quantity_qs" v-on:click="dyinvite"><i class="customer_quantity_qsimg"></i>&nbsp;查看员工引客趋势图</label>
         </div>
         <div class="customer_quantity_box">
-            <div class="customer_quantity_m">
+            <div class="customer_quantity_m" @click="linkToorder()">
                 <p>本月新增客户(人)</p>
                 <p class="customer_quantity_mnum">{{num.member_mouth_count}}</p>
             </div>
-            <div  class="customer_quantity_d">
+            <div  class="customer_quantity_d" @click="linkToorder()">
                 <p>今日新增客户(人)</p>
                 <p class="customer_quantity_dnum">{{num.member_now_count}}</p>
             </div>
@@ -98,8 +98,8 @@ export default {
         this.$destroy()
     },
     methods: {
-        linkToDetail(id) {
-            this.$router.push({ path: '/page/detail', query: {id: id}})
+        linkToorder(){
+             this.$router.push({ path: '/page/orderData' })
         },
         category(){
             this.$router.push({ path: '/page/category' })

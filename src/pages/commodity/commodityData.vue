@@ -2,27 +2,28 @@
 	<div class="commodityData">
 		<ul class="commodityData_title">
 			<li>
-				<span>访问量(次)</span></br><label></label>
+				<span>访问量(次)</span></br><label>{{visit_count}}</label>
 			</li>
 			<li>
-				<span>销售量(件)</span></br><label></label>
+				<span>销售量(件)</span></br><label>{{order_goods_count}}</label>
 			</li>
 			<li>
-				<span>销售金额(元)</span></br><label></label>
+				<span>销售金额(元)</span></br><label>{{order_amount_count}}</label>
 			</li>
 		</ul>
-
+		<div style="height:16px;width:100%;background-color: #f8f7f7;"></div>
 		<div class="data_display">
-
 		    <div class="yx_display">
 		    	<p class="yx_display_title">营销商品销售量</p>
 		    	<ul class="yx_display_tab">
-			    	<li class="oli" v-bind:class='{ li_select: is_show2}' v-on:click="salesVolume2()" style="border-radius: 0.3rem;">30日</li>
+		    		<li class="oli frist" v-bind:class='{ li_select:is_show7}' v-on:click="salesVolume2()">7日</li>
+			    	<li class="oli last" v-bind:class='{ li_select: is_show8}' v-on:click="salesVolume3()">30日</li>
 		    	</ul>
 		      <p class="yx_display_ftitle">销售量( 单位：件 )</p>
-		      <TmarketingmerchandiseSales></TmarketingmerchandiseSales>
+		      <TmarketingmerchandiseSales  v-if="is_show8"></TmarketingmerchandiseSales>
+		      <MarketingproductSales v-if="is_show7"></MarketingproductSales>
 		    </div>
-
+			<div style="height:16px;width:100%;background-color: #f8f7f7;"></div>
 		     <div class="yh_display">
 		    	<p class="yh_display_title">营销商品销量对比图</p>
 		    	<ul class="yh_display_tab">
@@ -46,9 +47,10 @@
 import { Swiper, SwiperItem,ButtonTab, ButtonTabItem, Divider, Toast} from 'vux'
 import * as myPub from '@/assets/js/public.js'
 import * as openId from '@/assets/js/opid_public.js'
-
+import axios from 'axios'
 // 引入营销商品销售量组件图
 import TmarketingmerchandiseSales from '@/components/t-marketingMerchandiseSales'
+import MarketingproductSales from '@/components/marketingproductSales'
 //引入营销商品销量对比图
 //今天
 import MarketingVolumecomparisonj from '@/components/marketingVolumecomparisonj'
@@ -60,6 +62,7 @@ export default {
   name:'commodityData',
   components: {
   	TmarketingmerchandiseSales,
+  	MarketingproductSales,
   	MarketingVolumecomparisonj,
   	MarketingVolumecomparisonq,
   	MarketingVolumecomparisony
@@ -70,7 +73,12 @@ export default {
     	is_show3:false,
     	is_show4:true,
     	is_show5:false,
-    	is_show6:false
+    	is_show6:false,
+    	is_show7:true,
+    	is_show8:false,
+    	visit_count:"",
+    	order_goods_count:'',
+    	order_amount_count:''
     };
   },
   deactivated () {
@@ -79,8 +87,13 @@ export default {
   methods:{
     salesVolume2:function(){
         const _this = this;
-        this.is_show2=true
-        this.is_show3=false
+        this.is_show7=true
+        this.is_show8=false
+	},
+    salesVolume3:function(){
+        const _this = this;
+        this.is_show8=true
+        this.is_show7=false
 	},
 	salesVolume4:function(){
         const _this = this;
@@ -99,9 +112,54 @@ export default {
         this.is_show6=true
         this.is_show5=false
         this.is_show4=false
+	},
+	//获取访问量销售量和销售金额
+	comdatas(){
+        const _this = this;
+        _this.$loading.show()
+        const url =`${myPub.URL}/merchant/Shop/goodsDataStatistics`;
+            var params = new URLSearchParams();
+            params.append('token',localStorage.currentUser_token);;
+            params.append('open_id',localStorage.openid);
+            params.append('type',0);
+            axios.post(url,params).then(response => {
+              _this.$loading.hide()
+              if (response.data.status =='1024') {
+                  this.$vux.alert.show({
+                      content: response.data.msg
+                  })
+                  setTimeout(() => {
+                      this.$vux.alert.hide()
+                      location.href = '/login'
+                  }, 3000)
+                }
+                // token失效
+              if (response.data.status =='1004') {
+                _this.getData()
+              }
+               //状态码
+              if (response.data.status =='200') {
+                const data = response.data
+                // visit_count order_goods_count order_amount_count
+                console.log(data)
+                _this.visit_count = data.data.visit_count
+                _this.order_goods_count = data.data.order_goods_count
+                _this.order_amount_count = data.data.order_amount_count
+              }else{
+                this.$vux.alert.show({
+                  content: response.data.msg
+                })
+                setTimeout(() => {
+                    this.$vux.alert.hide()
+                }, 3000)
+              }
+            }).catch((err) => {
+                console.log(err)
+            })	
 	}
   },
   mounted(){
+  	this.comdatas()
   }
 }
 </script>
@@ -137,7 +195,7 @@ export default {
 	}
 	/*数据展示*/
 	.data_display{
-	 	margin-top:10px;
+	 	/*margin-top:10px;*/
 	 	.yx_display{
 	 		height:auto;
 	 		background-color:#ffffff;
@@ -193,11 +251,12 @@ export default {
 		        }
 		        .li_select{
 		        	border:1.5px solid #f54321;
+		        	color:#f54321;
 		        }
 	 		}
 	 	}
 	 	.yh_display{
-	 		margin-top:10px;
+	 		/*margin-top:10px;*/
 	 		padding-bottom:15px;
 	 		height:auto;
 	 		background-color:#ffffff;
@@ -252,6 +311,7 @@ export default {
 		        }
 		        .li_select{
 		        	border:1.5px solid #f54321;
+		        	color:#f54321;
 		        }
 	 		}
 	 	}

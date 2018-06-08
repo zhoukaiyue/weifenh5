@@ -6,15 +6,15 @@
         </div>
         <!-- 当前累计客户量 -->
         <div class="customer_quantity">
-            <p class="customer_quantity_title">店员，您的累计客户量</p>
+            <p class="customer_quantity_title">{{access.name}}店员，您的累计客户量</p>
             <div class="customer_quantity_cont"><span class="customer_quantity_num">&nbsp;{{access.member_count}}<b style="font-size:0.9rem;">人</b></span><label class="customer_quantity_qs" v-on:click="dyinvite"><i class="customer_quantity_qsimg"></i>&nbsp;查看同事业绩对比图</label>
             </div>
             <div class="customer_quantity_box">
-                <div class="customer_quantity_m">
+                <div class="customer_quantity_m"  @click="linkToorder()">
                     <p>本月新增客户(人)</p>
                     <p class="customer_quantity_mnum">{{access.member_mouth_count}}</p>
                 </div>
-                <div  class="customer_quantity_d">
+                <div  class="customer_quantity_d"  @click="linkToorder()">
                     <p>今日新增客户(人)</p>
                     <p class="customer_quantity_dnum">{{access.member_now_count}}</p>
                 </div>
@@ -137,7 +137,9 @@ export default {
         hidecode(){
             this.show_code=false;
         },
-
+        linkToorder(){
+             this.$router.push({ path: '/page/shoporderdata' })
+        },
         //跳转到对应商品详情
         linkToDetail(id) {
             this.$router.push({ path: '/page/detail', query: {id: id}})
